@@ -331,6 +331,11 @@
   .wd div{flex:1;text-align:center;font-size:11px;color:var(--muted);font-weight:600}
   .wd i{display:block;border-radius:6px 6px 0 0;margin-bottom:4px;min-height:2px}
   @media print{#adv .daychips{display:none}}
+  [hidden]{display:none!important}
+  .rnav{position:sticky;top:0;z-index:10;display:flex;gap:8px;flex-wrap:wrap;padding:10px 0 12px;margin-bottom:6px;background:linear-gradient(var(--bg) 78%,transparent)}
+  .rsec{scroll-margin-top:68px}
+  .rsec .sec-title{margin-top:26px}
+  @media print{.rnav{display:none}}
 </style>
 </head>
 <body>
@@ -391,19 +396,6 @@
     </div>
   </section>
 
-  <!-- PERFORMANCE -->
-  <section class="view" id="v-perf">
-    <div class="panel">
-      <h3>📅 View by Day <small>select a day to scope the leaderboard and deadline rate to that day’s tasks</small></h3>
-      <div class="daychips" id="dayChips"></div>
-    </div>
-    <div class="cols">
-      <div class="panel"><h3>🏆 Leaderboard <small id="lbScope"></small></h3><div id="lb"></div>
-        <p class="hint" style="margin-top:12px"><b>Scoring:</b> <span id="scoreHint"></span></p></div>
-      <div class="panel"><h3>⏰ Deadline Meet Rate <small id="dlScope"></small></h3><div id="deadlineBars"></div></div>
-    </div>
-  </section>
-
   <!-- MEMBERS -->
   <section class="view" id="v-team">
     <div class="cols">
@@ -442,36 +434,45 @@
     <div id="adv"></div>
   </section>
 
-  <!-- LEADER HISTORY -->
-  <section class="view" id="v-leaders">
-    <div class="panel"><h3>👑 Weekly Leaders <small>Change a week’s leader here, or use the switch on a member card</small></h3><div id="histList"></div></div>
+  <!-- REPORTS -->
+  <section class="view" id="v-reports">
+    <div class="rnav" id="rpNav"><button class="chip on" data-sec="rp-perf"><b>Performance</b></button><button class="chip" data-sec="rp-lead"><b>Leaders</b></button><button class="chip" data-sec="rp-data"><b>Data &amp; Backup</b></button></div>
+    <div class="kpis" id="rpKpis"></div>
+
+    <div class="rsec" id="rp-perf">
+      <div class="sec-title"><h2>Performance</h2><small>Leaderboard and deadline discipline, by day or full week</small></div>
+      <div class="panel"><h3>📅 View by Day <small>select a day to scope the leaderboard and deadline rate to that day’s tasks</small></h3><div class="daychips" id="dayChips"></div></div>
+      <div class="cols">
+        <div class="panel"><h3>🏆 Leaderboard <small id="lbScope"></small></h3><div id="lb"></div>
+          <p class="hint" style="margin-top:12px"><b>Scoring:</b> <span id="scoreHint"></span></p></div>
+        <div class="panel"><h3>⏰ Deadline Meet Rate <small id="dlScope"></small></h3><div id="deadlineBars"></div></div>
+      </div>
+    </div>
+
+    <div class="rsec" id="rp-lead">
+      <div class="sec-title"><h2>Leader history</h2><small>Change a week’s leader here, or use the switch on a member card</small></div>
+      <div class="panel"><h3>👑 Weekly Leaders</h3><div id="histList"></div><div style="text-align:center;margin-top:6px"><button class="btn sm" id="histMore" hidden></button></div></div>
+    </div>
+
+    <div class="rsec" id="rp-data">
+      <div class="sec-title"><h2>Data &amp; Backup</h2><small>Everything is stored in this browser — back up every week</small></div>
+      <div class="cols even">
+        <div class="panel"><h3>Excel Import / Export <small>.xlsx</small></h3>
+          <p class="hint">All data (Tasks, Members, Leaders, Week Summary) in one workbook. Author tasks in Excel and import them — new member names are added to the team automatically.</p>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:16px">
+            <button class="btn pri" id="xlExport">⬇ Export to Excel</button><button class="btn" id="xlImport">⬆ Import from Excel</button><button class="btn" id="xlTemplate">📄 Blank template</button>
+            <select id="impMode" style="width:auto" title="Import mode"><option value="merge">Import: Merge (update by ID)</option><option value="replace">Import: Replace all data</option></select>
+            <input type="file" id="xlFile" accept=".xlsx,.xls,.csv" hidden></div></div>
+        <div class="panel"><h3>Backup &amp; Restore <small>JSON</small></h3>
+          <p class="hint">Clearing browser data erases everything, so download a backup every week. Backups include tasks, members, leaders and settings.</p>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px">
+            <button class="btn pri" id="exportBtn">⬇ Backup download</button><button class="btn" id="importBtn">⬆ Restore from file</button>
+            <button class="btn" id="clearWeek" style="color:var(--bad)">🗑 Delete this week’s tasks</button>
+            <input type="file" id="importFile" accept=".json" hidden></div></div>
+      </div>
+    </div>
   </section>
 
-  <!-- DATA -->
-  <section class="view" id="v-data">
-    <div class="panel" style="max-width:640px">
-      <h3>Excel Import / Export <small>.xlsx</small></h3>
-      <p class="hint">All data (Tasks, Members, Leaders, Week Summary) in a single Excel workbook. You can also author tasks in Excel and import them — new member names are added to the team automatically.</p>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:16px">
-        <button class="btn pri" id="xlExport">⬇ Export to Excel</button>
-        <button class="btn" id="xlImport">⬆ Import from Excel</button>
-        <button class="btn" id="xlTemplate">📄 Blank template</button>
-        <select id="impMode" style="width:auto" title="Import mode"><option value="merge">Import: Merge (update by ID)</option><option value="replace">Import: Replace all data</option></select>
-        <input type="file" id="xlFile" accept=".xlsx,.xls,.csv" hidden>
-      </div>
-    </div>
-    <div class="panel" style="max-width:640px">
-      <h3>Backup & Restore (JSON)</h3>
-      <p class="hint">All data is stored in your browser’s <b>localStorage</b>; no database or internet connection is required.
-        Clearing browser data erases it, so please take a backup every week.</p>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px">
-        <button class="btn pri" id="exportBtn">⬇ Backup download</button>
-        <button class="btn" id="importBtn">⬆ Restore from file</button>
-        <button class="btn" id="clearWeek" style="color:var(--bad)">🗑 Delete this week’s tasks</button>
-        <input type="file" id="importFile" accept=".json" hidden>
-      </div>
-    </div>
-  </section>
   <!-- SETTINGS -->
   <section class="view" id="v-settings">
     <div class="cols even">
@@ -498,13 +499,8 @@
   <button class="tb" data-v="tasks" aria-label="Tasks" data-k="Tasks · 2" title="Tasks"><svg viewBox="0 0 24 24"><rect class="f" x="5" y="4" width="14" height="17" rx="3"/><path class="cut" d="M9 13l2.2 2.2L15.5 11"/></svg><span class="lb">Tasks</span><b class="bd" id="tbOver" hidden></b></button>
   <button class="tb" data-v="insights" aria-label="Insights" data-k="Insights · 4" title="Insights"><svg viewBox="0 0 24 24"><rect class="f" x="4" y="12" width="4" height="8" rx="1.5"/><rect class="f" x="10" y="4" width="4" height="16" rx="1.5"/><rect class="f" x="16" y="9" width="4" height="11" rx="1.5"/></svg><span class="lb">Insights</span></button>
   <button class="tb" data-v="team" aria-label="Members" data-k="Members · 7" title="Members"><svg viewBox="0 0 24 24"><circle class="f" cx="12" cy="12" r="9"/><circle class="cut" cx="12" cy="10" r="3"/><path class="cut" d="M6.6 18.4a6.2 6.2 0 0 1 10.8 0"/></svg><span class="lb">Members</span></button>
+  <button class="tb" data-v="reports" data-k="Reports · 3" aria-label="Reports" title="Reports"><svg viewBox="0 0 24 24"><rect class="f" x="5" y="3" width="14" height="18" rx="3"/><path class="cut" d="M9 9h6M9 13h6M9 17h3"/></svg><span class="lb">Reports</span><b class="bd" id="tbRep" style="background:var(--warn)" hidden>!</b></button>
   <button class="tb" data-v="settings" data-k="Settings · 8" aria-label="Settings" title="Settings"><svg viewBox="0 0 24 24"><circle class="f" cx="12" cy="12" r="8"/><circle class="cut" cx="12" cy="12" r="2.6"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2"/></svg><span class="lb">Settings</span></button>
-  <div class="tbwrap"><button class="tb" id="tbMore" aria-label="More" aria-haspopup="true" aria-expanded="false" title="More"><svg viewBox="0 0 24 24"><circle class="f" cx="5" cy="12" r="2"/><circle class="f" cx="12" cy="12" r="2"/><circle class="f" cx="19" cy="12" r="2"/></svg><span class="lb" id="tbMoreLbl">More</span></button>
-    <div class="more" id="moreSheet" role="menu" onclick="event.stopPropagation()"><div class="mh">Analyse</div>
-      <button class="mi" data-v="perf" role="menuitem"><svg viewBox="0 0 24 24"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></svg><span class="tx">Performance<small>Leaderboard · deadline rate</small></span><kbd>3</kbd></button>
-      <button class="mi" data-v="leaders" role="menuitem"><svg viewBox="0 0 24 24"><path d="M3 7l4.5 4L12 4l4.5 7L21 7l-2 12H5z"/></svg><span class="tx">Leader History<small>Weekly leaders · top performers</small></span><kbd>5</kbd></button>
-      <div class="mh">Manage</div><button class="mi" data-v="data" role="menuitem"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg><span class="tx">Data &amp; Backup<small>Excel · CSV · JSON backup</small></span><kbd>6</kbd></button>
-    </div></div>
 </nav>
 <div class="toast" id="toast"></div>
 
@@ -666,7 +662,7 @@ function render(){
   $("sideLeader").innerHTML = `👑 Leader: ${M(leader).name}`;
   const over = wt.filter(t=>stateOf(t)==="overdue").length;
   $("tbOver").hidden = !over; $("tbOver").textContent = over>9 ? "9+" : over;
-  applySet(); renderStats(wt); renderAttention(); renderInsights(wt); renderTeamPage(); renderDeep(); renderTeam(wt, leader); renderTasks(); renderPerf(wt, leader); renderHistory(); renderAdvanced(wt); renderSettings();
+  applySet(); renderStats(wt); renderAttention(); renderInsights(wt); renderTeamPage(); renderDeep(); renderTeam(wt, leader); renderTasks(); renderPerf(wt, leader); renderHistory(); renderAdvanced(wt); renderSettings(); renderReports(wt);
 }
 
 function renderStats(wt){
@@ -879,13 +875,13 @@ function renderPerf(wt, leader){
       <div style="font-size:12px;color:var(--muted);margin-top:4px">${r.s.ontime} on time · ${r.s.late} late · ${r.s.overdue} overdue</div></div>`;
   }).join("");
 
-  document.querySelectorAll("#v-perf [data-day]").forEach(el=>el.onclick=()=>{ perfDay = el.dataset.day; render(); });
+  document.querySelectorAll("#v-reports [data-day]").forEach(el=>el.onclick=()=>{ perfDay = el.dataset.day; render(); });
 }
 
 function renderHistory(){
   // weeks that have tasks or a leader set, plus current viewed week
   const keys = new Set([wkKey(), ymd(monday(new Date())), ...Object.keys(db.leaders), ...db.tasks.map(t=>ymd(monday(parse(t.date))))]);
-  $("histList").innerHTML = [...keys].sort().reverse().map(k=>{
+  histN = keys.size; $("histList").innerHTML = [...keys].sort().reverse().slice(0, histAll?999:6).map(k=>{
     const L = M(leaderOf(k)), e = ymd(addDays(parse(k),6));
     const wt = db.tasks.filter(t=>t.date>=k && t.date<=e);
     const best = ranking(wt, L.id).find(r=>r.s.total);
@@ -902,29 +898,22 @@ function renderHistory(){
 }
 
 // ---------- navigation ----------
-const TITLES = {dash:"Dashboard", tasks:"Tasks", perf:"Performance", insights:"Insights", team:"Members", leaders:"Leader History", data:"Backup", settings:"Settings"};
+const TITLES = {dash:"Dashboard", tasks:"Tasks", perf:"Performance", insights:"Insights", team:"Members", leaders:"Leader History", data:"Backup", settings:"Settings", reports:"Reports & Data"};
+const SUBS = {perf:"rp-perf", leaders:"rp-lead", data:"rp-data"};
 function go(v){
+  const sec = SUBS[v]; if (sec) v = "reports";
   document.querySelectorAll(".view").forEach(s=>s.classList.toggle("on", s.id==="v-"+v));
   $("pageTitle").textContent = TITLES[v];
   syncTabs(v);
-  window.scrollTo({top:0});
   if (v==="settings") fillSet();
   render();
+  if (sec) $(sec).scrollIntoView({behavior:"smooth", block:"start"}); else window.scrollTo({top:0});
 }
 // ---------- bottom tab bar ----------
-const MORE = ["perf","leaders","data"];
 function syncTabs(v){
   document.querySelectorAll(".tb[data-v]").forEach(b=>{ b.classList.toggle("on", b.dataset.v===v); b.toggleAttribute("aria-current", b.dataset.v===v); });
-  document.querySelectorAll(".mi").forEach(b=>b.classList.toggle("on", b.dataset.v===v));
-  $("tbMore").classList.toggle("on", MORE.includes(v));
-  $("tbMoreLbl").textContent = MORE.includes(v) ? TITLES[v] : "More";
-  closeMore();
 }
-function closeMore(){ $("moreSheet").classList.remove("show"); $("tbMore").setAttribute("aria-expanded","false"); }
-document.querySelectorAll(".tb[data-v],.mi").forEach(b=>b.onclick=e=>{ e.stopPropagation(); go(b.dataset.v); });
-$("tbMore").onclick = e=>{ e.stopPropagation(); const o = $("moreSheet").classList.toggle("show"); $("tbMore").setAttribute("aria-expanded", o); };
-document.addEventListener("click", closeMore);
-document.addEventListener("keydown", e=>{ if (e.key==="Escape") closeMore(); });
+document.querySelectorAll(".tb[data-v]").forEach(b=>b.onclick=()=>go(b.dataset.v));
 
 // ---------- tasks ----------
 function fillSelects(){
@@ -979,7 +968,7 @@ $("thisW").onclick = ()=>{ weekStart = monday(new Date()); render(); };
 // ---------- backup ----------
 $("exportBtn").onclick = ()=>{
   const blob = new Blob([JSON.stringify({version:2, exported:new Date().toISOString(), ...db},null,2)],{type:"application/json"});
-  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = `mis-team-backup-${today()}.json`; a.click(); db.settings.lastBackup = Date.now(); save();
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = `mis-team-backup-${today()}.json`; a.click(); db.settings.lastBackup = Date.now(); save(); render();
   setTimeout(()=>URL.revokeObjectURL(a.href), 1000); toast("Backup downloaded");
 };
 $("importBtn").onclick = ()=> $("importFile").click();
@@ -1380,6 +1369,23 @@ function renderAdvanced(){
         <p class="hint" style="margin-top:14px">Use the peak day to schedule reviews and the quietest day to plan new work.</p></div></div>
     <div class="panel"><h3>Member scorecard <small>▲▼ change vs previous period · trend = last 6 weeks of score</small></h3><div class="twrap"><table class="tbl"><thead><tr><th>Member</th><th class="r">Score</th><th class="r">Completion</th><th class="r">Deadline met</th><th class="r">Overdue</th><th class="r">Open / cap</th><th class="r">Utilisation</th><th class="r">Est. bias</th><th class="r">6-week trend</th></tr></thead><tbody>${sc}</tbody></table></div>
       <p class="hint" style="margin-top:10px"><b>Utilisation</b> = logged office hours ÷ available hours. <b>Est. bias</b> = actual vs estimated hours on finished tasks (positive = took longer). Thresholds come from Settings.</p></div>`;
+}
+
+// ---------- v2: reports view ----------
+let histAll = false, histN = 0;
+$("histMore").onclick = ()=>{ histAll = !histAll; renderHistory(); renderReports(weekTasks()); };
+$("rpNav").onclick = e=>{ const b = e.target.closest("[data-sec]"); if (!b) return;
+  document.querySelectorAll("#rpNav .chip").forEach(c=>c.classList.toggle("on", c===b)); $(b.dataset.sec).scrollIntoView({behavior:"smooth", block:"start"}); };
+function renderReports(wt){
+  const K = S(), L = leaderOf(wkKey()), rk = ranking(wt, L), top = rk.find(r=>r.s.total), ts = statsOf(wt.filter(t=>t.member!==L));
+  const d = K.lastBackup ? Math.floor((Date.now()-K.lastBackup)/864e5) : null, stale = d==null || d>7;
+  const k = (l,v,sub,c)=>`<div class="kpi rag" style="--c:${c}"><small>${l}</small><b>${v}</b><span>${sub}</span></div>`;
+  $("rpKpis").innerHTML = k("Week leader", M(L).name, $("weekLbl").textContent, "#d4a017")
+    + k("Top performer", top ? top.m.name : "–", top ? `${top.s.score} pts · ${top.s.done}/${top.s.total} done` : "no tasks this week", "var(--brand)")
+    + k("Deadline met", ts.rate==null ? "–" : ts.rate+"%", `${ts.ontime} on time · ${ts.late} late · ${ts.overdue} overdue`, rag(ts.rate, K.td))
+    + k("Last backup", d==null ? "Never" : d===0 ? "Today" : d+"d ago", stale ? "backup recommended" : "up to date", stale ? "var(--bad)" : "var(--ok)");
+  $("histMore").hidden = histN<=6; $("histMore").textContent = histAll ? "Show recent 6 weeks" : `Show all ${histN} weeks`;
+  $("tbRep").hidden = !stale;
 }
 
 initForm();

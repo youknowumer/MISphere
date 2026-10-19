@@ -304,6 +304,33 @@
   .mi{display:flex;align-items:center;gap:12px;width:100%;border:none;background:transparent;color:#3b415c;padding:12px 14px;border-radius:18px;cursor:pointer;font-family:inherit;font-size:14px;font-weight:600;text-align:left}
   .mi:hover{background:rgba(22,21,39,.07)}.mi.on{background:var(--ink);color:#fff}
   @media print{.tabbar{display:none!important}}
+  /* ---------- v2: tab bar detail, settings, advanced analytics ---------- */
+  .tb .bd{position:absolute;top:3px;right:2px;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--bad);color:#fff;font-size:10px;font-weight:800;display:grid;place-items:center;border:2px solid rgba(255,255,255,.9);line-height:1}
+  .tb.on .bd{right:auto;left:30px;border-color:var(--ink)}
+  .tb[data-k]::after{content:attr(data-k);position:absolute;bottom:calc(100% + 14px);left:50%;transform:translateX(-50%) translateY(4px);background:var(--ink);color:#fff;font-size:11px;font-weight:600;padding:5px 9px;border-radius:9px;white-space:nowrap;opacity:0;pointer-events:none;transition:.2s}
+  .tb[data-k]:hover::after{opacity:1;transform:translateX(-50%)}
+  .tb.on[data-k]::after{display:none}
+  .more{width:280px}
+  .mh{font-size:10px;letter-spacing:1px;text-transform:uppercase;font-weight:800;color:#7a8199;padding:8px 14px 4px}
+  .mi .tx{flex:1;display:flex;flex-direction:column;line-height:1.25}
+  .mi .tx small{font-size:11px;font-weight:500;color:#7a8199}.mi.on .tx small{color:#c9cbe6}
+  .mi kbd{font-family:inherit;font-size:10px;font-weight:600;border:1px solid rgba(22,21,39,.18);border-radius:6px;padding:2px 6px;color:#59607c}
+  .mi.on kbd{color:#fff;border-color:rgba(255,255,255,.4)}
+  @media(max-width:480px){.tb{min-width:42px;padding:0 9px;height:46px}.tb.on{padding:0 14px 0 10px}.tb.on .lb{max-width:74px;font-size:13px;margin-left:6px}.tb svg{width:22px;height:22px}}
+  body.compact .panel{padding:14px}body.compact .task{padding:8px 12px}body.compact .stat{padding:12px}
+  .srow{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 0;border-bottom:1px solid var(--line2)}
+  .srow:last-child{border-bottom:none}.srow b{display:block;font-size:13px}.srow span{font-size:12px;color:var(--muted)}
+  .adv-h{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin:30px 0 14px}
+  .adv-h h2{font-size:18px}.adv-h small{display:block;color:var(--muted);margin-top:2px;font-size:12px}
+  .kpi.rag{border-left:4px solid var(--c,var(--line))}.kpi.rag b{color:var(--c)}
+  .find{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-bottom:1px solid var(--line2);font-size:13px;line-height:1.5}
+  .find:last-child{border-bottom:none}.find i{width:9px;height:9px;border-radius:50%;margin-top:6px;flex-shrink:0}
+  .rm td{text-align:center;font-weight:700;border-radius:8px;padding:11px 8px}
+  .spark{display:block;margin-left:auto}
+  .wd{display:flex;gap:8px;align-items:flex-end;height:112px}
+  .wd div{flex:1;text-align:center;font-size:11px;color:var(--muted);font-weight:600}
+  .wd i{display:block;border-radius:6px 6px 0 0;margin-bottom:4px;min-height:2px}
+  @media print{#adv .daychips{display:none}}
 </style>
 </head>
 <body>
@@ -312,7 +339,7 @@
   <div class="top">
     <div class="brand"><div class="mk"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/></svg></div>
       <div><h1 id="pageTitle">Dashboard</h1><p id="todayLbl"></p></div></div>
-    <div class="topr"><span class="leadchip" id="sideLeader"></span>
+    <div class="topr"><span class="leadchip" id="offChip"></span><span class="leadchip" id="sideLeader"></span>
     <div class="weeknav">
       <button class="ib" id="prevW" title="Previous week"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="m15 18-6-6 6-6"/></svg></button>
       <b id="weekLbl"></b>
@@ -372,7 +399,7 @@
     </div>
     <div class="cols">
       <div class="panel"><h3>🏆 Leaderboard <small id="lbScope"></small></h3><div id="lb"></div>
-        <p class="hint" style="margin-top:12px"><b>Scoring:</b> completed before deadline = +10 · completed late = +5 · overdue = −5 · in progress = progress % ÷ 20. High-priority tasks are weighted ×1.5.</p></div>
+        <p class="hint" style="margin-top:12px"><b>Scoring:</b> <span id="scoreHint"></span></p></div>
       <div class="panel"><h3>⏰ Deadline Meet Rate <small id="dlScope"></small></h3><div id="deadlineBars"></div></div>
     </div>
   </section>
@@ -412,6 +439,7 @@
     </div>
     <div class="panel"><h3>Member Workload &amp; Efficiency <small>est. vs actual office hours</small></h3><div class="twrap" id="memTbl"></div>
       <p class="hint" style="margin-top:10px"><b>Efficiency</b> = estimated ÷ actual office hours on completed tasks (100%+ means faster than estimated). Calculated only on completed tasks that have an estimate.</p></div>
+    <div id="adv"></div>
   </section>
 
   <!-- LEADER HISTORY -->
@@ -444,17 +472,38 @@
       </div>
     </div>
   </section>
+  <!-- SETTINGS -->
+  <section class="view" id="v-settings">
+    <div class="cols even">
+      <div class="panel"><h3>⏱ Office hours <small>drives the task timer</small></h3>
+        <div class="fgrid two" style="grid-template-columns:1fr 1fr"><div><label>Start hour (0–23)</label><input type="number" data-s="start" min="0" max="23"></div><div><label>End hour (1–24)</label><input type="number" data-s="end" min="1" max="24"></div></div>
+        <label>Working days</label><div class="daychips" id="sDays"></div></div>
+      <div class="panel"><h3>🎯 Targets <small>used for status colours in Insights</small></h3>
+        <div class="fgrid two" style="grid-template-columns:1fr 1fr"><div><label>Completion target %</label><input type="number" data-s="tc" min="0" max="100"></div><div><label>Deadline-met target %</label><input type="number" data-s="td" min="0" max="100"></div><div><label>Efficiency target %</label><input type="number" data-s="te" min="0" max="300"></div><div><label>Max open tasks per member</label><input type="number" data-s="cap" min="1"></div></div></div>
+    </div>
+    <div class="cols even">
+      <div class="panel"><h3>⚖ Scoring <small>leaderboard points per task</small></h3>
+        <div class="fgrid two" style="grid-template-columns:1fr 1fr"><div><label>On-time points</label><input type="number" data-s="pon" step="0.5"></div><div><label>Late points</label><input type="number" data-s="plate" step="0.5"></div><div><label>Overdue penalty</label><input type="number" data-s="pov" step="0.5"></div><div><label>High-priority multiplier</label><input type="number" data-s="phi" step="0.1" min="1"></div></div></div>
+      <div class="panel"><h3>🧩 Preferences</h3>
+        <div style="margin-bottom:12px"><label>Department name</label><input data-s="dept" maxlength="40"></div>
+        <div class="fgrid two" style="grid-template-columns:1fr 1fr"><div><label>Default priority</label><select data-s="pri"><option value="high">High</option><option value="med">Medium</option><option value="low">Low</option></select></div><div><label>New-task deadline (days ahead)</label><input type="number" data-s="due" min="0" max="30"></div></div>
+        <div class="srow"><div><b>Compact layout</b><span>Tighter spacing for dense screens</span></div><label class="sw"><input type="checkbox" data-s="compact"><i></i></label></div><div class="srow"><div><b>Show “Needs attention” panel</b><span>On the Home page</span></div><label class="sw"><input type="checkbox" data-s="attn"><i></i></label></div></div>
+    </div>
+    <div class="panel"><h3>ℹ System <small>storage and backup status · v2.0</small></h3><div id="sInfo"></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px"><button class="btn pri" id="sSave">Save settings</button><button class="btn" id="sReset">Reset to defaults</button><button class="btn" onclick="go('data')">Open Data &amp; Backup</button></div></div>
+  </section>
 </main>
 <nav class="tabbar" aria-label="Primary">
-  <button class="tb on" data-v="dash" aria-label="Home" title="Home"><svg viewBox="0 0 24 24"><path class="f" d="M4 10.5 12 4l8 6.5V19a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 19z"/><path class="cut" d="M10 14v2.5M14 14v2.5"/></svg><span class="lb">Home</span></button>
-  <button class="tb" data-v="tasks" aria-label="Tasks" title="Tasks"><svg viewBox="0 0 24 24"><rect class="f" x="5" y="4" width="14" height="17" rx="3"/><path class="cut" d="M9 13l2.2 2.2L15.5 11"/></svg><span class="lb">Tasks</span><b class="dot" id="tbOver" hidden></b></button>
-  <button class="tb" data-v="insights" aria-label="Insights" title="Insights"><svg viewBox="0 0 24 24"><rect class="f" x="4" y="12" width="4" height="8" rx="1.5"/><rect class="f" x="10" y="4" width="4" height="16" rx="1.5"/><rect class="f" x="16" y="9" width="4" height="11" rx="1.5"/></svg><span class="lb">Insights</span></button>
-  <button class="tb" data-v="team" aria-label="Members" title="Members"><svg viewBox="0 0 24 24"><circle class="f" cx="12" cy="12" r="9"/><circle class="cut" cx="12" cy="10" r="3"/><path class="cut" d="M6.6 18.4a6.2 6.2 0 0 1 10.8 0"/></svg><span class="lb">Members</span></button>
+  <button class="tb on" data-v="dash" aria-label="Home" data-k="Home · 1" title="Home"><svg viewBox="0 0 24 24"><path class="f" d="M4 10.5 12 4l8 6.5V19a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 19z"/><path class="cut" d="M10 14v2.5M14 14v2.5"/></svg><span class="lb">Home</span></button>
+  <button class="tb" data-v="tasks" aria-label="Tasks" data-k="Tasks · 2" title="Tasks"><svg viewBox="0 0 24 24"><rect class="f" x="5" y="4" width="14" height="17" rx="3"/><path class="cut" d="M9 13l2.2 2.2L15.5 11"/></svg><span class="lb">Tasks</span><b class="bd" id="tbOver" hidden></b></button>
+  <button class="tb" data-v="insights" aria-label="Insights" data-k="Insights · 4" title="Insights"><svg viewBox="0 0 24 24"><rect class="f" x="4" y="12" width="4" height="8" rx="1.5"/><rect class="f" x="10" y="4" width="4" height="16" rx="1.5"/><rect class="f" x="16" y="9" width="4" height="11" rx="1.5"/></svg><span class="lb">Insights</span></button>
+  <button class="tb" data-v="team" aria-label="Members" data-k="Members · 7" title="Members"><svg viewBox="0 0 24 24"><circle class="f" cx="12" cy="12" r="9"/><circle class="cut" cx="12" cy="10" r="3"/><path class="cut" d="M6.6 18.4a6.2 6.2 0 0 1 10.8 0"/></svg><span class="lb">Members</span></button>
+  <button class="tb" data-v="settings" data-k="Settings · 8" aria-label="Settings" title="Settings"><svg viewBox="0 0 24 24"><circle class="f" cx="12" cy="12" r="8"/><circle class="cut" cx="12" cy="12" r="2.6"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2"/></svg><span class="lb">Settings</span></button>
   <div class="tbwrap"><button class="tb" id="tbMore" aria-label="More" aria-haspopup="true" aria-expanded="false" title="More"><svg viewBox="0 0 24 24"><circle class="f" cx="5" cy="12" r="2"/><circle class="f" cx="12" cy="12" r="2"/><circle class="f" cx="19" cy="12" r="2"/></svg><span class="lb" id="tbMoreLbl">More</span></button>
-    <div class="more" id="moreSheet" role="menu" onclick="event.stopPropagation()">
-      <button class="mi" data-v="perf" role="menuitem"><svg viewBox="0 0 24 24"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></svg>Performance</button>
-      <button class="mi" data-v="leaders" role="menuitem"><svg viewBox="0 0 24 24"><path d="M3 7l4.5 4L12 4l4.5 7L21 7l-2 12H5z"/></svg>Leader History</button>
-      <button class="mi" data-v="data" role="menuitem"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg>Data &amp; Backup</button>
+    <div class="more" id="moreSheet" role="menu" onclick="event.stopPropagation()"><div class="mh">Analyse</div>
+      <button class="mi" data-v="perf" role="menuitem"><svg viewBox="0 0 24 24"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></svg><span class="tx">Performance<small>Leaderboard · deadline rate</small></span><kbd>3</kbd></button>
+      <button class="mi" data-v="leaders" role="menuitem"><svg viewBox="0 0 24 24"><path d="M3 7l4.5 4L12 4l4.5 7L21 7l-2 12H5z"/></svg><span class="tx">Leader History<small>Weekly leaders · top performers</small></span><kbd>5</kbd></button>
+      <div class="mh">Manage</div><button class="mi" data-v="data" role="menuitem"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg><span class="tx">Data &amp; Backup<small>Excel · CSV · JSON backup</small></span><kbd>6</kbd></button>
     </div></div>
 </nav>
 <div class="toast" id="toast"></div>
@@ -470,6 +519,8 @@ const DEFAULT_MEMBERS = [
 ];
 const DEFAULT_LEADER = "hamza";
 const KEY = "mis_team_dashboard_v1";
+const DEF_SET = {start:9, end:18, days:[1,2,3,4,5], tc:85, td:80, te:100, cap:8, pon:10, plate:5, pov:5, phi:1.5, dept:"MIS Department", pri:"med", due:0, compact:false, attn:true, lastBackup:0};
+const S = () => db.settings;
 const $ = id => document.getElementById(id);
 const M = id => MEMBERS.find(m=>m.id===id);
 const initials = n => n.split(" ").map(w=>w[0]).join("").slice(0,2).toUpperCase();
@@ -492,6 +543,7 @@ function norm(d){
   let list = Array.isArray(d.members) ? d.members.filter(ok) : [];
   if (!list.length) list = DEFAULT_MEMBERS.map(m=>({...m, role:"Team Member"}));
   d.members = MEMBERS = list.map(m=>({id:String(m.id), name:clean(m.name), role:clean(m.role)||"Team Member", c1:m.c1, c2:m.c2}));
+  d.settings = {...DEF_SET, ...(d.settings||{})}; if (!Array.isArray(d.settings.days)) d.settings.days = DEF_SET.days.slice();
   return d;
 }
 let db = norm(load());
@@ -503,7 +555,7 @@ function load(){
   try{
     const raw = JSON.parse(localStorage.getItem(KEY));
     if (Array.isArray(raw)) return {tasks:raw, leaders:{}};   // old format
-    if (raw && raw.tasks) return {tasks:raw.tasks, leaders:raw.leaders||{}, members:raw.members};
+    if (raw && raw.tasks) return {tasks:raw.tasks, leaders:raw.leaders||{}, members:raw.members, settings:raw.settings};
   }catch{}
   return {tasks:[], leaders:{}};
 }
@@ -587,11 +639,11 @@ function statsOf(list){
     const sp = spentOf(t);
     s.est += t.estHours||0; s.spent += sp;
     if (t.status==="done" && t.estHours && sp){ s.doneEst += t.estHours; s.doneSpent += sp; }
-    const st = stateOf(t), w = t.priority==="high" ? 1.5 : 1;
+    const st = stateOf(t), K = S(), w = t.priority==="high" ? K.phi : 1;
     s.sum += t.status==="done" ? 100 : (t.progress||0);
-    if (st==="ontime"){ s.done++; s.ontime++; s.score += 10*w; }
-    else if (st==="late"){ s.done++; s.late++; s.score += 5*w; }
-    else if (st==="overdue"){ s.overdue++; s.score -= 5*w; }
+    if (st==="ontime"){ s.done++; s.ontime++; s.score += K.pon*w; }
+    else if (st==="late"){ s.done++; s.late++; s.score += K.plate*w; }
+    else if (st==="overdue"){ s.overdue++; s.score -= K.pov*w; }
     else s.score += ((t.progress||0)/20)*w;
   });
   s.avg = s.total ? Math.round(s.sum/s.total) : 0;
@@ -613,8 +665,8 @@ function render(){
   $("todayLbl").textContent = new Date().toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
   $("sideLeader").innerHTML = `👑 Leader: ${M(leader).name}`;
   const over = wt.filter(t=>stateOf(t)==="overdue").length;
-  $("tbOver").hidden = !over;
-  renderStats(wt); renderAttention(); renderInsights(wt); renderTeamPage(); renderDeep(); renderTeam(wt, leader); renderTasks(); renderPerf(wt, leader); renderHistory();
+  $("tbOver").hidden = !over; $("tbOver").textContent = over>9 ? "9+" : over;
+  applySet(); renderStats(wt); renderAttention(); renderInsights(wt); renderTeamPage(); renderDeep(); renderTeam(wt, leader); renderTasks(); renderPerf(wt, leader); renderHistory(); renderAdvanced(wt); renderSettings();
 }
 
 function renderStats(wt){
@@ -653,7 +705,7 @@ function renderTeam(wt, leader){
       <div class="lc-body">
       <div class="lc-id">
         <div class="lc-av"><span>${initials(L.name)}</span></div>
-        <div><div class="lc-name">${L.name}</div><div class="lc-sub">MIS Department · Team Leader</div></div>
+        <div><div class="lc-name">${L.name}</div><div class="lc-sub">${esc(S().dept)} · Team Leader</div></div>
         <div class="lc-best"><small>⭐ Top performer</small><b>${best ? `${best.m.name} · ${best.s.score} pts` : "–"}</b></div>
       </div>
       <div class="lc-grid">
@@ -850,12 +902,13 @@ function renderHistory(){
 }
 
 // ---------- navigation ----------
-const TITLES = {dash:"Dashboard", tasks:"Tasks", perf:"Performance", insights:"Insights", team:"Members", leaders:"Leader History", data:"Backup"};
+const TITLES = {dash:"Dashboard", tasks:"Tasks", perf:"Performance", insights:"Insights", team:"Members", leaders:"Leader History", data:"Backup", settings:"Settings"};
 function go(v){
   document.querySelectorAll(".view").forEach(s=>s.classList.toggle("on", s.id==="v-"+v));
   $("pageTitle").textContent = TITLES[v];
   syncTabs(v);
   window.scrollTo({top:0});
+  if (v==="settings") fillSet();
   render();
 }
 // ---------- bottom tab bar ----------
@@ -884,7 +937,7 @@ function initForm(resetDeadline=true){
   if (!$("fMember").options.length) fillSelects();
   $("fToday").value = fmt(today(),{weekday:"short",day:"numeric",month:"short",year:"numeric"}) + " (Today)";
   $("fDeadline").min = today();
-  if (resetDeadline) $("fDeadline").value = today();
+  if (resetDeadline){ $("fDeadline").value = ymd(addDays(new Date(), S().due|0)); $("fPriority").value = S().pri; }
 }
 $("taskForm").onsubmit = e=>{
   e.preventDefault();
@@ -926,7 +979,7 @@ $("thisW").onclick = ()=>{ weekStart = monday(new Date()); render(); };
 // ---------- backup ----------
 $("exportBtn").onclick = ()=>{
   const blob = new Blob([JSON.stringify({version:2, exported:new Date().toISOString(), ...db},null,2)],{type:"application/json"});
-  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = `mis-team-backup-${today()}.json`; a.click();
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = `mis-team-backup-${today()}.json`; a.click(); db.settings.lastBackup = Date.now(); save();
   setTimeout(()=>URL.revokeObjectURL(a.href), 1000); toast("Backup downloaded");
 };
 $("importBtn").onclick = ()=> $("importFile").click();
@@ -951,7 +1004,7 @@ $("importFile").onchange = e=>{
       if (!tasks.length && list.length) throw 0;
       const skipped = list.length - tasks.length;
       if (!confirm(`Restore ${tasks.length} task(s)?${skipped?` (${skipped} invalid entries will be skipped)`:""} Existing data will be replaced.`)) return;
-      if (mem&&mem.length) MEMBERS = mem; db = norm({tasks, leaders, members:MEMBERS}); save(); fillSelects(); render();  toast("Data restored ✔");
+      if (mem&&mem.length) MEMBERS = mem; db = norm({tasks, leaders, members:MEMBERS, settings:(!Array.isArray(d)&&d.settings)||db.settings}); save(); fillSelects(); render();  toast("Data restored ✔");
     }catch{ toast("Invalid backup file"); }
   };
   r.readAsText(f);
@@ -972,7 +1025,7 @@ function delta(a,b,inv){
 }
 function renderAttention(){
   const td = today(), tm = ymd(addDays(new Date(),1)), el = $("attention");
-  const rows = db.tasks.filter(t=>t.status!=="done" && t.deadline<=tm)
+  el.hidden = !S().attn; const rows = db.tasks.filter(t=>t.status!=="done" && t.deadline<=tm)
     .sort((a,b)=> a.deadline.localeCompare(b.deadline) || PR[a.priority]-PR[b.priority]);
   el.classList.toggle("clear", !rows.length);
   if (!rows.length){ el.innerHTML = `<h3>✅ All clear <small>no tasks overdue or due by tomorrow</small></h3>`; return; }
@@ -1180,7 +1233,7 @@ function importXlsx(file){
     rows("Leaders").forEach(x=>{ const k = xd(x["Week Start (Mon)"]), m = mem.find(y=>y.name.toLowerCase()===String(x.Leader).trim().toLowerCase());
       if (validDay(k) && m) leaders[ymd(monday(parse(k)))] = m.id; });
     if (!confirm(`${n} task(s) will be imported${bad?` (${bad} incomplete row(s) skipped)`:""}${added?`, ${added} new member(s)`:""}.\n${replace?"Existing data will be REPLACED.":"Existing data will be merged."} Continue?`)) return;
-    MEMBERS = mem; db = norm({tasks, leaders, members:MEMBERS}); save(); fillSelects(); render(); toast(`Excel import complete ✔ (${n} tasks)`);
+    MEMBERS = mem; db = norm({tasks, leaders, members:MEMBERS, settings:db.settings}); save(); fillSelects(); render(); toast(`Excel import complete ✔ (${n} tasks)`);
   }catch(err){ toast("Import failed: " + (err.message || "invalid file")); } };
   r.readAsArrayBuffer(file);
 }
@@ -1201,9 +1254,133 @@ $("printBtn").onclick = ()=> window.print();
 document.addEventListener("keydown", e=>{
   if (e.target.matches("input,select,textarea") || e.ctrlKey || e.metaKey || e.altKey) return;
   if (e.key==="/"){ e.preventDefault(); go("tasks"); $("flSearch").focus(); }
-  const map = {"1":"dash","2":"tasks","3":"perf","4":"insights","5":"leaders","6":"data","7":"team"};
+  const map = {"1":"dash","2":"tasks","3":"perf","4":"insights","5":"leaders","6":"data","7":"team","8":"settings"};
   if (map[e.key]) go(map[e.key]);
 });
+
+
+// ---------- v2: settings ----------
+const NUMS = ["start","end","tc","td","te","cap","pon","plate","pov","phi","due"];
+function applySet(){ const s = S(); OFFICE.start = s.start; OFFICE.end = s.end; OFFICE.days = s.days; document.body.classList.toggle("compact", !!s.compact); }
+function fillSet(){
+  const s = S();
+  document.querySelectorAll("[data-s]").forEach(el=>{ const k = el.dataset.s; if (el.type==="checkbox") el.checked = !!s[k]; else el.value = s[k]; });
+  $("sDays").innerHTML = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].map((n,i)=>{ const d = (i+1)%7; return `<button type="button" class="chip ${s.days.includes(d)?"on":""}" data-d="${d}"><b>${n}</b></button>`; }).join("");
+}
+$("sDays").onclick = e=>{ const b = e.target.closest("[data-d]"); if (b) b.classList.toggle("on"); };
+$("sSave").onclick = ()=>{
+  const s = {...S()};
+  document.querySelectorAll("[data-s]").forEach(el=>{ const k = el.dataset.s; s[k] = el.type==="checkbox" ? el.checked : NUMS.includes(k) ? +el.value : String(el.value).slice(0,40); });
+  s.days = [...document.querySelectorAll("#sDays .chip.on")].map(b=>+b.dataset.d);
+  if (!s.days.length || !(s.start>=0) || !(s.end<=24) || s.start>=s.end){ toast("Check office hours and working days"); return; }
+  ["tc","td","te"].forEach(k=> s[k] = Math.max(0, Math.min(300, s[k]||0)));
+  s.cap = Math.max(1, s.cap|0); s.due = Math.max(0, Math.min(30, s.due|0)); s.phi = Math.max(1, s.phi||1);
+  s.dept = clean(s.dept) || "MIS Department";
+  db.settings = s; save(); initForm(); render(); toast("Settings saved ✔");
+};
+$("sReset").onclick = ()=>{
+  if (!confirm("Reset all settings to defaults? Your tasks and members are not affected.")) return;
+  db.settings = {...DEF_SET, lastBackup:S().lastBackup}; save(); fillSet(); initForm(); render(); toast("Defaults restored");
+};
+function renderSettings(){
+  const K = S(); let kb = "–"; try{ kb = ((localStorage.getItem(KEY)||"").length/1024).toFixed(1); }catch{}
+  const d = K.lastBackup ? Math.floor((Date.now()-K.lastBackup)/864e5) : null, bad = d==null || d>7;
+  const k = (l,v,sub,c)=>`<div class="kpi"><small>${l}</small><b${c?` style="color:${c}"`:""}>${v}</b><span>${sub}</span></div>`;
+  $("sInfo").innerHTML = `<div class="kpis" style="margin:0">${k("Members",MEMBERS.length,"in the team")}${k("Tasks stored",db.tasks.length,"across all weeks")}${k("Storage used",kb+" KB","browser localStorage")}${k("Last backup",d==null?"Never":d===0?"Today":d+"d ago",bad?"backup recommended":"up to date",bad?"var(--bad)":"var(--ok)")}</div>`;
+  $("scoreHint").textContent = `completed before deadline = +${K.pon} · completed late = +${K.plate} · overdue = −${K.pov} · in progress = progress % ÷ 20. High-priority tasks are weighted ×${K.phi}.`;
+  $("offChip").innerHTML = inOffice() ? `🟢 Office hours · closes ${pad(OFFICE.end%24)}:00` : `⏸ Timer paused · resumes ${nextOfficeStart()}`;
+}
+
+// ---------- v2: advanced analytics ----------
+let insPer = 1;
+const rag = (v,t)=> v==null ? "#98a2b3" : v>=t ? "var(--ok)" : v>=t*.8 ? "var(--warn)" : "var(--bad)";
+const ratio = (v,t)=> t ? Math.min(1, v/t) : 1;
+const dayN = d => Math.round((parse(d)-parse(today()))/864e5);
+function spark(vals, c){
+  const mx = Math.max(...vals), mn = Math.min(...vals), r = (mx-mn)||1;
+  return `<svg class="spark" width="84" height="26" viewBox="0 0 84 26"><polyline fill="none" stroke="${c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="${vals.map((v,i)=>`${3+i*78/(vals.length-1)},${23-(v-mn)/r*20}`).join(" ")}"/></svg>`;
+}
+$("adv").onclick = e=>{ const b = e.target.closest("[data-per]"); if (b){ insPer = +b.dataset.per; renderAdvanced(weekTasks()); } };
+function renderAdvanced(){
+  const K = S(), td = today(), e = ymd(addDays(weekStart,6)), st = ymd(addDays(weekStart,7-insPer*7));
+  const ps = ymd(addDays(parse(st),-insPer*7)), pe = ymd(addDays(parse(st),-1)), inR = (t,a,b)=> t.date>=a && t.date<=b;
+  const pt = db.tasks.filter(t=>inR(t,st,e)), pp = db.tasks.filter(t=>inR(t,ps,pe)), s = statsOf(pt), p = statsOf(pp);
+  const last = e<td ? e : td, wd = st<=last ? workDaysBetween(st,last) : 1, hpd = Math.max(1, OFFICE.end-OFFICE.start);
+  const comp = s.total ? Math.round(s.done/s.total*100) : 0, pcomp = p.total ? Math.round(p.done/p.total*100) : null;
+  const eff = s.doneSpent ? Math.round(s.doneEst/s.doneSpent*100) : null;
+  const open = pt.filter(t=>t.status!=="done"), od = open.filter(t=>t.deadline<td), odH = od.filter(t=>t.priority==="high").length;
+  const dn = pt.filter(t=>t.status==="done");
+  const turn = dn.length ? dn.reduce((a,t)=>a+workDaysBetween(t.date,t.completedAt||t.date),0)/dn.length : null;
+  const age = open.length ? open.reduce((a,t)=>a+workDaysBetween(t.date, td>t.date?td:t.date),0)/open.length : null;
+  const cap = MEMBERS.length*wd*hpd, util = cap ? Math.round(s.spent/cap*100) : 0, rate = s.rate==null ? comp : s.rate;
+  const health = Math.round(ratio(comp,K.tc)*35 + ratio(rate,K.td)*35 + (eff==null ? 1 : ratio(eff,K.te))*15 + (1-Math.min(1, s.total ? od.length/s.total*2 : 0))*15);
+  const hc = health>=80 ? "var(--ok)" : health>=60 ? "var(--warn)" : "var(--bad)", hl = health>=80 ? "Healthy" : health>=60 ? "Watch" : "At risk";
+
+  const mem = MEMBERS.map(m=>{
+    const x = statsOf(pt.filter(t=>t.member===m.id)), y = statsOf(pp.filter(t=>t.member===m.id)), o = open.filter(t=>t.member===m.id).length;
+    const tr = [5,4,3,2,1,0].map(k=>{ const a = ymd(addDays(weekStart,-7*k)), b = ymd(addDays(parse(a),6)); return statsOf(db.tasks.filter(t=>t.member===m.id && inR(t,a,b))).score; });
+    return {m, x, y, o, tr, u: wd*hpd ? Math.round(x.spent/(wd*hpd)*100) : 0, bias: x.doneEst ? Math.round((x.doneSpent-x.doneEst)/x.doneEst*100) : null, c: x.total ? Math.round(x.done/x.total*100) : null};
+  });
+
+  const F = [], ok = "var(--ok)", wn = "var(--warn)", bd = "var(--bad)";
+  F.push([rag(comp,K.tc), `Completion is <b>${comp}%</b> against a ${K.tc}% target (${s.done} of ${s.total} tasks).`]);
+  F.push([rag(s.rate,K.td), s.rate==null ? "No task has reached its deadline yet, so the deadline-met rate is not available." : `Deadline discipline is <b>${s.rate}%</b> (target ${K.td}%): ${s.ontime} on time, ${s.late} late, ${s.overdue} overdue.`]);
+  const rk = mem.filter(r=>r.x.total).sort((a,b)=>b.x.score-a.x.score);
+  if (rk.length>1) F.push([ok, `<b>${rk[0].m.name}</b> leads with ${rk[0].x.score} pts. <b>${rk[rk.length-1].m.name}</b> has the lowest score (${rk[rk.length-1].x.score} pts) and may need support.`]);
+  mem.filter(r=>r.o>K.cap).forEach(r=>F.push([bd, `<b>${r.m.name}</b> holds ${r.o} open tasks, above the cap of ${K.cap}. Consider redistributing work.`]));
+  if (odH) F.push([bd, `<b>${odH}</b> high-priority task${odH===1?" is":"s are"} overdue. Escalate these first.`]);
+  else if (od.length) F.push([wn, `${od.length} overdue task${od.length===1?"":"s"}, none of them high priority.`]);
+  if (eff!=null) F.push([rag(eff,K.te), `Time efficiency is <b>${eff}%</b> (target ${K.te}%): tasks are finishing ${eff>=100?"within":"slower than"} their estimates.`]);
+  const dB = K.lastBackup ? Math.floor((Date.now()-K.lastBackup)/864e5) : null;
+  if (dB==null || dB>7) F.push([wn, dB==null ? "No backup has been taken yet. Download one from Data &amp; Backup." : `The last backup was ${dB} days ago.`]);
+
+  const kp = (l,v,sub,c)=>`<div class="kpi rag" style="--c:${c}"><small>${l}</small><b>${v}</b><span>${sub}</span></div>`;
+  const kpis = kp("Health score", health, `${hl} · completion, deadlines, efficiency, overdue`, hc)
+    + kp("Completion", comp+"%", `target ${K.tc}% · previous ${pcomp==null?"–":pcomp+"%"}`, rag(comp,K.tc))
+    + kp("Throughput", (s.done/wd).toFixed(1), `tasks completed per working day`, "var(--brand)")
+    + kp("Avg turnaround", turn==null?"–":turn.toFixed(1)+" d", "working days to finish", "var(--info)")
+    + kp("Open backlog", open.length, `average age ${age==null?"–":age.toFixed(1)+" d"}`, open.length>MEMBERS.length*K.cap ? bd : "var(--brand)")
+    + kp("Overdue exposure", od.length, `${odH} high priority`, od.length ? bd : ok)
+    + kp("Utilisation", util+"%", `${fmtH(s.spent)} of ${fmtH(cap)} capacity`, util>110 ? bd : util<40 ? wn : ok);
+
+  const days = []; for (let d = parse(st); ymd(d)<=e; d = addDays(d,1)) days.push(ymd(d));
+  const cc = days.map(d=>pt.filter(t=>t.date<=d).length), cd = days.map(d=>pt.filter(t=>t.completedAt && t.completedAt<=d).length), mx = Math.max(1,...cc);
+  const X = i=>44+i*(576/Math.max(1,days.length-1)), Y = v=>176-v/mx*150, P = a=>a.map((v,i)=>X(i).toFixed(1)+","+Y(v).toFixed(1)).join(" ");
+  const burn = `<svg viewBox="0 0 640 210" width="100%" style="display:block">${[0,.5,1].map(f=>`<line x1="44" x2="620" y1="${Y(mx*f)}" y2="${Y(mx*f)}" stroke="#e6e9f2"/><text x="36" y="${Y(mx*f)+4}" font-size="10" fill="#7a8199" text-anchor="end">${Math.round(mx*f)}</text>`).join("")}
+    <polygon points="${P(cc)} ${P(cd).split(" ").reverse().join(" ")}" fill="rgba(79,70,229,.10)"/>
+    <polyline points="${P(cc)}" fill="none" stroke="#4f46e5" stroke-width="2.5" stroke-linejoin="round"/><polyline points="${P(cd)}" fill="none" stroke="#12b76a" stroke-width="2.5" stroke-linejoin="round"/>
+    <text x="44" y="200" font-size="10" fill="#7a8199">${fmt(days[0])}</text><text x="620" y="200" font-size="10" fill="#7a8199" text-anchor="end">${fmt(days[days.length-1])}</text></svg>
+    <div class="legend"><span><i style="background:#4f46e5"></i>Cumulative created</span><span><i style="background:#12b76a"></i>Cumulative completed</span><span>Shaded gap = open backlog (${open.length})</span></div>`;
+
+  const bk = t=>{ const n = dayN(t.deadline); return n<0 ? 0 : n===0 ? 1 : n<=2 ? 2 : 3; };
+  const bg = ["rgba(240,68,56,.2)","rgba(247,144,9,.2)","rgba(46,144,250,.16)","rgba(18,183,106,.16)"];
+  const rm = ["high","med","low"].map(k=>{ const c = [0,0,0,0]; open.filter(t=>t.priority===k).forEach(t=>c[bk(t)]++);
+    return `<tr><td style="text-align:left"><span class="pill ${prLbl[k][1]}">${prLbl[k][0]}</span></td>${c.map((n,i)=>`<td style="background:${n?bg[i]:"var(--soft)"};color:${n?"var(--text)":"var(--muted)"}">${n||"–"}</td>`).join("")}</tr>`; }).join("");
+  const ag = [0,0,0,0]; open.forEach(t=>{ const a = Math.round((parse(td)-parse(t.date))/864e5); ag[a<=1?0:a<=3?1:a<=7?2:3]++; });
+  const am = Math.max(1,...ag);
+  const ageing = ["0–1 days","2–3 days","4–7 days","8+ days"].map((l,i)=>`<div style="margin-bottom:12px"><div style="display:flex;justify-content:space-between;font-size:12px"><span>${l}</span><b>${ag[i]}</b></div><div class="bar"><i style="width:${ag[i]/am*100}%;background:${["#12b76a","#2e90fa","#f79009","#f04438"][i]}"></i></div></div>`).join("");
+  const wc = [0,0,0,0,0,0,0]; dn.forEach(t=>{ if (t.completedAt) wc[(parse(t.completedAt).getDay()+6)%7]++; });
+  const wm = Math.max(1,...wc), pk = wc.indexOf(Math.max(...wc));
+  const wdChart = `<div class="wd">${["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].map((n,i)=>`<div><i style="height:${wc[i]/wm*70}px;background:${i===pk&&wc[pk]?"linear-gradient(180deg,#8b5cf6,#4f46e5)":"#d5d9ff"}"></i>${n}<br><b>${wc[i]}</b></div>`).join("")}</div>`;
+
+  const arr = (a,b)=> a===b ? "" : `<small style="color:${a>b?"var(--ok)":"var(--bad)"}"> ${a>b?"▲":"▼"}${Math.abs(Math.round((a-b)*10)/10)}</small>`;
+  const sc = mem.map(r=>`<tr><td><b style="color:${r.m.c1}">${r.m.name}</b></td><td class="r"><b>${r.x.score}</b>${arr(r.x.score,r.y.score)}</td>
+    <td class="r">${r.c==null?"–":r.c+"%"}</td><td class="r" style="color:${r.x.rate==null?"inherit":rag(r.x.rate,K.td)}">${r.x.rate==null?"–":r.x.rate+"%"}</td>
+    <td class="r" style="color:${r.x.overdue?"var(--bad)":"inherit"}">${r.x.overdue}</td><td class="r" style="color:${r.o>K.cap?"var(--bad)":"inherit"}">${r.o}/${K.cap}</td>
+    <td class="r">${r.u}%</td><td class="r" style="color:${r.bias==null?"inherit":r.bias>20?"var(--bad)":r.bias>0?"var(--warn)":"var(--ok)"}">${r.bias==null?"–":(r.bias>0?"+":"")+r.bias+"%"}</td><td class="r">${spark(r.tr,r.m.c1)}</td></tr>`).join("");
+
+  const per = [[1,"This week"],[4,"4 weeks"],[12,"12 weeks"]].map(([k,l])=>`<button class="chip ${insPer===k?"on":""}" data-per="${k}"><b>${l}</b></button>`).join("");
+  $("adv").innerHTML = `<div class="adv-h"><div><h2>Advanced analytics</h2><small>${fmt(st)} – ${fmt(e,{day:"numeric",month:"short",year:"numeric"})} · deltas compare with the previous ${insPer===1?"week":insPer+" weeks"}</small></div><div class="daychips">${per}</div></div>
+    <div class="kpis">${kpis}</div>
+    <div class="cols even"><div class="panel"><h3>Key findings <small>generated from your targets</small></h3>${F.map(([c,t])=>`<div class="find"><i style="background:${c}"></i><div>${t}</div></div>`).join("")}</div>
+      <div class="panel"><h3>Backlog burn <small>created vs completed over the period</small></h3>${burn}</div></div>
+    <div class="cols even"><div class="panel"><h3>Risk matrix <small>open tasks by priority and deadline</small></h3><div class="twrap"><table class="tbl rm"><thead><tr><th>Priority</th><th style="text-align:center">Overdue</th><th style="text-align:center">Due today</th><th style="text-align:center">1–2 days</th><th style="text-align:center">3+ days</th></tr></thead><tbody>${rm}</tbody></table></div>
+        <h3 style="margin:22px 0 12px;font-size:13px">Backlog ageing <small>days since task was created</small></h3>${ageing}</div>
+      <div class="panel"><h3>Completion by weekday <small>${wc[pk]?`peak: ${["Mon","Tue","Wed","Thu","Fri","Sat","Sun"][pk]}`:"no completions yet"}</small></h3>${wdChart}
+        <p class="hint" style="margin-top:14px">Use the peak day to schedule reviews and the quietest day to plan new work.</p></div></div>
+    <div class="panel"><h3>Member scorecard <small>▲▼ change vs previous period · trend = last 6 weeks of score</small></h3><div class="twrap"><table class="tbl"><thead><tr><th>Member</th><th class="r">Score</th><th class="r">Completion</th><th class="r">Deadline met</th><th class="r">Overdue</th><th class="r">Open / cap</th><th class="r">Utilisation</th><th class="r">Est. bias</th><th class="r">6-week trend</th></tr></thead><tbody>${sc}</tbody></table></div>
+      <p class="hint" style="margin-top:10px"><b>Utilisation</b> = logged office hours ÷ available hours. <b>Est. bias</b> = actual vs estimated hours on finished tasks (positive = took longer). Thresholds come from Settings.</p></div>`;
+}
 
 initForm();
 render();
@@ -1223,7 +1400,7 @@ function tick(){
   // don't redraw a list the user is interacting with (status dropdown, slider, leader select);
   // the add-task form and filters live outside the redrawn areas, so typing there is safe
   const a = document.activeElement;
-  if (!a || !a.closest("#taskList, #histList")) render();
+  if (!a || !a.closest("#taskList, #histList, #v-settings")) render();
 }
 setInterval(tick, 60000);
 // another tab/window of this dashboard saved changes → reload them so nothing gets overwritten

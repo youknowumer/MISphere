@@ -8,9 +8,14 @@ Features
 - Insights: KPIs, daily activity, status mix, 6-week trend, performance heatmap, workload and efficiency tables
 - Members: add, edit and delete members (name, role, colour)
 - Data: Excel import/export (.xlsx) with blank template, CSV weekly report, JSON backup/restore, print report
-- Floating liquid-glass bottom tab bar for navigation (no sidebar); keyboard shortcuts (1-7 for pages, / to search)
+- Floating liquid-glass bottom tab bar for navigation (no sidebar); keyboard shortcuts (1-8 for pages, / to search)
 
 Notes
 - Data is stored in the browser (localStorage). Take a backup or Excel export every week.
 - Excel buttons need an internet connection (SheetJS loads from cdnjs). Everything else works offline.
 - favicon.svg is already embedded in index.html; the separate file is for use on a website.
+
+Version 2
+- Settings tab: office hours and working days, KPI targets, scoring points, department name, defaults, compact layout, backup status
+- Insights: health score, key findings, burn chart, risk matrix, backlog ageing, weekday pattern, member scorecard with trends; 1 / 4 / 12 week periods
+- Tab bar: overdue count badge, shortcut tooltips, grouped More menu with descriptions, office-hours status chip

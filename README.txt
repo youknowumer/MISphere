@@ -30,3 +30,6 @@ Version 3
 - Modern interface: sticky glass header, refined type and cards, light / dark / auto theme (Settings or header button)
 - Command palette: Ctrl/Cmd + K to jump to pages, run actions, find members and tasks
 - Home shows a getting-started card until the first task exists
+
+Version 3.1
+- On first open, any old sample team still saved in the browser is detected and can be removed (a backup is downloaded first). Settings > Erase all data clears everything.

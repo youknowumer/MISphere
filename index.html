@@ -1519,6 +1519,20 @@ document.addEventListener("keydown", e=>{
   else if (e.key==="Enter"){ e.preventDefault(); cmdRun(ci); }
 });
 
+// ---------- v3.1: remove the old sample team still saved in this browser ----------
+(function purgeLegacy(){
+  const OLD = {hamza:"Hamza", abuzar:"Abuzar Shahid", musharam:"Musharam", umar:"Umar Faheem", zohaib:"Zohaib"};
+  const gone = MEMBERS.filter(m=>OLD[m.id]===m.name); if (!gone.length) return;
+  if (!confirm(`The old sample team (${gone.map(m=>m.name).join(", ")}) is still saved in this browser.\n\nRemove these members and their tasks? A backup file is downloaded first.`)) return;
+  const blob = new Blob([JSON.stringify({version:2, exported:new Date().toISOString(), ...db}, null, 2)], {type:"application/json"});
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = `mis-team-backup-before-cleanup-${today()}.json`; a.click();
+  const ids = gone.map(m=>m.id);
+  MEMBERS = MEMBERS.filter(m=>!ids.includes(m.id)); db.members = MEMBERS;
+  db.tasks = db.tasks.filter(t=>!ids.includes(t.member));
+  Object.keys(db.leaders).forEach(k=>{ if (ids.includes(db.leaders[k])) delete db.leaders[k]; });
+  save();
+})();
+
 initForm();
 render();
 // refresh overdue states once a minute (skip while user is typing/dragging)

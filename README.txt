@@ -19,3 +19,8 @@ Version 2
 - Settings tab: office hours and working days, KPI targets, scoring points, department name, defaults, compact layout, backup status
 - Insights: health score, key findings, burn chart, risk matrix, backlog ageing, weekday pattern, member scorecard with trends; 1 / 4 / 12 week periods
 - Tab bar: overdue count badge, shortcut tooltips, one Reports tab combining performance, leader history and data & backup in a single view, office-hours status chip
+
+Version 2.1
+- Starts empty: no members, tasks or settings are stored until you create a workspace (first-run setup with Blank, MIS / IT, Support desk and Sales templates)
+- MIS-Task-Import-Template.xlsx: styled import template with dropdowns, date/number validation, instructions and no data; the same file is built into the dashboard (Reports > Excel template)
+- Settings > Erase all data returns the dashboard to the empty state

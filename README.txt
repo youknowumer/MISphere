@@ -48,3 +48,5 @@ Version 4 - Executive intelligence
 Landing page
 - landing.html: marketing / entry page. Open it first; every "Create workspace" button opens index.html, where the first-run setup creates the workspace.
 - Keep landing.html and index.html in the same folder. Needs internet only for the Google Fonts (falls back to system fonts offline).
+
+Settings > Erase all data now returns you to landing.html. The setup screen also has a 'Back to home' link.

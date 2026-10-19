@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>MIS Team Dashboard</title>
+<title>MIS Team Performance Dashboard</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%236366f1'/%3E%3Cstop offset='1' stop-color='%238b5cf6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='url(%23g)'/%3E%3Cpath d='M16 15v33h33' fill='none' stroke='%23fff' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M24 39l9-9 6 6 10-13' fill='none' stroke='%23fff' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='49' cy='23' r='4' fill='%23f5d061'/%3E%3C/svg%3E">
 <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%236366f1'/%3E%3Cstop offset='1' stop-color='%238b5cf6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='url(%23g)'/%3E%3Cpath d='M16 15v33h33' fill='none' stroke='%23fff' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M24 39l9-9 6 6 10-13' fill='none' stroke='%23fff' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='49' cy='23' r='4' fill='%23f5d061'/%3E%3C/svg%3E">
 <meta name="theme-color" content="#4f46e5">
@@ -22,24 +22,9 @@
   body{background:var(--bg);color:var(--text);font-family:"Segoe UI",system-ui,-apple-system,sans-serif;font-size:14px}
   svg{flex-shrink:0}
 
-  /* ---------- Sidebar ---------- */
-  .side{position:fixed;inset:0 auto 0 0;width:240px;background:#fff;border-right:1px solid var(--line);display:flex;flex-direction:column;padding:22px 14px;z-index:5}
-  .logo{display:flex;align-items:center;gap:10px;padding:0 10px 24px}
-  .logo .mk{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,#6366f1,#8b5cf6);display:grid;place-items:center;color:#fff;box-shadow:0 6px 16px rgba(99,102,241,.35)}
-  .logo b{font-size:16px;display:block}
-  .logo small{color:var(--muted);font-size:12px}
-  .nav{display:flex;flex-direction:column;gap:4px}
-  .nav .cap{font-size:11px;color:#a3a9bf;text-transform:uppercase;letter-spacing:1px;padding:14px 12px 6px}
-  .nav a{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:10px;color:#4b5270;text-decoration:none;font-weight:500;cursor:pointer;transition:.15s}
-  .nav a:hover{background:var(--soft);color:var(--text)}
-  .nav a.on{background:var(--brand-soft);color:var(--brand);font-weight:600}
-  .nav a .badge{margin-left:auto;background:var(--bad);color:#fff;font-size:11px;border-radius:20px;padding:1px 7px;font-weight:600}
-  .side-foot{margin-top:auto;padding:14px;border-radius:14px;background:linear-gradient(135deg,#1c1608,#3a2c0a);color:var(--gold2)}
-  .side-foot small{display:block;color:#cdb77a;font-size:11px;letter-spacing:1px;text-transform:uppercase}
-  .side-foot b{display:flex;align-items:center;gap:6px;font-size:15px;margin-top:4px;color:#ffe9a8}
 
   /* ---------- Main ---------- */
-  main{margin-left:240px;padding:26px 32px 130px;min-height:100vh}
+  main{margin:0 auto;max-width:1320px;padding:26px 32px 130px;min-height:100vh}
   .top{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;margin-bottom:24px}
   .top h1{font-size:24px;font-weight:700}
   .top p{color:var(--muted);margin-top:3px}
@@ -229,9 +214,7 @@
   @media(max-width:1100px){.cols{grid-template-columns:1fr}.fgrid,.fgrid.five{grid-template-columns:1fr 1fr}}
   @media(max-width:820px){
     .lc-team{grid-template-columns:1fr}.lc-best{display:none}
-    .side{display:none}
-    main{margin-left:0;padding:20px 16px 130px}
-    .tabbar{left:50%;width:calc(100vw - 24px)}
+    main{padding:20px 16px 130px}
     .lcard{grid-column:span 1}.lc-grid{grid-template-columns:1fr 1fr}
   }
 
@@ -269,9 +252,8 @@
   .twrap{overflow-x:auto}
   .cols.even{grid-template-columns:1fr 1fr}
   @media(max-width:1100px){.cols.even{grid-template-columns:1fr}}
-  .btn:focus-visible,.ib:focus-visible,.nav a:focus-visible,.chip:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+  .btn:focus-visible,.ib:focus-visible,.chip:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
   @media print{
-    .side,.weeknav,.toast,#v-data,.btn{display:none!important}
     main{margin:0;padding:0}.view{display:none!important}#v-insights{display:block!important}
     .panel,.kpi{box-shadow:none;break-inside:avoid}
   }
@@ -286,61 +268,57 @@
   .heat td small{display:block;font-weight:500;font-size:10px;opacity:.75}
   .fgrid.three{grid-template-columns:1.4fr 1fr}
 
-  /* ---------- Bottom tab bar ---------- */
-  .tabbar{--pill:#161527;position:fixed;bottom:max(14px,env(safe-area-inset-bottom));left:calc(50% + 120px);transform:translateX(-50%);width:min(540px,calc(100vw - 268px));
-    display:flex;align-items:center;justify-content:space-between;gap:2px;padding:10px;background:var(--pill);border-radius:999px;z-index:30;
-    box-shadow:0 22px 44px -12px rgba(22,21,39,.55),0 3px 8px rgba(22,21,39,.25),inset 0 1px 0 rgba(255,255,255,.06)}
-  .tb{position:relative;display:flex;align-items:center;justify-content:center;height:50px;min-width:50px;padding:0 12px;border:none;background:transparent;color:#80839a;border-radius:999px;cursor:pointer;font-family:inherit;
-    transition:background .28s,color .28s,padding .28s,transform .15s;-webkit-tap-highlight-color:transparent}
+  /* ---------- Header ---------- */
+  .brand{display:flex;align-items:center;gap:14px}
+  .brand .mk{width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,#6366f1,#8b5cf6);display:grid;place-items:center;color:#fff;box-shadow:0 8px 18px rgba(99,102,241,.35)}
+  .topr{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .leadchip{background:linear-gradient(135deg,#fff8e1,#fff);border:1px solid #f1dc98;color:#7a5a0a;font-weight:700;font-size:12px;padding:8px 13px;border-radius:999px;box-shadow:var(--shadow)}
+
+  /* ---------- Bottom tab bar (liquid glass) ---------- */
+  .tabbar{--ink:#161527;position:fixed;bottom:max(14px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);width:min(560px,calc(100vw - 24px));
+    display:flex;align-items:center;justify-content:space-between;gap:2px;padding:8px;border-radius:999px;z-index:30;isolation:isolate;
+    background:linear-gradient(135deg,rgba(255,255,255,.55),rgba(255,255,255,.16) 55%,rgba(255,255,255,.34));
+    -webkit-backdrop-filter:blur(24px) saturate(190%);backdrop-filter:blur(24px) saturate(190%);
+    border:1px solid rgba(255,255,255,.7);
+    box-shadow:0 20px 44px -16px rgba(22,21,39,.38),0 2px 8px rgba(22,21,39,.08),inset 0 1.5px 1px rgba(255,255,255,.95),inset 0 -1.5px 1px rgba(255,255,255,.45),inset 0 0 22px rgba(255,255,255,.25)}
+  .tabbar::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:-1;
+    background:radial-gradient(120% 90% at 20% -30%,rgba(255,255,255,.75),transparent 55%),radial-gradient(80% 70% at 90% 130%,rgba(139,92,246,.18),transparent 60%)}
+  @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.tabbar{background:rgba(255,255,255,.94)}}
+  .tb{position:relative;display:flex;align-items:center;justify-content:center;height:50px;min-width:50px;padding:0 12px;border:none;background:transparent;color:#59607c;border-radius:999px;cursor:pointer;font-family:inherit;
+    transition:background .35s,color .3s,padding .4s cubic-bezier(.34,1.4,.64,1),transform .2s,box-shadow .35s;-webkit-tap-highlight-color:transparent}
   .tb svg,.mi svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-  .tb .lb{max-width:0;opacity:0;overflow:hidden;white-space:nowrap;font-weight:700;font-size:15px;letter-spacing:.1px;transition:max-width .32s ease,opacity .22s,margin .32s}
-  .tb:hover{color:#c9cbe0}.tb:active{transform:scale(.94)}
-  .tb.on{background:#fff;color:var(--pill);padding:0 22px 0 14px}
+  .tb .lb{max-width:0;opacity:0;overflow:hidden;white-space:nowrap;font-weight:700;font-size:15px;letter-spacing:.1px;transition:max-width .4s cubic-bezier(.34,1.2,.64,1),opacity .25s,margin .4s}
+  .tb:hover{color:var(--ink);background:rgba(255,255,255,.45)}.tb:active{transform:scale(.93)}
+  .tb.on{background:linear-gradient(135deg,rgba(40,38,74,.94),rgba(22,21,39,.9));color:#fff;padding:0 22px 0 14px;
+    box-shadow:0 10px 22px -8px rgba(22,21,39,.6),inset 0 1px 0 rgba(255,255,255,.28),inset 0 -1px 0 rgba(0,0,0,.25)}
   .tb.on .lb{max-width:96px;opacity:1;margin-left:10px}
-  .tb.on svg .f{fill:currentColor}.tb.on svg .cut{stroke:#fff}
-  .tb:focus-visible,.mi:focus-visible{outline:2px solid #fff;outline-offset:2px}
-  .tb .dot{position:absolute;top:9px;right:10px;width:10px;height:10px;border-radius:50%;background:var(--bad);border:2px solid var(--pill)}
-  .tb.on .dot{border-color:#fff;right:auto;left:30px}
+  .tb.on svg .f{fill:currentColor}.tb.on svg .cut{stroke:var(--ink)}
+  .tb:focus-visible,.mi:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+  .tb .dot{position:absolute;top:9px;right:10px;width:10px;height:10px;border-radius:50%;background:var(--bad);border:2px solid rgba(255,255,255,.9)}
+  .tb.on .dot{border-color:var(--ink);right:auto;left:30px}
   .tbwrap{position:relative}
-  .more{position:absolute;right:-10px;bottom:calc(100% + 22px);width:230px;background:var(--pill);border-radius:24px;padding:8px;display:none;box-shadow:0 22px 44px -12px rgba(22,21,39,.55)}
-  .more.show{display:block;animation:fade .2s ease}
-  .mi{display:flex;align-items:center;gap:12px;width:100%;border:none;background:transparent;color:#c9cbe0;padding:12px 14px;border-radius:16px;cursor:pointer;font-family:inherit;font-size:14px;font-weight:600;text-align:left}
-  .mi:hover{background:rgba(255,255,255,.08)}.mi.on{background:#fff;color:var(--pill)}
+  .more{position:absolute;right:-8px;bottom:calc(100% + 20px);width:236px;padding:8px;border-radius:26px;display:none;
+    background:linear-gradient(135deg,rgba(255,255,255,.85),rgba(255,255,255,.6));-webkit-backdrop-filter:blur(24px) saturate(190%);backdrop-filter:blur(24px) saturate(190%);
+    border:1px solid rgba(255,255,255,.8);box-shadow:0 22px 44px -14px rgba(22,21,39,.4),inset 0 1.5px 1px rgba(255,255,255,.95)}
+  .more.show{display:block;animation:fade .22s ease}
+  .mi{display:flex;align-items:center;gap:12px;width:100%;border:none;background:transparent;color:#3b415c;padding:12px 14px;border-radius:18px;cursor:pointer;font-family:inherit;font-size:14px;font-weight:600;text-align:left}
+  .mi:hover{background:rgba(22,21,39,.07)}.mi.on{background:var(--ink);color:#fff}
   @media print{.tabbar{display:none!important}}
 </style>
 </head>
 <body>
 
-<aside class="side">
-  <div class="logo">
-    <div class="mk"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/></svg></div>
-    <div><b>MIS Team</b><small>Lead Dashboard</small></div>
-  </div>
-  <nav class="nav" id="nav">
-    <div class="cap">Menu</div>
-    <a data-v="dash" class="on"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg><span>Dashboard</span></a>
-    <a data-v="tasks"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h9"/></svg><span>Tasks</span><em class="badge" id="navOver" hidden></em></a>
-    <a data-v="perf"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></svg><span>Performance</span></a>
-    <a data-v="leaders"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l4.5 4L12 4l4.5 7L21 7l-2 12H5z"/></svg><span>Leader History</span></a>
-    <a data-v="insights"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><span>Insights</span></a>
-    <a data-v="team"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5a6.5 6.5 0 0 1 3.5 5.5"/></svg><span>Members</span></a>
-    <div class="cap">Data</div>
-    <a data-v="data"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg><span>Backup</span></a>
-  </nav>
-  <div class="side-foot">
-    <small>Leader of the week</small>
-    <b id="sideLeader"></b>
-  </div>
-</aside>
-
 <main>
   <div class="top">
-    <div><h1 id="pageTitle">Dashboard</h1><p id="todayLbl"></p></div>
+    <div class="brand"><div class="mk"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/></svg></div>
+      <div><h1 id="pageTitle">Dashboard</h1><p id="todayLbl"></p></div></div>
+    <div class="topr"><span class="leadchip" id="sideLeader"></span>
     <div class="weeknav">
-      <button class="ib" id="prevW" title="Pichla week"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="m15 18-6-6 6-6"/></svg></button>
+      <button class="ib" id="prevW" title="Previous week"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="m15 18-6-6 6-6"/></svg></button>
       <b id="weekLbl"></b>
-      <button class="ib" id="nextW" title="Agla week"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="m9 18 6-6-6-6"/></svg></button>
+      <button class="ib" id="nextW" title="Next week"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="m9 18 6-6-6-6"/></svg></button>
       <button class="btn sm" id="thisW">This week</button>
+    </div>
     </div>
   </div>
 
@@ -348,31 +326,31 @@
   <section class="view on" id="v-dash">
     <div class="stats" id="stats"></div>
     <div class="panel attn" id="attention"></div>
-    <div class="sec-title"><h2>Team</h2><small>Shortcuts: 1–7 pages · / search · Card par click → us member ke tasks · Switch → week ka leader</small><button class="btn sm" onclick="go('team')">＋ Add / manage members</button></div>
+    <div class="sec-title"><h2>Team</h2><small>Click a card to view that member’s tasks · Use the switch to set the week’s leader · Shortcuts: 1–7 pages, / to search</small><button class="btn sm" onclick="go('team')">＋ Add / manage members</button></div>
     <div class="team" id="team"></div>
   </section>
 
   <!-- TASKS -->
   <section class="view" id="v-tasks">
     <div class="panel">
-      <h3>Naya Task</h3>
+      <h3>New Task</h3>
       <form id="taskForm">
         <div class="fgrid five">
           <div><label>Member</label><select id="fMember"></select></div>
           <div><label>Date</label><input id="fToday" disabled></div>
           <div><label>Deadline</label><input type="date" id="fDeadline" required></div>
           <div><label>Priority</label><select id="fPriority"><option value="high">High</option><option value="med" selected>Medium</option><option value="low">Low</option></select></div>
-          <div><label>Time (ghante)</label><input type="number" id="fEst" min="0" step="0.25" placeholder="e.g. 2"></div>
+          <div><label>Estimate (hours)</label><input type="number" id="fEst" min="0" step="0.25" placeholder="e.g. 2"></div>
         </div>
         <div class="fgrid two">
-          <div><label>Task</label><input id="fTitle" placeholder="e.g. Monthly sales report tayyar karna" required></div>
+          <div><label>Task</label><input id="fTitle" placeholder="e.g. Prepare the monthly sales report" required></div>
           <div><label>Notes (optional)</label><input id="fNotes" placeholder="..."></div>
         </div>
         <button class="btn pri" type="submit"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Add Task</button>
       </form>
     </div>
     <div class="panel">
-      <h3>Is Week ke Tasks <small id="taskCount"></small></h3>
+      <h3>This Week’s Tasks <small id="taskCount"></small></h3>
       <div class="filters">
         <select id="flMember"></select>
         <select id="flStatus">
@@ -389,12 +367,12 @@
   <!-- PERFORMANCE -->
   <section class="view" id="v-perf">
     <div class="panel">
-      <h3>📅 Din ke hisaab se dekhein <small>din chunein; leaderboard aur deadline rate usi din ke tasks par ban jayenge</small></h3>
+      <h3>📅 View by Day <small>select a day to scope the leaderboard and deadline rate to that day’s tasks</small></h3>
       <div class="daychips" id="dayChips"></div>
     </div>
     <div class="cols">
       <div class="panel"><h3>🏆 Leaderboard <small id="lbScope"></small></h3><div id="lb"></div>
-        <p class="hint" style="margin-top:12px"><b>Score:</b> deadline se pehle done = +10 · late done = +5 · overdue = −5 · in-progress = progress% ÷ 20. High priority ×1.5</p></div>
+        <p class="hint" style="margin-top:12px"><b>Scoring:</b> completed before deadline = +10 · completed late = +5 · overdue = −5 · in progress = progress % ÷ 20. High-priority tasks are weighted ×1.5.</p></div>
       <div class="panel"><h3>⏰ Deadline Meet Rate <small id="dlScope"></small></h3><div id="deadlineBars"></div></div>
     </div>
   </section>
@@ -411,7 +389,7 @@
           <div style="margin-bottom:16px"><label>Colour</label><div class="sw-row" id="mfPal"></div></div>
           <div style="display:flex;gap:8px"><button class="btn pri" type="submit" id="mfSave">Add Member</button><button class="btn" type="button" id="mfCancel" hidden>Cancel</button></div>
         </form>
-        <p class="hint" style="margin-top:14px">Member add karte hi wo task form, filters, leaderboard aur analytics me aa jata hai. Delete karne par us ke tasks bhi hat jate hain — pehle backup le lein.</p>
+        <p class="hint" style="margin-top:14px">A new member becomes available in the task form, filters, leaderboard and analytics immediately. Deleting a member also removes their tasks — take a backup first.</p>
       </div>
     </div>
   </section>
@@ -419,7 +397,7 @@
   <!-- INSIGHTS -->
   <section class="view" id="v-insights">
     <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px">
-      <p class="hint">Selected week ka analytical summary — efficiency, workload aur deadline discipline.</p>
+      <p class="hint">Analytical summary for the selected week — efficiency, workload and deadline discipline.</p>
       <div style="display:flex;gap:8px"><button class="btn sm" id="xlExport2">⬇ Excel</button><button class="btn sm" id="csvBtn">⬇ CSV report</button><button class="btn sm pri" id="printBtn">🖨 Print report</button></div>
     </div>
     <div class="kpis" id="kpis"></div>
@@ -433,35 +411,35 @@
       <div class="panel"><h3>Workload &amp; Turnaround <small>open tasks, avg days to finish</small></h3><div id="loadChart"></div></div>
     </div>
     <div class="panel"><h3>Member Workload &amp; Efficiency <small>est. vs actual office hours</small></h3><div class="twrap" id="memTbl"></div>
-      <p class="hint" style="margin-top:10px"><b>Efficiency</b> = estimated ÷ actual office hours on completed tasks (100%+ = estimate se tez). Sirf un tasks par jin ka estimate diya gaya ho.</p></div>
+      <p class="hint" style="margin-top:10px"><b>Efficiency</b> = estimated ÷ actual office hours on completed tasks (100%+ means faster than estimated). Calculated only on completed tasks that have an estimate.</p></div>
   </section>
 
   <!-- LEADER HISTORY -->
   <section class="view" id="v-leaders">
-    <div class="panel"><h3>👑 Har Week ka Leader <small>Dashboard par card ka switch on karke leader badlein</small></h3><div id="histList"></div></div>
+    <div class="panel"><h3>👑 Weekly Leaders <small>Change a week’s leader here, or use the switch on a member card</small></h3><div id="histList"></div></div>
   </section>
 
   <!-- DATA -->
   <section class="view" id="v-data">
     <div class="panel" style="max-width:640px">
       <h3>Excel Import / Export <small>.xlsx</small></h3>
-      <p class="hint">Poora data (Tasks, Members, Leaders, Week Summary) aik Excel file me. Excel me tasks likh kar import bhi kar sakte hain — naye member names automatically team me add ho jate hain.</p>
+      <p class="hint">All data (Tasks, Members, Leaders, Week Summary) in a single Excel workbook. You can also author tasks in Excel and import them — new member names are added to the team automatically.</p>
       <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:16px">
         <button class="btn pri" id="xlExport">⬇ Export to Excel</button>
         <button class="btn" id="xlImport">⬆ Import from Excel</button>
         <button class="btn" id="xlTemplate">📄 Blank template</button>
-        <select id="impMode" style="width:auto" title="Import mode"><option value="merge">Import: Merge (ID se update)</option><option value="replace">Import: Replace all data</option></select>
+        <select id="impMode" style="width:auto" title="Import mode"><option value="merge">Import: Merge (update by ID)</option><option value="replace">Import: Replace all data</option></select>
         <input type="file" id="xlFile" accept=".xlsx,.xls,.csv" hidden>
       </div>
     </div>
     <div class="panel" style="max-width:640px">
       <h3>Backup & Restore (JSON)</h3>
-      <p class="hint">Saara data aapke browser ki <b>localStorage</b> mein save hota hai. Koi database ya internet nahi chahiye.
-        Browser ka data clear karne se data mit jata hai, isliye har haftay backup le lein.</p>
+      <p class="hint">All data is stored in your browser’s <b>localStorage</b>; no database or internet connection is required.
+        Clearing browser data erases it, so please take a backup every week.</p>
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px">
         <button class="btn pri" id="exportBtn">⬇ Backup download</button>
         <button class="btn" id="importBtn">⬆ Restore from file</button>
-        <button class="btn" id="clearWeek" style="color:var(--bad)">🗑 Is week ke tasks delete</button>
+        <button class="btn" id="clearWeek" style="color:var(--bad)">🗑 Delete this week’s tasks</button>
         <input type="file" id="importFile" accept=".json" hidden>
       </div>
     </div>
@@ -531,7 +509,7 @@ function load(){
 }
 function save(){
   try{ localStorage.setItem(KEY, JSON.stringify(db)); }
-  catch{ toast("⚠ Data save nahi ho saka — browser storage band/full hai. Backup le lein!"); }
+  catch{ toast("⚠ Unable to save data — browser storage is disabled or full. Please take a backup!"); }
 }
 function toast(msg){ const t=$("toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove("show"),2200); }
 
@@ -574,12 +552,12 @@ function spentOf(t){
   return officeHours(t.created, Date.now());
 }
 const isRunning = t => t.status!=="done" && inOffice();
-// when the counter will next start, e.g. "Mon 9:00" or "Aaj 9:00"
+// when the counter will next start, e.g. "Mon 9:00" or "Today 9:00"
 function nextOfficeStart(now=new Date()){
   for (let i = 0; i < 8; i++){
     const d = addDays(new Date(now.getFullYear(),now.getMonth(),now.getDate()), i);
     if (!isWorkDay(d) || (i===0 && now.getHours() >= OFFICE.start)) continue;
-    const day = i===0 ? "Aaj" : i===1 ? "Kal" : d.toLocaleDateString("en-GB",{weekday:"short"});
+    const day = i===0 ? "Today" : i===1 ? "Tomorrow" : d.toLocaleDateString("en-GB",{weekday:"short"});
     return `${day} ${OFFICE.start}:00`;
   }
   return "";
@@ -633,9 +611,9 @@ function render(){
   const [s,e] = weekRange(), leader = leaderOf(wkKey()), wt = weekTasks();
   $("weekLbl").textContent = `${fmt(s)} – ${fmt(e,{day:"numeric",month:"short",year:"numeric"})}`;
   $("todayLbl").textContent = new Date().toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
-  $("sideLeader").innerHTML = `👑 ${M(leader).name}`;
+  $("sideLeader").innerHTML = `👑 Leader: ${M(leader).name}`;
   const over = wt.filter(t=>stateOf(t)==="overdue").length;
-  $("tbOver").hidden = !over; $("navOver").hidden = !over; $("navOver").textContent = over;
+  $("tbOver").hidden = !over;
   renderStats(wt); renderAttention(); renderInsights(wt); renderTeamPage(); renderDeep(); renderTeam(wt, leader); renderTasks(); renderPerf(wt, leader); renderHistory();
 }
 
@@ -682,7 +660,7 @@ function renderTeam(wt, leader){
         <div><b>${ls.total}</b><span>Team tasks</span></div>
         <div><b>${ls.done}</b><span>Completed</span></div>
         <div><b>${ls.rate==null?"–":ls.rate+"%"}</b><span>Deadline met</span></div>
-        <div><b>${own.done}/${own.total}</b><span>Mere tasks</span></div>
+        <div><b>${own.done}/${own.total}</b><span>Own tasks</span></div>
       </div>
       <div class="lc-team">
         ${rank.map(r=>`<div class="m"><i style="background:linear-gradient(135deg,${r.m.c1},${r.m.c2})">${initials(r.m.name)}</i>
@@ -691,7 +669,7 @@ function renderTeam(wt, leader){
       <div class="lc-bottom">
         <div class="lc-bar"><i style="width:${ls.avg}%"></i></div>
         <div class="lc-foot"><span>Team progress <b>${ls.avg}%</b></span>
-          <label class="sw" title="Ye is week ka leader hai" onclick="event.stopPropagation()"><input type="checkbox" checked disabled><i></i></label></div>
+          <label class="sw" title="Leader of this week" onclick="event.stopPropagation()"><input type="checkbox" checked disabled><i></i></label></div>
       </div>
       </div>
     </div>
@@ -716,7 +694,7 @@ function renderTeam(wt, leader){
             <div><b>${s.score}</b><span>Score</span></div>
           </div>
         </div>
-        <div class="mc-foot"><span>👑 Week leader banayein</span>
+        <div class="mc-foot"><span>👑 Make week leader</span>
           <label class="sw" onclick="event.stopPropagation()"><input type="checkbox" data-lead="${m.id}"><i></i></label></div>
       </div>
     </div>`;
@@ -729,8 +707,8 @@ function renderTeam(wt, leader){
   });
   document.querySelectorAll("[data-lead]").forEach(inp=>inp.onchange=()=>{
     const id = inp.dataset.lead;
-    if (!confirm(`${M(id).name} ko is week (${$("weekLbl").textContent}) ka leader banana hai?`)){ inp.checked=false; return; }
-    db.leaders[wkKey()] = id; save(); render(); toast(`👑 ${M(id).name} ab is week ke leader hain`);
+    if (!confirm(`Set ${M(id).name} as leader for this week (${$("weekLbl").textContent})?`)){ inp.checked=false; return; }
+    db.leaders[wkKey()] = id; save(); render(); toast(`👑 ${M(id).name} is now the leader for this week`);
   });
 }
 
@@ -757,12 +735,12 @@ function renderTasks(){
     return true;
   });
   $("taskCount").textContent = `${list.length} task(s)`;
-  if (!list.length){ $("taskList").innerHTML = `<div class="empty">Koi task nahi mila. Upar form se task add karein.</div>`; return; }
+  if (!list.length){ $("taskList").innerHTML = `<div class="empty">No tasks found. Use the form above to add one.</div>`; return; }
   const byDay = {};
   list.sort((a,b)=> listDay(a).localeCompare(listDay(b)) || tieSort(a,b)).forEach(t=> (byDay[listDay(t)] ??= []).push(t));
   const td = today();
   $("taskList").innerHTML = Object.keys(byDay).map(d=>`<div class="day">
-    <h4 class="${d===td?"today":""}">${fmt(d,{weekday:"long",day:"numeric",month:"short"})}${d===td?" · Aaj":""}</h4>
+    <h4 class="${d===td?"today":""}">${fmt(d,{weekday:"long",day:"numeric",month:"short"})}${d===td?" · Today":""}</h4>
     ${byDay[d].map(taskHTML).join("")}</div>`).join("");
 }
 
@@ -799,38 +777,38 @@ function taskHTML(t){
 }
 function counterHTML(t){
   const sp = spentOf(t);
-  if (t.status==="done") return `<span class="cnt done" title="Office time mein kitna laga">✔ ${fmtH(sp)}</span>`;
+  if (t.status==="done") return `<span class="cnt done" title="Office hours spent">✔ ${fmtH(sp)}</span>`;
   const run = isRunning(t);
-  return `<span class="cnt ${run?"on":""}" title="${run?"Office time · counter chal raha hai":`Office band hai: ${nextOfficeStart()} se counter dobara chalega`}">
+  return `<span class="cnt ${run?"on":""}" title="${run?"Office hours · timer running":`Outside office hours: timer resumes ${nextOfficeStart()}`}">
       ${run?"":"⏸ "}<span data-run="${t.id}">${clock(sp)}</span></span>
-    <span class="unit">${run?"chal raha":`office band · ${nextOfficeStart()} se chalega`}</span>`;
+    <span class="unit">${run?"running":`paused · resumes ${nextOfficeStart()}`}</span>`;
 }
 function carryPill(t){
   const end = listDay(t);
   if (end <= t.date) return "";
   const n = workDaysBetween(t.date, end);
   return t.status==="done"
-    ? `<span class="pill s-todo">${n} din laga</span>`
-    : `<span class="pill s-late">↪ ${fmt(t.date)} se · Day ${n}</span>`;
+    ? `<span class="pill s-todo">Took ${n} day${n===1?"":"s"}</span>`
+    : `<span class="pill s-late">↪ Carried from ${fmt(t.date)} · Day ${n}</span>`;
 }
 function timePill(t){
   const sp = spentOf(t);
   if (t.status!=="done" || !t.estHours || !sp) return "";
   return sp <= t.estHours
-    ? `<span class="pill s-ok">⏱ ${fmtH(sp)} · time ke andar</span>`
-    : `<span class="pill s-late">⏱ ${fmtH(sp)} · +${fmtH(sp-t.estHours)} zyada</span>`;
+    ? `<span class="pill s-ok">⏱ ${fmtH(sp)} · within estimate</span>`
+    : `<span class="pill s-late">⏱ ${fmtH(sp)} · +${fmtH(sp-t.estHours)} over</span>`;
 }
 
 function renderPerf(wt, leader){
   const days = [...Array(7)].map((_,i)=>ymd(addDays(weekStart,i))), td = today();
   if (perfDay!=="week" && !days.includes(perfDay)) perfDay = "week";
   const scoped = perfDay==="week" ? wt : wt.filter(t=>t.date===perfDay);
-  const scopeTxt = perfDay==="week" ? "poora week" : fmt(perfDay,{weekday:"long",day:"numeric",month:"short"});
-  $("lbScope").textContent = scopeTxt + " · leader ke ilawa";
+  const scopeTxt = perfDay==="week" ? "full week" : fmt(perfDay,{weekday:"long",day:"numeric",month:"short"});
+  $("lbScope").textContent = scopeTxt + " · excluding leader";
   $("dlScope").textContent = scopeTxt;
 
-  const chips = [["week","Poora Week",wt.length], ...days.map(d=>[d, fmt(d,{weekday:"short"})+" "+parse(d).getDate(), wt.filter(t=>t.date===d).length])];
-  $("dayChips").innerHTML = chips.map(([k,a,n])=>`<button class="chip ${perfDay===k?"on":""} ${k===td?"today":""}" data-day="${k}"><b>${a}${k===td?" · Aaj":""}</b><span>${n} task${n===1?"":"s"}</span></button>`).join("");
+  const chips = [["week","Full Week",wt.length], ...days.map(d=>[d, fmt(d,{weekday:"short"})+" "+parse(d).getDate(), wt.filter(t=>t.date===d).length])];
+  $("dayChips").innerHTML = chips.map(([k,a,n])=>`<button class="chip ${perfDay===k?"on":""} ${k===td?"today":""}" data-day="${k}"><b>${a}${k===td?" · Today":""}</b><span>${n} task${n===1?"":"s"}</span></button>`).join("");
 
   const rank = ranking(scoped, leader);
   const max = Math.max(1, ...rank.map(r=>Math.abs(r.s.score)));
@@ -867,21 +845,19 @@ function renderHistory(){
     </div>`;
   }).join("");
   document.querySelectorAll("[data-hist]").forEach(s=>s.onchange=()=>{
-    db.leaders[s.dataset.hist] = s.value; save(); render(); toast(`👑 Leader update ho gaya`);
+    db.leaders[s.dataset.hist] = s.value; save(); render(); toast(`👑 Leader updated`);
   });
 }
 
 // ---------- navigation ----------
 const TITLES = {dash:"Dashboard", tasks:"Tasks", perf:"Performance", insights:"Insights", team:"Members", leaders:"Leader History", data:"Backup"};
 function go(v){
-  document.querySelectorAll(".nav a").forEach(a=>a.classList.toggle("on", a.dataset.v===v));
   document.querySelectorAll(".view").forEach(s=>s.classList.toggle("on", s.id==="v-"+v));
   $("pageTitle").textContent = TITLES[v];
   syncTabs(v);
   window.scrollTo({top:0});
   render();
 }
-document.querySelectorAll(".nav a").forEach(a=>a.onclick=()=>go(a.dataset.v));
 // ---------- bottom tab bar ----------
 const MORE = ["perf","leaders","data"];
 function syncTabs(v){
@@ -906,20 +882,20 @@ function fillSelects(){
 }
 function initForm(resetDeadline=true){
   if (!$("fMember").options.length) fillSelects();
-  $("fToday").value = fmt(today(),{weekday:"short",day:"numeric",month:"short",year:"numeric"}) + " (Aaj)";
+  $("fToday").value = fmt(today(),{weekday:"short",day:"numeric",month:"short",year:"numeric"}) + " (Today)";
   $("fDeadline").min = today();
   if (resetDeadline) $("fDeadline").value = today();
 }
 $("taskForm").onsubmit = e=>{
   e.preventDefault();
   const date = today(), deadline = $("fDeadline").value;
-  if (deadline < date){ toast("Deadline aaj se pehle nahi ho sakti"); return; }
+  if (deadline < date){ toast("Deadline cannot be earlier than today"); return; }
   db.tasks.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),
     member:$("fMember").value, title:$("fTitle").value.trim(), notes:$("fNotes").value.trim(),
     date, deadline, priority:$("fPriority").value, status:"todo", progress:0, completedAt:null, created:Date.now(),
     estHours: +$("fEst").value || null, doneAt:null});
   save(); $("fTitle").value=""; $("fNotes").value=""; $("fEst").value=""; initForm(); $("fTitle").focus();
-  weekStart = monday(parse(date)); render(); toast("Task add ho gaya ✔");
+  weekStart = monday(parse(date)); render(); toast("Task added ✔");
 };
 $("taskList").addEventListener("change", e=>{
   const el = e.target, row = el.closest(".task"); if (!row) return;
@@ -938,8 +914,8 @@ $("taskList").addEventListener("change", e=>{
 $("taskList").addEventListener("input", e=>{ if (e.target.dataset.act==="prog") e.target.nextElementSibling.textContent = e.target.value+"%"; });
 $("taskList").addEventListener("click", e=>{
   const b = e.target.closest("[data-act=del]"); if (!b) return;
-  if (!confirm("Ye task delete karna hai?")) return;
-  db.tasks = db.tasks.filter(t=>t.id!==b.closest(".task").dataset.id); save(); render(); toast("Task delete ho gaya");
+  if (!confirm("Delete this task?")) return;
+  db.tasks = db.tasks.filter(t=>t.id!==b.closest(".task").dataset.id); save(); render(); toast("Task deleted");
 });
 $("flMember").onchange = e=>{ selectedMember = e.target.value; render(); };
 $("flStatus").onchange = render; $("flSort").onchange = render; $("flSearch").oninput = render;
@@ -951,7 +927,7 @@ $("thisW").onclick = ()=>{ weekStart = monday(new Date()); render(); };
 $("exportBtn").onclick = ()=>{
   const blob = new Blob([JSON.stringify({version:2, exported:new Date().toISOString(), ...db},null,2)],{type:"application/json"});
   const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = `mis-team-backup-${today()}.json`; a.click();
-  setTimeout(()=>URL.revokeObjectURL(a.href), 1000); toast("Backup download ho gaya");
+  setTimeout(()=>URL.revokeObjectURL(a.href), 1000); toast("Backup downloaded");
 };
 $("importBtn").onclick = ()=> $("importFile").click();
 $("importFile").onchange = e=>{
@@ -974,17 +950,17 @@ $("importFile").onchange = e=>{
       Object.keys(leaders).forEach(k => { if (!find(leaders[k])) delete leaders[k]; });
       if (!tasks.length && list.length) throw 0;
       const skipped = list.length - tasks.length;
-      if (!confirm(`${tasks.length} tasks restore karne hain?${skipped?` (${skipped} kharab entries chhod di jayengi)`:""} Maujooda data replace ho jayega.`)) return;
-      if (mem&&mem.length) MEMBERS = mem; db = norm({tasks, leaders, members:MEMBERS}); save(); fillSelects(); render();  toast("Data restore ho gaya ✔");
-    }catch{ toast("Ghalat backup file"); }
+      if (!confirm(`Restore ${tasks.length} task(s)?${skipped?` (${skipped} invalid entries will be skipped)`:""} Existing data will be replaced.`)) return;
+      if (mem&&mem.length) MEMBERS = mem; db = norm({tasks, leaders, members:MEMBERS}); save(); fillSelects(); render();  toast("Data restored ✔");
+    }catch{ toast("Invalid backup file"); }
   };
   r.readAsText(f);
 };
 $("clearWeek").onclick = ()=>{
   const [s,e] = weekRange(), n = db.tasks.filter(t=>t.date>=s && t.date<=e).length;
-  if (!n){ toast("Is week koi task nahi"); return; }
-  if (!confirm(`Is week ke ${n} tasks delete karne hain? Pehle backup le lein.`)) return;
-  db.tasks = db.tasks.filter(t=>t.date<s || t.date>e); save(); render(); toast("Week ke tasks delete ho gaye");
+  if (!n){ toast("No tasks in this week"); return; }
+  if (!confirm(`Delete ${n} task(s) from this week? Take a backup first.`)) return;
+  db.tasks = db.tasks.filter(t=>t.date<s || t.date>e); save(); render(); toast("This week’s tasks deleted");
 };
 
 // ---------- pro layer: deltas, attention, insights, reports ----------
@@ -999,16 +975,16 @@ function renderAttention(){
   const rows = db.tasks.filter(t=>t.status!=="done" && t.deadline<=tm)
     .sort((a,b)=> a.deadline.localeCompare(b.deadline) || PR[a.priority]-PR[b.priority]);
   el.classList.toggle("clear", !rows.length);
-  if (!rows.length){ el.innerHTML = `<h3>✅ All clear <small>koi task overdue ya kal tak due nahi</small></h3>`; return; }
+  if (!rows.length){ el.innerHTML = `<h3>✅ All clear <small>no tasks overdue or due by tomorrow</small></h3>`; return; }
   const late = rows.filter(t=>t.deadline<td).length;
-  el.innerHTML = `<h3>⚠ Needs attention <small>${late} overdue · ${rows.length-late} due aaj/kal</small></h3>` + rows.slice(0,6).map(t=>{
+  el.innerHTML = `<h3>⚠ Needs attention <small>${late} overdue · ${rows.length-late} due today/tomorrow</small></h3>` + rows.slice(0,6).map(t=>{
     const m = M(t.member) || {name:"?",c1:"#999",c2:"#bbb"}, n = Math.round((parse(td)-parse(t.deadline))/864e5);
     const [pl,pc] = prLbl[t.priority];
     const [lbl,cls] = t.deadline<td ? [`Overdue ${n}d`,"s-over"] : t.deadline===td ? ["Due today","s-late"] : ["Due tomorrow","s-run"];
     return `<div class="arow"><div class="t-av" style="background:linear-gradient(135deg,${m.c1},${m.c2})">${initials(m.name)}</div>
       <div class="ai"><b>${esc(t.title)}</b><span>${m.name} · deadline ${fmt(t.deadline)} · ${t.progress||0}% complete</span></div>
       <span class="pill ${pc}">${pl}</span><span class="pill ${cls}">${lbl}</span></div>`;
-  }).join("") + (rows.length>6 ? `<p class="hint" style="margin-top:8px">+${rows.length-6} aur tasks…</p>` : "");
+  }).join("") + (rows.length>6 ? `<p class="hint" style="margin-top:8px">+${rows.length-6} more tasks…</p>` : "");
 }
 function renderInsights(wt){
   const s = statsOf(wt), td = today();
@@ -1018,7 +994,7 @@ function renderInsights(wt){
   $("kpis").innerHTML = kp("Completion rate", comp+"%", `${s.done} of ${s.total} tasks`)
     + kp("Deadline met", s.rate==null?"–":s.rate+"%", `${s.ontime} on time · ${s.late} late`)
     + kp("Hours logged", fmtH(s.spent), s.est ? `of ${fmtH(s.est)} estimated` : "no estimates set")
-    + kp("Time efficiency", eff==null?"–":eff+"%", eff==null?"needs estimates on done tasks":eff>=100?"estimate se tez":"estimate se zyada waqt");
+    + kp("Time efficiency", eff==null?"–":eff+"%", eff==null?"needs estimates on done tasks":eff>=100?"faster than estimated":"slower than estimated");
   const days = [...Array(7)].map((_,i)=>ymd(addDays(weekStart,i)));
   const cr = days.map(d=>wt.filter(t=>t.date===d).length), dn = days.map(d=>db.tasks.filter(t=>t.completedAt===d).length);
   const mx = Math.max(1,...cr,...dn);
@@ -1073,12 +1049,12 @@ $("mfCancel").onclick = resetMemForm;
 $("memForm").onsubmit = e=>{
   e.preventDefault();
   const name = clean($("mfName").value), role = clean($("mfRole").value) || "Team Member", [c1,c2] = PALETTE[palIdx];
-  if (name.length < 2){ toast("Naam kam az kam 2 harf ka ho"); return; }
-  if (MEMBERS.some(m=>m.name.toLowerCase()===name.toLowerCase() && m.id!==editId)){ toast("Ye naam pehle se maujood hai"); return; }
-  if (editId){ Object.assign(M(editId), {name, role, c1, c2}); toast("Member update ho gaya ✔"); }
+  if (name.length < 2){ toast("Name must be at least 2 characters"); return; }
+  if (MEMBERS.some(m=>m.name.toLowerCase()===name.toLowerCase() && m.id!==editId)){ toast("A member with this name already exists"); return; }
+  if (editId){ Object.assign(M(editId), {name, role, c1, c2}); toast("Member updated ✔"); }
   else {
     const id = (name.toLowerCase().replace(/[^a-z0-9]+/g,"").slice(0,12) || "m") + Math.random().toString(36).slice(2,6);
-    MEMBERS.push({id, name, role, c1, c2}); toast(`${name} team me add ho gaya ✔`);
+    MEMBERS.push({id, name, role, c1, c2}); toast(`${name} added to the team ✔`);
   }
   save(); fillSelects(); resetMemForm(); render();
 };
@@ -1088,12 +1064,12 @@ $("memList").addEventListener("click", e=>{
     palIdx = Math.max(0, PALETTE.findIndex(p=>p[0]===m.c1)); drawPal(); $("mfTitle").textContent = "Edit Member"; $("mfSave").textContent = "Save changes"; $("mfCancel").hidden = false; $("mfName").focus(); }
   if (dl){
     const m = M(dl.dataset.del), n = db.tasks.filter(t=>t.member===m.id).length;
-    if (MEMBERS.length<2){ toast("Kam az kam aik member zaroori hai"); return; }
-    if (m.id===leaderOf(wkKey())){ toast("Pehle is week ka leader badlein, phir delete karein"); return; }
-    if (!confirm(`${m.name} ko delete karna hai? Us ke ${n} task(s) bhi delete ho jayenge.`)) return;
+    if (MEMBERS.length<2){ toast("At least one member is required"); return; }
+    if (m.id===leaderOf(wkKey())){ toast("Change this week’s leader before deleting this member"); return; }
+    if (!confirm(`Delete ${m.name}? Their ${n} task(s) will also be deleted.`)) return;
     MEMBERS.splice(MEMBERS.indexOf(m),1); db.tasks = db.tasks.filter(t=>t.member!==m.id);
     Object.keys(db.leaders).forEach(k=>{ if (db.leaders[k]===m.id) delete db.leaders[k]; });
-    save(); fillSelects(); render(); toast(`${m.name} delete ho gaya`);
+    save(); fillSelects(); render(); toast(`${m.name} deleted`);
   }
 });
 
@@ -1121,13 +1097,13 @@ function renderDeep(){
   });
   const tot = open.reduce((a,x)=>a+x.o,0), mx = Math.max(1,...open.map(x=>x.o));
   $("loadChart").innerHTML = open.map(x=>`<div style="margin-bottom:14px"><div style="display:flex;justify-content:space-between;font-size:13px"><b>${x.m.name}</b>
-    <span style="color:var(--muted)">${x.o} open${tot?` · ${Math.round(x.o/tot*100)}%`:""} · ${x.days==null?"–":x.days.toFixed(1)+" din avg"}</span></div>
+    <span style="color:var(--muted)">${x.o} open${tot?` · ${Math.round(x.o/tot*100)}%`:""} · ${x.days==null?"–":x.days.toFixed(1)+" days avg"}</span></div>
     <div class="bar"><i style="width:${x.o/mx*100}%;background:linear-gradient(90deg,${x.m.c1},${x.m.c2})"></i></div></div>`).join("");
 }
 
 // ---------- Excel import / export ----------
 const PRN = {high:"High", med:"Medium", low:"Low"}, STN = {todo:"To Do", progress:"In Progress", done:"Done"};
-function xl(){ if (window.XLSX) return window.XLSX; toast("Excel library load nahi hui — internet connection check karein"); return null; }
+function xl(){ if (window.XLSX) return window.XLSX; toast("Excel library failed to load — check your internet connection"); return null; }
 function fitCols(rows){ return rows.length ? Object.keys(rows[0]).map(k=>({wch:Math.min(42,Math.max(k.length+2,...rows.map(r=>String(r[k]??"").length+2)))})) : []; }
 function sheetOf(X, rows){ const ws = X.utils.json_to_sheet(rows); ws["!cols"] = fitCols(rows); return ws; }
 function exportXlsx(){
@@ -1146,14 +1122,14 @@ function exportXlsx(){
   X.utils.book_append_sheet(wb, sheetOf(X,MEMBERS.map(m=>({"Name":m.name,"Role":m.role,"Colour 1":m.c1,"Colour 2":m.c2,"ID":m.id}))), "Members");
   X.utils.book_append_sheet(wb, sheetOf(X,Object.keys(db.leaders).sort().map(k=>({"Week Start (Mon)":k,"Leader":mn(db.leaders[k])}))), "Leaders");
   X.utils.book_append_sheet(wb, sheetOf(X,summary), "Week Summary");
-  X.utils.book_append_sheet(wb, sheetOf(X,[{"Info":`Week summary covers ${ws0} to ${we0}. 'Week Summary' aur computed columns (Office Hours Spent, State) import me ignore hote hain.`}]), "Notes");
-  X.writeFile(wb, `mis-team-data-${today()}.xlsx`); toast("Excel export ho gaya ✔");
+  X.utils.book_append_sheet(wb, sheetOf(X,[{"Info":`Week summary covers ${ws0} to ${we0}. The 'Week Summary' sheet and computed columns (Office Hours Spent, State) are ignored on import.`}]), "Notes");
+  X.writeFile(wb, `mis-team-data-${today()}.xlsx`); toast("Excel exported ✔");
 }
 function templateXlsx(){
   const X = xl(); if (!X) return; const wb = X.utils.book_new();
   X.utils.book_append_sheet(wb, sheetOf(X,[{"ID":"","Member":MEMBERS[0].name,"Task":"Monthly sales report","Notes":"optional","Date":today(),"Deadline":ymd(addDays(new Date(),2)),"Priority":"High","Status":"To Do","Progress %":0,"Completed On":"","Est Hours":2}]), "Tasks");
   X.utils.book_append_sheet(wb, sheetOf(X,MEMBERS.map(m=>({"Name":m.name,"Role":m.role}))), "Members");
-  X.utils.book_append_sheet(wb, sheetOf(X,[{"Column":"ID","Rule":"Khali chhor dein = naya task. Maujooda ID = us task ko update (Merge mode)."},{"Column":"Member","Rule":"Naam likhein. Naya naam automatically member ban jayega."},{"Column":"Date / Deadline","Rule":"YYYY-MM-DD ya DD/MM/YYYY"},{"Column":"Priority","Rule":"High / Medium / Low"},{"Column":"Status","Rule":"To Do / In Progress / Done"}]), "Instructions");
+  X.utils.book_append_sheet(wb, sheetOf(X,[{"Column":"ID","Rule":"Leave blank to create a new task. An existing ID updates that task (Merge mode)."},{"Column":"Member","Rule":"Enter the member name. An unknown name is added to the team automatically."},{"Column":"Date / Deadline","Rule":"YYYY-MM-DD or DD/MM/YYYY"},{"Column":"Priority","Rule":"High / Medium / Low"},{"Column":"Status","Rule":"To Do / In Progress / Done"}]), "Instructions");
   X.writeFile(wb, "mis-team-import-template.xlsx");
 }
 function xd(v){
@@ -1170,7 +1146,7 @@ function importXlsx(file){
     const wb = X.read(r.result,{type:"array",cellDates:true});
     const rows = n => wb.Sheets[n] ? X.utils.sheet_to_json(wb.Sheets[n],{defval:"",raw:true}) : [];
     const tr = rows("Tasks").filter(x=>String(x.Task||"").trim());
-    if (!tr.length) throw new Error("'Tasks' sheet nahi mili ya khali hai");
+    if (!tr.length) throw new Error("The 'Tasks' sheet is missing or empty");
     const replace = $("impMode").value==="replace";
     const mem = replace ? [] : MEMBERS.map(m=>({...m})); let added = 0;
     const hex = /^#[0-9a-f]{3,8}$/i;
@@ -1199,13 +1175,13 @@ function importXlsx(file){
       if (byId.has(id)) Object.assign(byId.get(id), t); else { tasks.push(t); byId.set(id,t); }
       n++;
     });
-    if (!n) throw new Error("Koi valid task row nahi mili (Member, Task, Deadline zaroori hain)");
+    if (!n) throw new Error("No valid task rows found (Member, Task and Deadline are required)");
     const leaders = replace ? {} : {...db.leaders};
     rows("Leaders").forEach(x=>{ const k = xd(x["Week Start (Mon)"]), m = mem.find(y=>y.name.toLowerCase()===String(x.Leader).trim().toLowerCase());
       if (validDay(k) && m) leaders[ymd(monday(parse(k)))] = m.id; });
-    if (!confirm(`${n} task(s) import honge${bad?` (${bad} adhoori rows skip)`:""}${added?`, ${added} naye member`:""}.\n${replace?"Maujooda data REPLACE ho jayega.":"Maujooda data ke sath merge hoga."} Continue?`)) return;
-    MEMBERS = mem; db = norm({tasks, leaders, members:MEMBERS}); save(); fillSelects(); render(); toast(`Excel import ho gaya ✔ (${n} tasks)`);
-  }catch(err){ toast("Import fail: " + (err.message || "file ghalat hai")); } };
+    if (!confirm(`${n} task(s) will be imported${bad?` (${bad} incomplete row(s) skipped)`:""}${added?`, ${added} new member(s)`:""}.\n${replace?"Existing data will be REPLACED.":"Existing data will be merged."} Continue?`)) return;
+    MEMBERS = mem; db = norm({tasks, leaders, members:MEMBERS}); save(); fillSelects(); render(); toast(`Excel import complete ✔ (${n} tasks)`);
+  }catch(err){ toast("Import failed: " + (err.message || "invalid file")); } };
   r.readAsArrayBuffer(file);
 }
 $("xlExport").onclick = $("xlExport2").onclick = exportXlsx;
@@ -1218,7 +1194,7 @@ $("csvBtn").onclick = ()=>{
     .concat(weekTasks().map(t=>[t.date,(M(t.member)||{}).name,t.title,prLbl[t.priority][0],t.status,stLbl[stateOf(t)][0],t.status==="done"?100:(t.progress||0),t.deadline,t.completedAt||"",t.estHours||"",spentOf(t).toFixed(2),t.notes||""]));
   const blob = new Blob(["\ufeff"+rows.map(r=>r.map(q).join(",")).join("\r\n")],{type:"text/csv;charset=utf-8"});
   const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = `mis-week-report-${wkKey()}.csv`; a.click();
-  setTimeout(()=>URL.revokeObjectURL(a.href),1000); toast("CSV report download ho gayi");
+  setTimeout(()=>URL.revokeObjectURL(a.href),1000); toast("CSV report downloaded");
 };
 $("printBtn").onclick = ()=> window.print();
 // keyboard: "/" jumps to task search, g+d/t/p/i for quick navigation

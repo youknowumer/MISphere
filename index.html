@@ -230,6 +230,57 @@
     main{margin-left:72px;padding:20px 16px}
     .lcard{grid-column:span 1}.lc-grid{grid-template-columns:1fr 1fr}
   }
+
+  /* ---------- Pro layer ---------- */
+  .stat .l+.dl{display:block}
+  .dl{font-style:normal;font-size:11px;font-weight:600;margin-top:3px;color:var(--muted)}
+  .dl.up{color:#027a48}.dl.down{color:#b42318}
+  .attn{border-left:4px solid var(--warn);margin-bottom:26px}
+  .attn.clear{border-left-color:var(--ok)}
+  .arow{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line2)}
+  .arow:last-child{border-bottom:none}
+  .arow .ai{flex:1;min-width:0}.arow .ai b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .arow .ai span{font-size:12px;color:var(--muted)}
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:20px}
+  .kpi{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow)}
+  .kpi small{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.8px;font-weight:700}
+  .kpi b{display:block;font-size:28px;margin:6px 0 2px;font-variant-numeric:tabular-nums}
+  .kpi span{font-size:12px;color:var(--muted)}
+  .bch{display:flex;align-items:flex-end;gap:12px;height:170px;padding-top:10px;border-bottom:1px solid var(--line)}
+  .bcol{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:0}
+  .bpair{display:flex;align-items:flex-end;gap:4px;height:calc(100% - 4px);width:100%;justify-content:center}
+  .bpair i{display:block;width:40%;max-width:26px;border-radius:6px 6px 0 0;min-height:2px;position:relative}
+  .bpair i::after{content:attr(data-v);position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-size:10px;font-style:normal;font-weight:700;color:var(--muted)}
+  .blbl{display:flex;gap:12px;margin-top:8px}.blbl span{flex:1;text-align:center;font-size:11px;color:var(--muted);font-weight:600}
+  .blbl span.today{color:var(--brand)}
+  .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-top:12px}
+  .legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+  .stack{display:flex;height:16px;border-radius:10px;overflow:hidden;background:var(--line2)}
+  .stack i{display:block;height:100%}
+  .tbl{width:100%;border-collapse:collapse;font-size:13px;font-variant-numeric:tabular-nums}
+  .tbl th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);padding:8px 10px;border-bottom:1px solid var(--line)}
+  .tbl td{padding:11px 10px;border-bottom:1px solid var(--line2)}
+  .tbl tr:last-child td{border-bottom:none}
+  .tbl .r{text-align:right}
+  .twrap{overflow-x:auto}
+  .cols.even{grid-template-columns:1fr 1fr}
+  @media(max-width:1100px){.cols.even{grid-template-columns:1fr}}
+  .btn:focus-visible,.ib:focus-visible,.nav a:focus-visible,.chip:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+  @media print{
+    .side,.weeknav,.toast,#v-data,.btn{display:none!important}
+    main{margin:0;padding:0}.view{display:none!important}#v-insights{display:block!important}
+    .panel,.kpi{box-shadow:none;break-inside:avoid}
+  }
+
+  /* ---------- Members ---------- */
+  .sw-row{display:flex;gap:8px;flex-wrap:wrap}
+  .swc{width:34px;height:34px;border-radius:50%;border:3px solid #fff;cursor:pointer;box-shadow:0 0 0 1px var(--line);padding:0}
+  .swc.on{box-shadow:0 0 0 2px var(--brand)}
+  .mrow{display:flex;align-items:center;gap:12px}
+  .tag{font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;background:#fff7d6;color:#9a7212}
+  .heat td{text-align:center;font-weight:700;border-radius:8px;padding:9px 6px}
+  .heat td small{display:block;font-weight:500;font-size:10px;opacity:.75}
+  .fgrid.three{grid-template-columns:1.4fr 1fr}
 </style>
 </head>
 <body>
@@ -245,6 +296,8 @@
     <a data-v="tasks"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h9"/></svg><span>Tasks</span><em class="badge" id="navOver" hidden></em></a>
     <a data-v="perf"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></svg><span>Performance</span></a>
     <a data-v="leaders"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l4.5 4L12 4l4.5 7L21 7l-2 12H5z"/></svg><span>Leader History</span></a>
+    <a data-v="insights"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><span>Insights</span></a>
+    <a data-v="team"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5a6.5 6.5 0 0 1 3.5 5.5"/></svg><span>Members</span></a>
     <div class="cap">Data</div>
     <a data-v="data"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg><span>Backup</span></a>
   </nav>
@@ -268,7 +321,8 @@
   <!-- DASHBOARD -->
   <section class="view on" id="v-dash">
     <div class="stats" id="stats"></div>
-    <div class="sec-title"><h2>Team</h2><small>Card par click → us member ke tasks · Switch → week ka leader</small></div>
+    <div class="panel attn" id="attention"></div>
+    <div class="sec-title"><h2>Team</h2><small>Shortcuts: 1–7 pages · / search · Card par click → us member ke tasks · Switch → week ka leader</small><button class="btn sm" onclick="go('team')">＋ Add / manage members</button></div>
     <div class="team" id="team"></div>
   </section>
 
@@ -299,6 +353,7 @@
           <option value="all">All Status</option><option value="todo">To Do</option><option value="progress">In Progress</option>
           <option value="done">Done</option><option value="overdue">Overdue</option>
         </select>
+        <select id="flSort"><option value="new">Sort: Newest</option><option value="deadline">Sort: Deadline</option><option value="priority">Sort: Priority</option></select>
         <input id="flSearch" placeholder="Search...">
       </div>
       <div id="taskList"></div>
@@ -316,6 +371,43 @@
         <p class="hint" style="margin-top:12px"><b>Score:</b> deadline se pehle done = +10 · late done = +5 · overdue = −5 · in-progress = progress% ÷ 20. High priority ×1.5</p></div>
       <div class="panel"><h3>⏰ Deadline Meet Rate <small id="dlScope"></small></h3><div id="deadlineBars"></div></div>
     </div>
+  </section>
+
+  <!-- MEMBERS -->
+  <section class="view" id="v-team">
+    <div class="cols">
+      <div class="panel"><h3>Team Members <small id="memCount"></small></h3><div class="twrap" id="memList"></div></div>
+      <div class="panel"><h3 id="mfTitle">Add Member</h3>
+        <form id="memForm">
+          <div style="margin-bottom:12px"><label>Full name</label><input id="mfName" maxlength="40" placeholder="e.g. Ayesha Khan" required></div>
+          <div style="margin-bottom:12px"><label>Role / designation</label><input id="mfRole" maxlength="40" list="roleList" placeholder="e.g. Data Analyst">
+            <datalist id="roleList"><option value="Team Member"><option value="Senior Analyst"><option value="Data Analyst"><option value="Developer"><option value="Support Officer"><option value="Intern"></datalist></div>
+          <div style="margin-bottom:16px"><label>Colour</label><div class="sw-row" id="mfPal"></div></div>
+          <div style="display:flex;gap:8px"><button class="btn pri" type="submit" id="mfSave">Add Member</button><button class="btn" type="button" id="mfCancel" hidden>Cancel</button></div>
+        </form>
+        <p class="hint" style="margin-top:14px">Member add karte hi wo task form, filters, leaderboard aur analytics me aa jata hai. Delete karne par us ke tasks bhi hat jate hain — pehle backup le lein.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- INSIGHTS -->
+  <section class="view" id="v-insights">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px">
+      <p class="hint">Selected week ka analytical summary — efficiency, workload aur deadline discipline.</p>
+      <div style="display:flex;gap:8px"><button class="btn sm" id="csvBtn">⬇ CSV report</button><button class="btn sm pri" id="printBtn">🖨 Print report</button></div>
+    </div>
+    <div class="kpis" id="kpis"></div>
+    <div class="cols even">
+      <div class="panel"><h3>Daily Activity <small>created vs completed</small></h3><div id="actChart"></div></div>
+      <div class="panel"><h3>Status &amp; Priority Mix <small id="mixTotal"></small></h3><div id="mixChart"></div></div>
+    </div>
+    <div class="panel"><h3>6-Week Trend <small>completion vs deadline met</small></h3><div id="trendChart"></div></div>
+    <div class="cols even">
+      <div class="panel"><h3>Performance Heatmap <small>avg progress % per week</small></h3><div class="twrap" id="heatmap"></div></div>
+      <div class="panel"><h3>Workload &amp; Turnaround <small>open tasks, avg days to finish</small></h3><div id="loadChart"></div></div>
+    </div>
+    <div class="panel"><h3>Member Workload &amp; Efficiency <small>est. vs actual office hours</small></h3><div class="twrap" id="memTbl"></div>
+      <p class="hint" style="margin-top:10px"><b>Efficiency</b> = estimated ÷ actual office hours on completed tasks (100%+ = estimate se tez). Sirf un tasks par jin ka estimate diya gaya ho.</p></div>
   </section>
 
   <!-- LEADER HISTORY -->
@@ -341,7 +433,8 @@
 <div class="toast" id="toast"></div>
 
 <script>
-const MEMBERS = [
+let MEMBERS = [];
+const DEFAULT_MEMBERS = [
   {id:"hamza",   name:"Hamza",         c1:"#f59e0b", c2:"#f97316"},
   {id:"abuzar",  name:"Abuzar Shahid", c1:"#4f46e5", c2:"#7c83fd"},
   {id:"musharam",name:"Musharam",      c1:"#059669", c2:"#34d399"},
@@ -366,7 +459,15 @@ const fmt = (s,opt={day:"numeric",month:"short"}) => parse(s).toLocaleDateString
 const today = () => ymd(new Date());
 
 // ---------- state ----------
-let db = load();
+const clean = v => String(v||"").replace(/[<>&"`]/g,"").trim().slice(0,40);
+function norm(d){
+  const ok = m => m && m.id && m.name && /^#[0-9a-f]{3,8}$/i.test(m.c1) && /^#[0-9a-f]{3,8}$/i.test(m.c2);
+  let list = Array.isArray(d.members) ? d.members.filter(ok) : [];
+  if (!list.length) list = DEFAULT_MEMBERS.map(m=>({...m, role:"Team Member"}));
+  d.members = MEMBERS = list.map(m=>({id:String(m.id), name:clean(m.name), role:clean(m.role)||"Team Member", c1:m.c1, c2:m.c2}));
+  return d;
+}
+let db = norm(load());
 let weekStart = monday(new Date());
 let selectedMember = "all";
 let perfDay = "week";   // "week" or a YYYY-MM-DD within the viewed week
@@ -375,7 +476,7 @@ function load(){
   try{
     const raw = JSON.parse(localStorage.getItem(KEY));
     if (Array.isArray(raw)) return {tasks:raw, leaders:{}};   // old format
-    if (raw && raw.tasks) return {tasks:raw.tasks, leaders:raw.leaders||{}};
+    if (raw && raw.tasks) return {tasks:raw.tasks, leaders:raw.leaders||{}, members:raw.members};
   }catch{}
   return {tasks:[], leaders:{}};
 }
@@ -388,9 +489,9 @@ function toast(msg){ const t=$("toast"); t.textContent=msg; t.classList.add("sho
 const wkKey = () => ymd(weekStart);
 // leader for a week = that week's choice, else the latest earlier choice, else default
 function leaderOf(key){
-  if (db.leaders[key]) return db.leaders[key];
-  const prev = Object.keys(db.leaders).filter(k=>k<key).sort().pop();
-  return prev ? db.leaders[prev] : DEFAULT_LEADER;
+  let id = db.leaders[key];
+  if (!id){ const prev = Object.keys(db.leaders).filter(k=>k<key).sort().pop(); id = prev ? db.leaders[prev] : DEFAULT_LEADER; }
+  return M(id) ? id : MEMBERS[0].id;
 }
 function weekRange(){ return [ymd(weekStart), ymd(addDays(weekStart,6))]; }
 function weekTasks(){ const [s,e] = weekRange(); return db.tasks.filter(t => t.date >= s && t.date <= e); }
@@ -486,11 +587,11 @@ function render(){
   $("sideLeader").innerHTML = `👑 ${M(leader).name}`;
   const over = wt.filter(t=>stateOf(t)==="overdue").length;
   $("navOver").hidden = !over; $("navOver").textContent = over;
-  renderStats(wt); renderTeam(wt, leader); renderTasks(); renderPerf(wt, leader); renderHistory();
+  renderStats(wt); renderAttention(); renderInsights(wt); renderTeamPage(); renderDeep(); renderTeam(wt, leader); renderTasks(); renderPerf(wt, leader); renderHistory();
 }
 
 function renderStats(wt){
-  const s = statsOf(wt);
+  const s = statsOf(wt), p = statsOf(prevWeekTasks());
   const ic = (p,c,bg)=>`<div class="ic" style="background:${bg};color:${c}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${p}</svg></div>`;
   const items = [
     ["Total Tasks", s.total, ic('<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/>',"#4f46e5","#eef0ff")],
@@ -500,7 +601,8 @@ function renderStats(wt){
     ["Overdue", s.overdue, ic('<path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/>',"#f04438","#fef3f2")],
     ["Avg Progress", s.avg+"%", ic('<path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/>',"#7c3aed","#f4f0ff")],
   ];
-  $("stats").innerHTML = items.map(([l,n,i])=>`<div class="stat">${i}<div><div class="n">${n}</div><div class="l">${l}</div></div></div>`).join("");
+  const dls = [delta(s.total,p.total), delta(s.done,p.done), delta(s.ontime,p.ontime), delta(s.late,p.late,1), delta(s.overdue,p.overdue,1), delta(s.avg,p.avg)];
+  $("stats").innerHTML = items.map(([l,n,i],k)=>`<div class="stat">${i}<div><div class="n">${n}</div><div class="l">${l}</div>${dls[k]}</div></div>`).join("");
 }
 
 function ring(pct, c1, c2, id){
@@ -555,7 +657,7 @@ function renderTeam(wt, leader){
       <div class="mc-body">
         <div class="mc-av">${initials(m.name)}</div>
         <div class="mc-name">${m.name}</div>
-        <span class="mc-role">Team Member</span>
+        <span class="mc-role">${esc(m.role||"Team Member")}</span>
         <div class="mc-mid">
           ${ring(s.avg, m.c1, m.c2, m.id)}
           <div class="mc-kv">
@@ -586,6 +688,13 @@ function renderTeam(wt, leader){
 const stLbl = {ontime:["On time","s-ok"], late:["Late","s-late"], overdue:["Overdue","s-over"], progress:["In progress","s-run"], todo:["To do","s-todo"]};
 const prLbl = {high:["High","p-high"], med:["Medium","p-med"], low:["Low","p-low"]};
 
+const PR = {high:0,med:1,low:2};
+function tieSort(a,b){
+  const k = $("flSort").value;
+  if (k==="deadline") return a.deadline.localeCompare(b.deadline) || a.created-b.created;
+  if (k==="priority") return PR[a.priority]-PR[b.priority] || a.deadline.localeCompare(b.deadline);
+  return a.created-b.created;
+}
 function renderTasks(){
   const fs = $("flStatus").value, q = $("flSearch").value.trim().toLowerCase();
   const [ws, we] = weekRange();
@@ -601,7 +710,7 @@ function renderTasks(){
   $("taskCount").textContent = `${list.length} task(s)`;
   if (!list.length){ $("taskList").innerHTML = `<div class="empty">Koi task nahi mila. Upar form se task add karein.</div>`; return; }
   const byDay = {};
-  list.sort((a,b)=> listDay(a).localeCompare(listDay(b)) || a.created-b.created).forEach(t=> (byDay[listDay(t)] ??= []).push(t));
+  list.sort((a,b)=> listDay(a).localeCompare(listDay(b)) || tieSort(a,b)).forEach(t=> (byDay[listDay(t)] ??= []).push(t));
   const td = today();
   $("taskList").innerHTML = Object.keys(byDay).map(d=>`<div class="day">
     <h4 class="${d===td?"today":""}">${fmt(d,{weekday:"long",day:"numeric",month:"short"})}${d===td?" · Aaj":""}</h4>
@@ -714,7 +823,7 @@ function renderHistory(){
 }
 
 // ---------- navigation ----------
-const TITLES = {dash:"Dashboard", tasks:"Tasks", perf:"Performance", leaders:"Leader History", data:"Backup"};
+const TITLES = {dash:"Dashboard", tasks:"Tasks", perf:"Performance", insights:"Insights", team:"Members", leaders:"Leader History", data:"Backup"};
 function go(v){
   document.querySelectorAll(".nav a").forEach(a=>a.classList.toggle("on", a.dataset.v===v));
   document.querySelectorAll(".view").forEach(s=>s.classList.toggle("on", s.id==="v-"+v));
@@ -724,12 +833,14 @@ function go(v){
 document.querySelectorAll(".nav a").forEach(a=>a.onclick=()=>go(a.dataset.v));
 
 // ---------- tasks ----------
+function fillSelects(){
+  const opts = MEMBERS.map(m=>`<option value="${m.id}">${m.name}</option>`).join("");
+  const f = $("fMember"), pf = f.value; f.innerHTML = opts; f.value = M(pf) ? pf : MEMBERS[0].id;
+  if (selectedMember!=="all" && !M(selectedMember)) selectedMember = "all";
+  $("flMember").innerHTML = `<option value="all">All Members</option>` + opts; $("flMember").value = selectedMember;
+}
 function initForm(resetDeadline=true){
-  if (!$("fMember").options.length){
-    const opts = MEMBERS.map(m=>`<option value="${m.id}">${m.name}</option>`).join("");
-    $("fMember").innerHTML = opts; $("fMember").value = "abuzar";
-    $("flMember").innerHTML = `<option value="all">All Members</option>` + opts;
-  }
+  if (!$("fMember").options.length) fillSelects();
   $("fToday").value = fmt(today(),{weekday:"short",day:"numeric",month:"short",year:"numeric"}) + " (Aaj)";
   $("fDeadline").min = today();
   if (resetDeadline) $("fDeadline").value = today();
@@ -766,7 +877,7 @@ $("taskList").addEventListener("click", e=>{
   db.tasks = db.tasks.filter(t=>t.id!==b.closest(".task").dataset.id); save(); render(); toast("Task delete ho gaya");
 });
 $("flMember").onchange = e=>{ selectedMember = e.target.value; render(); };
-$("flStatus").onchange = render; $("flSearch").oninput = render;
+$("flStatus").onchange = render; $("flSort").onchange = render; $("flSearch").oninput = render;
 $("prevW").onclick = ()=>{ weekStart = addDays(weekStart,-7); render(); };
 $("nextW").onclick = ()=>{ weekStart = addDays(weekStart,7); render(); };
 $("thisW").onclick = ()=>{ weekStart = monday(new Date()); render(); };
@@ -784,18 +895,22 @@ $("importFile").onchange = e=>{
   const r = new FileReader();
   r.onload = ()=>{
     try{
-      const d = JSON.parse(r.result), list = Array.isArray(d) ? d : d && d.tasks;
+      const d = JSON.parse(r.result);
+      const hex = /^#[0-9a-f]{3,8}$/i;
+      const mem = (!Array.isArray(d) && Array.isArray(d.members)) ? d.members.filter(m=>m&&m.id&&m.name&&hex.test(m.c1)&&hex.test(m.c2)) : null;
+      const find = id => (mem&&mem.length ? mem : MEMBERS).find(m=>m.id===id);
+      const list = Array.isArray(d) ? d : d && d.tasks;
       if (!Array.isArray(list)) throw 0;
       const isDay = v => typeof v==="string" && /^\d{4}-\d{2}-\d{2}$/.test(v);
-      const tasks = list.filter(t => t && typeof t==="object" && t.id && M(t.member) && isDay(t.date) && isDay(t.deadline))
+      const tasks = list.filter(t => t && typeof t==="object" && t.id && find(t.member) && isDay(t.date) && isDay(t.deadline))
         .map(t => ({priority:"med", status:"todo", progress:0, title:"", created:parse(t.date).getTime(), ...t}))
         .map(t => ({...t, priority: prLbl[t.priority] ? t.priority : "med", title: String(t.title)}));
       const leaders = (!Array.isArray(d) && d.leaders && typeof d.leaders==="object") ? d.leaders : {};
-      Object.keys(leaders).forEach(k => { if (!M(leaders[k])) delete leaders[k]; });
+      Object.keys(leaders).forEach(k => { if (!find(leaders[k])) delete leaders[k]; });
       if (!tasks.length && list.length) throw 0;
       const skipped = list.length - tasks.length;
       if (!confirm(`${tasks.length} tasks restore karne hain?${skipped?` (${skipped} kharab entries chhod di jayengi)`:""} Maujooda data replace ho jayega.`)) return;
-      db = {tasks, leaders}; save(); render(); toast("Data restore ho gaya ✔");
+      if (mem&&mem.length) MEMBERS = mem; db = norm({tasks, leaders, members:MEMBERS}); save(); fillSelects(); render();  toast("Data restore ho gaya ✔");
     }catch{ toast("Ghalat backup file"); }
   };
   r.readAsText(f);
@@ -806,6 +921,160 @@ $("clearWeek").onclick = ()=>{
   if (!confirm(`Is week ke ${n} tasks delete karne hain? Pehle backup le lein.`)) return;
   db.tasks = db.tasks.filter(t=>t.date<s || t.date>e); save(); render(); toast("Week ke tasks delete ho gaye");
 };
+
+// ---------- pro layer: deltas, attention, insights, reports ----------
+function prevWeekTasks(){ const s = ymd(addDays(weekStart,-7)), e = ymd(addDays(weekStart,-1)); return db.tasks.filter(t=>t.date>=s && t.date<=e); }
+function delta(a,b,inv){
+  const d = a-b; if (!d) return `<em class="dl">• same as last week</em>`;
+  const good = inv ? d<0 : d>0;
+  return `<em class="dl ${good?"up":"down"}">${d>0?"▲":"▼"} ${Math.abs(d)} vs last week</em>`;
+}
+function renderAttention(){
+  const td = today(), tm = ymd(addDays(new Date(),1)), el = $("attention");
+  const rows = db.tasks.filter(t=>t.status!=="done" && t.deadline<=tm)
+    .sort((a,b)=> a.deadline.localeCompare(b.deadline) || PR[a.priority]-PR[b.priority]);
+  el.classList.toggle("clear", !rows.length);
+  if (!rows.length){ el.innerHTML = `<h3>✅ All clear <small>koi task overdue ya kal tak due nahi</small></h3>`; return; }
+  const late = rows.filter(t=>t.deadline<td).length;
+  el.innerHTML = `<h3>⚠ Needs attention <small>${late} overdue · ${rows.length-late} due aaj/kal</small></h3>` + rows.slice(0,6).map(t=>{
+    const m = M(t.member) || {name:"?",c1:"#999",c2:"#bbb"}, n = Math.round((parse(td)-parse(t.deadline))/864e5);
+    const [pl,pc] = prLbl[t.priority];
+    const [lbl,cls] = t.deadline<td ? [`Overdue ${n}d`,"s-over"] : t.deadline===td ? ["Due today","s-late"] : ["Due tomorrow","s-run"];
+    return `<div class="arow"><div class="t-av" style="background:linear-gradient(135deg,${m.c1},${m.c2})">${initials(m.name)}</div>
+      <div class="ai"><b>${esc(t.title)}</b><span>${m.name} · deadline ${fmt(t.deadline)} · ${t.progress||0}% complete</span></div>
+      <span class="pill ${pc}">${pl}</span><span class="pill ${cls}">${lbl}</span></div>`;
+  }).join("") + (rows.length>6 ? `<p class="hint" style="margin-top:8px">+${rows.length-6} aur tasks…</p>` : "");
+}
+function renderInsights(wt){
+  const s = statsOf(wt), td = today();
+  const eff = s.doneSpent ? Math.round(s.doneEst/s.doneSpent*100) : null;
+  const comp = s.total ? Math.round(s.done/s.total*100) : 0;
+  const kp = (l,v,sub)=>`<div class="kpi"><small>${l}</small><b>${v}</b><span>${sub}</span></div>`;
+  $("kpis").innerHTML = kp("Completion rate", comp+"%", `${s.done} of ${s.total} tasks`)
+    + kp("Deadline met", s.rate==null?"–":s.rate+"%", `${s.ontime} on time · ${s.late} late`)
+    + kp("Hours logged", fmtH(s.spent), s.est ? `of ${fmtH(s.est)} estimated` : "no estimates set")
+    + kp("Time efficiency", eff==null?"–":eff+"%", eff==null?"needs estimates on done tasks":eff>=100?"estimate se tez":"estimate se zyada waqt");
+  const days = [...Array(7)].map((_,i)=>ymd(addDays(weekStart,i)));
+  const cr = days.map(d=>wt.filter(t=>t.date===d).length), dn = days.map(d=>db.tasks.filter(t=>t.completedAt===d).length);
+  const mx = Math.max(1,...cr,...dn);
+  $("actChart").innerHTML = `<div class="bch">${days.map((d,i)=>`<div class="bcol"><div class="bpair">
+      <i data-v="${cr[i]||""}" style="height:${cr[i]/mx*88}%;background:linear-gradient(180deg,#8b5cf6,#4f46e5)"></i>
+      <i data-v="${dn[i]||""}" style="height:${dn[i]/mx*88}%;background:linear-gradient(180deg,#34d399,#12b76a)"></i></div></div>`).join("")}</div>
+    <div class="blbl">${days.map(d=>`<span class="${d===td?"today":""}">${fmt(d,{weekday:"short"})} ${parse(d).getDate()}</span>`).join("")}</div>
+    <div class="legend"><span><i style="background:#4f46e5"></i>Created</span><span><i style="background:#12b76a"></i>Completed</span></div>`;
+  const cnt = {}; wt.forEach(t=>{ const k = stateOf(t); cnt[k] = (cnt[k]||0)+1; });
+  const defs = [["ontime","On time","#12b76a"],["late","Late","#f79009"],["overdue","Overdue","#f04438"],["progress","In progress","#2e90fa"],["todo","To do","#98a2b3"]];
+  const tot = wt.length || 1;
+  $("mixTotal").textContent = wt.length + " tasks";
+  const pr = ["high","med","low"].map(k=>[prLbl[k][0], wt.filter(t=>t.priority===k).length, wt.filter(t=>t.priority===k && t.status==="done").length, k]);
+  $("mixChart").innerHTML = `<div class="stack">${defs.map(([k,,c])=>cnt[k]?`<i style="width:${cnt[k]/tot*100}%;background:${c}" title="${cnt[k]}"></i>`:"").join("")}</div>
+    <div class="legend">${defs.map(([k,l,c])=>`<span><i style="background:${c}"></i>${l} <b>${cnt[k]||0}</b></span>`).join("")}</div>
+    <h3 style="margin:20px 0 10px;font-size:13px">By priority</h3>
+    ${pr.map(([l,n,d,k])=>`<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;font-size:12px"><span class="pill ${prLbl[k][1]}">${l}</span><b>${d}/${n} done</b></div>
+      <div class="bar"><i style="width:${n?d/n*100:0}%;background:${k==="high"?"var(--bad)":k==="med"?"var(--warn)":"var(--info)"}"></i></div></div>`).join("")}`;
+  $("memTbl").innerHTML = `<table class="tbl"><thead><tr><th>Member</th><th class="r">Tasks</th><th class="r">Done</th><th class="r">Overdue</th><th class="r">Deadline met</th><th class="r">Est.</th><th class="r">Actual</th><th class="r">Efficiency</th><th class="r">Score</th></tr></thead><tbody>`
+    + MEMBERS.map(m=>{ const x = statsOf(wt.filter(t=>t.member===m.id)), e = x.doneSpent ? Math.round(x.doneEst/x.doneSpent*100) : null;
+      return `<tr><td><b style="color:${m.c1}">${m.name}</b></td><td class="r">${x.total}</td><td class="r">${x.done}</td>
+        <td class="r" style="color:${x.overdue?"var(--bad)":"inherit"}">${x.overdue}</td><td class="r">${x.rate==null?"–":x.rate+"%"}</td>
+        <td class="r">${x.est?fmtH(x.est):"–"}</td><td class="r">${x.spent?fmtH(x.spent):"–"}</td>
+        <td class="r" style="color:${e==null?"inherit":e>=100?"var(--ok)":"var(--warn)"}">${e==null?"–":e+"%"}</td><td class="r"><b>${x.score}</b></td></tr>`; }).join("")
+    + `</tbody></table>`;
+}
+
+// ---------- members management ----------
+const PALETTE = [["#f59e0b","#f97316"],["#4f46e5","#7c83fd"],["#059669","#34d399"],["#7c3aed","#c084fc"],["#e11d48","#fb7185"],["#0891b2","#22d3ee"],["#db2777","#f472b6"],["#475569","#94a3b8"]];
+let editId = null, palIdx = 0;
+function drawPal(){
+  $("mfPal").innerHTML = PALETTE.map((p,i)=>`<button type="button" class="swc ${i===palIdx?"on":""}" data-p="${i}" title="Colour ${i+1}" style="background:linear-gradient(135deg,${p[0]},${p[1]})"></button>`).join("");
+}
+function renderTeamPage(){
+  const leader = leaderOf(wkKey());
+  $("memCount").textContent = MEMBERS.length + " member" + (MEMBERS.length===1?"":"s");
+  $("memList").innerHTML = `<table class="tbl"><thead><tr><th>Member</th><th>Role</th><th class="r">Open</th><th class="r">Done</th><th class="r">Actions</th></tr></thead><tbody>` + MEMBERS.map(m=>{
+    const mine = db.tasks.filter(t=>t.member===m.id), done = mine.filter(t=>t.status==="done").length;
+    return `<tr><td><div class="mrow"><div class="t-av" style="background:linear-gradient(135deg,${m.c1},${m.c2})">${initials(m.name)}</div>
+      <div><b>${m.name}</b>${m.id===leader?` <span class="tag">👑 Leader</span>`:""}</div></div></td>
+      <td>${esc(m.role)}</td><td class="r">${mine.length-done}</td><td class="r">${done}</td>
+      <td class="r"><button class="btn sm" data-edit="${m.id}">Edit</button> <button class="btn sm" style="color:var(--bad)" data-del="${m.id}">Delete</button></td></tr>`;
+  }).join("") + `</tbody></table>`;
+  if (!$("mfPal").children.length) drawPal();
+}
+function resetMemForm(){
+  editId = null; $("memForm").reset(); $("mfTitle").textContent = "Add Member"; $("mfSave").textContent = "Add Member";
+  $("mfCancel").hidden = true; palIdx = MEMBERS.length % PALETTE.length; drawPal();
+}
+$("mfPal").onclick = e=>{ const b = e.target.closest("[data-p]"); if (b){ palIdx = +b.dataset.p; drawPal(); } };
+$("mfCancel").onclick = resetMemForm;
+$("memForm").onsubmit = e=>{
+  e.preventDefault();
+  const name = clean($("mfName").value), role = clean($("mfRole").value) || "Team Member", [c1,c2] = PALETTE[palIdx];
+  if (name.length < 2){ toast("Naam kam az kam 2 harf ka ho"); return; }
+  if (MEMBERS.some(m=>m.name.toLowerCase()===name.toLowerCase() && m.id!==editId)){ toast("Ye naam pehle se maujood hai"); return; }
+  if (editId){ Object.assign(M(editId), {name, role, c1, c2}); toast("Member update ho gaya ✔"); }
+  else {
+    const id = (name.toLowerCase().replace(/[^a-z0-9]+/g,"").slice(0,12) || "m") + Math.random().toString(36).slice(2,6);
+    MEMBERS.push({id, name, role, c1, c2}); toast(`${name} team me add ho gaya ✔`);
+  }
+  save(); fillSelects(); resetMemForm(); render();
+};
+$("memList").addEventListener("click", e=>{
+  const ed = e.target.closest("[data-edit]"), dl = e.target.closest("[data-del]");
+  if (ed){ const m = M(ed.dataset.edit); editId = m.id; $("mfName").value = m.name; $("mfRole").value = m.role;
+    palIdx = Math.max(0, PALETTE.findIndex(p=>p[0]===m.c1)); drawPal(); $("mfTitle").textContent = "Edit Member"; $("mfSave").textContent = "Save changes"; $("mfCancel").hidden = false; $("mfName").focus(); }
+  if (dl){
+    const m = M(dl.dataset.del), n = db.tasks.filter(t=>t.member===m.id).length;
+    if (MEMBERS.length<2){ toast("Kam az kam aik member zaroori hai"); return; }
+    if (m.id===leaderOf(wkKey())){ toast("Pehle is week ka leader badlein, phir delete karein"); return; }
+    if (!confirm(`${m.name} ko delete karna hai? Us ke ${n} task(s) bhi delete ho jayenge.`)) return;
+    MEMBERS.splice(MEMBERS.indexOf(m),1); db.tasks = db.tasks.filter(t=>t.member!==m.id);
+    Object.keys(db.leaders).forEach(k=>{ if (db.leaders[k]===m.id) delete db.leaders[k]; });
+    save(); fillSelects(); render(); toast(`${m.name} delete ho gaya`);
+  }
+});
+
+// ---------- advanced analytics ----------
+function wkStat(off){
+  const st = addDays(weekStart,-7*off), a = ymd(st), b = ymd(addDays(st,6));
+  const l = db.tasks.filter(t=>t.date>=a && t.date<=b); return {a, l, s:statsOf(l)};
+}
+function renderDeep(){
+  const wks = [5,4,3,2,1,0].map(wkStat);
+  $("trendChart").innerHTML = `<div class="bch">${wks.map(w=>{
+      const c = w.s.total ? Math.round(w.s.done/w.s.total*100) : 0, r = w.s.rate==null ? 0 : w.s.rate;
+      return `<div class="bcol"><div class="bpair"><i data-v="${w.s.total?c+"%":""}" style="height:${c*.88}%;background:linear-gradient(180deg,#8b5cf6,#4f46e5)"></i>
+        <i data-v="${w.s.rate==null?"":r+"%"}" style="height:${r*.88}%;background:linear-gradient(180deg,#34d399,#12b76a)"></i></div></div>`; }).join("")}</div>
+    <div class="blbl">${wks.map(w=>`<span>${fmt(w.a)}<br>${w.s.total} tasks</span>`).join("")}</div>
+    <div class="legend"><span><i style="background:#4f46e5"></i>Completion %</span><span><i style="background:#12b76a"></i>Deadline met %</span></div>`;
+  $("heatmap").innerHTML = `<table class="tbl heat"><thead><tr><th>Member</th>${wks.map(w=>`<th style="text-align:center">${fmt(w.a)}</th>`).join("")}</tr></thead><tbody>` +
+    MEMBERS.map(m=>`<tr><td><b style="color:${m.c1}">${m.name}</b></td>${wks.map(w=>{
+      const x = statsOf(w.l.filter(t=>t.member===m.id));
+      return x.total ? `<td style="background:rgba(79,70,229,${(.12+x.avg/100*.78).toFixed(2)});color:${x.avg>50?"#fff":"var(--text)"}">${x.avg}%<small>${x.total} task${x.total===1?"":"s"}</small></td>` : `<td style="background:var(--soft);color:var(--muted)">–</td>`; }).join("")}</tr>`).join("") + `</tbody></table>`;
+  const open = MEMBERS.map(m=>{
+    const mine = db.tasks.filter(t=>t.member===m.id), dn = mine.filter(t=>t.status==="done");
+    const days = dn.length ? dn.reduce((a,t)=>a+workDaysBetween(t.date, t.completedAt||t.date),0)/dn.length : null;
+    return {m, o:mine.filter(t=>t.status!=="done").length, days};
+  });
+  const tot = open.reduce((a,x)=>a+x.o,0), mx = Math.max(1,...open.map(x=>x.o));
+  $("loadChart").innerHTML = open.map(x=>`<div style="margin-bottom:14px"><div style="display:flex;justify-content:space-between;font-size:13px"><b>${x.m.name}</b>
+    <span style="color:var(--muted)">${x.o} open${tot?` · ${Math.round(x.o/tot*100)}%`:""} · ${x.days==null?"–":x.days.toFixed(1)+" din avg"}</span></div>
+    <div class="bar"><i style="width:${x.o/mx*100}%;background:linear-gradient(90deg,${x.m.c1},${x.m.c2})"></i></div></div>`).join("");
+}
+$("csvBtn").onclick = ()=>{
+  const q = v => `"${String(v==null?"":v).replace(/"/g,'""')}"`;
+  const rows = [["Date","Member","Task","Priority","Status","State","Progress %","Deadline","Completed","Est hours","Office hours spent","Notes"]]
+    .concat(weekTasks().map(t=>[t.date,(M(t.member)||{}).name,t.title,prLbl[t.priority][0],t.status,stLbl[stateOf(t)][0],t.status==="done"?100:(t.progress||0),t.deadline,t.completedAt||"",t.estHours||"",spentOf(t).toFixed(2),t.notes||""]));
+  const blob = new Blob(["\ufeff"+rows.map(r=>r.map(q).join(",")).join("\r\n")],{type:"text/csv;charset=utf-8"});
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = `mis-week-report-${wkKey()}.csv`; a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href),1000); toast("CSV report download ho gayi");
+};
+$("printBtn").onclick = ()=> window.print();
+// keyboard: "/" jumps to task search, g+d/t/p/i for quick navigation
+document.addEventListener("keydown", e=>{
+  if (e.target.matches("input,select,textarea") || e.ctrlKey || e.metaKey || e.altKey) return;
+  if (e.key==="/"){ e.preventDefault(); go("tasks"); $("flSearch").focus(); }
+  const map = {"1":"dash","2":"tasks","3":"perf","4":"insights","5":"leaders","6":"data","7":"team"};
+  if (map[e.key]) go(map[e.key]);
+});
 
 initForm();
 render();
@@ -829,7 +1098,7 @@ function tick(){
 }
 setInterval(tick, 60000);
 // another tab/window of this dashboard saved changes → reload them so nothing gets overwritten
-window.addEventListener("storage", e=>{ if (e.key===KEY){ db = load(); render(); } });
+window.addEventListener("storage", e=>{ if (e.key===KEY){ db = norm(load()); fillSelects(); render(); } });
 </script>
 </body>
 </html>

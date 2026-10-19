@@ -24,3 +24,9 @@ Version 2.1
 - Starts empty: no members, tasks or settings are stored until you create a workspace (first-run setup with Blank, MIS / IT, Support desk and Sales templates)
 - MIS-Task-Import-Template.xlsx: styled import template with dropdowns, date/number validation, instructions and no data; the same file is built into the dashboard (Reports > Excel template)
 - Settings > Erase all data returns the dashboard to the empty state
+
+Version 3
+- No names, roles or sample data are stored anywhere: templates only set the department, targets and role hints
+- Modern interface: sticky glass header, refined type and cards, light / dark / auto theme (Settings or header button)
+- Command palette: Ctrl/Cmd + K to jump to pages, run actions, find members and tasks
+- Home shows a getting-started card until the first task exists

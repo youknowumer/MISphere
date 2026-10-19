@@ -1,6 +1,6 @@
 MIS Team Performance Dashboard
 ==============================
-How to open: double-click index.html in any modern browser (Chrome / Edge). No installation or server required.
+How to open: double-click landing.html (or index.html for the dashboard directly) in any modern browser (Chrome / Edge). No installation or server required.
 
 Features
 - Dashboard: weekly KPIs with week-over-week change, "Needs attention" panel, team cards, leader of the week
@@ -44,3 +44,7 @@ Version 4 - Executive intelligence
 - Tables: priority performance, workload distribution vs cap, slippage watchlist (days late)
 - Excel export now adds Exec KPIs, Weekly Trend, Priority Performance and Workload sheets (ignored on import)
 - Fully theme-aware (light / dark) and included in Print report
+
+Landing page
+- landing.html: marketing / entry page. Open it first; every "Create workspace" button opens index.html, where the first-run setup creates the workspace.
+- Keep landing.html and index.html in the same folder. Needs internet only for the Google Fonts (falls back to system fonts offline).

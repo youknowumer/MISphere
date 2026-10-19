@@ -391,6 +391,38 @@
   @media(max-width:820px){.top{position:static}.rnav{top:0}.rsec{scroll-margin-top:70px}#offChip,#sideLeader,#cmdBtn kbd{display:none}}
   @media print{.top{position:static;box-shadow:none;border:none}.topr{display:none}}
   @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+  /* ---------- v4: executive intelligence ---------- */
+  #exec .adv-h{margin-top:38px;padding-top:26px;border-top:1px solid var(--line)}
+  .xhead{display:flex;gap:30px;align-items:center;flex-wrap:wrap;background:linear-gradient(135deg,var(--card),var(--brand-soft))}
+  .xg{display:flex;flex-direction:column;align-items:center;min-width:170px}
+  .xg small{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.8px;font-weight:700;margin-top:2px}
+  .xv{font-weight:750;font-size:13px;color:var(--c);background:color-mix(in srgb,var(--c) 14%,transparent);padding:3px 12px;border-radius:99px;margin-top:2px}
+  .xn{flex:1;min-width:280px}.xn h3{margin-bottom:10px}.xn p{font-size:14px;line-height:1.75;margin-bottom:6px}
+  .xk .kpi b .u{font-size:13px;font-style:normal;font-weight:600;color:var(--muted);margin-left:3px;letter-spacing:0}
+  .xd{display:block;font-size:11px;font-weight:650;color:var(--muted);margin-top:5px}.xd.up{color:var(--ok)}.xd.dn{color:var(--bad)}
+  .xact{display:flex;gap:12px;align-items:flex-start;padding:11px 0;border-bottom:1px solid var(--line2)}.xact:last-child{border-bottom:none}
+  .xact b{font-size:13px;display:block;margin-bottom:2px}.xact p{font-size:12px;color:var(--muted);line-height:1.55}
+  #exec .cols.even{align-items:start}
+  .xsv{align-self:flex-start;flex:0 0 66px;text-align:center;font-size:10px;font-weight:750;text-transform:uppercase;letter-spacing:.5px;color:var(--c);background:color-mix(in srgb,var(--c) 14%,transparent);border-radius:8px;padding:4px 0;margin-top:1px}
+  .fcgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+  .fcgrid small{display:block;font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;font-weight:700}
+  .fcgrid b{font-size:21px;font-weight:750;letter-spacing:-.03em;font-variant-numeric:tabular-nums}.fcgrid .u{font-size:11px;font-style:normal;color:var(--muted);margin-left:2px}
+  .fcbar{display:flex;height:14px;border-radius:10px;overflow:hidden;background:var(--line2)}.fcbar i{display:block;height:100%}
+  #exec svg .gl{stroke:var(--line);stroke-width:1}
+  #exec svg .tx{fill:var(--muted);font-size:10px;font-family:inherit}
+  #exec svg .tv{fill:var(--text);font-size:10px;font-weight:700;font-family:inherit}
+  #exec svg .tn{fill:var(--text);font-size:11px;font-weight:650;font-family:inherit}
+  #exec svg .ql{fill:var(--muted);font-size:10px;font-weight:700;opacity:.8;font-family:inherit}
+  .xempty{padding:34px 12px;text-align:center;color:var(--muted);font-size:13px;background:var(--soft);border-radius:12px}
+  .chips-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:12px}
+  .mchip{display:inline-flex;gap:7px;align-items:baseline;border:1px solid var(--line);border-left:4px solid var(--c);border-radius:10px;padding:5px 11px;font-size:13px;font-weight:650;background:var(--soft)}.mchip b{font-size:10.5px;color:var(--muted);letter-spacing:.5px}
+  .lrow{margin-bottom:14px}.lh{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:13px}.lh span{color:var(--muted);font-size:12px}
+  .lbar{position:relative;height:10px;background:var(--line2);border-radius:8px;margin-top:6px}.lbar i{display:block;height:100%;border-radius:8px}
+  .lbar u{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--bad);text-decoration:none;border-radius:2px}
+  .trunc{display:block;max-width:230px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.sub{font-size:11px;color:var(--muted);font-weight:600}small.sub{display:block}
+  .xnote p{line-height:1.8}
+  @media(max-width:700px){.fcgrid{grid-template-columns:1fr 1fr}.xg{min-width:100%}}
+  @media print{#exec .daychips{display:none}#exec .panel,#exec .kpi{break-inside:avoid}.xhead{background:none}}
 </style>
 </head>
 <body>
@@ -491,6 +523,7 @@
     <div class="panel"><h3>Member Workload &amp; Efficiency <small>est. vs actual office hours</small></h3><div class="twrap" id="memTbl"></div>
       <p class="hint" style="margin-top:10px"><b>Efficiency</b> = estimated ÷ actual office hours on completed tasks (100%+ means faster than estimated). Calculated only on completed tasks that have an estimate.</p></div>
     <div id="adv"></div>
+    <div id="exec"></div>
   </section>
 
   <!-- REPORTS -->
@@ -725,7 +758,7 @@ function render(){
   $("sideLeader").innerHTML = `👑 Leader: ${M(leader).name}`;
   const over = wt.filter(t=>stateOf(t)==="overdue").length;
   $("tbOver").hidden = !over; $("tbOver").textContent = over>9 ? "9+" : over;
-  applySet(); renderStats(wt); renderAttention(); renderInsights(wt); renderTeamPage(); renderDeep(); renderTeam(wt, leader); renderTasks(); renderPerf(wt, leader); renderHistory(); renderAdvanced(wt); renderSettings(); renderReports(wt); $("homeEmpty").hidden = db.tasks.length>0;
+  applySet(); renderStats(wt); renderAttention(); renderInsights(wt); renderTeamPage(); renderDeep(); renderTeam(wt, leader); renderTasks(); renderPerf(wt, leader); renderHistory(); renderAdvanced(wt); renderExec(); renderSettings(); renderReports(wt); $("homeEmpty").hidden = db.tasks.length>0;
 }
 
 function renderStats(wt){
@@ -1227,7 +1260,19 @@ function exportXlsx(){
   X.utils.book_append_sheet(wb, sheetOf(X,MEMBERS.map(m=>({"Name":m.name,"Role":m.role,"Colour 1":m.c1,"Colour 2":m.c2,"ID":m.id}))), "Members");
   X.utils.book_append_sheet(wb, sheetOf(X,Object.keys(db.leaders).sort().map(k=>({"Week Start (Mon)":k,"Leader":mn(db.leaders[k])}))), "Leaders");
   X.utils.book_append_sheet(wb, sheetOf(X,summary), "Week Summary");
-  X.utils.book_append_sheet(wb, sheetOf(X,[{"Info":`Week summary covers ${ws0} to ${we0}. The 'Week Summary' sheet and computed columns (Office Hours Spent, State) are ignored on import.`}]), "Notes");
+  if (EXEC){ const E = EXEC, f = v=>v==null?"":v;
+    X.utils.book_append_sheet(wb, sheetOf(X,[
+      ["Delivery health score",E.health,E.hl],["Throughput (tasks / week)",r1(E.tp),""],["Delivery reliability %",f(E.rel),`target ${E.K.td}%`],
+      ["Median turnaround (working days)",f(E.c50==null?null:r1(E.c50)),""],["P85 turnaround",f(E.c85==null?null:r1(E.c85)),""],["P95 turnaround",f(E.c95==null?null:r1(E.c95)),""],
+      ["Open backlog",E.openAll.length,""],["Pace (tasks / week, 28 d)",r1(E.pace),""],["Backlog runway (weeks)",E.runway==null?"":r1(E.runway),E.clearBy||""],
+      ["Net flow 28 d (created - completed)",E.net,""],["Overdue (open)",E.odAll.length,`${E.odHigh.length} high priority`],["At risk (due <=2 d, <50%)",E.risk.length,""],
+      ["Workload balance %",E.balance,"100 = even"],["Estimate accuracy %",f(E.estAcc),""],["Estimate bias %",f(E.bias),"positive = took longer"],["Output stability %",f(E.predict),""]
+    ].map(r=>({"Metric":r[0],"Value":r[1],"Note":r[2]}))), "Exec KPIs");
+    X.utils.book_append_sheet(wb, sheetOf(X,E.W.map(w=>({"Week start":w.a,"Created":w.created,"Completed":w.done,"Deadline met % (of completed)":f(w.ontime),"Completion % (of created)":f(w.coh),"Office hours on completed":w.hours}))), "Weekly Trend");
+    X.utils.book_append_sheet(wb, sheetOf(X,E.pri.map(p=>({"Priority":PRN[p.k],"Tasks":p.n,"Done":p.done,"Deadline met %":f(p.rate),"Avg turnaround (days)":p.turn==null?"":r1(p.turn),"Overdue open":p.od}))), "Priority Performance");
+    X.utils.book_append_sheet(wb, sheetOf(X,E.load.map(x=>({"Member":x.m.name,"Open tasks":x.o,"Completed (period)":x.d,"Hours logged (period)":x.h,"Score (period)":x.x.score}))), "Workload");
+  }
+  X.utils.book_append_sheet(wb, sheetOf(X,[{"Info":`Week summary covers ${ws0} to ${we0}. The 'Week Summary', 'Exec KPIs', 'Weekly Trend', 'Priority Performance' and 'Workload' sheets and computed columns (Office Hours Spent, State) are ignored on import.`}]), "Notes");
   X.writeFile(wb, `mis-team-data-${today()}.xlsx`); toast("Excel exported ✔");
 }
 function xd(v){
@@ -1346,7 +1391,8 @@ function spark(vals, c){
   const mx = Math.max(...vals), mn = Math.min(...vals), r = (mx-mn)||1;
   return `<svg class="spark" width="84" height="26" viewBox="0 0 84 26"><polyline fill="none" stroke="${c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="${vals.map((v,i)=>`${3+i*78/(vals.length-1)},${23-(v-mn)/r*20}`).join(" ")}"/></svg>`;
 }
-$("adv").onclick = e=>{ const b = e.target.closest("[data-per]"); if (b){ insPer = +b.dataset.per; renderAdvanced(weekTasks()); } };
+const perClick = e=>{ const b = e.target.closest("[data-per]"); if (b){ insPer = +b.dataset.per; renderAdvanced(weekTasks()); renderExec(); } };
+$("adv").onclick = perClick; $("exec").onclick = perClick;
 function renderAdvanced(){
   const K = S(), td = today(), e = ymd(addDays(weekStart,6)), st = ymd(addDays(weekStart,7-insPer*7));
   const ps = ymd(addDays(parse(st),-insPer*7)), pe = ymd(addDays(parse(st),-1)), inR = (t,a,b)=> t.date>=a && t.date<=b;
@@ -1415,7 +1461,7 @@ function renderAdvanced(){
     <td class="r" style="color:${r.x.overdue?"var(--bad)":"inherit"}">${r.x.overdue}</td><td class="r" style="color:${r.o>K.cap?"var(--bad)":"inherit"}">${r.o}/${K.cap}</td>
     <td class="r">${r.u}%</td><td class="r" style="color:${r.bias==null?"inherit":r.bias>20?"var(--bad)":r.bias>0?"var(--warn)":"var(--ok)"}">${r.bias==null?"–":(r.bias>0?"+":"")+r.bias+"%"}</td><td class="r">${spark(r.tr,r.m.c1)}</td></tr>`).join("");
 
-  const per = [[1,"This week"],[4,"4 weeks"],[12,"12 weeks"]].map(([k,l])=>`<button class="chip ${insPer===k?"on":""}" data-per="${k}"><b>${l}</b></button>`).join("");
+  const per = [[1,"This week"],[4,"4 weeks"],[12,"12 weeks"],[26,"26 weeks"]].map(([k,l])=>`<button class="chip ${insPer===k?"on":""}" data-per="${k}"><b>${l}</b></button>`).join("");
   $("adv").innerHTML = `<div class="adv-h"><div><h2>Advanced analytics</h2><small>${fmt(st)} – ${fmt(e,{day:"numeric",month:"short",year:"numeric"})} · deltas compare with the previous ${insPer===1?"week":insPer+" weeks"}</small></div><div class="daychips">${per}</div></div>
     <div class="kpis">${kpis}</div>
     <div class="cols even"><div class="panel"><h3>Key findings <small>generated from your targets</small></h3>${F.map(([c,t])=>`<div class="find"><i style="background:${c}"></i><div>${t}</div></div>`).join("")}</div>
@@ -1426,6 +1472,257 @@ function renderAdvanced(){
         <p class="hint" style="margin-top:14px">Use the peak day to schedule reviews and the quietest day to plan new work.</p></div></div>
     <div class="panel"><h3>Member scorecard <small>▲▼ change vs previous period · trend = last 6 weeks of score</small></h3><div class="twrap"><table class="tbl"><thead><tr><th>Member</th><th class="r">Score</th><th class="r">Completion</th><th class="r">Deadline met</th><th class="r">Overdue</th><th class="r">Open / cap</th><th class="r">Utilisation</th><th class="r">Est. bias</th><th class="r">6-week trend</th></tr></thead><tbody>${sc}</tbody></table></div>
       <p class="hint" style="margin-top:10px"><b>Utilisation</b> = logged office hours ÷ available hours. <b>Est. bias</b> = actual vs estimated hours on finished tasks (positive = took longer). Thresholds come from Settings.</p></div>`;
+}
+
+
+// ---------- v4: executive intelligence ----------
+// Flow-based analytics for management review: pace, predictability, risk, workload balance and estimation quality.
+const ST = {
+  mean: a => a.length ? a.reduce((x,y)=>x+y,0)/a.length : 0,
+  sd: a => { if (a.length<2) return 0; const m = ST.mean(a); return Math.sqrt(a.reduce((x,y)=>x+(y-m)**2,0)/(a.length-1)); },
+  pct: (a,p) => { if (!a.length) return null; const s = a.slice().sort((x,y)=>x-y), i = (s.length-1)*p, lo = Math.floor(i), hi = Math.ceil(i); return s[lo]+(s[hi]-s[lo])*(i-lo); },
+  gini: a => { const n = a.length, sum = a.reduce((x,y)=>x+y,0); if (n<2 || !sum) return 0; const s = a.slice().sort((x,y)=>x-y); let c = 0; s.forEach((v,i)=>c+=(i+1)*v); return Math.max(0,(2*c)/(n*sum)-(n+1)/n); }
+};
+let EXEC = null;
+const r1 = v => Math.round(v*10)/10;
+const xdl = (c,p,inv,suf="") => {
+  if (c==null || p==null) return `<span class="xd">no previous data</span>`;
+  const d = c-p; if (Math.abs(d)<0.05) return `<span class="xd">• flat vs previous</span>`;
+  const good = inv ? d<0 : d>0;
+  return `<span class="xd ${good?"up":"dn"}">${d>0?"▲":"▼"} ${r1(Math.abs(d))}${suf} vs previous</span>`;
+};
+const daysBetween = (a,b) => Math.round((parse(b)-parse(a))/864e5);
+
+function execModel(){
+  const K = S(), td = today(), e = ymd(addDays(weekStart,6)), st = ymd(addDays(weekStart,7-insPer*7));
+  const ps = ymd(addDays(parse(st),-insPer*7)), pe = ymd(addDays(parse(st),-1));
+  const inR = (d,a,b) => !!d && d>=a && d<=b;
+  const isDone = t => t.status==="done" && t.completedAt;
+  const pt = db.tasks.filter(t=>inR(t.date,st,e)), pp = db.tasks.filter(t=>inR(t.date,ps,pe));
+  const done = db.tasks.filter(t=>isDone(t) && inR(t.completedAt,st,e)), pdone = db.tasks.filter(t=>isDone(t) && inR(t.completedAt,ps,pe));
+  const s = statsOf(pt);
+
+  // weekly series (flow basis: completions are counted in the week they were completed)
+  const N = Math.min(26, Math.max(8, insPer));
+  const W = [...Array(N)].map((_,i)=>{
+    const a = ymd(addDays(weekStart,-7*(N-1-i))), b = ymd(addDays(parse(a),6));
+    const cr = db.tasks.filter(t=>inR(t.date,a,b)), dn = db.tasks.filter(t=>isDone(t) && inR(t.completedAt,a,b));
+    const on = dn.filter(t=>t.completedAt<=t.deadline).length;
+    return {a, created:cr.length, done:dn.length, ontime: dn.length ? Math.round(on/dn.length*100) : null,
+      coh: cr.length ? Math.round(cr.filter(t=>t.status==="done").length/cr.length*100) : null,
+      hours: r1(dn.reduce((x,t)=>x+spentOf(t),0))};
+  });
+  const dones = W.map(w=>w.done), tMean = ST.mean(dones), tSd = ST.sd(dones);
+  const cv = tMean ? tSd/tMean : 0, predict = W.some(w=>w.done) ? Math.max(0, Math.round((1-Math.min(1,cv))*100)) : null;
+
+  // flow metrics for the selected period
+  const tp = done.length/insPer, ptp = pdone.length/insPer;
+  const onN = done.filter(t=>t.completedAt<=t.deadline).length, pon = pdone.filter(t=>t.completedAt<=t.deadline).length;
+  const rel = done.length ? Math.round(onN/done.length*100) : null, prel = pdone.length ? Math.round(pon/pdone.length*100) : null;
+  const cyc = done.map(t=>workDaysBetween(t.date,t.completedAt)), pcyc = pdone.map(t=>workDaysBetween(t.date,t.completedAt));
+  const c50 = ST.pct(cyc,.5), c85 = ST.pct(cyc,.85), c95 = ST.pct(cyc,.95), pc50 = ST.pct(pcyc,.5);
+  const bins = [[1,1,"1 d"],[2,2,"2 d"],[3,3,"3 d"],[4,5,"4–5 d"],[6,8,"6–8 d"],[9,13,"9–13 d"],[14,9999,"14+ d"]];
+  const hist = bins.map(([lo,hi,l])=>({lo,hi,l,n:cyc.filter(v=>v>=lo&&v<=hi).length}));
+
+  // backlog + forecast (as of today)
+  const openAll = db.tasks.filter(t=>t.status!=="done");
+  const d28 = ymd(addDays(new Date(),-27));
+  const done28 = db.tasks.filter(t=>isDone(t) && inR(t.completedAt,d28,td)).length, cr28 = db.tasks.filter(t=>inR(t.date,d28,td)).length;
+  const pace = done28/4, runway = pace ? openAll.length/pace : null;
+  const clearBy = runway==null || !openAll.length ? null : ymd(addDays(new Date(), Math.ceil(runway*7)));
+  const net = cr28-done28;
+  const odAll = openAll.filter(t=>t.deadline<td), odHigh = odAll.filter(t=>t.priority==="high");
+  const risk = openAll.filter(t=>t.deadline>=td && t.deadline<=ymd(addDays(new Date(),2)) && (t.progress||0)<50);
+  const dueSoon = openAll.filter(t=>t.deadline>=td && t.deadline<=ymd(addDays(new Date(),2)));
+
+  // slippage watchlist
+  const late = done.filter(t=>t.completedAt>t.deadline).map(t=>({t, d:daysBetween(t.deadline,t.completedAt), k:"Completed late"}));
+  const over = odAll.map(t=>({t, d:daysBetween(t.deadline,td), k:"Open · overdue"}));
+  const slip = over.concat(late).sort((a,b)=>b.d-a.d || PR[a.t.priority]-PR[b.t.priority]);
+  const avgLate = late.length ? ST.mean(late.map(x=>x.d)) : null;
+
+  // priority performance
+  const pri = ["high","med","low"].map(k=>{
+    const l = pt.filter(t=>t.priority===k), x = statsOf(l), dn = l.filter(isDone);
+    return {k, n:l.length, done:x.done, rate:x.rate, od:openAll.filter(t=>t.priority===k && t.deadline<td).length,
+      turn: dn.length ? ST.mean(dn.map(t=>workDaysBetween(t.date,t.completedAt))) : null};
+  });
+
+  // workload
+  const load = MEMBERS.map(m=>({m, o:openAll.filter(t=>t.member===m.id).length, d:done.filter(t=>t.member===m.id).length,
+    h:r1(statsOf(pt.filter(t=>t.member===m.id)).spent), x:statsOf(pt.filter(t=>t.member===m.id))}));
+  const gini = ST.gini(load.map(x=>x.o)), balance = Math.round((1-gini)*100);
+  const heavy = load.slice().sort((a,b)=>b.o-a.o)[0], light = load.slice().sort((a,b)=>a.o-b.o)[0];
+
+  // estimation quality
+  const pts = done.filter(t=>t.estHours>0 && spentOf(t)>0).map(t=>({est:t.estHours, act:spentOf(t), m:M(t.member), t}));
+  const mape = pts.length ? ST.mean(pts.map(p=>Math.min(1,Math.abs(p.act-p.est)/p.est))) : null;
+  const estAcc = mape==null ? null : Math.max(0, Math.round(100-mape*100));
+  const bias = pts.length ? Math.round((pts.reduce((a,p)=>a+p.act,0)/pts.reduce((a,p)=>a+p.est,0)-1)*100) : null;
+  const overrun = pts.length ? Math.round(pts.filter(p=>p.act>p.est*1.2).length/pts.length*100) : null;
+
+  // health (same formula as the Advanced analytics block so both agree)
+  const openP = pt.filter(t=>t.status!=="done"), odP = openP.filter(t=>t.deadline<td);
+  const comp = s.total ? Math.round(s.done/s.total*100) : 0, rate = s.rate==null ? comp : s.rate;
+  const eff = s.doneSpent ? Math.round(s.doneEst/s.doneSpent*100) : null;
+  const health = Math.round(ratio(comp,K.tc)*35 + ratio(rate,K.td)*35 + (eff==null?1:ratio(eff,K.te))*15 + (1-Math.min(1, s.total ? odP.length/s.total*2 : 0))*15);
+  const hl = health>=80 ? "Healthy" : health>=60 ? "Watch" : "At risk", hc = health>=80 ? "var(--ok)" : health>=60 ? "var(--warn)" : "var(--bad)";
+
+  return {K, td, st, e, N, W, tMean, tSd, predict, tp, ptp, rel, prel, cyc, c50, c85, c95, pc50, hist, openAll, pace, runway, clearBy, net, cr28, done28,
+    odAll, odHigh, risk, dueSoon, slip, avgLate, late, pri, load, balance, heavy, light, pts, estAcc, bias, overrun, mape,
+    s, comp, rate, eff, health, hl, hc, done, pt, total:db.tasks.length};
+}
+
+function execActions(X){
+  const K = X.K, A = [];
+  if (X.odHigh.length) A.push([0, `Escalate ${X.odHigh.length} overdue high-priority task${X.odHigh.length===1?"":"s"}`, X.odHigh.slice(0,3).map(t=>esc(t.title)).join("; ")+(X.odHigh.length>3?" …":"")+" — assign an owner and a recovery date today."]);
+  if (X.risk.length) A.push([0, `${X.risk.length} task${X.risk.length===1?"":"s"} due within 2 days are under 50% complete`, "Likely to slip. Confirm scope, add help, or renegotiate the deadline before it becomes overdue."]);
+  { const over = X.load.filter(x=>x.o>K.cap); if (over.length) A.push([0, `Rebalance workload: ${over.map(x=>esc(x.m.name)).join(", ")} above the cap of ${K.cap}`, X.light && X.light.o<K.cap ? `Move work to ${esc(X.light.m.name)} (${X.light.o} open) or pause intake until the backlog falls.` : "Everyone is near capacity: defer low-priority intake or add capacity."]); }
+  if (X.runway!=null && X.net>0 && X.runway>4) A.push([1, `Backlog is growing: +${X.net} net tasks in 28 days`, `At the current pace (${r1(X.pace)}/week) the backlog needs about ${r1(X.runway)} weeks to clear. Add capacity or reduce intake.`]);
+  else if (X.runway==null && X.openAll.length) A.push([1, "No completions in the last 28 days", `${X.openAll.length} open tasks have no measurable throughput. Review blockers.`]);
+  if (X.rel!=null && X.rel<K.td) A.push([X.rel<K.td*.8?0:1, `Deadline reliability ${X.rel}% is below the ${K.td}% target`, X.c85!=null ? `Tasks typically take ${r1(X.c50)} working days (85% finish within ${r1(X.c85)}). Set deadlines no tighter than that, or reduce scope.` : "Review how deadlines are set."]);
+  if (X.bias!=null && Math.abs(X.bias)>20) A.push([1, `Estimates are ${Math.abs(X.bias)}% ${X.bias>0?"too optimistic":"too pessimistic"}`, `${X.overrun}% of tasks overran their estimate by more than 20%. Re-baseline estimates using actual cycle times.`]);
+  if (X.predict!=null && X.predict<60 && X.W.filter(w=>w.done).length>=4) A.push([2, `Weekly output is unpredictable (stability ${X.predict}%)`, "Throughput varies widely week to week. Smooth intake and limit work in progress."]);
+  if (X.balance<60 && X.load.length>2) A.push([2, `Workload is concentrated (balance index ${X.balance}%)`, `${esc(X.heavy.m.name)} carries ${X.heavy.o} open tasks. Consider cross-training so the load is shared.`]);
+  if (X.c85!=null) A.push([3, `Commit to a service level: 85% of tasks finish within ${r1(X.c85)} working days`, "Use this as the default turnaround promise to stakeholders."]);
+  const dB = K.lastBackup ? Math.floor((Date.now()-K.lastBackup)/864e5) : null;
+  if (dB==null || dB>7) A.push([2, dB==null ? "No backup has been taken yet" : `Last backup was ${dB} days ago`, "Download an Excel or JSON backup from Reports › Data & Backup."]);
+  return A.sort((a,b)=>a[0]-b[0]);
+}
+
+// ----- chart helpers -----
+const sv = (w,h,body) => `<svg viewBox="0 0 ${w} ${h}" width="100%" style="display:block" role="img">${body}</svg>`;
+const emptyChart = msg => `<div class="xempty">${msg}</div>`;
+function polySegs(pts){ // pts: [[x,y]|null] → path with gaps
+  let d = "", pen = false; pts.forEach(p=>{ if (!p){ pen = false; return; } d += (pen?"L":"M")+p[0].toFixed(1)+" "+p[1].toFixed(1)+" "; pen = true; }); return d.trim();
+}
+function chartThroughput(X){
+  const W = X.W, n = W.length, w = 640, h = 240, L = 36, R = 12, T = 18, B = 40, iw = w-L-R, ih = h-T-B;
+  if (!W.some(x=>x.done||x.created)) return emptyChart("No tasks created or completed in this window yet.");
+  const mx = Math.max(2, ...W.map(x=>Math.max(x.created,x.done)), Math.ceil(X.tMean+X.tSd)), Y = v=>T+ih-v/mx*ih, slot = iw/n, bw = Math.min(30,slot*.52), cx = i=>L+slot*i+slot/2;
+  const lo = Math.max(0,X.tMean-X.tSd), hi = X.tMean+X.tSd, step = n>14 ? Math.ceil(n/10) : 1;
+  let g = "";
+  [0,.5,1].forEach(f=>{ const v = Math.round(mx*f); g += `<line class="gl" x1="${L}" x2="${w-R}" y1="${Y(v)}" y2="${Y(v)}"/><text class="tx" x="${L-6}" y="${Y(v)+3}" text-anchor="end">${v}</text>`; });
+  g += `<rect x="${L}" y="${Y(hi)}" width="${iw}" height="${Math.max(1,Y(lo)-Y(hi))}" fill="var(--brand)" opacity=".10"/>`;
+  g += W.map((x,i)=>{ const out = n>=6 && X.tSd>0 ? (x.done>hi ? "var(--ok)" : x.done<lo ? "var(--warn)" : "var(--brand)") : "var(--brand)";
+    return `<rect x="${cx(i)-bw/2}" y="${Y(x.done)}" width="${bw}" height="${Math.max(1,T+ih-Y(x.done))}" rx="4" fill="${out}"><title>Week of ${fmt(x.a)}: ${x.done} completed, ${x.created} created</title></rect>${n<=14&&x.done?`<text class="tv" x="${cx(i)}" y="${Y(x.done)-4}" text-anchor="middle">${x.done}</text>`:""}`; }).join("");
+  g += `<line x1="${L}" x2="${w-R}" y1="${Y(X.tMean)}" y2="${Y(X.tMean)}" stroke="var(--muted)" stroke-dasharray="5 4" stroke-width="1.2"/><text class="tx" x="${w-R}" y="${Y(X.tMean)-4}" text-anchor="end">mean ${r1(X.tMean)}</text>`;
+  g += `<path d="${polySegs(W.map((x,i)=>[cx(i),Y(x.created)]))}" fill="none" stroke="var(--warn)" stroke-width="2.2" stroke-linejoin="round"/>` + W.map((x,i)=>`<circle cx="${cx(i)}" cy="${Y(x.created)}" r="3" fill="var(--card)" stroke="var(--warn)" stroke-width="2"/>`).join("");
+  g += W.map((x,i)=> i%step===0 || i===n-1 ? `<text class="tx" x="${cx(i)}" y="${h-T+8}" text-anchor="middle">${fmt(x.a)}</text>` : "").join("");
+  return sv(w,h,g) + `<div class="legend"><span><i style="background:var(--brand)"></i>Completed</span><span><i style="background:var(--ok)"></i>Above normal range</span><span><i style="background:var(--warn)"></i>Created / below normal range</span><span><i style="background:var(--brand);opacity:.25"></i>Normal range (mean ± 1σ)</span></div>`;
+}
+function chartQuality(X){
+  const W = X.W, n = W.length, w = 640, h = 240, L = 36, R = 12, T = 18, B = 40, iw = w-L-R, ih = h-T-B, Y = v=>T+ih-v/100*ih, slot = iw/n, cx = i=>L+slot*i+slot/2, step = n>14 ? Math.ceil(n/10) : 1;
+  if (!W.some(x=>x.ontime!=null||x.coh!=null)) return emptyChart("Complete tasks to see delivery quality trends.");
+  let g = [0,50,100].map(v=>`<line class="gl" x1="${L}" x2="${w-R}" y1="${Y(v)}" y2="${Y(v)}"/><text class="tx" x="${L-6}" y="${Y(v)+3}" text-anchor="end">${v}%</text>`).join("");
+  g += `<line x1="${L}" x2="${w-R}" y1="${Y(X.K.td)}" y2="${Y(X.K.td)}" stroke="var(--ok)" stroke-dasharray="5 4" opacity=".7"/><text class="tx" x="${L+4}" y="${Y(X.K.td)-4}">deadline target ${X.K.td}%</text>`;
+  [["ontime","var(--ok)","Deadline met"],["coh","var(--brand)","Cohort completion"]].forEach(([k,c,l])=>{
+    g += `<path d="${polySegs(W.map((x,i)=>x[k]==null?null:[cx(i),Y(x[k])]))}" fill="none" stroke="${c}" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>`;
+    g += W.map((x,i)=>x[k]==null?"":`<circle cx="${cx(i)}" cy="${Y(x[k])}" r="3.2" fill="var(--card)" stroke="${c}" stroke-width="2"><title>${l}, week of ${fmt(x.a)}: ${x[k]}%</title></circle>`).join(""); });
+  g += W.map((x,i)=> i%step===0 || i===n-1 ? `<text class="tx" x="${cx(i)}" y="${h-T+8}" text-anchor="middle">${fmt(x.a)}</text>` : "").join("");
+  return sv(w,h,g) + `<div class="legend"><span><i style="background:var(--ok)"></i>Deadline met % (of tasks completed that week)</span><span><i style="background:var(--brand)"></i>Completion % (of tasks created that week)</span></div>`;
+}
+function chartCycle(X){
+  if (!X.cyc.length) return emptyChart("No completed tasks in this period.");
+  const w = 640, h = 210, L = 30, R = 10, T = 22, B = 30, iw = w-L-R, ih = h-T-B, n = X.hist.length, slot = iw/n, bw = slot*.62, mx = Math.max(1,...X.hist.map(b=>b.n)), Y = v=>T+ih-v/mx*ih;
+  let g = `<line class="gl" x1="${L}" x2="${w-R}" y1="${T+ih}" y2="${T+ih}"/>`;
+  g += X.hist.map((b,i)=>{ const x = L+slot*i+(slot-bw)/2, c = b.lo<=Math.ceil(X.c50) ? "var(--brand)" : b.lo<=Math.ceil(X.c85) ? "#8b83ff" : "var(--warn)";
+    return `<rect x="${x}" y="${Y(b.n)}" width="${bw}" height="${Math.max(b.n?2:0,T+ih-Y(b.n))}" rx="5" fill="${c}"><title>${b.l}: ${b.n} task${b.n===1?"":"s"}</title></rect>${b.n?`<text class="tv" x="${x+bw/2}" y="${Y(b.n)-5}" text-anchor="middle">${b.n} · ${Math.round(b.n/X.cyc.length*100)}%</text>`:""}<text class="tx" x="${x+bw/2}" y="${h-10}" text-anchor="middle">${b.l}</text>`; }).join("");
+  return sv(w,h,g) + `<div class="chips-row"><span class="mchip" style="--c:var(--brand)"><b>P50</b>${r1(X.c50)} d</span><span class="mchip" style="--c:#8b83ff"><b>P85</b>${r1(X.c85)} d</span><span class="mchip" style="--c:var(--warn)"><b>P95</b>${r1(X.c95)} d</span><span class="hint">Working days from task date to completion · ${X.cyc.length} tasks</span></div>`;
+}
+function chartQuadrant(X){
+  const pts = X.load.filter(x=>x.x.total && x.x.rate!=null);
+  if (pts.length<2) return emptyChart("Needs at least two members with completed or overdue tasks.");
+  const w = 640, h = 300, L = 44, R = 16, T = 16, B = 40, iw = w-L-R, ih = h-T-B, mx = Math.max(3,...pts.map(p=>p.x.done))*1.18, X_ = v=>L+v/mx*iw, Y = v=>T+ih-(v+6)/112*ih;
+  const mh = Math.max(1,...pts.map(p=>p.h)), mdx = ST.mean(pts.map(p=>p.x.done)), ty = X.K.td;
+  let g = `<rect x="${X_(mdx)}" y="${T}" width="${w-R-X_(mdx)}" height="${Y(ty)-T}" fill="var(--ok)" opacity=".07"/><rect x="${L}" y="${Y(ty)}" width="${X_(mdx)-L}" height="${T+ih-Y(ty)}" fill="var(--bad)" opacity=".06"/>`;
+  g += [0,50,100].map(v=>`<line class="gl" x1="${L}" x2="${w-R}" y1="${Y(v)}" y2="${Y(v)}"/><text class="tx" x="${L-6}" y="${Y(v)+3}" text-anchor="end">${v}%</text>`).join("");
+  g += `<line x1="${X_(mdx)}" x2="${X_(mdx)}" y1="${T}" y2="${T+ih}" stroke="var(--muted)" stroke-dasharray="4 4" opacity=".6"/><line x1="${L}" x2="${w-R}" y1="${Y(ty)}" y2="${Y(ty)}" stroke="var(--muted)" stroke-dasharray="4 4" opacity=".6"/>`;
+  g += `<text class="ql" x="${w-R-4}" y="${T+12}" text-anchor="end">High output · reliable</text><text class="ql" x="${L+4}" y="${T+12}">Low output · reliable</text><text class="ql" x="${w-R-4}" y="${T+ih-6}" text-anchor="end">High output · slipping</text><text class="ql" x="${L+4}" y="${T+ih-6}">Needs support</text>`;
+  g += pts.map(p=>{ const r = 8+p.h/mh*12; return `<circle cx="${X_(p.x.done)}" cy="${Y(p.x.rate)}" r="${r.toFixed(1)}" fill="${p.m.c1}" fill-opacity=".78" stroke="var(--card)" stroke-width="2"><title>${esc(p.m.name)}: ${p.x.done} done · ${p.x.rate}% on time · ${fmtH(p.h)} logged</title></circle><text class="tn" x="${Math.min(w-R-18,Math.max(L+18,X_(p.x.done)))}" y="${Y(p.x.rate)-r-4}" text-anchor="middle">${esc(p.m.name.split(" ")[0])}</text>`; }).join("");
+  g += `<text class="tx" x="${L+iw/2}" y="${h-6}" text-anchor="middle">Tasks completed in period →</text><text class="tx" transform="translate(11 ${T+ih/2}) rotate(-90)" text-anchor="middle">Deadline met % →</text>`;
+  return sv(w,h,g) + `<div class="legend"><span>Bubble size = office hours logged</span><span>Dashed lines = team average output and deadline target (${ty}%)</span></div>`;
+}
+function chartEstimate(X){
+  if (X.pts.length<2) return emptyChart("Needs at least two completed tasks that have an estimate.");
+  const w = 640, h = 300, L = 44, R = 16, T = 16, B = 40, iw = w-L-R, ih = h-T-B, mx = Math.max(1, ...X.pts.map(p=>Math.max(p.est,p.act)))*1.08, X_ = v=>L+v/mx*iw, Y = v=>T+ih-v/mx*ih;
+  let g = [0,.5,1].map(f=>`<line class="gl" x1="${L}" x2="${w-R}" y1="${Y(mx*f)}" y2="${Y(mx*f)}"/><text class="tx" x="${L-6}" y="${Y(mx*f)+3}" text-anchor="end">${r1(mx*f)}h</text>`).join("");
+  g += `<line x1="${X_(0)}" y1="${Y(0)}" x2="${X_(mx)}" y2="${Y(mx)}" stroke="var(--muted)" stroke-dasharray="5 4"/><text class="tx" x="${X_(mx)-4}" y="${Y(mx)+12}" text-anchor="end">on estimate</text>`;
+  g += `<line x1="${X_(0)}" y1="${Y(0)}" x2="${X_(mx/1.2)}" y2="${Y(mx)}" stroke="var(--bad)" stroke-dasharray="2 4" opacity=".6"/><text class="tx" x="${X_(mx/1.2)+4}" y="${T+10}" fill="var(--bad)" style="fill:var(--bad)">+20% overrun</text>`;
+  g += X.pts.map(p=>{ const o = p.act>p.est*1.2; return `<circle cx="${X_(p.est)}" cy="${Y(p.act)}" r="5.5" fill="${o?"var(--bad)":(p.m?p.m.c1:"var(--brand)")}" fill-opacity=".78" stroke="var(--card)" stroke-width="1.5"><title>${esc(p.t.title)} — est ${r1(p.est)}h, actual ${r1(p.act)}h</title></circle>`; }).join("");
+  g += `<text class="tx" x="${L+iw/2}" y="${h-6}" text-anchor="middle">Estimated hours →</text><text class="tx" transform="translate(11 ${T+ih/2}) rotate(-90)" text-anchor="middle">Actual office hours →</text>`;
+  return sv(w,h,g) + `<div class="legend"><span>Above the dashed line = took longer than estimated</span><span><i style="background:var(--bad)"></i>Overran by more than 20%</span></div>`;
+}
+function gauge(score, c){
+  const L = Math.PI*54, off = L*(1-score/100);
+  return `<svg viewBox="0 0 128 80" width="150" height="94"><path d="M10 68 A54 54 0 0 1 118 68" fill="none" stroke="var(--line)" stroke-width="11" stroke-linecap="round"/>
+    <path d="M10 68 A54 54 0 0 1 118 68" fill="none" stroke="${c}" stroke-width="11" stroke-linecap="round" stroke-dasharray="${L}" stroke-dashoffset="${off}"/>
+    <text x="64" y="62" text-anchor="middle" font-size="26" font-weight="800" style="fill:var(--text)">${score}</text><text x="64" y="76" text-anchor="middle" font-size="9" style="fill:var(--muted)">out of 100</text></svg>`;
+}
+
+function renderExec(){
+  const el = $("exec"); if (!el) return;
+  const X = EXEC = execModel(), K = X.K;
+  const per = [[1,"This week"],[4,"4 weeks"],[12,"12 weeks"],[26,"26 weeks"]].map(([k,l])=>`<button class="chip ${insPer===k?"on":""}" data-per="${k}"><b>${l}</b></button>`).join("");
+  const pl = insPer===1 ? "the selected week" : `the last ${insPer} weeks`;
+  const kp = (l,v,sub,c,d="")=>`<div class="kpi rag" style="--c:${c}"><small>${l}</small><b>${v}</b><span>${sub}</span>${d}</div>`;
+  const stab = X.predict;
+  const kpis = kp("Throughput", r1(X.tp)+"<em class=\"u\">/wk</em>", `${X.done.length} tasks completed`, "var(--brand)", xdl(r1(X.tp), r1(X.ptp)))
+    + kp("Delivery reliability", X.rel==null?"–":X.rel+"%", `target ${K.td}% · completed on or before deadline`, rag(X.rel,K.td), xdl(X.rel, X.prel, 0, " pts"))
+    + kp("Median turnaround", X.c50==null?"–":r1(X.c50)+"<em class=\"u\">d</em>", X.c85==null?"no completed tasks":`P85 ${r1(X.c85)} d · P95 ${r1(X.c95)} d`, "var(--info)", xdl(X.c50==null?null:r1(X.c50), X.pc50==null?null:r1(X.pc50), 1, " d"))
+    + kp("Backlog runway", X.runway==null ? "–" : r1(X.runway)+"<em class=\"u\">wk</em>", X.clearBy ? `${X.openAll.length} open · clears ~${fmt(X.clearBy)}` : `${X.openAll.length} open tasks`, X.runway==null ? (X.openAll.length?"var(--bad)":"var(--ok)") : X.runway>6 ? "var(--bad)" : X.runway>3 ? "var(--warn)" : "var(--ok)")
+    + kp("Net flow (28 d)", (X.net>0?"+":"")+X.net, `${X.cr28} created · ${X.done28} completed`, X.net>0 ? "var(--bad)" : "var(--ok)")
+    + kp("Deadline exposure", X.odAll.length + X.risk.length, `${X.odAll.length} overdue · ${X.risk.length} at risk (≤2 d, <50%)`, X.odHigh.length ? "var(--bad)" : X.odAll.length||X.risk.length ? "var(--warn)" : "var(--ok)")
+    + kp("Workload balance", X.load.length>1 ? X.balance+"%" : "–", X.heavy && X.heavy.o ? `heaviest: ${esc(X.heavy.m.name)} (${X.heavy.o} open)` : "no open tasks", X.load.length<2 ? "var(--muted)" : X.balance>=75 ? "var(--ok)" : X.balance>=55 ? "var(--warn)" : "var(--bad)")
+    + kp("Estimate accuracy", X.estAcc==null?"–":X.estAcc+"%", X.bias==null ? "needs estimates on done tasks" : `${X.bias>0?"+":""}${X.bias}% bias · ${X.overrun}% overran`, X.estAcc==null ? "var(--muted)" : X.estAcc>=75 ? "var(--ok)" : X.estAcc>=55 ? "var(--warn)" : "var(--bad)")
+    + kp("Output stability", stab==null?"–":stab+"%", `weekly output ${r1(X.tMean)} ± ${r1(X.tSd)} (${X.N} wks)`, stab==null ? "var(--muted)" : stab>=70 ? "var(--ok)" : stab>=50 ? "var(--warn)" : "var(--bad)");
+
+  // narrative
+  const N = [];
+  if (!X.total){ N.push("No tasks yet — add tasks to unlock executive analytics."); }
+  else {
+    N.push(`Over ${pl}, the team completed <b>${X.done.length}</b> task${X.done.length===1?"":"s"}${insPer>1?` (${r1(X.tp)} per week${X.ptp?`, ${X.tp>=X.ptp?"up":"down"} ${Math.abs(Math.round((X.tp/X.ptp-1)*100))}% on the previous period`:""})`:""}${X.rel==null?".":`, <b>${X.rel}%</b> of them on or before the deadline (target ${K.td}%).`}`);
+    if (X.c50!=null) N.push(`A typical task takes <b>${r1(X.c50)}</b> working day${X.c50===1?"":"s"}; 85% finish within <b>${r1(X.c85)}</b>.`);
+    N.push(X.openAll.length ? `The open backlog is <b>${X.openAll.length}</b> task${X.openAll.length===1?"":"s"}${X.runway!=null?`, about <b>${r1(X.runway)} weeks</b> of work at the current pace of ${r1(X.pace)} per week`:""}${X.net>0?`, and it grew by ${X.net} over the last 28 days`:X.net<0?`, and it shrank by ${-X.net} over the last 28 days`:""}.` : "The backlog is empty.");
+    if (X.odAll.length) N.push(`<b>${X.odAll.length}</b> task${X.odAll.length===1?" is":"s are"} overdue${X.odHigh.length?`, ${X.odHigh.length} of high priority`:""}.`);
+  }
+  const acts = execActions(X), sev = ["var(--bad)","var(--warn)","var(--info)","var(--ok)"], sl = ["Critical","Important","Watch","Insight"];
+  const actHTML = acts.length ? acts.slice(0,7).map(a=>`<div class="xact"><span class="xsv" style="--c:${sev[a[0]]}">${sl[a[0]]}</span><div><b>${a[1]}</b><p>${a[2]}</p></div></div>`).join("") : `<div class="xact"><span class="xsv" style="--c:var(--ok)">Clear</span><div><b>No action needed</b><p>All indicators are within target.</p></div></div>`;
+
+  const fc = `<div class="fcgrid">
+      <div><small>Open backlog</small><b>${X.openAll.length}</b></div><div><small>Current pace</small><b>${r1(X.pace)}<em class="u">/wk</em></b></div>
+      <div><small>Projected clear date</small><b>${X.clearBy?fmt(X.clearBy,{day:"numeric",month:"short"}):"–"}</b></div><div><small>Due in 2 days</small><b>${X.dueSoon.length}</b></div></div>
+    <div class="fcbar">${(()=>{ const t = Math.max(1,X.openAll.length), od = X.odAll.length, ds = X.dueSoon.length, rest = Math.max(0,t-od-ds);
+      return `<i style="width:${od/t*100}%;background:var(--bad)" title="${od} overdue"></i><i style="width:${ds/t*100}%;background:var(--warn)" title="${ds} due in 2 days"></i><i style="width:${rest/t*100}%;background:var(--ok);opacity:.55" title="${rest} later"></i>`; })()}</div>
+    <div class="legend"><span><i style="background:var(--bad)"></i>Overdue ${X.odAll.length}</span><span><i style="background:var(--warn)"></i>Due ≤ 2 days ${X.dueSoon.length}</span><span><i style="background:var(--ok)"></i>Later ${Math.max(0,X.openAll.length-X.odAll.length-X.dueSoon.length)}</span></div>
+    <p class="hint" style="margin-top:12px">Forecast = open tasks ÷ completions per week over the last 28 days. It assumes no new work arrives; ${X.net>0?`<b>new work is arriving faster than it is finished</b>, so the real date will be later.`:`new work is arriving no faster than it is finished.`}</p>`;
+
+  const priRows = X.pri.map(p=>`<tr><td><span class="pill ${prLbl[p.k][1]}">${prLbl[p.k][0]}</span></td><td class="r">${p.n}</td><td class="r">${p.done}</td>
+      <td class="r" style="color:${p.rate==null?"inherit":rag(p.rate,K.td)}">${p.rate==null?"–":p.rate+"%"}</td><td class="r">${p.turn==null?"–":r1(p.turn)+" d"}</td><td class="r" style="color:${p.od?"var(--bad)":"inherit"}">${p.od}</td></tr>`).join("");
+  const slipRows = X.slip.slice(0,7).map(x=>{ const m = M(x.t.member)||{name:"?",c1:"#999"}, [pl_,pc] = prLbl[x.t.priority];
+    return `<tr><td><b class="trunc" title="${esc(x.t.title)}">${esc(x.t.title)}</b><small class="sub" style="color:${m.c1}">${esc(m.name)}</small></td><td><span class="pill ${pc}">${pl_}</span></td><td class="r"><b style="color:${x.k.startsWith("Open")?"var(--bad)":"var(--warn)"}">${x.d} d</b></td><td class="r sub">${x.k}</td></tr>`; }).join("");
+  const mxo = Math.max(K.cap, ...X.load.map(x=>x.o)), tot = X.load.reduce((a,x)=>a+x.o,0), totd = X.load.reduce((a,x)=>a+x.d,0);
+  const loadHTML = X.load.map(x=>`<div class="lrow"><div class="lh"><b style="color:${x.m.c1}">${esc(x.m.name)}</b><span>${x.o} open${tot?` · ${Math.round(x.o/tot*100)}% of backlog`:""} · ${x.d} done${totd?` (${Math.round(x.d/totd*100)}% of output)`:""}</span></div>
+      <div class="lbar"><i style="width:${x.o/mxo*100}%;background:linear-gradient(90deg,${x.m.c1},${x.m.c2});${x.o>K.cap?"box-shadow:0 0 0 2px var(--bad) inset":""}"></i><u style="left:${K.cap/mxo*100}%" title="cap ${K.cap}"></u></div></div>`).join("");
+
+  el.innerHTML = `<div class="adv-h"><div><h2>Executive intelligence</h2><small>${fmt(X.st)} – ${fmt(X.e,{day:"numeric",month:"short",year:"numeric"})} · flow analytics for management review · deltas compare with the previous ${insPer===1?"week":insPer+" weeks"}</small></div><div class="daychips">${per}</div></div>
+    <div class="panel xhead"><div class="xg">${gauge(X.health,X.hc)}<span class="xv" style="--c:${X.hc}">${X.hl}</span><small>Delivery health</small></div>
+      <div class="xn"><h3>Executive summary</h3>${N.map(t=>`<p>${t}</p>`).join("")}</div></div>
+    <div class="kpis xk">${kpis}</div>
+    <div class="cols even"><div class="panel"><h3>Priority actions <small>ranked by urgency, generated from your data and targets</small></h3>${actHTML}</div>
+      <div class="panel"><h3>Delivery forecast <small>backlog runway as of today</small></h3>${fc}</div></div>
+    <div class="cols even"><div class="panel"><h3>Throughput control chart <small>weekly completions vs normal range</small></h3>${chartThroughput(X)}</div>
+      <div class="panel"><h3>Delivery quality trend <small>deadline met and completion by week</small></h3>${chartQuality(X)}</div></div>
+    <div class="cols even"><div class="panel"><h3>Turnaround distribution <small>how long tasks really take</small></h3>${chartCycle(X)}</div>
+      <div class="panel"><h3>Priority performance <small>are important tasks served first?</small></h3><div class="twrap"><table class="tbl"><thead><tr><th>Priority</th><th class="r">Tasks</th><th class="r">Done</th><th class="r">Deadline met</th><th class="r">Avg turnaround</th><th class="r">Overdue (open)</th></tr></thead><tbody>${priRows}</tbody></table></div>
+        <p class="hint" style="margin-top:12px">${(()=>{ const h = X.pri[0], l = X.pri[2]; return h.turn!=null && l.turn!=null ? (h.turn<=l.turn ? "High-priority work is finishing at least as fast as low priority — prioritisation is working." : `High-priority tasks take longer (${r1(h.turn)} d) than low priority (${r1(l.turn)} d). Check whether urgent work is being picked up first.`) : "Turnaround comparison appears once priorities have completed tasks."; })()}</p></div></div>
+    <div class="cols even"><div class="panel"><h3>Member performance map <small>output vs reliability</small></h3>${chartQuadrant(X)}</div>
+      <div class="panel"><h3>Estimation accuracy <small>estimated vs actual office hours</small></h3>${chartEstimate(X)}</div></div>
+    <div class="cols even"><div class="panel"><h3>Workload distribution <small>open tasks vs cap of ${K.cap}</small></h3>${loadHTML || emptyChart("No members.")}
+        <p class="hint" style="margin-top:10px">Balance index ${X.load.length>1?X.balance+"%":"–"} (100% = perfectly even backlog). The vertical marker is the open-task cap from Settings.</p></div>
+      <div class="panel"><h3>Slippage watchlist <small>${X.slip.length} task${X.slip.length===1?"":"s"} · ${X.avgLate==null?"no late completions":"late completions average "+r1(X.avgLate)+" days over"}</small></h3>
+        ${X.slip.length ? `<div class="twrap"><table class="tbl"><thead><tr><th>Task</th><th>Priority</th><th class="r">Days late</th><th class="r">Status</th></tr></thead><tbody>${slipRows}</tbody></table></div>${X.slip.length>7?`<p class="hint" style="margin-top:8px">+${X.slip.length-7} more…</p>`:""}` : `<div class="xempty">✅ Nothing is overdue and nothing in this period was completed late.</div>`}</div></div>
+    <div class="panel xnote"><h3>How to read these numbers</h3><p class="hint"><b>Throughput</b> = tasks completed per week. <b>Delivery reliability</b> = share of completed tasks finished on or before their deadline. <b>Turnaround</b> = working days from task date to completion (P50 = median, P85 / P95 = the value that 85% / 95% of tasks beat). <b>Backlog runway</b> = open tasks ÷ completions per week over the last 28 days. <b>Net flow</b> = tasks created minus completed in 28 days (positive = backlog growing). <b>Workload balance</b> = 1 − Gini coefficient of open tasks per member. <b>Estimate accuracy</b> = 100% − mean absolute estimation error on completed tasks with estimates. <b>Output stability</b> = 1 − coefficient of variation of weekly completions. <b>Delivery health</b> uses the same formula as the Advanced analytics score above.</p></div>`;
 }
 
 // ---------- v2: reports view ----------

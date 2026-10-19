@@ -33,3 +33,14 @@ Version 3
 
 Version 3.1
 - On first open, any old sample team still saved in the browser is detected and can be removed (a backup is downloaded first). Settings > Erase all data clears everything.
+
+Version 4 - Executive intelligence
+- Insights > Executive intelligence (period: this week / 4 / 12 / 26 weeks, deltas vs previous period)
+- Executive summary: delivery health gauge plus an auto-written narrative of pace, reliability, backlog and overdue work
+- 9 management KPIs: throughput, delivery reliability, median turnaround (P50/P85/P95), backlog runway, 28-day net flow, deadline exposure, workload balance, estimate accuracy, output stability
+- Priority actions: ranked (Critical / Important / Watch / Insight) recommendations generated from your data and Settings targets
+- Delivery forecast: projected backlog clear date from the last 28 days of throughput
+- Charts: throughput control chart (mean +/- 1 sigma), delivery quality trend vs target, turnaround distribution, member performance map (output vs reliability), estimated vs actual hours
+- Tables: priority performance, workload distribution vs cap, slippage watchlist (days late)
+- Excel export now adds Exec KPIs, Weekly Trend, Priority Performance and Workload sheets (ignored on import)
+- Fully theme-aware (light / dark) and included in Print report

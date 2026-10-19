@@ -19,6 +19,96 @@ a:focus-visible{outline:3px solid #0E1220;outline-offset:3px}
 .btn-main:hover{filter:brightness(.92)}
 .btn-ghost:hover{background:#E9ECF6}
 .card:hover{box-shadow:0 18px 40px -22px rgba(14,18,32,.35)}
+/* ===== liquid glass + motion layer ===== */
+:root{--ease:cubic-bezier(.2,.7,.2,1)}
+.root{position:relative;overflow:hidden}
+.bgfx{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.orb{translate:0 calc(var(--sy,0)*var(--k,.1)*-1px);position:absolute;border-radius:50%;filter:blur(80px);opacity:.42;animation:drift 22s ease-in-out infinite alternate;will-change:transform}
+.orb.o2{animation-duration:28s;animation-delay:-8s}.orb.o3{animation-duration:34s;animation-delay:-16s}
+@keyframes drift{0%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(70px,-50px,0) scale(1.12)}100%{transform:translate3d(-60px,60px,0) scale(.94)}}
+.root>header,.root>section,.root>footer{position:relative;z-index:1}
+#features{background:transparent!important;border-color:rgba(255,255,255,.6)!important}
+#analytics{overflow:hidden}
+#analytics .orb{opacity:.38}
+#analytics>div{position:relative;z-index:1}
+
+/* nav */
+.nav-glass{position:sticky!important;top:14px;z-index:60!important;max-width:1180px!important;margin:14px auto 0!important;padding:12px 20px!important;border-radius:22px;
+  background:linear-gradient(135deg,rgba(255,255,255,.78),rgba(255,255,255,.5));-webkit-backdrop-filter:blur(24px) saturate(190%);backdrop-filter:blur(24px) saturate(190%);
+  border:1px solid rgba(255,255,255,.8);box-shadow:0 18px 40px -22px rgba(30,27,90,.35),inset 0 1px 0 rgba(255,255,255,.95);transition:box-shadow .4s var(--ease),transform .4s var(--ease),background .4s}
+.nav-glass.scrolled{box-shadow:0 22px 50px -20px rgba(30,27,90,.5),inset 0 1px 0 #fff;background:linear-gradient(135deg,rgba(255,255,255,.9),rgba(255,255,255,.66))}
+.nav a.lnk{position:relative;padding:6px 2px;transition:color .25s}
+.nav a.lnk::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;border-radius:2px;background:currentColor;transform:scaleX(0);transform-origin:left;transition:transform .35s var(--ease)}
+.nav a.lnk:hover::after{transform:scaleX(1)}
+.progress{position:fixed;top:0;left:0;right:0;height:3px;z-index:100;transform-origin:left;transform:scaleX(0);background:linear-gradient(90deg,#4F46E5,#22D3EE);pointer-events:none}
+
+/* glass surfaces */
+.glass,#features .card,#how>div:last-child>div,#templates a.card{position:relative;overflow:hidden;
+  background:linear-gradient(135deg,rgba(255,255,255,.76),rgba(255,255,255,.44))!important;-webkit-backdrop-filter:blur(26px) saturate(190%);backdrop-filter:blur(26px) saturate(190%);
+  border:1px solid rgba(255,255,255,.78)!important;box-shadow:0 28px 50px -30px rgba(30,27,90,.4),inset 0 1px 0 rgba(255,255,255,.95),inset 0 -1px 0 rgba(255,255,255,.35)!important;
+  transition:transform .5s var(--ease),box-shadow .5s var(--ease)}
+#features .card:hover,#how>div:last-child>div:hover,#templates a.card:hover{transform:translateY(-8px);box-shadow:0 40px 70px -30px rgba(30,27,90,.5),inset 0 1px 0 #fff!important}
+#templates a.card[style*="2px solid"]{border:2px solid rgba(255,255,255,.9)!important;box-shadow:0 0 0 2px var(--acc,#4F46E5),0 36px 60px -28px rgba(30,27,90,.45),inset 0 1px 0 #fff!important}
+.glass::after,#features .card::after,#how>div:last-child>div::after,#templates a.card::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:radial-gradient(420px circle at var(--mx,50%) var(--my,0%),rgba(255,255,255,.7),transparent 55%);opacity:0;transition:opacity .4s}
+.glass:hover::after,#features .card:hover::after,#how>div:last-child>div:hover::after,#templates a.card:hover::after{opacity:1}
+.glass .sheen,#features .card .sheen{position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(115deg,transparent 32%,rgba(255,255,255,.65) 48%,transparent 62%);transform:translateX(-130%);animation:sheen 7s ease-in-out infinite 1.5s}
+@keyframes sheen{0%,55%{transform:translateX(-130%)}100%{transform:translateX(130%)}}
+
+/* hero */
+.hero-mock{position:relative;animation:floaty 7s ease-in-out infinite;perspective:1200px}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.tilt{transition:transform .25s ease-out;transform-style:preserve-3d;will-change:transform}
+.chip-f{position:absolute;display:flex;align-items:center;gap:9px;padding:10px 14px;border-radius:16px;font-size:13px;font-weight:650;color:#1B2140;z-index:3;
+  background:linear-gradient(135deg,rgba(255,255,255,.85),rgba(255,255,255,.55));-webkit-backdrop-filter:blur(18px) saturate(190%);backdrop-filter:blur(18px) saturate(190%);
+  border:1px solid rgba(255,255,255,.9);box-shadow:0 20px 40px -18px rgba(30,27,90,.45),inset 0 1px 0 #fff;animation:floaty2 6s ease-in-out infinite}
+.chip-f.c2{animation-duration:8s;animation-delay:-3s}
+@keyframes floaty2{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-14px) rotate(1deg)}}
+#top h1,#top .eyebrow,#top p,#top .ctas,#top .trust{animation:rise .95s var(--ease) both}
+#top .eyebrow{animation-delay:.05s}#top h1{animation-delay:.15s}#top p{animation-delay:.3s}#top .ctas{animation-delay:.42s}#top .trust{animation-delay:.54s}
+.hero-mock{animation:floaty 7s ease-in-out infinite,pop 1.2s var(--ease) .3s both}
+@keyframes pop{from{opacity:0;transform:translateY(60px) scale(.94)}to{opacity:1}}
+@keyframes rise{from{opacity:0;transform:translateY(34px);filter:blur(8px)}to{opacity:1;transform:none;filter:none}}
+.w{display:inline-block;animation:rise .9s var(--ease) both;animation-delay:calc(var(--i)*70ms + 150ms)}
+
+/* charts */
+.bars rect{transform-box:fill-box;transform-origin:bottom;animation:grow 1s var(--ease) both}
+.bars rect:nth-child(1){animation-delay:.5s}.bars rect:nth-child(2){animation-delay:.58s}.bars rect:nth-child(3){animation-delay:.66s}.bars rect:nth-child(4){animation-delay:.74s}.bars rect:nth-child(5){animation-delay:.82s}.bars rect:nth-child(6){animation-delay:.9s}.bars rect:nth-child(7){animation-delay:.98s}.bars rect:nth-child(8){animation-delay:1.06s}.bars rect:nth-child(9){animation-delay:1.14s}
+@keyframes grow{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+.draw{stroke-dasharray:1;stroke-dashoffset:0;animation:draw 1.8s var(--ease) .9s both}
+@keyframes draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+.ring-c{stroke-dasharray:176;animation:ringin 1.6s var(--ease) .6s both}
+@keyframes ringin{from{stroke-dashoffset:176}to{stroke-dashoffset:28}}
+.fillbar span{transform-origin:left;animation:fillx 1.4s var(--ease) .5s both}
+@keyframes fillx{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+
+/* scroll reveal (class added by script; without script everything is visible) */
+.rv{animation:rise 1s var(--ease) both;animation-delay:calc(var(--d,0)*1ms)}
+html.js .rv:not(.in),html.js .in-wait:not(.in) .bars rect,html.js .in-wait:not(.in) .draw,html.js .in-wait:not(.in) .fillbar span,html.js .in-wait:not(.in) .ring-c{animation-play-state:paused}
+
+/* buttons */
+.btn-main,.btn-ghost{position:relative;overflow:hidden;transition:transform .35s var(--ease),box-shadow .35s var(--ease),background .25s,filter .25s}
+.btn-main{box-shadow:0 14px 30px -10px rgba(79,70,229,.65),inset 0 1px 0 rgba(255,255,255,.35)}
+.btn-main:hover{transform:translateY(-3px);box-shadow:0 22px 40px -12px rgba(79,70,229,.7),inset 0 1px 0 rgba(255,255,255,.4)}
+.btn-main::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.45) 50%,transparent 70%);transform:translateX(-120%);transition:transform .8s var(--ease)}
+.btn-main:hover::after{transform:translateX(120%)}
+.btn-ghost{background:linear-gradient(135deg,rgba(255,255,255,.85),rgba(255,255,255,.55))!important;-webkit-backdrop-filter:blur(16px) saturate(180%);backdrop-filter:blur(16px) saturate(180%);border:1px solid rgba(255,255,255,.9)!important;box-shadow:0 10px 24px -14px rgba(30,27,90,.4),inset 0 1px 0 #fff}
+.btn-ghost:hover{transform:translateY(-3px)}
+
+/* dark analytics glass */
+#analytics div[style*="background:#171C30"]{background:linear-gradient(135deg,rgba(255,255,255,.13),rgba(255,255,255,.05))!important;-webkit-backdrop-filter:blur(30px) saturate(180%);backdrop-filter:blur(30px) saturate(180%);border:1px solid rgba(255,255,255,.2)!important;box-shadow:0 40px 80px -30px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,255,255,.28)!important;position:relative}
+#analytics div[style*="background:#1E2440"]{background:rgba(255,255,255,.07)!important;border:1px solid rgba(255,255,255,.1);transition:transform .4s var(--ease),background .3s}
+#analytics div[style*="background:#1E2440"]:hover{transform:translateY(-3px);background:rgba(255,255,255,.11)!important}
+
+/* final CTA */
+#templates+section>div{position:relative;overflow:hidden;box-shadow:0 40px 80px -36px rgba(79,70,229,.7),inset 0 1px 0 rgba(255,255,255,.35)}
+#templates+section>div::before{content:"";position:absolute;width:520px;height:520px;right:-120px;top:-220px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.4),transparent 65%);animation:drift 14s ease-in-out infinite alternate}
+#templates+section>div>*{position:relative;z-index:1}
+#templates+section .btn-ghost{animation:ping 2.8s ease-out infinite}
+@keyframes ping{0%{box-shadow:0 0 0 0 rgba(255,255,255,.55)}70%,100%{box-shadow:0 0 0 22px rgba(255,255,255,0)}}
+.cursor-glow{position:fixed;left:0;top:0;width:520px;height:520px;margin:-260px 0 0 -260px;border-radius:50%;pointer-events:none;z-index:0;background:radial-gradient(circle,rgba(99,102,241,.16),transparent 62%);opacity:0;transition:opacity .5s}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.orb{opacity:.3}}
+@media(max-width:700px){.chip-f{display:none}.nav-glass{margin:10px 12px 0!important;top:8px}}
 </style>
 
 <style>html{scroll-behavior:smooth}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}</style>
@@ -26,10 +116,11 @@ a:focus-visible{outline:3px solid #0E1220;outline-offset:3px}
 <body>
 
 
-<div style="width:100%;background:#F4F6FB;font-family:'Instrument Sans',system-ui,sans-serif;color:#0E1220">
+<div class="root" style="width:100%;background:#F4F6FB;font-family:'Instrument Sans',system-ui,sans-serif;color:#0E1220;--acc:#4F46E5">
+<div class="bgfx" aria-hidden="true"><span class="orb" style="width:560px;height:560px;left:-140px;top:1%;background:#4F46E5;--k:.12"></span><span class="orb o2" style="width:520px;height:520px;right:-120px;top:3%;background:#22D3EE;--k:.2"></span><span class="orb o3" style="width:440px;height:440px;left:38%;top:14%;background:#F472B6;opacity:.28;--k:.08"></span><span class="orb o2" style="width:600px;height:600px;right:-160px;top:21%;background:#A78BFA;--k:.15"></span><span class="orb o3" style="width:480px;height:480px;left:-120px;top:29%;background:#F472B6;opacity:.3;--k:.1"></span><span class="orb" style="width:520px;height:520px;left:42%;top:33%;background:#22D3EE;opacity:.3;--k:.12"></span><span class="orb o2" style="width:520px;height:520px;right:-140px;top:65%;background:#4F46E5;opacity:.28;--k:.1"></span><span class="orb o3" style="width:480px;height:480px;left:-120px;top:84%;background:#A78BFA;opacity:.3;--k:.1"></span><span class="orb" style="width:520px;height:520px;left:-160px;top:62%;background:#22D3EE;opacity:.3;--k:.1"></span><span class="orb o3" style="width:560px;height:560px;right:-120px;top:74%;background:#4F46E5;opacity:.3;--k:.14"></span></div>
 
 <!-- NAV -->
-<header style="max-width:1240px;margin:0 auto;padding:22px 40px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px">
+<header class="nav-glass" style="max-width:1240px;margin:0 auto;padding:22px 40px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px">
   <a href="#top" style="display:flex;align-items:center;gap:11px;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:19px;letter-spacing:-.02em">
     <span style="width:36px;height:36px;border-radius:10px;background:#4F46E5;display:grid;place-items:center">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/></svg>
@@ -51,20 +142,20 @@ a:focus-visible{outline:3px solid #0E1220;outline-offset:3px}
 <!-- HERO -->
 <section id="top" style="max-width:1240px;margin:0 auto;padding:56px 40px 88px;display:flex;flex-wrap:wrap;gap:56px;align-items:center">
   <div style="flex:1 1 460px;min-width:0">
-    <div style="display:inline-flex;align-items:center;gap:9px;padding:7px 14px 7px 10px;border-radius:99px;background:#fff;border:1px solid #DDE1EF;font-size:13px;font-weight:600;color:#3A4160">
+    <div class="eyebrow glass" style="display:inline-flex;align-items:center;gap:9px;padding:7px 14px 7px 10px;border-radius:99px;background:#fff;border:1px solid #DDE1EF;font-size:13px;font-weight:600;color:#3A4160">
       <span style="width:8px;height:8px;border-radius:50%;background:#12A76A"></span>
       Team performance, measured in office hours
     </div>
     <h1 style="margin:22px 0 0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(42px,5.4vw,70px);line-height:1.02;letter-spacing:-.035em">Run your team on facts, not follow-ups.</h1>
     <p style="margin:24px 0 0;font-size:19px;line-height:1.6;color:#4A5170;max-width:560px">Track tasks, deadlines and workload in one dashboard, then see exactly where delivery is healthy, slipping or at risk. No sign-up and no server: your data stays in your browser.</p>
-    <div style="margin-top:34px;display:flex;flex-wrap:wrap;gap:12px">
+    <div class="ctas" style="margin-top:34px;display:flex;flex-wrap:wrap;gap:12px">
       <a class="btn-main" href="index.html" style="display:inline-flex;align-items:center;gap:10px;padding:17px 26px;border-radius:14px;font-size:16px;font-weight:700;color:#fff;background:#4F46E5">
         Create your workspace
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
       </a>
       <a class="btn-ghost" href="#analytics" style="display:inline-flex;align-items:center;padding:17px 24px;border-radius:14px;font-size:16px;font-weight:600;border:1px solid #D5DAEA;background:#fff">See the analytics</a>
     </div>
-    <div style="margin-top:34px;display:flex;flex-wrap:wrap;gap:12px 28px;font-size:14px;font-weight:500;color:#4A5170">
+    <div class="trust" style="margin-top:34px;display:flex;flex-wrap:wrap;gap:12px 28px;font-size:14px;font-weight:500;color:#4A5170">
       <span style="display:flex;align-items:center;gap:8px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#12A76A" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Works offline</span>
       <span style="display:flex;align-items:center;gap:8px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#12A76A" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Excel import and export</span>
       <span style="display:flex;align-items:center;gap:8px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#12A76A" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Light and dark themes</span>
@@ -72,8 +163,8 @@ a:focus-visible{outline:3px solid #0E1220;outline-offset:3px}
   </div>
 
   <!-- product mock -->
-  <div style="flex:1 1 520px;min-width:0" aria-hidden="true">
-    <div style="background:#fff;border:1px solid #DDE1EF;border-radius:22px;padding:22px;box-shadow:0 40px 70px -34px rgba(14,18,32,.4)">
+  <div class="hero-mock" style="flex:1 1 520px;min-width:0" aria-hidden="true">
+    <div class="glass tilt" style="background:#fff;border:1px solid #DDE1EF;border-radius:22px;padding:22px;box-shadow:0 40px 70px -34px rgba(14,18,32,.4)"><span class="sheen"></span>
       <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
         <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:17px">Executive intelligence</div>
         <div style="display:flex;gap:6px;font-size:12px;font-weight:600">
@@ -82,13 +173,13 @@ a:focus-visible{outline:3px solid #0E1220;outline-offset:3px}
         </div>
       </div>
       <div style="margin-top:16px;display:flex;gap:16px;align-items:center;padding:14px 16px;border-radius:14px;background:#F4F6FB">
-        <div style="width:64px;height:64px;border-radius:50%;border:7px solid #12A76A;display:grid;place-items:center;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:20px;flex:none">84</div>
+        <div style="position:relative;width:64px;height:64px;flex:none"><svg viewBox="0 0 64 64" width="64" height="64" style="transform:rotate(-90deg)"><circle cx="32" cy="32" r="28" fill="none" stroke="#DDE3F0" stroke-width="7" /><circle class="ring-c" cx="32" cy="32" r="28" fill="none" stroke="#12A76A" stroke-width="7" stroke-linecap="round" stroke-dashoffset="28" /></svg><div style="position:absolute;inset:0;display:grid;place-items:center;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:20px"><span class="cu" data-to="84">84</span></div></div>
         <div style="font-size:13.5px;line-height:1.55;color:#2B3150">Over the last 12 weeks the team completed <b>85 tasks</b>, <b>82%</b> on or before the deadline. A typical task takes <b>2 working days</b>.</div>
       </div>
       <div style="margin-top:14px;display:flex;flex-wrap:wrap;gap:10px">
-        <div style="flex:1 1 110px;border:1px solid #E1E5F2;border-left:4px solid #4F46E5;border-radius:12px;padding:11px 13px"><div style="font-size:10.5px;letter-spacing:.7px;font-weight:700;color:#6A7192">THROUGHPUT</div><div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:26px;color:#4F46E5">7.1<span style="font-size:12px;color:#6A7192;font-weight:600"> /wk</span></div></div>
-        <div style="flex:1 1 110px;border:1px solid #E1E5F2;border-left:4px solid #12A76A;border-radius:12px;padding:11px 13px"><div style="font-size:10.5px;letter-spacing:.7px;font-weight:700;color:#6A7192">RELIABILITY</div><div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:26px;color:#0B7A4E">82%</div></div>
-        <div style="flex:1 1 110px;border:1px solid #E1E5F2;border-left:4px solid #F59E0B;border-radius:12px;padding:11px 13px"><div style="font-size:10.5px;letter-spacing:.7px;font-weight:700;color:#6A7192">RUNWAY</div><div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:26px;color:#A15C00">2.6<span style="font-size:12px;color:#6A7192;font-weight:600"> wk</span></div></div>
+        <div style="flex:1 1 110px;border:1px solid #E1E5F2;border-left:4px solid #4F46E5;border-radius:12px;padding:11px 13px"><div style="font-size:10.5px;letter-spacing:.7px;font-weight:700;color:#6A7192">THROUGHPUT</div><div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:26px;color:#4F46E5"><span class="cu" data-to="7.1" data-dec="1">7.1</span><span style="font-size:12px;color:#6A7192;font-weight:600"> /wk</span></div></div>
+        <div style="flex:1 1 110px;border:1px solid #E1E5F2;border-left:4px solid #12A76A;border-radius:12px;padding:11px 13px"><div style="font-size:10.5px;letter-spacing:.7px;font-weight:700;color:#6A7192">RELIABILITY</div><div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:26px;color:#0B7A4E"><span class="cu" data-to="82" data-suf="%">82%</span></div></div>
+        <div style="flex:1 1 110px;border:1px solid #E1E5F2;border-left:4px solid #F59E0B;border-radius:12px;padding:11px 13px"><div style="font-size:10.5px;letter-spacing:.7px;font-weight:700;color:#6A7192">RUNWAY</div><div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:26px;color:#A15C00"><span class="cu" data-to="2.6" data-dec="1">2.6</span><span style="font-size:12px;color:#6A7192;font-weight:600"> wk</span></div></div>
       </div>
       <div style="margin-top:14px;border:1px solid #E1E5F2;border-radius:14px;padding:14px 14px 8px">
         <div style="font-size:12px;font-weight:700;color:#2B3150;margin-bottom:6px">Throughput control chart</div>
@@ -96,12 +187,12 @@ a:focus-visible{outline:3px solid #0E1220;outline-offset:3px}
           <rect x="0" y="52" width="440" height="34" fill="#4F46E5" opacity=".10" />
           <line x1="0" y1="69" x2="440" y2="69" stroke="#8A91AE" stroke-dasharray="5 4" />
           <line x1="0" y1="130" x2="440" y2="130" stroke="#E1E5F2" />
-          <g fill="#4F46E5">
+          <g class="bars" fill="#4F46E5">
             <rect x="16" y="70" width="30" height="60" rx="5" /><rect x="64" y="64" width="30" height="66" rx="5" /><rect x="112" y="78" width="30" height="52" rx="5" />
             <rect x="160" y="46" width="30" height="84" rx="5" fill="#12A76A" /><rect x="208" y="58" width="30" height="72" rx="5" /><rect x="256" y="52" width="30" height="78" rx="5" />
             <rect x="304" y="40" width="30" height="90" rx="5" fill="#12A76A" /><rect x="352" y="56" width="30" height="74" rx="5" /><rect x="400" y="62" width="30" height="68" rx="5" />
           </g>
-          <polyline points="31,48 79,38 127,56 175,30 223,42 271,34 319,22 367,40 415,36" fill="none" stroke="#F59E0B" stroke-width="2.4" stroke-linejoin="round" />
+          <polyline class="draw" pathLength="1" points="31,48 79,38 127,56 175,30 223,42 271,34 319,22 367,40 415,36" fill="none" stroke="#F59E0B" stroke-width="2.4" stroke-linejoin="round" />
         </svg>
       </div>
       <div style="margin-top:12px;display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:12px;background:#FEF3F2;border:1px solid #FBD5D1">
@@ -109,7 +200,7 @@ a:focus-visible{outline:3px solid #0E1220;outline-offset:3px}
         <span style="font-size:13px;font-weight:600;color:#3A1612">Escalate 2 overdue high-priority tasks</span>
       </div>
     </div>
-    <div style="margin-top:10px;font-size:12px;color:#6A7192;text-align:center">Illustrative sample data</div>
+    <div class="chip-f" style="top:-20px;right:-16px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#12A76A" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Deadline met 82%</div><div class="chip-f c2" style="bottom:70px;left:-30px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4F46E5" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Backlog clears 6 Nov</div><div style="margin-top:10px;font-size:12px;color:#6A7192;text-align:center">Illustrative sample data</div>
   </div>
 </section>
 
@@ -157,7 +248,7 @@ a:focus-visible{outline:3px solid #0E1220;outline-offset:3px}
 </section>
 
 <!-- ANALYTICS -->
-<section id="analytics" style="background:#0E1220;color:#EEF0FA">
+<section id="analytics" style="background:#0E1220;color:#EEF0FA;position:relative"><span class="orb" style="width:520px;height:520px;right:-100px;top:-80px;background:#4F46E5;--k:.1"></span><span class="orb o2" style="width:460px;height:460px;left:-120px;bottom:-120px;background:#22D3EE;opacity:.25;--k:.1"></span>
   <div style="max-width:1240px;margin:0 auto;padding:104px 40px;display:flex;flex-wrap:wrap;gap:56px;align-items:center">
     <div style="flex:1 1 460px;min-width:0">
       <div style="font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#A9A4FF">Executive intelligence</div>
@@ -189,7 +280,7 @@ a:focus-visible{outline:3px solid #0E1220;outline-offset:3px}
             <div><div style="font-size:10.5px;letter-spacing:.6px;font-weight:700;color:#8F97B8">PACE</div><div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:24px;color:#fff">9<span style="font-size:12px;color:#8F97B8;font-weight:600"> /wk</span></div></div>
             <div><div style="font-size:10.5px;letter-spacing:.6px;font-weight:700;color:#8F97B8">CLEARS ABOUT</div><div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:24px;color:#fff">6 Nov</div></div>
           </div>
-          <div style="margin-top:14px;display:flex;height:12px;border-radius:8px;overflow:hidden;background:#2A3150"><span style="width:18%;background:#F0524A"></span><span style="width:10%;background:#F59E0B"></span><span style="width:72%;background:#3DBE8B"></span></div>
+          <div style="margin-top:14px;display:flex;height:12px;border-radius:8px;overflow:hidden;background:#2A3150" class="fillbar"><span style="width:18%;background:#F0524A"></span><span style="width:10%;background:#F59E0B"></span><span style="width:72%;background:#3DBE8B"></span></div>
         </div>
         <div style="margin-top:12px;border-radius:14px;background:#1E2440;padding:6px 16px">
           <div style="display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px solid #2A3150"><span style="flex:none;width:72px;text-align:center;font-size:10px;font-weight:800;letter-spacing:.5px;color:#FF8C85;background:#3A1C22;border-radius:7px;padding:5px 0">CRITICAL</span><div><div style="font-size:13.5px;font-weight:600;color:#fff">Rebalance workload above the cap of 8</div><div style="margin-top:2px;font-size:12.5px;color:#8F97B8">Move work to the member with the fewest open tasks.</div></div></div>
@@ -285,5 +376,69 @@ a:focus-visible{outline:3px solid #0E1220;outline-offset:3px}
 
 </div>
 
+<script>
+(function(){
+  var d=document, root=d.documentElement; root.classList.add('js');
+  var reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var $$=function(s,r){return Array.prototype.slice.call((r||d).querySelectorAll(s));};
+
+  // hero headline: word-by-word entrance
+  var h1=d.querySelector('#top h1');
+  if(h1&&!reduce){h1.innerHTML=h1.textContent.trim().split(/\s+/).map(function(w,i){return '<span class="w" style="--i:'+i+'">'+w+'</span>';}).join(' ');h1.style.animation='none';}
+
+  // counters start at zero until the hero card is visible
+  var cus=$$('.cu');
+  if(!reduce) cus.forEach(function(e){var dec=+e.dataset.dec||0;e.textContent=(0).toFixed(dec)+(e.dataset.suf||'');});
+  function count(){
+    cus.forEach(function(e,i){
+      var to=+e.dataset.to,dec=+e.dataset.dec||0,suf=e.dataset.suf||'',t0=performance.now()+500+i*90,dur=1700;
+      (function f(t){var p=Math.min(1,Math.max(0,(t-t0)/dur));var v=to*(1-Math.pow(1-p,4));e.textContent=v.toFixed(dec)+suf;if(p<1)requestAnimationFrame(f);})(performance.now());
+    });
+  }
+
+  // scroll reveal
+  var groups=[
+    ['#features > div > div:first-child',0],['#features .card',80],['#analytics > div > div:first-child',0],['#analytics > div > div:last-child',0],
+    ['#how > div:first-child',0],['#how > div:last-child > div',110],['#templates > div:first-child',0],['#templates a.card',90],
+    ['#templates + section > div',0],['footer > div',0]
+  ];
+  groups.forEach(function(g){$$(g[0]).forEach(function(e,i){e.classList.add('rv');e.style.setProperty('--d',i*g[1]);});});
+  $$('.hero-mock,#analytics > div > div:last-child').forEach(function(e){e.classList.add('in-wait');});
+  var counted=false;
+  var io=new IntersectionObserver(function(es){es.forEach(function(en){
+    if(!en.isIntersecting)return; en.target.classList.add('in'); io.unobserve(en.target);
+    if(!reduce&&!counted&&en.target.classList.contains('hero-mock')){counted=true;count();}
+  });},{threshold:.14,rootMargin:'0px 0px -6% 0px'});
+  $$('.rv,.in-wait').forEach(function(e){io.observe(e);});
+
+  // nav + progress + parallax
+  var nav=d.querySelector('.nav-glass'),bar=d.createElement('div');bar.className='progress';d.body.appendChild(bar);
+  var tick=false;
+  function onScroll(){if(tick)return;tick=true;requestAnimationFrame(function(){
+    var y=window.scrollY||0,h=root.scrollHeight-innerHeight;
+    bar.style.transform='scaleX('+(h>0?y/h:0)+')';root.style.setProperty('--sy',y);
+    if(nav)nav.classList.toggle('scrolled',y>12);tick=false;});}
+  addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+  if(reduce)return;
+  // glass spotlight + hero tilt + cursor glow
+  var glow=d.createElement('div');glow.className='cursor-glow';d.body.appendChild(glow);
+  var gx=0,gy=0,tx=0,ty=0,run=false;
+  function loop(){gx+=(tx-gx)*.12;gy+=(ty-gy)*.12;glow.style.transform='translate('+gx+'px,'+gy+'px)';if(Math.abs(tx-gx)+Math.abs(ty-gy)>.5)requestAnimationFrame(loop);else run=false;}
+  var mock=d.querySelector('.hero-mock'),tilt=d.querySelector('.tilt');
+  addEventListener('pointermove',function(e){
+    tx=e.clientX;ty=e.clientY;glow.style.opacity=1;if(!run){run=true;requestAnimationFrame(loop);}
+    var t=e.target.closest&&e.target.closest('.glass,.card,#how > div:last-child > div');
+    if(t){var r=t.getBoundingClientRect();t.style.setProperty('--mx',((e.clientX-r.left)/r.width*100)+'%');t.style.setProperty('--my',((e.clientY-r.top)/r.height*100)+'%');}
+    if(mock&&tilt){var m=mock.getBoundingClientRect();
+      if(e.clientX>m.left-80&&e.clientX<m.right+80&&e.clientY>m.top-80&&e.clientY<m.bottom+80){
+        var px=(e.clientX-m.left)/m.width-.5,py=(e.clientY-m.top)/m.height-.5;
+        tilt.style.transform='rotateY('+(px*9).toFixed(2)+'deg) rotateX('+(-py*9).toFixed(2)+'deg)';
+      }else tilt.style.transform='';}
+  },{passive:true});
+  d.addEventListener('pointerleave',function(){glow.style.opacity=0;if(tilt)tilt.style.transform='';});
+})();
+
+</script>
 </body>
 </html>

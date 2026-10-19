@@ -50,3 +50,9 @@ Landing page
 - Keep landing.html and index.html in the same folder. Needs internet only for the Google Fonts (falls back to system fonts offline).
 
 Settings > Erase all data now returns you to landing.html. The setup screen also has a 'Back to home' link.
+
+Landing page v2 - liquid glass and motion
+- Floating glass navigation with scroll progress bar, frosted-glass cards with cursor spotlight, drifting colour orbs behind the glass (with scroll parallax)
+- Hero: word-by-word headline entrance, 3D tilt on the dashboard preview, floating glass badges, count-up numbers, animated ring, bars and line chart
+- Sections reveal as you scroll; buttons have a light sweep; the final call-to-action pulses gently
+- Respects the "reduce motion" system setting (animations are turned off automatically)

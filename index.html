@@ -476,6 +476,37 @@
   @keyframes spulse{0%,100%{box-shadow:0 1px 0 rgba(255,255,255,.25) inset,0 8px 16px -6px rgba(79,70,229,.55)}50%{box-shadow:0 1px 0 rgba(255,255,255,.25) inset,0 8px 16px -6px rgba(79,70,229,.55),0 0 0 8px rgba(99,102,241,.14)}}
   .strust{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:22px;padding-top:16px;border-top:1px dashed var(--line);font-size:12px;color:var(--muted);font-weight:650}
   @media(max-width:560px){#setup .sbox{padding:22px}#setup h1{font-size:24px}}
+
+  /* ---------- v7: modules + GitHub live sync + module report ---------- */
+  .fgrid.six{grid-template-columns:1.2fr 1fr 1fr 1fr 1fr .8fr}
+  @media(max-width:1100px){.fgrid.six{grid-template-columns:1fr 1fr}}
+  .pill.mod{background:var(--brand-soft);color:var(--brand)}
+  #modSel{width:auto;max-width:220px;font-weight:600}
+  #modBar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 16px;padding:10px 14px;border:1px solid var(--line);border-left:4px solid var(--brand);border-radius:12px;background:var(--card);font-size:13px}
+  #modBar[hidden]{display:none}
+  .ghc{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:600;padding:7px 12px;border-radius:20px;border:1px solid var(--line);background:var(--card);cursor:pointer;color:var(--muted);white-space:nowrap}
+  .ghc i{width:8px;height:8px;border-radius:50%;background:#98a2b3;flex-shrink:0}
+  .ghc.ok i{background:var(--ok)}.ghc.sync i{background:var(--info);animation:ghp 1s ease-in-out infinite}.ghc.err i{background:var(--bad)}
+  .ghc.ok{color:var(--text)}.ghc.err{color:var(--bad);border-color:var(--bad)}
+  @keyframes ghp{50%{opacity:.25}}
+  .kv{display:grid;grid-template-columns:150px 1fr;gap:6px 14px;font-size:13px;margin-top:10px}.kv span{color:var(--muted)}.kv b{font-weight:600;word-break:break-all}
+  .gh-warn{margin-top:12px;padding:10px 12px;border-radius:10px;background:#fffaeb;color:#b54708;font-size:12px;line-height:1.6}
+  html[data-theme=dark] .gh-warn{background:#3a2a0c;color:#fdb022}
+  #ghDlg,#tDlg{margin:auto}
+  #ghDlg{border:1px solid var(--line);border-radius:18px;padding:22px;width:min(580px,94vw);background:var(--card);color:var(--text);box-shadow:var(--shadow-lg)}#ghDlg::backdrop{background:rgba(10,14,30,.45)}
+  .mrow{display:grid;grid-template-columns:170px 1fr 44px;gap:12px;align-items:center;padding:7px 0;font-size:13px}
+  .mrow .mn{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .mtrack{height:14px;background:var(--line2);border-radius:8px;overflow:hidden}
+  .mseg{display:flex;height:100%}.mseg i{display:block;height:100%}
+  .mmx td,.mmx th{text-align:center;min-width:46px}.mmx td:first-child,.mmx th:first-child{text-align:left}
+  .tbl tfoot td{border-top:2px solid var(--line);font-weight:700;border-bottom:none}
+  .only-print{display:none}
+  @media print{
+    .only-print{display:block;margin-bottom:14px}.only-print h2{font-size:20px}.only-print p{color:#555;font-size:12px}
+    body.pm .view{display:none!important}body.pm #v-reports{display:block!important}body.pm #v-insights{display:none!important}
+    body.pm #v-reports .rsec:not(#rp-mod),body.pm #rpNav,body.pm #rpKpis,body.pm .no-print,body.pm #modBar{display:none!important}
+    .no-print{display:none!important}#modBar,.ghc{display:none!important}
+  }
 </style>
 </head>
 <body>
@@ -484,7 +515,7 @@
   <div class="top">
     <div class="brand"><div class="mk"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/></svg></div>
       <div><h1 id="pageTitle">Dashboard</h1><p id="todayLbl"></p></div></div>
-    <div class="topr"><select id="meSel" title="Acting as (role-based access)" style="width:auto;max-width:200px"></select><button class="btn sm" id="cmdBtn" title="Quick actions (Ctrl/⌘ + K)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>Search<kbd>Ctrl K</kbd></button><button class="ib" id="themeBtn" title="Toggle light / dark" aria-label="Toggle theme"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button><button class="btn pri sm" id="newTaskBtn">＋ New task</button><span class="leadchip" id="offChip"></span><span class="leadchip" id="sideLeader"></span>
+    <div class="topr"><select id="modSel" title="Module you are working on / viewing"></select><span class="ghc" id="ghChip" title="GitHub live sync"><i></i><span>GitHub: not connected</span></span><select id="meSel" title="Acting as (role-based access)" style="width:auto;max-width:200px"></select><button class="btn sm" id="cmdBtn" title="Quick actions (Ctrl/⌘ + K)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>Search<kbd>Ctrl K</kbd></button><button class="ib" id="themeBtn" title="Toggle light / dark" aria-label="Toggle theme"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button><button class="btn pri sm" id="newTaskBtn">＋ New task</button><span class="leadchip" id="offChip"></span><span class="leadchip" id="sideLeader"></span>
     <div class="weeknav">
       <button class="ib" id="prevW" title="Previous week"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="m15 18-6-6 6-6"/></svg></button>
       <b id="weekLbl"></b>
@@ -493,6 +524,8 @@
     </div>
     </div>
   </div>
+
+  <div id="modBar" hidden></div>
 
   <!-- DASHBOARD -->
   <section class="view on" id="v-dash">
@@ -512,8 +545,9 @@
     <div class="panel">
       <h3>New Task</h3>
       <form id="taskForm">
-        <div class="fgrid five">
+        <div class="fgrid six">
           <div><label>Member</label><select id="fMember"></select></div>
+          <div><label>Module</label><select id="fModule"></select></div>
           <div><label>Date</label><input id="fToday" disabled></div>
           <div><label>Deadline</label><input type="date" id="fDeadline" required></div>
           <div><label>Priority</label><select id="fPriority"><option value="high">High</option><option value="med" selected>Medium</option><option value="low">Low</option></select></div>
@@ -602,13 +636,14 @@
     </div>
     <div class="panel"><h3>Member Workload &amp; Efficiency <small>est. vs actual office hours</small></h3><div class="twrap" id="memTbl"></div>
       <p class="hint" style="margin-top:10px"><b>Efficiency</b> = estimated ÷ actual office hours on completed tasks (100%+ means faster than estimated). Calculated only on completed tasks that have an estimate.</p></div>
+    <div class="panel"><h3>Module Breakdown <small>viewed week · all modules</small></h3><div class="twrap" id="insMod"></div></div>
     <div id="adv"></div>
     <div id="exec"></div>
   </section>
 
   <!-- REPORTS -->
   <section class="view" id="v-reports">
-    <div class="rnav" id="rpNav"><button class="chip on" data-sec="rp-perf"><b>Performance</b></button><button class="chip" data-sec="rp-lead"><b>Leaders</b></button><button class="chip" data-sec="rp-data"><b>Data &amp; Backup</b></button></div>
+    <div class="rnav" id="rpNav"><button class="chip on" data-sec="rp-perf"><b>Performance</b></button><button class="chip" data-sec="rp-mod"><b>Modules</b></button><button class="chip" data-sec="rp-lead"><b>Leaders</b></button><button class="chip" data-sec="rp-data"><b>Data &amp; Backup</b></button></div>
     <div class="kpis" id="rpKpis"></div>
 
     <div class="rsec" id="rp-perf">
@@ -619,6 +654,19 @@
           <p class="hint" style="margin-top:12px"><b>Scoring:</b> <span id="scoreHint"></span></p></div>
         <div class="panel"><h3>⏰ Deadline Meet Rate <small id="dlScope"></small></h3><div id="deadlineBars"></div></div>
       </div>
+    </div>
+
+    <div class="rsec" id="rp-mod">
+      <div class="sec-title"><h2>Module report</h2><small>Which module the work is going against — workload, delivery and effort per module</small></div>
+      <div class="only-print" id="modPrintHead"></div>
+      <div class="panel"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+        <div class="daychips" id="modPerChips"><button class="chip" data-p="week"><b>Viewed week</b></button><button class="chip" data-p="28"><b>4 weeks</b></button><button class="chip" data-p="84"><b>12 weeks</b></button><button class="chip" data-p="182"><b>26 weeks</b></button><button class="chip" data-p="all"><b>All time</b></button></div>
+        <div class="no-print" style="display:flex;gap:8px"><button class="btn sm" id="modCsv">⬇ CSV</button><button class="btn sm pri" id="modPrint">🖨 Print module report</button></div></div></div>
+      <div class="kpis" id="modKpis"></div>
+      <div class="panel"><h3>Workload &amp; delivery by module <small>bar length = number of tasks · colours = current state</small></h3><div id="modBars"></div></div>
+      <div class="panel"><h3>Module scorecard <small>use “Focus” to filter the whole dashboard to one module</small></h3><div class="twrap" id="modTbl"></div>
+        <p class="hint" style="margin-top:10px"><b>Deadline met</b> = on-time ÷ (completed + overdue). <b>Efficiency</b> = estimated ÷ actual office hours on completed tasks. Tasks with no module appear as “Unassigned”.</p></div>
+      <div class="panel"><h3>Who works on which module <small>tasks per member and module in the selected period</small></h3><div class="twrap" id="modMx"></div></div>
     </div>
 
     <div class="rsec" id="rp-lead">
@@ -662,6 +710,17 @@
         <div class="fgrid two" style="grid-template-columns:1fr 1fr"><div><label>Default priority</label><select data-s="pri"><option value="high">High</option><option value="med">Medium</option><option value="low">Low</option></select></div><div><label>New-task deadline (days ahead)</label><input type="number" data-s="due" min="0" max="30"></div></div>
         <div class="srow"><div><b>Theme</b><span>Light, dark, or follow your device</span></div><select data-s="theme" style="width:auto"><option value="auto">Auto</option><option value="light">Light</option><option value="dark">Dark</option></select></div><div class="srow"><div><b>Compact layout</b><span>Tighter spacing for dense screens</span></div><label class="sw"><input type="checkbox" data-s="compact"><i></i></label></div><div class="srow"><div><b>Show “Needs attention” panel</b><span>On the Home page</span></div><label class="sw"><input type="checkbox" data-s="attn"><i></i></label></div></div>
     </div>
+    <div class="cols even">
+      <div class="panel"><h3>▣ Modules <small>the list shown in “Working on module” and in the task form</small></h3>
+        <label>Module names <span style="font-weight:500">· one per line</span></label><textarea id="sModules" rows="8" placeholder="Sales&#10;Inventory&#10;Accounting"></textarea>
+        <div class="srow"><div><b>Require a module on new tasks</b><span>Task cannot be added until a module is chosen</span></div><label class="sw"><input type="checkbox" data-s="reqMod"><i></i></label></div>
+        <p class="hint" style="margin-top:8px">Press <b>Save settings</b> below to apply. Existing tasks keep their module even if you remove it from this list.</p></div>
+      <div class="panel" id="ghPanel"><h3>☁ Live sync to GitHub <small>every change is saved into one JSON file in your repository</small></h3>
+        <div id="ghStatus"></div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px"><button class="btn pri" id="ghCfg">⚙ Connect / configure</button><button class="btn" id="ghNow">⟳ Sync now</button><button class="btn" id="ghPull">⬇ Load from GitHub</button><button class="btn" id="ghForce">⬆ Overwrite GitHub</button>
+          <a class="btn" id="ghOpen" target="_blank" rel="noopener" hidden style="text-decoration:none">↗ Open data file</a><a class="btn" id="ghHist" target="_blank" rel="noopener" hidden style="text-decoration:none">🕘 Change history</a></div>
+        <p class="hint" style="margin-top:12px">The file holds a ready-to-read report (summary, module report, member report, task register) plus the full data for restore. Each save is a GitHub commit, so <b>Change history</b> shows who changed what and when.</p></div>
+    </div>
     <div class="panel"><h3>ℹ System <small>storage and backup status · v2.0</small></h3><div id="sInfo"></div>
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px"><button class="btn pri" id="sSave">Save settings</button><button class="btn" id="sReset">Reset to defaults</button><button class="btn" onclick="go('data')">Open Data &amp; Backup</button><button class="btn" id="sWipe" style="color:var(--bad);margin-left:auto">🗑 Erase all data</button></div></div>
   </section>
@@ -678,8 +737,16 @@
 <dialog id="tDlg"><form id="tForm"><h3 style="margin-bottom:14px">Edit task</h3>
 <div style="margin-bottom:10px"><label>Task</label><input id="eTitle" required maxlength="200"></div>
 <div class="fgrid" style="grid-template-columns:1fr 1fr"><div><label>Member</label><select id="eMember"></select></div><div><label>Deadline</label><input type="date" id="eDeadline" required></div><div><label>Priority</label><select id="ePri"><option value="high">High</option><option value="med">Medium</option><option value="low">Low</option></select></div><div><label>Estimate (hours)</label><input type="number" id="eEst" min="0" step="0.25"></div></div>
-<div style="margin-bottom:14px"><label>Notes</label><input id="eNotes"></div>
+<div class="fgrid" style="grid-template-columns:1fr 2fr;margin-bottom:14px"><div><label>Module</label><select id="eModule"></select></div><div><label>Notes</label><input id="eNotes"></div></div>
 <div style="display:flex;gap:8px;justify-content:flex-end"><button class="btn" type="button" id="eCancel">Cancel</button><button class="btn pri" type="submit">Save</button></div></form></dialog>
+<dialog id="ghDlg"><form id="ghForm"><h3 style="margin-bottom:6px">☁ Live sync to GitHub</h3>
+<p class="hint" style="margin-bottom:14px">Saves your data into one file in a GitHub repository after every change. The token stays only in this browser — it is never written into backups, Excel files or the GitHub data file.</p>
+<div class="fgrid" style="grid-template-columns:1fr 1fr"><div><label>Owner (user or organisation)</label><input id="ghOwner" placeholder="e.g. youknowumer" autocomplete="off" required></div><div><label>Repository</label><input id="ghRepo" placeholder="e.g. MISphere" autocomplete="off" required></div>
+<div><label>Branch</label><input id="ghBranch" placeholder="main" autocomplete="off"></div><div><label>File path in the repository</label><input id="ghPath" placeholder="data/mis-data.json" autocomplete="off"></div></div>
+<div style="margin-bottom:12px"><label>GitHub token (fine-grained, this repository only, permission “Contents: Read and write”)</label><input id="ghToken" type="password" autocomplete="off" spellcheck="false"></div>
+<div class="srow" style="border:none;padding:4px 0 12px"><div><b>Auto-sync</b><span>Save to GitHub a few seconds after every change</span></div><label class="sw"><input type="checkbox" id="ghAuto" checked><i></i></label></div>
+<p class="hint" style="margin-bottom:14px">Create the token at GitHub → Settings → Developer settings → Personal access tokens → Fine-grained tokens → Generate new token → select only this repository → Repository permissions → Contents → Read and write.</p>
+<div style="display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap"><button class="btn" type="button" id="ghOff" style="color:var(--bad);margin-right:auto" hidden>Disconnect</button><button class="btn" type="button" id="ghCancel">Cancel</button><button class="btn pri" type="submit" id="ghSave">Save &amp; connect</button></div></form></dialog>
 <div id="cmd" hidden><div class="cbox"><input id="cmdIn" placeholder="Search tasks and members, or run a command…" autocomplete="off" aria-label="Quick actions"><div id="cmdList"></div>
   <div class="cfoot"><span><kbd>↑</kbd> <kbd>↓</kbd> navigate</span><span><kbd>Enter</kbd> run</span><span><kbd>Esc</kbd> close</span></div></div></div>
 <div id="setup" hidden>
@@ -694,7 +761,7 @@
       <div class="tplgrid" id="tplGrid"></div>
       <div style="margin-bottom:16px"><label>Department name</label><input id="suDept" maxlength="40" placeholder="e.g. Operations"></div>
       <div style="margin-bottom:20px"><label>Team members <span style="font-weight:500">· one per line as “Name, Role” (up to 20) — the first person becomes Admin</span></label><textarea id="suMem" rows="6" placeholder="Name, Role&#10;Name, Role"></textarea><div class="sprev" id="suPrev"></div></div>
-      <div class="sbtns"><button class="btn pri" id="suGo">Create workspace →</button><button class="btn" id="suXl">⬆ Import filled Excel template</button><button class="btn" id="suTpl">⬇ Download Excel template</button></div>
+      <div class="sbtns"><button class="btn pri" id="suGo">Create workspace →</button><button class="btn" id="suXl">⬆ Import filled Excel template</button><button class="btn" id="suTpl">⬇ Download Excel template</button><button class="btn" id="suGh" type="button">☁ Load from GitHub</button></div>
       <div class="strust"><span>🔐 Roles &amp; access</span><span>📝 Daily notes</span><span>📊 Executive insights</span><span>🧾 Activity log</span><span>⬆ Excel import / export</span></div>
     </div>
   </div>
@@ -713,7 +780,13 @@ HTMLAnchorElement.prototype.click = function(){
 let MEMBERS = [];
 const DEFAULT_LEADER = "";
 const KEY = "mis_team_dashboard_v1";
-const DEF_SET = {start:9, end:18, days:[1,2,3,4,5], tc:85, td:80, te:100, cap:8, pon:10, plate:5, pov:5, phi:1.5, dept:"Team", pri:"med", due:0, compact:false, attn:true, lastBackup:0, theme:"auto", me:"", perms:null};
+const GH_KEY = "mis_gh_sync_v1", MOD_KEY = "mis_active_module_v1";
+const DEFAULT_MODULES = ["Sales","Purchase","Inventory","Accounting","CRM","HR / Payroll","Manufacturing","Projects","Website / eCommerce","Reporting / BI","IT Infrastructure","General"];
+const GH_DEF = {owner:"",repo:"",branch:"main",path:"data/mis-data.json",token:"",auto:true,sha:"",stamp:"",last:0,dirty:false,pub:false};
+let GH = (()=>{ try{ return {...GH_DEF, ...JSON.parse(localStorage.getItem(GH_KEY)||"{}")}; }catch{ return {...GH_DEF}; } })();
+let activeModule = (()=>{ try{ return localStorage.getItem(MOD_KEY)||"all"; }catch{ return "all"; } })();
+let ghSt = {s:"off", msg:""}, ghTimer = null, ghBusy = false, ghAgain = false, ghMute = false;
+const DEF_SET = {modules:DEFAULT_MODULES.slice(), reqMod:false, start:9, end:18, days:[1,2,3,4,5], tc:85, td:80, te:100, cap:8, pon:10, plate:5, pov:5, phi:1.5, dept:"Team", pri:"med", due:0, compact:false, attn:true, lastBackup:0, theme:"auto", me:"", perms:null};
 const S = () => db.settings;
 const $ = id => document.getElementById(id);
 const M = id => MEMBERS.find(m=>m.id===id);
@@ -739,13 +812,283 @@ function norm(d){
   if (MEMBERS.length && !MEMBERS.some(m=>m.access==="admin")) MEMBERS[0].access = "admin";
   d.log = Array.isArray(d.log) ? d.log.slice(-200) : [];
   d.notes = d.notes && typeof d.notes==="object" && !Array.isArray(d.notes) ? d.notes : {};
-  d.settings = {...DEF_SET, ...(d.settings||{})}; if (!Array.isArray(d.settings.days)) d.settings.days = DEF_SET.days.slice();
+  d.settings = {...DEF_SET, ...(d.settings||{})};
+  { const mods = []; (Array.isArray(d.settings.modules) ? d.settings.modules : DEFAULT_MODULES).forEach(x=>{ const c = clean(x); if (c && !mods.some(y=>y.toLowerCase()===c.toLowerCase())) mods.push(c); }); d.settings.modules = mods.slice(0,60); }
+  d.tasks = Array.isArray(d.tasks) ? d.tasks : []; d.tasks.forEach(t=>{ t.module = clean(t.module); }); if (!Array.isArray(d.settings.days)) d.settings.days = DEF_SET.days.slice();
   return d;
 }
 let db = norm(load());
 let weekStart = monday(new Date());
 let selectedMember = "all";
 let perfDay = "week";   // "week" or a YYYY-MM-DD within the viewed week
+
+// ---------- v7: modules (which module is the work against) ----------
+const modOf = t => t.module || "";
+const modName = k => k || "Unassigned";
+const modMatch = t => activeModule==="all" || modOf(t) === (activeModule==="__none" ? "" : activeModule);
+const T = () => activeModule==="all" ? db.tasks : db.tasks.filter(modMatch);
+function modList(){ const s = []; [...S().modules, ...db.tasks.map(t=>t.module)].forEach(x=>{ if (x && !s.some(y=>y.toLowerCase()===x.toLowerCase())) s.push(x); }); return s; }
+let modSig = "";
+function fillModules(force){
+  const L = modList();
+  if (activeModule!=="all" && activeModule!=="__none" && !L.includes(activeModule)) setModule("all", true);
+  const sig = JSON.stringify([L, db.tasks.some(t=>!t.module)]);
+  if (sig !== modSig || force){
+    modSig = sig;
+    const opt = (v,l)=>`<option value="${esc(v)}">${esc(l)}</option>`;
+    $("modSel").innerHTML = opt("all","▣ All modules") + L.map(x=>opt(x,x)).join("") + opt("__none","Unassigned (no module)");
+    const f = $("fModule"), pf = f.value;
+    f.innerHTML = opt("","— No module —") + L.map(x=>opt(x,x)).join("");
+    f.value = L.includes(pf) ? pf : (L.includes(activeModule) ? activeModule : "");
+    $("eModule").innerHTML = f.innerHTML;
+  }
+  $("modSel").value = activeModule;
+}
+function setModule(v, silent){
+  activeModule = v; try{ localStorage.setItem(MOD_KEY, v); }catch{}
+  if (silent) return;
+  fillModules(); const L = modList(); if (L.includes(v)) $("fModule").value = v;
+  render();
+}
+function renderModBar(){
+  const b = $("modBar");
+  if (activeModule==="all"){ b.hidden = true; return; }
+  b.hidden = false;
+  b.innerHTML = `<b>▣ Module view: ${esc(modName(activeModule==="__none" ? "" : activeModule))}</b><span class="hint">Dashboard, Tasks, Performance and Insights show only this module · ${T().length} task(s) in total · the Module report always compares all modules</span><button class="btn sm" id="modClear" style="margin-left:auto">Show all modules</button>`;
+  $("modClear").onclick = ()=>setModule("all");
+  $("todayLbl").textContent += " · Module: " + modName(activeModule==="__none" ? "" : activeModule);
+}
+$("modSel").onchange = e=>setModule(e.target.value);
+
+const pctN = (a,b)=> b ? Math.round(a/b*100) : null;
+function moduleRows(list){
+  const map = new Map();
+  list.forEach(t=>{ const k = modOf(t); if (!map.has(k)) map.set(k, []); map.get(k).push(t); });
+  return [...map.entries()].map(([k,l])=>{
+    const s = statsOf(l), st = {ontime:0,late:0,overdue:0,progress:0,todo:0}, byM = {};
+    l.forEach(t=>{ st[stateOf(t)]++; byM[t.member] = (byM[t.member]||0)+1; });
+    const top = Object.entries(byM).sort((a,b)=>b[1]-a[1])[0];
+    return {k, name:modName(k), l, s, st, open:l.filter(t=>t.status!=="done").length, hi:l.filter(t=>t.status!=="done" && t.priority==="high").length,
+      eff: s.doneSpent ? Math.round(s.doneEst/s.doneSpent*100) : null, nm:Object.keys(byM).length, top: top && M(top[0]) ? {m:M(top[0]), n:top[1]} : null};
+  }).sort((a,b)=> b.s.total-a.s.total || a.name.localeCompare(b.name));
+}
+let modPer = "28";
+function modRange(){
+  if (modPer==="week"){ const [s,e] = weekRange(); return [s, e, "week of " + $("weekLbl").textContent]; }
+  if (modPer==="all") return ["0000-01-01","9999-12-31","all time"];
+  const n = +modPer; return [ymd(addDays(new Date(), -(n-1))), "9999-12-31", `last ${n/7} weeks`];
+}
+function modTable(rows, tot, cls){
+  const rc = v => v==null ? "inherit" : v>=S().td ? "var(--ok)" : v>=S().td*.8 ? "var(--warn)" : "var(--bad)";
+  const line = r => `<td class="r">${r.s.total}</td><td class="r">${r.s.done}</td><td class="r">${r.s.ontime}</td><td class="r">${r.s.late}</td><td class="r" style="color:${r.s.overdue?"var(--bad)":"inherit"}">${r.s.overdue}</td><td class="r">${r.open}</td>
+    <td class="r" style="color:${rc(r.s.rate)}"><b>${r.s.rate==null?"–":r.s.rate+"%"}</b></td><td class="r">${r.s.avg}%</td><td class="r">${r.s.est?fmtH(r.s.est):"–"}</td><td class="r">${r.s.spent?fmtH(r.s.spent):"–"}</td>
+    <td class="r" style="color:${r.eff==null?"inherit":r.eff>=100?"var(--ok)":"var(--warn)"}">${r.eff==null?"–":r.eff+"%"}</td><td class="r"><b>${r.s.score}</b></td>`;
+  return `<table class="tbl ${cls||""}"><thead><tr><th>Module</th><th class="r">Tasks</th><th class="r">Done</th><th class="r">On time</th><th class="r">Late</th><th class="r">Overdue</th><th class="r">Open</th><th class="r">Deadline met</th><th class="r">Avg progress</th><th class="r">Est.</th><th class="r">Actual</th><th class="r">Efficiency</th><th class="r">Score</th><th>Lead contributor</th><th class="no-print"></th></tr></thead><tbody>`
+    + rows.map(r=>`<tr><td><b>▣ ${esc(r.name)}</b>${r.hi?` <span class="pill s-over" title="Open high-priority tasks">${r.hi} high</span>`:""}</td>${line(r)}<td>${r.top?`<span style="color:${r.top.m.c1};font-weight:600">${esc(r.top.m.name)}</span> <small style="color:var(--muted)">${r.top.n} of ${r.s.total}</small>`:"–"}</td><td class="no-print r"><button class="btn sm" data-focus="${esc(r.k||"__none")}">Focus</button></td></tr>`).join("")
+    + `</tbody><tfoot><tr><td>All modules</td>${line(tot)}<td></td><td class="no-print"></td></tr></tfoot></table>`;
+}
+function renderModules(){
+  const [a,b,lbl] = modRange(), list = db.tasks.filter(t=>t.date>=a && t.date<=b), rows = moduleRows(list), K = S();
+  const all = {s:statsOf(list), open:list.filter(t=>t.status!=="done").length, eff:null};
+  all.eff = all.s.doneSpent ? Math.round(all.s.doneEst/all.s.doneSpent*100) : null;
+  document.querySelectorAll("#modPerChips .chip").forEach(c=>c.classList.toggle("on", c.dataset.p===modPer));
+  $("modPrintHead").innerHTML = `<h2>${esc(K.dept)} — Module report</h2><p>Period: ${lbl} · generated ${new Date().toLocaleString("en-GB")} · ${list.length} task(s) across ${rows.length} module(s)</p>`;
+  // ---- KPIs
+  const k = (l,v,sub,c)=>`<div class="kpi rag" style="--c:${c||"var(--brand)"}"><small>${l}</small><b>${v}</b><span>${sub}</span></div>`;
+  const busy = rows.slice().sort((x,y)=>y.open-x.open)[0], risk = rows.slice().sort((x,y)=>y.s.overdue-x.s.overdue || y.hi-x.hi)[0];
+  const best = rows.filter(r=>r.s.rate!=null && r.s.done+r.s.overdue>=3).sort((x,y)=>y.s.rate-x.s.rate || y.s.done-x.s.done)[0];
+  $("modKpis").innerHTML = list.length
+    ? k("Modules in scope", rows.length, `${list.length} task(s) · ${lbl}`)
+    + k("Busiest module", busy&&busy.open ? esc(busy.name) : "–", busy&&busy.open ? `${busy.open} open task(s)` : "no open tasks", "var(--info)")
+    + k("Best delivery", best ? esc(best.name) : "–", best ? `${best.s.rate}% deadline met` : "needs 3+ due tasks in a module", "var(--ok)")
+    + k("Needs attention", risk&&risk.s.overdue ? esc(risk.name) : "None", risk&&risk.s.overdue ? `${risk.s.overdue} overdue · ${risk.hi} high priority open` : "nothing overdue", risk&&risk.s.overdue ? "var(--bad)" : "var(--ok)")
+    + k("Deadline met (all)", all.s.rate==null ? "–" : all.s.rate+"%", `target ${K.td}% · ${all.s.ontime} on time · ${all.s.late} late`, rag(all.s.rate, K.td))
+    : "";
+  if (!list.length){
+    const m = `<div class="empty">No tasks in this period. Pick a module when you add a task (Tasks → New Task → Module).</div>`;
+    $("modBars").innerHTML = m; $("modTbl").innerHTML = ""; $("modMx").innerHTML = ""; return;
+  }
+  // ---- stacked bars (length = workload, colours = state)
+  const mx = Math.max(...rows.map(r=>r.s.total)), seg = (n,c,t)=> n ? `<i title="${t}: ${n}" style="width:${n/mx*100}%;background:${c}"></i>` : "";
+  $("modBars").innerHTML = rows.map(r=>`<div class="mrow"><span class="mn" title="${esc(r.name)}">${esc(r.name)}</span><div class="mtrack"><div class="mseg" style="width:${r.s.total/mx*100}%">${seg(r.st.ontime,"var(--ok)","Done on time")}${seg(r.st.late,"var(--warn)","Done late")}${seg(r.st.progress,"var(--info)","In progress")}${seg(r.st.todo,"#c3cadb","To do")}${seg(r.st.overdue,"var(--bad)","Overdue")}</div></div><b style="text-align:right">${r.s.total}</b></div>`).join("")
+    + `<div class="legend"><span><i style="background:var(--ok)"></i>Done on time</span><span><i style="background:var(--warn)"></i>Done late</span><span><i style="background:var(--info)"></i>In progress</span><span><i style="background:#c3cadb"></i>To do</span><span><i style="background:var(--bad)"></i>Overdue</span></div>`;
+  $("modTbl").innerHTML = modTable(rows, all);
+  // ---- member x module matrix
+  const cell = (n,m)=> n ? `<td style="background:color-mix(in srgb,var(--brand) ${Math.round(8+n/m*52)}%,transparent);font-weight:600">${n}</td>` : `<td style="color:var(--muted)">·</td>`;
+  const grid = MEMBERS.map(m=>({m, c:rows.map(r=>r.l.filter(t=>t.member===m.id).length)})).filter(x=>x.c.some(Boolean));
+  const gm = Math.max(1, ...grid.flatMap(x=>x.c));
+  $("modMx").innerHTML = `<table class="tbl mmx"><thead><tr><th>Member</th>${rows.map(r=>`<th title="${esc(r.name)}">${esc(r.name.length>12 ? r.name.slice(0,11)+"…" : r.name)}</th>`).join("")}<th>Total</th></tr></thead><tbody>`
+    + grid.map(x=>`<tr><td><b style="color:${x.m.c1}">${esc(x.m.name)}</b></td>${x.c.map(n=>cell(n,gm)).join("")}<td><b>${x.c.reduce((p,q)=>p+q,0)}</b></td></tr>`).join("") + `</tbody></table>`;
+  // ---- compact breakdown inside Insights (viewed week, all modules)
+  const [ws,we] = weekRange(), wr = moduleRows(db.tasks.filter(t=>t.date>=ws && t.date<=we));
+  $("insMod").innerHTML = wr.length ? `<table class="tbl"><thead><tr><th>Module</th><th class="r">Tasks</th><th class="r">Done</th><th class="r">Overdue</th><th class="r">Deadline met</th><th class="r">Est.</th><th class="r">Actual</th></tr></thead><tbody>`
+    + wr.map(r=>`<tr><td><b>▣ ${esc(r.name)}</b></td><td class="r">${r.s.total}</td><td class="r">${r.s.done}</td><td class="r" style="color:${r.s.overdue?"var(--bad)":"inherit"}">${r.s.overdue}</td><td class="r">${r.s.rate==null?"–":r.s.rate+"%"}</td><td class="r">${r.s.est?fmtH(r.s.est):"–"}</td><td class="r">${r.s.spent?fmtH(r.s.spent):"–"}</td></tr>`).join("") + `</tbody></table>`
+    : `<div class="empty">No tasks this week.</div>`;
+}
+$("modPerChips").onclick = e=>{ const c = e.target.closest("[data-p]"); if (c){ modPer = c.dataset.p; renderModules(); } };
+$("modTbl").onclick = e=>{ const b = e.target.closest("[data-focus]"); if (b){ setModule(b.dataset.focus); toast("Module view: " + modName(b.dataset.focus==="__none" ? "" : b.dataset.focus)); window.scrollTo({top:0,behavior:"smooth"}); } };
+$("modPrint").onclick = ()=>{ document.body.classList.add("pm"); const off = ()=>{ document.body.classList.remove("pm"); removeEventListener("afterprint", off); }; addEventListener("afterprint", off); window.print(); };
+$("modCsv").onclick = ()=>{
+  const q = v => `"${String(v==null?"":v).replace(/"/g,'""')}"`, [a,b,lbl] = modRange();
+  const rows = [["Module","Tasks","Done","On time","Late","Overdue","Open","High priority open","Deadline met %","Avg progress %","Est hours","Actual hours","Efficiency %","Score","Lead contributor"]]
+    .concat(moduleRows(db.tasks.filter(t=>t.date>=a && t.date<=b)).map(r=>[r.name,r.s.total,r.s.done,r.s.ontime,r.s.late,r.s.overdue,r.open,r.hi,r.s.rate==null?"":r.s.rate,r.s.avg,+r.s.est.toFixed(2),+r.s.spent.toFixed(2),r.eff==null?"":r.eff,r.s.score,r.top?r.top.m.name:""]));
+  const a2 = document.createElement("a"); a2.href = URL.createObjectURL(new Blob(["﻿"+rows.map(r=>r.map(q).join(",")).join("\r\n")],{type:"text/csv;charset=utf-8"}));
+  a2.download = `mis-module-report-${lbl.replace(/[^a-z0-9]+/gi,"-")}-${today()}.csv`; a2.click(); setTimeout(()=>URL.revokeObjectURL(a2.href),1000); toast("Module report downloaded");
+};
+
+// ---------- v7: live sync to GitHub (one JSON file in your repository) ----------
+const ghOn = () => !!(GH.owner && GH.repo && GH.token);
+const ghSaveCfg = () => { try{ localStorage.setItem(GH_KEY, JSON.stringify(GH)); }catch{} };
+const ghUrl = () => `https://api.github.com/repos/${encodeURIComponent(GH.owner)}/${encodeURIComponent(GH.repo)}/contents/${GH.path.split("/").map(encodeURIComponent).join("/")}`;
+const ghHead = () => ({Accept:"application/vnd.github+json", Authorization:"Bearer "+GH.token, "X-GitHub-Api-Version":"2022-11-28"});
+const b64e = s => { const b = new TextEncoder().encode(s); let bin = ""; for (let i=0;i<b.length;i+=0x8000) bin += String.fromCharCode.apply(null, b.subarray(i,i+0x8000)); return btoa(bin); };
+const b64d = s => { const bin = atob(s.replace(/\s/g,"")), u = new Uint8Array(bin.length); for (let i=0;i<bin.length;i++) u[i] = bin.charCodeAt(i); return new TextDecoder().decode(u); };
+async function ghErr(r){
+  let m = ""; try{ m = (await r.json()).message || ""; }catch{}
+  const e = new Error(r.status===401 ? "Token is invalid or expired — create a new one and reconnect"
+    : r.status===403 ? "Access denied — the token needs “Contents: Read and write” on this repository (or GitHub rate limit reached)"
+    : r.status===404 ? "Repository, branch or file not found — check owner / repo / branch, and that the token can access this repository"
+    : r.status===409 || r.status===422 ? "GitHub reports a conflicting change — try Sync now again" : (m || "GitHub error " + r.status));
+  e.status = r.status; return e;
+}
+function ghSet(s, msg){ ghSt = {s, msg:msg||""}; ghRender(); }
+function ghRender(){
+  const c = $("ghChip"); if (!c) return;
+  const tm = GH.last ? new Date(GH.last).toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"}) : "";
+  const lab = {off:"GitHub: not connected", idle:"GitHub: connected", pending:"GitHub: saving…", sync:"GitHub: syncing…", ok:"GitHub: synced "+tm, err:"GitHub: sync failed", conflict:"GitHub: needs attention"}[ghSt.s];
+  c.className = "ghc " + ({ok:"ok", sync:"sync", pending:"sync", err:"err", conflict:"err"}[ghSt.s] || "");
+  c.lastElementChild.textContent = lab; c.title = ghSt.msg || "GitHub live sync — click for details";
+  const st = $("ghStatus"); if (!st) return;
+  const file = ghOn() ? `https://github.com/${GH.owner}/${GH.repo}/blob/${GH.branch}/${GH.path}` : "";
+  const hist = ghOn() ? `https://github.com/${GH.owner}/${GH.repo}/commits/${GH.branch}/${GH.path}` : "";
+  st.innerHTML = ghOn()
+    ? `<div class="kv"><span>Status</span><b style="color:${ghSt.s==="ok"?"var(--ok)":ghSt.s==="err"||ghSt.s==="conflict"?"var(--bad)":"inherit"}">${esc(lab.replace("GitHub: ",""))}${ghSt.msg?` — ${esc(ghSt.msg)}`:""}</b>
+       <span>Repository</span><b>${esc(GH.owner)}/${esc(GH.repo)} · ${esc(GH.branch)}</b><span>Data file</span><b>${esc(GH.path)}</b>
+       <span>Last synced</span><b>${GH.last ? new Date(GH.last).toLocaleString("en-GB") : "not yet"}</b><span>Auto-sync</span><b>${GH.auto?"On — saved a few seconds after every change":"Off — use Sync now"}</b></div>`
+      + (GH.pub ? `<div class="gh-warn">⚠ This repository is <b>public</b> — anyone on the internet can read the data file (tasks, names, notes). Use a private repository if the data is confidential.</div>` : "")
+    : `<p class="hint">Not connected. Click <b>Connect</b> and enter your repository and a GitHub token. Until then, data stays in this browser only.</p>`;
+  const lk = (id,h)=>{ const a = $(id); a.hidden = !h; if (h) a.href = h; };
+  lk("ghOpen", file); lk("ghHist", hist);
+  ["ghNow","ghPull","ghForce"].forEach(id=>$(id).disabled = !ghOn());
+}
+function ghSchedule(){
+  if (!ghOn() || ghMute) return;
+  GH.dirty = true; ghSaveCfg();
+  if (!GH.auto || ghSt.s==="conflict") return;
+  ghSet("pending"); clearTimeout(ghTimer); ghTimer = setTimeout(()=>ghPush(), 6000);
+}
+async function ghGet(){
+  const r = await fetch(ghUrl()+"?ref="+encodeURIComponent(GH.branch), {headers:ghHead(), cache:"no-store"});
+  if (r.status===404) return {missing:true};
+  if (!r.ok) throw await ghErr(r);
+  const j = await r.json(); let text = j.content && j.encoding==="base64" ? b64d(j.content) : "";
+  if (!text && j.size){ const rr = await fetch(ghUrl()+"?ref="+encodeURIComponent(GH.branch), {headers:{...ghHead(), Accept:"application/vnd.github.raw+json"}, cache:"no-store"}); if (!rr.ok) throw await ghErr(rr); text = await rr.text(); }
+  return {sha:j.sha, text};
+}
+function ghPayload(){
+  const K = S(), all = db.tasks, st = statsOf(all), mn = id => (M(id)||{name:id}).name, r2 = v => +v.toFixed(2);
+  return {
+    _about: "MIS Team Dashboard — live data file. Written automatically by the dashboard on every change. Open it on GitHub to read the report; do not edit by hand (use Settings → Live sync → Load from GitHub to restore).",
+    updatedAt: new Date().toISOString(), updatedBy: (ME()||{}).name || "", department: K.dept,
+    summary: {tasks:all.length, members:MEMBERS.length, done:st.done, open:all.length-st.done, overdue:st.overdue, deadlineMetPct:st.rate, avgProgressPct:st.avg, estimatedHours:r2(st.est), actualHours:r2(st.spent)},
+    moduleReport: moduleRows(all).map(r=>({module:r.name, tasks:r.s.total, done:r.s.done, onTime:r.s.ontime, late:r.s.late, overdue:r.s.overdue, open:r.open, highPriorityOpen:r.hi, deadlineMetPct:r.s.rate, avgProgressPct:r.s.avg, estimatedHours:r2(r.s.est), actualHours:r2(r.s.spent), efficiencyPct:r.eff, score:r.s.score, leadContributor:r.top?r.top.m.name:null})),
+    memberReport: MEMBERS.map(m=>{ const x = statsOf(all.filter(t=>t.member===m.id)); return {member:m.name, role:m.role, tasks:x.total, done:x.done, overdue:x.overdue, deadlineMetPct:x.rate, score:x.score}; }),
+    taskRegister: all.slice().sort((a,b)=>b.date.localeCompare(a.date)||b.created-a.created).map(t=>({module:t.module||"Unassigned", member:mn(t.member), task:t.title, priority:PRN[t.priority], status:STN[t.status], state:stLbl[stateOf(t)][0], progressPct:t.status==="done"?100:(t.progress||0), date:t.date, deadline:t.deadline, completedOn:t.completedAt||null, estimatedHours:t.estHours||null, hoursSpent:r2(spentOf(t)), notes:t.notes||"", id:t.id})),
+    data: {version:2, ...db}
+  };
+}
+async function ghPush(force){
+  if (!ghOn()) return;
+  if (ghBusy){ ghAgain = true; return; }
+  ghBusy = true; clearTimeout(ghTimer); ghSet("sync");
+  try{
+    const cur = await ghGet();
+    if (!cur.missing && !force){
+      let st = ""; try{ st = JSON.parse(cur.text).updatedAt || ""; }catch{}
+      if (!GH.stamp || st !== GH.stamp){ ghSet("conflict", "GitHub already holds a different data file (changed elsewhere, or first connection). Choose Load from GitHub or Overwrite GitHub in Settings."); return; }
+    }
+    const p = ghPayload(), body = {message:`MIS data · ${p.summary.tasks} tasks · ${p.updatedBy||"dashboard"} · ${p.updatedAt.slice(0,16).replace("T"," ")} UTC`, content:b64e(JSON.stringify(p,null,2)), branch:GH.branch};
+    if (!cur.missing) body.sha = cur.sha;
+    const r = await fetch(ghUrl(), {method:"PUT", headers:{...ghHead(),"Content-Type":"application/json"}, body:JSON.stringify(body)});
+    if (!r.ok) throw await ghErr(r);
+    const j = await r.json(); GH.sha = j.content.sha; GH.stamp = p.updatedAt; GH.last = Date.now(); GH.dirty = false; ghSaveCfg(); ghSet("ok");
+  }catch(e){ ghSet("err", e.message || "Network error — will retry on the next change"); }
+  finally{ ghBusy = false; if (ghAgain){ ghAgain = false; ghSchedule(); } }
+}
+function ghApply(d){
+  ghMute = true;
+  try{
+    const hex = /^#[0-9a-f]{3,8}$/i, mem = d.members.filter(m=>m && m.id && m.name && hex.test(m.c1) && hex.test(m.c2));
+    if (!mem.length) throw new Error("No valid members in the GitHub file");
+    const me = S().me; MEMBERS = mem;
+    db = norm({tasks:d.tasks.filter(t=>t && t.id && M(t.member) && validDay(t.date) && validDay(t.deadline)), leaders:d.leaders||{}, members:mem, notes:d.notes||{}, log:d.log||[], settings:{...(d.settings||{}), me}});
+    save(); fillSelects(); fillModules(true); render();
+  } finally { ghMute = false; }
+}
+async function ghPull(){
+  if (!ghOn()) return false;
+  if (ghBusy) return false;
+  ghBusy = true; clearTimeout(ghTimer); ghSet("sync");
+  try{
+    const cur = await ghGet();
+    if (cur.missing){ ghSet("idle", "No data file on GitHub yet — it is created on the next sync"); toast("No data file on GitHub yet"); return false; }
+    const p = JSON.parse(cur.text), d = p && p.data;
+    if (!d || !Array.isArray(d.tasks) || !Array.isArray(d.members)) throw new Error("The GitHub file is not a valid MIS data file");
+    ghApply(d); GH.sha = cur.sha; GH.stamp = p.updatedAt || ""; GH.last = Date.now(); GH.dirty = false; ghSaveCfg(); ghSet("ok"); toast(`Loaded ${d.tasks.length} task(s) from GitHub ✔`); return true;
+  }catch(e){ ghSet("err", e.message); toast("GitHub: " + e.message); return false; }
+  finally{ ghBusy = false; }
+}
+async function ghResolve(){
+  if (confirm("GitHub already has a data file that differs from this browser.\n\nOK  = load the GitHub data into this browser (this browser's data is replaced)\nCancel = keep this browser's data")) return ghPull();
+  if (confirm("Overwrite the GitHub file with this browser's data instead?\n\nOK = overwrite GitHub (the old version stays in the commit history)\nCancel = do nothing for now")) return ghPush(true);
+  ghSet("conflict", "Sync paused until you choose Load from GitHub or Overwrite GitHub.");
+}
+async function ghCheck(interactive){
+  if (!ghOn()) { ghSet("off"); return; }
+  ghSet("sync");
+  try{
+    const cur = await ghGet();
+    if (cur.missing){ ghSet("idle"); if (MEMBERS.length){ ghBusy = false; await ghPush(); } return; }
+    let p = {}; try{ p = JSON.parse(cur.text); }catch{}
+    if (GH.stamp && p.updatedAt === GH.stamp){ GH.sha = cur.sha; ghSet(GH.dirty ? "pending" : "ok"); if (GH.dirty) ghPush(); return; }
+    if (!MEMBERS.length){ await ghPull(); return; }
+    if (!GH.dirty && GH.stamp){
+      if (confirm(`GitHub has newer data (updated ${p.updatedAt ? new Date(p.updatedAt).toLocaleString("en-GB") : "?"}${p.updatedBy ? " by "+p.updatedBy : ""}).\n\nLoad it into this browser now?`)) { await ghPull(); return; }
+    }
+    ghSet("conflict", "GitHub holds a different data file than this browser.");
+    if (interactive) await ghResolve(); else toast("GitHub sync paused — open the GitHub chip to resolve");
+  }catch(e){ ghSet("err", e.message || "Network error"); }
+}
+function ghOpenDlg(){
+  $("ghOwner").value = GH.owner; $("ghRepo").value = GH.repo; $("ghBranch").value = GH.branch; $("ghPath").value = GH.path; $("ghToken").value = ""; $("ghAuto").checked = GH.auto;
+  $("ghToken").placeholder = GH.token ? "•••••••• saved in this browser — leave blank to keep" : "github_pat_…  (fine-grained token)"; $("ghOff").hidden = !GH.token; $("ghDlg").showModal();
+}
+$("ghCfg").onclick = $("suGh").onclick = ghOpenDlg;
+$("ghCancel").onclick = ()=>$("ghDlg").close();
+$("ghOff").onclick = ()=>{ if (!confirm("Disconnect GitHub and remove the saved token from this browser? Data already on GitHub stays there.")) return; GH = {...GH_DEF}; ghSaveCfg(); $("ghDlg").close(); ghSet("off"); toast("GitHub disconnected"); };
+$("ghForm").onsubmit = async e=>{
+  e.preventDefault(); const v = id=>$(id).value.trim(), nm = /^[\w.-]+$/;
+  const path = v("ghPath").replace(/^\/+/,"") || "data/mis-data.json", tok = v("ghToken") || GH.token;
+  if (!nm.test(v("ghOwner")) || !nm.test(v("ghRepo"))){ toast("Check the owner and repository name"); return; }
+  if (!tok){ toast("Paste your GitHub token"); return; }
+  const same = v("ghOwner")===GH.owner && v("ghRepo")===GH.repo && (v("ghBranch")||"main")===GH.branch && path===GH.path;
+  const old = GH; GH = {...GH, owner:v("ghOwner"), repo:v("ghRepo"), branch:v("ghBranch")||"main", path, token:tok, auto:$("ghAuto").checked, ...(same?{}:{sha:"",stamp:"",dirty:false})};
+  const btn = $("ghSave"); btn.disabled = true; btn.textContent = "Connecting…";
+  try{
+    const r = await fetch(`https://api.github.com/repos/${encodeURIComponent(GH.owner)}/${encodeURIComponent(GH.repo)}`, {headers:ghHead(), cache:"no-store"});
+    if (!r.ok) throw await ghErr(r);
+    const j = await r.json();
+    if (j.permissions && j.permissions.push===false) throw new Error("This token can read but not write to the repository — it needs “Contents: Read and write”");
+    GH.pub = j.private===false; ghSaveCfg(); $("ghDlg").close(); toast("GitHub connected ✔"); ghRender(); await ghCheck(true);
+  }catch(err){ GH = old; toast("GitHub: " + err.message); }
+  finally{ btn.disabled = false; btn.textContent = "Save & connect"; }
+};
+$("ghNow").onclick = ()=>{ if (ghSt.s==="conflict") ghResolve(); else ghPush(); };
+$("ghPull").onclick = ()=>{ if (confirm("Replace the data in this browser with the data from GitHub?")) ghPull(); };
+$("ghForce").onclick = ()=>{ if (confirm("Overwrite the GitHub file with the data in this browser? The previous version stays in the commit history.")) ghPush(true); };
+$("ghChip").onclick = ()=>{ if (ghSt.s==="conflict") ghResolve(); else if (ghSt.s==="err" && ghOn()) ghPush(); else go("settings"); };
+document.addEventListener("visibilitychange", ()=>{ if (document.visibilityState==="hidden" && ghSt.s==="pending") ghPush(); });
+
 
 function load(){
   try{
@@ -758,6 +1101,7 @@ function load(){
 function save(){
   try{ localStorage.setItem(KEY, JSON.stringify(db)); }
   catch{ toast("⚠ Unable to save data — browser storage is disabled or full. Please take a backup!"); }
+  ghSchedule();
 }
 function toast(msg){ const t=$("toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove("show"),2200); }
 
@@ -769,7 +1113,7 @@ function leaderOf(key){
   return M(id) ? id : (MEMBERS[0] ? MEMBERS[0].id : "");
 }
 function weekRange(){ return [ymd(weekStart), ymd(addDays(weekStart,6))]; }
-function weekTasks(){ const [s,e] = weekRange(); return db.tasks.filter(t => t.date >= s && t.date <= e); }
+function weekTasks(){ const [s,e] = weekRange(); return T().filter(t => t.date >= s && t.date <= e); }
 
 function stateOf(t){
   if (t.status === "done") return t.completedAt <= t.deadline ? "ontime" : "late";
@@ -861,10 +1205,11 @@ function render(){
   const [s,e] = weekRange(), leader = leaderOf(wkKey()), wt = weekTasks();
   $("weekLbl").textContent = `${fmt(s)} – ${fmt(e,{day:"numeric",month:"short",year:"numeric"})}`;
   $("todayLbl").textContent = S().dept + " · " + new Date().toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
+  renderModBar();
   $("sideLeader").innerHTML = `👑 Leader: ${M(leader).name}`;
   const over = wt.filter(t=>stateOf(t)==="overdue").length;
   $("tbOver").hidden = !over; $("tbOver").textContent = over>9 ? "9+" : over;
-  applySet(); renderStats(wt); renderAttention(); renderInsights(wt); renderTeamPage(); renderDeep(); renderTeam(wt, leader); renderTasks(); renderPerf(wt, leader); renderHistory(); renderAdvanced(wt); renderExec(); renderSettings(); renderReports(wt); renderNotes(); renderAccess(); $("homeEmpty").hidden = db.tasks.length>0;
+  applySet(); fillModules(); renderStats(wt); renderAttention(); renderInsights(wt); renderTeamPage(); renderDeep(); renderTeam(wt, leader); renderTasks(); renderPerf(wt, leader); renderHistory(); renderAdvanced(wt); renderExec(); renderSettings(); renderReports(wt); renderModules(); renderNotes(); renderAccess(); $("homeEmpty").hidden = db.tasks.length>0;
 }
 
 function renderStats(wt){
@@ -976,13 +1321,13 @@ function tieSort(a,b){
 function renderTasks(){
   const fs = $("flStatus").value, q = $("flSearch").value.trim().toLowerCase();
   const [ws, we] = weekRange();
-  const list = db.tasks.filter(t=>{
+  const list = T().filter(t=>{
     const d = listDay(t); if (d < ws || d > we) return false;
     if (selectedMember!=="all" && t.member!==selectedMember) return false;
     const st = stateOf(t);
     if (fs==="done" && t.status!=="done") return false;
     if (["todo","progress","overdue"].includes(fs) && st!==fs) return false;
-    if (q && !(t.title+" "+(t.notes||"")).toLowerCase().includes(q)) return false;
+    if (q && !(t.title+" "+(t.notes||"")+" "+(t.module||"")).toLowerCase().includes(q)) return false;
     return true;
   });
   $("taskCount").textContent = `${list.length} task(s)`;
@@ -1004,7 +1349,7 @@ function taskHTML(t){
     <div>
       <div class="t-title ${t.status==="done"?"done":""}">${esc(t.title)}</div>
       <div class="meta"><b style="color:${m.c1}">${m.name}</b><span>· Deadline ${fmt(t.deadline)}</span>${t.assignedBy&&t.assignedBy!==t.member&&M(t.assignedBy)?`<span>· by ${M(t.assignedBy).name}</span>`:""}
-        <span class="pill ${pc}">${pl}</span><span class="pill ${sc}">${sl}</span>
+        <span class="pill ${pc}">${pl}</span><span class="pill ${sc}">${sl}</span>${t.module?`<span class="pill mod" title="Module">▣ ${esc(t.module)}</span>`:""}
         ${t.completedAt?`<span>· Done ${fmt(t.completedAt)}</span>`:""}
         ${t.estHours?`<span>· Est ${fmtH(t.estHours)}</span>`:""}
         ${carryPill(t)}
@@ -1083,10 +1428,10 @@ function renderPerf(wt, leader){
 
 function renderHistory(){
   // weeks that have tasks or a leader set, plus current viewed week
-  const keys = new Set([wkKey(), ymd(monday(new Date())), ...Object.keys(db.leaders), ...db.tasks.map(t=>ymd(monday(parse(t.date))))]);
+  const keys = new Set([wkKey(), ymd(monday(new Date())), ...Object.keys(db.leaders), ...T().map(t=>ymd(monday(parse(t.date))))]);
   histN = keys.size; $("histList").innerHTML = [...keys].sort().reverse().slice(0, histAll?999:6).map(k=>{
     const L = M(leaderOf(k)), e = ymd(addDays(parse(k),6));
-    const wt = db.tasks.filter(t=>t.date>=k && t.date<=e);
+    const wt = T().filter(t=>t.date>=k && t.date<=e);
     const best = ranking(wt, L.id).find(r=>r.s.total);
     return `<div class="hist ${k===wkKey()?"cur":""}">
       <div class="wk">${fmt(k)} – ${fmt(e)}<small>${parse(k).getFullYear()}${db.leaders[k]?"":" · auto"}</small></div>
@@ -1103,7 +1448,7 @@ function renderHistory(){
 
 // ---------- navigation ----------
 const TITLES = {notes:"Daily Notes", dash:"Dashboard", tasks:"Tasks", perf:"Performance", insights:"Insights", team:"Members", leaders:"Leader History", data:"Backup", settings:"Settings", reports:"Reports & Data"};
-const SUBS = {perf:"rp-perf", leaders:"rp-lead", data:"rp-data"};
+const SUBS = {modules:"rp-mod", perf:"rp-perf", leaders:"rp-lead", data:"rp-data"};
 function go(v){
   const sec = SUBS[v]; if (sec) v = "reports";
   document.querySelectorAll(".view").forEach(s=>s.classList.toggle("on", s.id==="v-"+v));
@@ -1136,10 +1481,11 @@ $("taskForm").onsubmit = e=>{
   e.preventDefault();
   if (role()==="viewer") return deny(); const who = can("assign") ? $("fMember").value : ME().id;
   if (M(who).status==="leave" && !confirm(`${M(who).name} is on leave. Assign anyway?`)) return;
+  if (S().reqMod && !$("fModule").value){ toast("Please choose the module this task is for"); return; }
   const date = today(), deadline = $("fDeadline").value;
   if (deadline < date){ toast("Deadline cannot be earlier than today"); return; }
   db.tasks.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),
-    member:who, assignedBy:ME().id, title:$("fTitle").value.trim(), notes:$("fNotes").value.trim(),
+    member:who, module:clean($("fModule").value), assignedBy:ME().id, title:$("fTitle").value.trim(), notes:$("fNotes").value.trim(),
     date, deadline, priority:$("fPriority").value, status:"todo", progress:0, completedAt:null, created:Date.now(),
     estHours: +$("fEst").value || null, doneAt:null});
   logAct(`added task “${$("fTitle").value.trim()}” for ${M(who).name}`); save(); $("fTitle").value=""; $("fNotes").value=""; $("fEst").value=""; initForm(); $("fTitle").focus();
@@ -1218,7 +1564,7 @@ $("clearWeek").onclick = ()=>{
 };
 
 // ---------- pro layer: deltas, attention, insights, reports ----------
-function prevWeekTasks(){ const s = ymd(addDays(weekStart,-7)), e = ymd(addDays(weekStart,-1)); return db.tasks.filter(t=>t.date>=s && t.date<=e); }
+function prevWeekTasks(){ const s = ymd(addDays(weekStart,-7)), e = ymd(addDays(weekStart,-1)); return T().filter(t=>t.date>=s && t.date<=e); }
 function delta(a,b,inv){
   const d = a-b; if (!d) return `<em class="dl">• same as last week</em>`;
   const good = inv ? d<0 : d>0;
@@ -1226,7 +1572,7 @@ function delta(a,b,inv){
 }
 function renderAttention(){
   const td = today(), tm = ymd(addDays(new Date(),1)), el = $("attention");
-  el.hidden = !S().attn; const rows = db.tasks.filter(t=>t.status!=="done" && t.deadline<=tm)
+  el.hidden = !S().attn; const rows = T().filter(t=>t.status!=="done" && t.deadline<=tm)
     .sort((a,b)=> a.deadline.localeCompare(b.deadline) || PR[a.priority]-PR[b.priority]);
   el.classList.toggle("clear", !rows.length);
   if (!rows.length){ el.innerHTML = `<h3>✅ All clear <small>no tasks overdue or due by tomorrow</small></h3>`; return; }
@@ -1250,7 +1596,7 @@ function renderInsights(wt){
     + kp("Hours logged", fmtH(s.spent), s.est ? `of ${fmtH(s.est)} estimated` : "no estimates set")
     + kp("Time efficiency", eff==null?"–":eff+"%", eff==null?"needs estimates on done tasks":eff>=100?"faster than estimated":"slower than estimated");
   const days = [...Array(7)].map((_,i)=>ymd(addDays(weekStart,i)));
-  const cr = days.map(d=>wt.filter(t=>t.date===d).length), dn = days.map(d=>db.tasks.filter(t=>t.completedAt===d).length);
+  const cr = days.map(d=>wt.filter(t=>t.date===d).length), dn = days.map(d=>T().filter(t=>t.completedAt===d).length);
   const mx = Math.max(1,...cr,...dn);
   $("actChart").innerHTML = `<div class="bch">${days.map((d,i)=>`<div class="bcol"><div class="bpair">
       <i data-v="${cr[i]||""}" style="height:${cr[i]/mx*88}%;background:linear-gradient(180deg,#8b5cf6,#4f46e5)"></i>
@@ -1286,7 +1632,7 @@ function renderTeamPage(){
   const leader = leaderOf(wkKey());
   $("memCount").textContent = MEMBERS.length + " member" + (MEMBERS.length===1?"":"s");
   $("memList").innerHTML = `<table class="tbl"><thead><tr><th>Member</th><th>Role</th><th>Access</th><th class="r">Open</th><th class="r">Done</th><th class="r">Actions</th></tr></thead><tbody>` + MEMBERS.map(m=>{
-    const mine = db.tasks.filter(t=>t.member===m.id), done = mine.filter(t=>t.status==="done").length;
+    const mine = T().filter(t=>t.member===m.id), done = mine.filter(t=>t.status==="done").length;
     return `<tr><td><div class="mrow"><div class="t-av" style="background:linear-gradient(135deg,${m.c1},${m.c2})">${initials(m.name)}</div>
       <div><b>${m.name}</b>${m.id===leader?` <span class="tag">👑 Leader</span>`:""}</div></div></td>
       <td>${esc(m.role)}</td><td><span class="acc ${m.access}">${ROLES[m.access]}</span>${m.status==="leave"?` <span class="pill s-late">On leave</span>`:""}</td><td class="r">${mine.length-done}</td><td class="r">${done}</td>
@@ -1334,7 +1680,7 @@ $("memList").addEventListener("click", e=>{
 // ---------- advanced analytics ----------
 function wkStat(off){
   const st = addDays(weekStart,-7*off), a = ymd(st), b = ymd(addDays(st,6));
-  const l = db.tasks.filter(t=>t.date>=a && t.date<=b); return {a, l, s:statsOf(l)};
+  const l = T().filter(t=>t.date>=a && t.date<=b); return {a, l, s:statsOf(l)};
 }
 function renderDeep(){
   const wks = [5,4,3,2,1,0].map(wkStat);
@@ -1349,7 +1695,7 @@ function renderDeep(){
       const x = statsOf(w.l.filter(t=>t.member===m.id));
       return x.total ? `<td style="background:rgba(79,70,229,${(.12+x.avg/100*.78).toFixed(2)});color:${x.avg>50?"#fff":"var(--text)"}">${x.avg}%<small>${x.total} task${x.total===1?"":"s"}</small></td>` : `<td style="background:var(--soft);color:var(--muted)">–</td>`; }).join("")}</tr>`).join("") + `</tbody></table>`;
   const open = MEMBERS.map(m=>{
-    const mine = db.tasks.filter(t=>t.member===m.id), dn = mine.filter(t=>t.status==="done");
+    const mine = T().filter(t=>t.member===m.id), dn = mine.filter(t=>t.status==="done");
     const days = dn.length ? dn.reduce((a,t)=>a+workDaysBetween(t.date, t.completedAt||t.date),0)/dn.length : null;
     return {m, o:mine.filter(t=>t.status!=="done").length, days};
   });
@@ -1368,7 +1714,7 @@ function exportXlsx(){
   const X = xl(); if (!X) return;
   const mn = id => (M(id)||{name:id}).name, wb = X.utils.book_new();
   const tasks = db.tasks.slice().sort((a,b)=>a.date.localeCompare(b.date)||a.created-b.created).map(t=>({
-    "ID":t.id, "Member":mn(t.member), "Task":t.title, "Notes":t.notes||"", "Date":t.date, "Deadline":t.deadline,
+    "ID":t.id, "Member":mn(t.member), "Module":t.module||"", "Task":t.title, "Notes":t.notes||"", "Date":t.date, "Deadline":t.deadline,
     "Priority":PRN[t.priority]||"Medium", "Status":STN[t.status]||"To Do", "Progress %":t.status==="done"?100:(t.progress||0),
     "Completed On":t.completedAt||"", "Est Hours":t.estHours||"", "Office Hours Spent":+spentOf(t).toFixed(2), "State":stLbl[stateOf(t)][0],
     "Created At":new Date(t.created).toISOString(), "Done At":t.doneAt?new Date(t.doneAt).toISOString():""}));
@@ -1380,6 +1726,7 @@ function exportXlsx(){
   X.utils.book_append_sheet(wb, sheetOf(X,MEMBERS.map(m=>({"Name":m.name,"Role":m.role,"Access":ROLES[m.access],"Status":m.status==="leave"?"On leave":"Active","Colour 1":m.c1,"Colour 2":m.c2,"ID":m.id}))), "Members");
   X.utils.book_append_sheet(wb, sheetOf(X,Object.keys(db.leaders).sort().map(k=>({"Week Start (Mon)":k,"Leader":mn(db.leaders[k])}))), "Leaders");
   X.utils.book_append_sheet(wb, sheetOf(X,summary), "Week Summary");
+  { const mr = moduleRows(db.tasks); if (mr.length) X.utils.book_append_sheet(wb, sheetOf(X,mr.map(r=>({"Module":r.name,"Tasks":r.s.total,"Done":r.s.done,"On time":r.s.ontime,"Late":r.s.late,"Overdue":r.s.overdue,"Open":r.open,"High priority open":r.hi,"Deadline met %":r.s.rate==null?"":r.s.rate,"Avg progress %":r.s.avg,"Est hours":+r.s.est.toFixed(2),"Actual hours":+r.s.spent.toFixed(2),"Efficiency %":r.eff==null?"":r.eff,"Score":r.s.score,"Lead contributor":r.top?r.top.m.name:""}))), "Module Summary"); }
   if (EXEC){ const E = EXEC, f = v=>v==null?"":v;
     X.utils.book_append_sheet(wb, sheetOf(X,[
       ["Delivery health score",E.health,E.hl],["Throughput (tasks / week)",r1(E.tp),""],["Delivery reliability %",f(E.rel),`target ${E.K.td}%`],
@@ -1396,7 +1743,7 @@ function exportXlsx(){
     o.items.forEach(i=>nr.push({"Date":d,"Member":mn(w),"Key point":i.t,"Done":i.d?"Yes":"No","Starred":i.s?"Yes":"No","Day notes":""}));
     if (o.text) nr.push({"Date":d,"Member":mn(w),"Key point":"","Done":"","Starred":"","Day notes":o.text}); }));
   if (nr.length) X.utils.book_append_sheet(wb, sheetOf(X,nr), "Daily Notes");
-  X.utils.book_append_sheet(wb, sheetOf(X,[{"Info":`Week summary covers ${ws0} to ${we0}. The 'Week Summary', 'Exec KPIs', 'Weekly Trend', 'Priority Performance' and 'Workload' sheets and computed columns (Office Hours Spent, State) are ignored on import.`}]), "Notes");
+  X.utils.book_append_sheet(wb, sheetOf(X,[{"Info":`Week summary covers ${ws0} to ${we0}. The 'Week Summary', 'Module Summary', 'Exec KPIs', 'Weekly Trend', 'Priority Performance' and 'Workload' sheets and computed columns (Office Hours Spent, State) are ignored on import.`}]), "Notes");
   { const u = URL.createObjectURL(new Blob([X.write(wb,{type:"array",bookType:"xlsx"})])), a = document.createElement("a"); a.href = u; a.download = `mis-team-data-${today()}.xlsx`; a.click(); } toast("Excel exported ✔");
 }
 function xd(v){
@@ -1426,7 +1773,7 @@ function importXlsx(file){
     };
     rows("Members").forEach(x=>{ const m = ensure(x.Name, x.Role, x["Colour 1"], x["Colour 2"], x.ID), a = Object.keys(ROLES).find(k=>ROLES[k].toLowerCase()===String(x.Access).trim().toLowerCase()); if (m && a) m.access = a; });
     const tasks = replace ? [] : db.tasks.map(t=>({...t})), byId = new Map(tasks.map(t=>[t.id,t]));
-    let n = 0, bad = 0;
+    let n = 0, bad = 0; const newMods = [];
     tr.forEach(x=>{
       const m = ensure(x.Member), date = xd(x.Date) || today(), deadline = xd(x.Deadline);
       if (!m || !validDay(date) || !validDay(deadline)){ bad++; return; }
@@ -1439,6 +1786,7 @@ function importXlsx(file){
       const doneAt = status==="done" ? (Date.parse(x["Done At"]) || new Date(parse(completedAt).setHours(17)).getTime()) : null;
       const id = String(x.ID||"").trim() || Date.now().toString(36)+Math.random().toString(36).slice(2,6)+n;
       const t = {id, member:m.id, title:String(x.Task).trim(), notes:String(x.Notes||"").trim(), date, deadline, priority, status, progress, completedAt, created, doneAt, estHours:+x["Est Hours"]||null};
+      if ("Module" in x){ t.module = clean(x.Module); if (t.module) newMods.push(t.module); }
       if (byId.has(id)) Object.assign(byId.get(id), t); else { tasks.push(t); byId.set(id,t); }
       n++;
     });
@@ -1451,7 +1799,7 @@ function importXlsx(file){
       const o = ((notes[d] ??= {})[m.id] ??= {items:[],text:""}), t = String(x["Key point"]||"").trim();
       if (t){ if (!o.items.some(i=>i.t===t)) o.items.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,6), t, d:/^y/i.test(x.Done), s:/^y/i.test(x.Starred)}); } else if (x["Day notes"]) o.text = String(x["Day notes"]); });
     if (!confirm(`${n} task(s) will be imported${bad?` (${bad} incomplete row(s) skipped)`:""}${added?`, ${added} new member(s)`:""}.\n${replace?"Existing data will be REPLACED.":"Existing data will be merged."} Continue?`)) return;
-    MEMBERS = mem; db = norm({tasks, leaders, members:MEMBERS, notes, settings:db.settings}); save(); fillSelects(); render(); toast(`Excel import complete ✔ (${n} tasks)`);
+    MEMBERS = mem; db = norm({tasks, leaders, members:MEMBERS, notes, settings:{...db.settings, modules:[...S().modules, ...newMods]}}); save(); fillSelects(); render(); toast(`Excel import complete ✔ (${n} tasks)`);
   }catch(err){ toast("Import failed: " + (err.message || "invalid file")); } };
   r.readAsArrayBuffer(file);
 }
@@ -1461,8 +1809,8 @@ $("xlImport").onclick = ()=> $("xlFile").click();
 $("xlFile").onchange = e=>{ const f = e.target.files[0]; e.target.value = ""; if (f) importXlsx(f); };
 $("csvBtn").onclick = ()=>{
   const q = v => `"${String(v==null?"":v).replace(/"/g,'""')}"`;
-  const rows = [["Date","Member","Task","Priority","Status","State","Progress %","Deadline","Completed","Est hours","Office hours spent","Notes"]]
-    .concat(weekTasks().map(t=>[t.date,(M(t.member)||{}).name,t.title,prLbl[t.priority][0],t.status,stLbl[stateOf(t)][0],t.status==="done"?100:(t.progress||0),t.deadline,t.completedAt||"",t.estHours||"",spentOf(t).toFixed(2),t.notes||""]));
+  const rows = [["Date","Module","Member","Task","Priority","Status","State","Progress %","Deadline","Completed","Est hours","Office hours spent","Notes"]]
+    .concat(weekTasks().map(t=>[t.date,t.module||"",(M(t.member)||{}).name,t.title,prLbl[t.priority][0],t.status,stLbl[stateOf(t)][0],t.status==="done"?100:(t.progress||0),t.deadline,t.completedAt||"",t.estHours||"",spentOf(t).toFixed(2),t.notes||""]));
   const blob = new Blob(["\ufeff"+rows.map(r=>r.map(q).join(",")).join("\r\n")],{type:"text/csv;charset=utf-8"});
   const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = `mis-week-report-${wkKey()}.csv`; a.click();
   setTimeout(()=>URL.revokeObjectURL(a.href),1000); toast("CSV report downloaded");
@@ -1482,7 +1830,7 @@ const NUMS = ["start","end","tc","td","te","cap","pon","plate","pov","phi","due"
 function applySet(){ const s = S(); OFFICE.start = s.start; OFFICE.end = s.end; OFFICE.days = s.days; document.body.classList.toggle("compact", !!s.compact);
   document.documentElement.dataset.theme = s.theme==="auto" ? (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") : s.theme; }
 function fillSet(){
-  const s = S();
+  const s = S(); $("sModules").value = (s.modules||[]).join("\n");
   document.querySelectorAll("[data-s]").forEach(el=>{ const k = el.dataset.s; if (el.type==="checkbox") el.checked = !!s[k]; else el.value = s[k]; });
   $("sDays").innerHTML = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].map((n,i)=>{ const d = (i+1)%7; return `<button type="button" class="chip ${s.days.includes(d)?"on":""}" data-d="${d}"><b>${n}</b></button>`; }).join("");
 }
@@ -1491,6 +1839,7 @@ $("sSave").onclick = ()=>{
   const s = {...S()};
   document.querySelectorAll("[data-s]").forEach(el=>{ const k = el.dataset.s; s[k] = el.type==="checkbox" ? el.checked : NUMS.includes(k) ? +el.value : String(el.value).slice(0,40); });
   s.days = [...document.querySelectorAll("#sDays .chip.on")].map(b=>+b.dataset.d);
+  { const seen = []; $("sModules").value.split("\n").forEach(l=>{ const c = clean(l); if (c && !seen.some(x=>x.toLowerCase()===c.toLowerCase())) seen.push(c); }); s.modules = seen.slice(0,60); }
   if (!s.days.length || !(s.start>=0) || !(s.end<=24) || s.start>=s.end){ toast("Check office hours and working days"); return; }
   ["tc","td","te"].forEach(k=> s[k] = Math.max(0, Math.min(300, s[k]||0)));
   s.cap = Math.max(1, s.cap|0); s.due = Math.max(0, Math.min(30, s.due|0)); s.phi = Math.max(1, s.phi||1);
@@ -1499,7 +1848,7 @@ $("sSave").onclick = ()=>{
 };
 $("sReset").onclick = ()=>{
   if (!confirm("Reset all settings to defaults? Your tasks and members are not affected.")) return;
-  db.settings = {...DEF_SET, lastBackup:S().lastBackup, me:S().me}; save(); fillSet(); initForm(); render(); toast("Defaults restored");
+  db.settings = {...DEF_SET, lastBackup:S().lastBackup, me:S().me, modules:S().modules}; save(); fillSet(); initForm(); render(); toast("Defaults restored");
 };
 function renderSettings(){
   const K = S(); let kb = "–"; try{ kb = ((localStorage.getItem(KEY)||"").length/1024).toFixed(1); }catch{}
@@ -1524,7 +1873,7 @@ $("adv").onclick = perClick; $("exec").onclick = perClick;
 function renderAdvanced(){
   const K = S(), td = today(), e = ymd(addDays(weekStart,6)), st = ymd(addDays(weekStart,7-insPer*7));
   const ps = ymd(addDays(parse(st),-insPer*7)), pe = ymd(addDays(parse(st),-1)), inR = (t,a,b)=> t.date>=a && t.date<=b;
-  const pt = db.tasks.filter(t=>inR(t,st,e)), pp = db.tasks.filter(t=>inR(t,ps,pe)), s = statsOf(pt), p = statsOf(pp);
+  const pt = T().filter(t=>inR(t,st,e)), pp = T().filter(t=>inR(t,ps,pe)), s = statsOf(pt), p = statsOf(pp);
   const last = e<td ? e : td, wd = st<=last ? workDaysBetween(st,last) : 1, hpd = Math.max(1, OFFICE.end-OFFICE.start);
   const comp = s.total ? Math.round(s.done/s.total*100) : 0, pcomp = p.total ? Math.round(p.done/p.total*100) : null;
   const eff = s.doneSpent ? Math.round(s.doneEst/s.doneSpent*100) : null;
@@ -1538,7 +1887,7 @@ function renderAdvanced(){
 
   const mem = MEMBERS.map(m=>{
     const x = statsOf(pt.filter(t=>t.member===m.id)), y = statsOf(pp.filter(t=>t.member===m.id)), o = open.filter(t=>t.member===m.id).length;
-    const tr = [5,4,3,2,1,0].map(k=>{ const a = ymd(addDays(weekStart,-7*k)), b = ymd(addDays(parse(a),6)); return statsOf(db.tasks.filter(t=>t.member===m.id && inR(t,a,b))).score; });
+    const tr = [5,4,3,2,1,0].map(k=>{ const a = ymd(addDays(weekStart,-7*k)), b = ymd(addDays(parse(a),6)); return statsOf(T().filter(t=>t.member===m.id && inR(t,a,b))).score; });
     return {m, x, y, o, tr, u: wd*hpd ? Math.round(x.spent/(wd*hpd)*100) : 0, bias: x.doneEst ? Math.round((x.doneSpent-x.doneEst)/x.doneEst*100) : null, c: x.total ? Math.round(x.done/x.total*100) : null};
   });
 
@@ -1626,15 +1975,15 @@ function execModel(){
   const ps = ymd(addDays(parse(st),-insPer*7)), pe = ymd(addDays(parse(st),-1));
   const inR = (d,a,b) => !!d && d>=a && d<=b;
   const isDone = t => t.status==="done" && t.completedAt;
-  const pt = db.tasks.filter(t=>inR(t.date,st,e)), pp = db.tasks.filter(t=>inR(t.date,ps,pe));
-  const done = db.tasks.filter(t=>isDone(t) && inR(t.completedAt,st,e)), pdone = db.tasks.filter(t=>isDone(t) && inR(t.completedAt,ps,pe));
+  const pt = T().filter(t=>inR(t.date,st,e)), pp = T().filter(t=>inR(t.date,ps,pe));
+  const done = T().filter(t=>isDone(t) && inR(t.completedAt,st,e)), pdone = T().filter(t=>isDone(t) && inR(t.completedAt,ps,pe));
   const s = statsOf(pt);
 
   // weekly series (flow basis: completions are counted in the week they were completed)
   const N = Math.min(26, Math.max(8, insPer));
   const W = [...Array(N)].map((_,i)=>{
     const a = ymd(addDays(weekStart,-7*(N-1-i))), b = ymd(addDays(parse(a),6));
-    const cr = db.tasks.filter(t=>inR(t.date,a,b)), dn = db.tasks.filter(t=>isDone(t) && inR(t.completedAt,a,b));
+    const cr = T().filter(t=>inR(t.date,a,b)), dn = T().filter(t=>isDone(t) && inR(t.completedAt,a,b));
     const on = dn.filter(t=>t.completedAt<=t.deadline).length;
     return {a, created:cr.length, done:dn.length, ontime: dn.length ? Math.round(on/dn.length*100) : null,
       coh: cr.length ? Math.round(cr.filter(t=>t.status==="done").length/cr.length*100) : null,
@@ -1653,9 +2002,9 @@ function execModel(){
   const hist = bins.map(([lo,hi,l])=>({lo,hi,l,n:cyc.filter(v=>v>=lo&&v<=hi).length}));
 
   // backlog + forecast (as of today)
-  const openAll = db.tasks.filter(t=>t.status!=="done");
+  const openAll = T().filter(t=>t.status!=="done");
   const d28 = ymd(addDays(new Date(),-27));
-  const done28 = db.tasks.filter(t=>isDone(t) && inR(t.completedAt,d28,td)).length, cr28 = db.tasks.filter(t=>inR(t.date,d28,td)).length;
+  const done28 = T().filter(t=>isDone(t) && inR(t.completedAt,d28,td)).length, cr28 = T().filter(t=>inR(t.date,d28,td)).length;
   const pace = done28/4, runway = pace ? openAll.length/pace : null;
   const clearBy = runway==null || !openAll.length ? null : ymd(addDays(new Date(), Math.ceil(runway*7)));
   const net = cr28-done28;
@@ -1698,7 +2047,7 @@ function execModel(){
 
   return {K, td, st, e, N, W, tMean, tSd, predict, tp, ptp, rel, prel, cyc, c50, c85, c95, pc50, hist, openAll, pace, runway, clearBy, net, cr28, done28,
     odAll, odHigh, risk, dueSoon, slip, avgLate, late, pri, load, balance, heavy, light, pts, estAcc, bias, overrun, mape,
-    s, comp, rate, eff, health, hl, hc, done, pt, total:db.tasks.length};
+    s, comp, rate, eff, health, hl, hc, done, pt, total:T().length};
 }
 
 function execActions(X){
@@ -1902,7 +2251,7 @@ $("sWipe").onclick = ()=>{
   if (!confirm("This cannot be undone. Erase everything and start with an empty workspace?")) return;
   try{ localStorage.removeItem(KEY); }catch{} location.reload();
 };
-const TPL_B64 = "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";
+const TPL_B64 = "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";
 function downloadTemplate(){
   const bin = atob(TPL_B64), u = new Uint8Array(bin.length); for (let i=0;i<bin.length;i++) u[i] = bin.charCodeAt(i);
   const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([u],{type:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"}));
@@ -1917,7 +2266,7 @@ $("themeBtn").onclick = toggleTheme; $("newTaskBtn").onclick = newTask; $("heroA
 $("heroImp").onclick = ()=> $("xlFile").click(); $("heroTpl").onclick = downloadTemplate;
 const CMDS = ()=> [
   ...[["dash","Home"],["notes","Daily notes"],["tasks","Tasks"],["insights","Insights"],["team","Members"],["reports","Reports"],["perf","Performance"],["leaders","Leader history"],["data","Data & backup"],["settings","Settings"]].map(([v,n])=>({g:"Go to", n, f:()=>go(v)})),
-  {g:"Action", n:"New task", f:newTask}, {g:"Action", n:"New key point (today)", f:()=>{ nDay = today(); go("notes"); setTimeout(()=>$("nIn").focus(),60); }}, {g:"Action", n:"Export to Excel", f:exportXlsx}, {g:"Action", n:"Download backup", f:()=>$("exportBtn").click()},
+  {g:"Action", n:"New task", f:newTask}, {g:"Action", n:"New key point (today)", f:()=>{ nDay = today(); go("notes"); setTimeout(()=>$("nIn").focus(),60); }}, {g:"Action", n:"Export to Excel", f:exportXlsx}, {g:"Go to", n:"Module report", f:()=>go("modules")}, {g:"Action", n:"Sync to GitHub now", f:()=>{ if (ghOn()) ghPush(); else go("settings"); }}, {g:"Action", n:"Download backup", f:()=>$("exportBtn").click()},
   {g:"Action", n:"Print insights report", f:()=>{ go("insights"); setTimeout(()=>window.print(), 200); }},
   {g:"Action", n:"Toggle light / dark theme", f:toggleTheme}, {g:"Action", n:"Jump to this week", f:()=>$("thisW").click()},
   ...MEMBERS.map(m=>({g:"Member", n:m.name, f:()=>{ selectedMember = m.id; $("flMember").value = m.id; go("tasks"); }}))];
@@ -2025,11 +2374,11 @@ function renderNotes(){
 function logAct(t){ (db.log ??= []).push({t:Date.now(), w:(ME()||{}).name||"", a:t}); db.log = db.log.slice(-200); }
 let eId = null;
 function openEdit(t){ eId = t.id; $("eMember").innerHTML = (can("assign")?MEMBERS:[M(t.member)]).map(m=>`<option value="${m.id}">${esc(m.name)}</option>`).join("");
-  $("eMember").value = t.member; $("eTitle").value = t.title; $("eDeadline").value = t.deadline; $("ePri").value = t.priority; $("eEst").value = t.estHours||""; $("eNotes").value = t.notes||""; $("tDlg").showModal(); }
+  $("eMember").value = t.member; $("eTitle").value = t.title; $("eDeadline").value = t.deadline; $("ePri").value = t.priority; $("eEst").value = t.estHours||""; $("eNotes").value = t.notes||""; $("eModule").value = t.module||""; $("tDlg").showModal(); }
 $("eCancel").onclick = ()=>$("tDlg").close();
 $("tForm").onsubmit = e=>{ e.preventDefault(); const t = db.tasks.find(x=>x.id===eId); if (!t || !canTask(t)) return deny();
   const dl = $("eDeadline").value; if (dl < t.date){ toast("Deadline can’t be before the task date"); return; }
-  Object.assign(t, {title:$("eTitle").value.trim(), member:$("eMember").value, deadline:dl, priority:$("ePri").value, estHours:+$("eEst").value||null, notes:$("eNotes").value.trim()});
+  Object.assign(t, {title:$("eTitle").value.trim(), member:$("eMember").value, module:clean($("eModule").value), deadline:dl, priority:$("ePri").value, estHours:+$("eEst").value||null, notes:$("eNotes").value.trim()});
   logAct(`edited task “${t.title}”`); save(); $("tDlg").close(); render(); toast("Task updated ✔"); };
 $("homeFocus").onchange = e=>{ const r = e.target.closest("[data-hf]"); if (!r || role()==="viewer") return; const i = nOf(today(),ME().id).items.find(z=>z.id===r.dataset.hf); if (i){ i.d = true; i.at = Date.now(); save(); render(); } };
 $("nSearch").oninput = render;
@@ -2084,6 +2433,8 @@ function tick(){
 setInterval(tick, 60000);
 // another tab/window of this dashboard saved changes → reload them so nothing gets overwritten
 window.addEventListener("storage", e=>{ if (e.key===KEY){ db = norm(load()); fillSelects(); render(); } });
+
+ghRender(); if (ghOn()) ghCheck(false);
 </script>
 </body>
 </html>

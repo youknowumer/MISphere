@@ -68,3 +68,20 @@ Version 6 - Final
 - Animated, professional "Set up your workspace" screen (drifting colour orbs, glass card with cursor spotlight and sheen, staggered entrance, template cards with icons, live team preview chips, step tracker, pulsing Create button) matching landing.html.
 - Task editing, activity log, notes search, "Today's key points" panel on Home, roles & permission matrix, daily notes (see Version 5).
 - Files: landing.html (entry page) -> index.html (app). Keep all files in one folder.
+
+Version 7 - Modules, module reporting and live GitHub sync
+Modules (which module is the work against)
+- Every task has a Module (Tasks > New Task > Module, also in Edit task). The list is yours: Settings > Modules (one name per line). Default list: Sales, Purchase, Inventory, Accounting, CRM, HR / Payroll, Manufacturing, Projects, Website / eCommerce, Reporting / BI, IT Infrastructure, General.
+- Header selector "All modules / <module>": choose the module you are working on and the whole dashboard (Home, Tasks, Performance, Insights, Executive intelligence) shows only that module. A banner shows the active module; "Show all modules" clears it. The choice is remembered in this browser.
+- Settings > "Require a module on new tasks" makes the field mandatory.
+- Reports > Modules (new): period (viewed week / 4 / 12 / 26 weeks / all time), KPI cards (busiest module, best delivery, needs attention, overall deadline-met), workload and state bars per module, a full scorecard (tasks, done, on time, late, overdue, open, deadline met %, avg progress, estimated vs actual hours, efficiency, score, lead contributor, high-priority open), a member x module matrix, CSV download and a clean "Print module report" page. "Focus" on a row filters the dashboard to that module.
+- Insights has a new "Module Breakdown" panel for the viewed week (included in Print report).
+- Excel: Tasks sheet has a Module column, new "Module Summary" sheet, import reads the Module column (new module names are added to your list). The blank template now has a Module column with a dropdown (Modules sheet). CSV week report has a Module column.
+
+Live sync to GitHub (data saved into one file in your repository)
+- Settings > Live sync to GitHub > Connect: owner, repository, branch, file path (default data/mis-data.json) and a GitHub token.
+- Token: GitHub > Settings > Developer settings > Personal access tokens > Fine-grained tokens > Generate new token. Select ONLY your MISphere repository, Repository permissions > Contents > Read and write.
+- After connecting, every change is committed to that one file a few seconds later (header chip shows "GitHub: synced hh:mm"). Open the file on GitHub (button "Open data file") to read it: at the top is a report (summary, moduleReport, memberReport, taskRegister), the full data for restore is at the bottom. "Change history" shows every save as a commit: who changed what and when.
+- Other device / browser: open the site > "Load from GitHub" (setup screen) or Settings > Load from GitHub. If GitHub and this browser differ, sync pauses and asks you to choose Load from GitHub or Overwrite GitHub - nothing is overwritten silently.
+- The token is stored only in the browser you typed it in. It is never put in backups, Excel exports or the GitHub data file.
+- IMPORTANT: if the repository is public, anyone can read the data file. Use a private repository for real data (GitHub Pages from a private repo needs a paid GitHub plan; alternatively keep the site in one public repo and put the data in a separate private repo - just enter that repo in the connect form).

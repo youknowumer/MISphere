@@ -423,6 +423,19 @@
   .xnote p{line-height:1.8}
   @media(max-width:700px){.fcgrid{grid-template-columns:1fr 1fr}.xg{min-width:100%}}
   @media print{#exec .daychips{display:none}#exec .panel,#exec .kpi{break-inside:avoid}.xhead{background:none}}
+  /* ---------- v5: roles & daily notes ---------- */
+  .acc{font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px;background:var(--soft);color:var(--muted)}
+  .acc.admin{background:#fff7d6;color:#9a7212}.acc.lead{background:var(--brand-soft);color:var(--brand)}.acc.member{background:#ecfdf3;color:#027a48}
+  .lockbar{padding:10px 14px;border-radius:12px;background:#fffaeb;color:#b54708;font-size:13px;font-weight:600;margin-bottom:16px}
+  html[data-theme=dark] .lockbar{background:#2a2412;color:#f5d061}
+  .pm th,.pm td{text-align:center}.pm th:first-child,.pm td:first-child{text-align:left}.pm input{width:auto;accent-color:var(--brand)}
+  .nadd{display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap}.nadd #nIn{flex:1;min-width:180px}
+  .nrow{display:flex;gap:10px;align-items:center;padding:10px 4px;border-bottom:1px solid var(--line2)}.nrow:last-child{border-bottom:none}
+  .nrow input[type=checkbox]{width:18px;height:18px;accent-color:var(--ok);flex-shrink:0;padding:0}
+  .nrow .nt{flex:1;line-height:1.45;word-break:break-word}.nrow.dn .nt{text-decoration:line-through;color:var(--muted)}
+  .nrow .st{border:none;background:transparent;cursor:pointer;font-size:16px;opacity:.3;padding:2px 5px;color:var(--text)}.nrow .st.on{opacity:1;color:#d4a017}.nrow .st:hover:not(:disabled){opacity:1}
+  .nrow.star:not(.dn){background:linear-gradient(90deg,rgba(245,208,97,.14),transparent)}
+  @media(max-width:480px){.tabbar{width:calc(100vw - 16px)}.tb{min-width:38px;padding:0 6px}.tb.on{padding:0 12px 0 8px}.tb.on .lb{max-width:58px}}
 </style>
 </head>
 <body>
@@ -431,7 +444,7 @@
   <div class="top">
     <div class="brand"><div class="mk"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/></svg></div>
       <div><h1 id="pageTitle">Dashboard</h1><p id="todayLbl"></p></div></div>
-    <div class="topr"><button class="btn sm" id="cmdBtn" title="Quick actions (Ctrl/⌘ + K)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>Search<kbd>Ctrl K</kbd></button><button class="ib" id="themeBtn" title="Toggle light / dark" aria-label="Toggle theme"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button><button class="btn pri sm" id="newTaskBtn">＋ New task</button><span class="leadchip" id="offChip"></span><span class="leadchip" id="sideLeader"></span>
+    <div class="topr"><select id="meSel" title="Acting as (role-based access)" style="width:auto;max-width:200px"></select><button class="btn sm" id="cmdBtn" title="Quick actions (Ctrl/⌘ + K)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>Search<kbd>Ctrl K</kbd></button><button class="ib" id="themeBtn" title="Toggle light / dark" aria-label="Toggle theme"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button><button class="btn pri sm" id="newTaskBtn">＋ New task</button><span class="leadchip" id="offChip"></span><span class="leadchip" id="sideLeader"></span>
     <div class="weeknav">
       <button class="ib" id="prevW" title="Previous week"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="m15 18-6-6 6-6"/></svg></button>
       <b id="weekLbl"></b>
@@ -489,18 +502,43 @@
 
   <!-- MEMBERS -->
   <section class="view" id="v-team">
+    <div class="lockbar" id="lockTeam" hidden>🔒 Only roles with “Manage members & roles” can add, edit or delete members.</div>
     <div class="cols">
       <div class="panel"><h3>Team Members <small id="memCount"></small></h3><div class="twrap" id="memList"></div></div>
-      <div class="panel"><h3 id="mfTitle">Add Member</h3>
+      <div class="panel" id="memPanel"><h3 id="mfTitle">Add Member</h3>
         <form id="memForm">
           <div style="margin-bottom:12px"><label>Full name</label><input id="mfName" maxlength="40" placeholder="Full name" required></div>
           <div style="margin-bottom:12px"><label>Role / designation</label><input id="mfRole" maxlength="40" list="roleList" placeholder="e.g. Data Analyst">
             <datalist id="roleList"><option value="Team Member"><option value="Senior Analyst"><option value="Data Analyst"><option value="Developer"><option value="Support Officer"><option value="Intern"></datalist></div>
+          <div class="fgrid" style="grid-template-columns:1fr 1fr;margin-bottom:12px"><div><label>Access role</label><select id="mfAccess"><option value="member">Member</option><option value="lead">Team Lead</option><option value="admin">Admin</option><option value="viewer">Viewer (read-only)</option></select></div><div><label>Status</label><select id="mfStatus"><option value="active">Active</option><option value="leave">On leave</option></select></div></div>
           <div style="margin-bottom:16px"><label>Colour</label><div class="sw-row" id="mfPal"></div></div>
           <div style="display:flex;gap:8px"><button class="btn pri" type="submit" id="mfSave">Add Member</button><button class="btn" type="button" id="mfCancel" hidden>Cancel</button></div>
         </form>
         <p class="hint" style="margin-top:14px">A new member becomes available in the task form, filters, leaderboard and analytics immediately. Deleting a member also removes their tasks — take a backup first.</p>
       </div>
+    </div>
+    <div class="panel"><h3>🔐 Roles &amp; capabilities <small id="roleCnt"></small></h3><div class="twrap" id="pmat"></div></div>
+  </section>
+
+  <!-- NOTES -->
+  <section class="view" id="v-notes">
+    <div class="panel">
+      <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap"><button class="ib" id="nPrev" title="Previous day">‹</button><b id="nLbl" style="min-width:230px;text-align:center"></b><button class="ib" id="nNext" title="Next day">›</button><input type="date" id="nDate" style="width:auto"><button class="btn sm" id="nToday">Today</button></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap"><select id="nWho" style="width:auto"></select><button class="btn sm" id="nCopy">📋 Copy summary</button></div>
+      </div>
+      <div class="daychips" id="nWeek" style="margin-top:14px"></div>
+    </div>
+    <div class="kpis" id="nKpis"></div>
+    <div class="cols">
+      <div>
+        <div class="panel"><h3>⭐ Key points of the day <small>tick them off on the day</small></h3>
+          <form class="nadd" id="nAdd"><input id="nIn" maxlength="200" placeholder="Add a key point and press Enter…" autocomplete="off"><label style="display:flex;align-items:center;gap:6px;margin:0;white-space:nowrap"><input type="checkbox" id="nStar" style="width:auto"> Must-do</label><button class="btn pri" type="submit">Add</button></form>
+          <div id="nList"></div></div>
+        <div class="panel" id="nCarry" hidden></div>
+        <div class="panel"><h3>📝 Day notes <small>auto-saved</small></h3><textarea id="nText" rows="6" placeholder="Meetings, decisions, follow-ups, ideas…"></textarea></div>
+      </div>
+      <div><div class="panel"><h3>🎯 Tasks due <small id="nDueSub"></small></h3><div id="nDue"></div></div></div>
     </div>
   </section>
 
@@ -589,6 +627,7 @@
 <nav class="tabbar" aria-label="Primary">
   <button class="tb on" data-v="dash" aria-label="Home" data-k="Home · 1" title="Home"><svg viewBox="0 0 24 24"><path class="f" d="M4 10.5 12 4l8 6.5V19a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 19z"/><path class="cut" d="M10 14v2.5M14 14v2.5"/></svg><span class="lb">Home</span></button>
   <button class="tb" data-v="tasks" aria-label="Tasks" data-k="Tasks · 2" title="Tasks"><svg viewBox="0 0 24 24"><rect class="f" x="5" y="4" width="14" height="17" rx="3"/><path class="cut" d="M9 13l2.2 2.2L15.5 11"/></svg><span class="lb">Tasks</span><b class="bd" id="tbOver" hidden></b></button>
+  <button class="tb" data-v="notes" aria-label="Notes" data-k="Notes · 9" title="Daily notes"><svg viewBox="0 0 24 24"><rect class="f" x="4" y="5" width="16" height="15" rx="3"/><path class="cut" d="M8 3v4M16 3v4M9 13l2 2 4-4"/></svg><span class="lb">Notes</span><b class="bd" id="tbNotes" hidden></b></button>
   <button class="tb" data-v="insights" aria-label="Insights" data-k="Insights · 4" title="Insights"><svg viewBox="0 0 24 24"><rect class="f" x="4" y="12" width="4" height="8" rx="1.5"/><rect class="f" x="10" y="4" width="4" height="16" rx="1.5"/><rect class="f" x="16" y="9" width="4" height="11" rx="1.5"/></svg><span class="lb">Insights</span></button>
   <button class="tb" data-v="team" aria-label="Members" data-k="Members · 7" title="Members"><svg viewBox="0 0 24 24"><circle class="f" cx="12" cy="12" r="9"/><circle class="cut" cx="12" cy="10" r="3"/><path class="cut" d="M6.6 18.4a6.2 6.2 0 0 1 10.8 0"/></svg><span class="lb">Members</span></button>
   <button class="tb" data-v="reports" data-k="Reports · 3" aria-label="Reports" title="Reports"><svg viewBox="0 0 24 24"><rect class="f" x="5" y="3" width="14" height="18" rx="3"/><path class="cut" d="M9 9h6M9 13h6M9 17h3"/></svg><span class="lb">Reports</span><b class="bd" id="tbRep" style="background:var(--warn)" hidden>!</b></button>
@@ -611,7 +650,7 @@
 let MEMBERS = [];
 const DEFAULT_LEADER = "";
 const KEY = "mis_team_dashboard_v1";
-const DEF_SET = {start:9, end:18, days:[1,2,3,4,5], tc:85, td:80, te:100, cap:8, pon:10, plate:5, pov:5, phi:1.5, dept:"Team", pri:"med", due:0, compact:false, attn:true, lastBackup:0, theme:"auto"};
+const DEF_SET = {start:9, end:18, days:[1,2,3,4,5], tc:85, td:80, te:100, cap:8, pon:10, plate:5, pov:5, phi:1.5, dept:"Team", pri:"med", due:0, compact:false, attn:true, lastBackup:0, theme:"auto", me:"", perms:null};
 const S = () => db.settings;
 const $ = id => document.getElementById(id);
 const M = id => MEMBERS.find(m=>m.id===id);
@@ -633,7 +672,9 @@ const clean = v => String(v||"").replace(/[<>&"`]/g,"").trim().slice(0,40);
 function norm(d){
   const ok = m => m && m.id && m.name && /^#[0-9a-f]{3,8}$/i.test(m.c1) && /^#[0-9a-f]{3,8}$/i.test(m.c2);
   let list = Array.isArray(d.members) ? d.members.filter(ok) : [];
-  d.members = MEMBERS = list.map(m=>({id:String(m.id), name:clean(m.name), role:clean(m.role)||"Team Member", c1:m.c1, c2:m.c2}));
+  d.members = MEMBERS = list.map(m=>({id:String(m.id), name:clean(m.name), role:clean(m.role)||"Team Member", c1:m.c1, c2:m.c2, access:["admin","lead","member","viewer"].includes(m.access)?m.access:"member", status:m.status==="leave"?"leave":"active"}));
+  if (MEMBERS.length && !MEMBERS.some(m=>m.access==="admin")) MEMBERS[0].access = "admin";
+  d.notes = d.notes && typeof d.notes==="object" && !Array.isArray(d.notes) ? d.notes : {};
   d.settings = {...DEF_SET, ...(d.settings||{})}; if (!Array.isArray(d.settings.days)) d.settings.days = DEF_SET.days.slice();
   return d;
 }
@@ -646,7 +687,7 @@ function load(){
   try{
     const raw = JSON.parse(localStorage.getItem(KEY));
     if (Array.isArray(raw)) return {tasks:raw, leaders:{}};   // old format
-    if (raw && raw.tasks) return {tasks:raw.tasks, leaders:raw.leaders||{}, members:raw.members, settings:raw.settings};
+    if (raw && raw.tasks) return {tasks:raw.tasks, leaders:raw.leaders||{}, members:raw.members, settings:raw.settings, notes:raw.notes};
   }catch{}
   return {tasks:[], leaders:{}};
 }
@@ -759,7 +800,7 @@ function render(){
   $("sideLeader").innerHTML = `👑 Leader: ${M(leader).name}`;
   const over = wt.filter(t=>stateOf(t)==="overdue").length;
   $("tbOver").hidden = !over; $("tbOver").textContent = over>9 ? "9+" : over;
-  applySet(); renderStats(wt); renderAttention(); renderInsights(wt); renderTeamPage(); renderDeep(); renderTeam(wt, leader); renderTasks(); renderPerf(wt, leader); renderHistory(); renderAdvanced(wt); renderExec(); renderSettings(); renderReports(wt); $("homeEmpty").hidden = db.tasks.length>0;
+  applySet(); renderStats(wt); renderAttention(); renderInsights(wt); renderTeamPage(); renderDeep(); renderTeam(wt, leader); renderTasks(); renderPerf(wt, leader); renderHistory(); renderAdvanced(wt); renderExec(); renderSettings(); renderReports(wt); renderNotes(); renderAccess(); $("homeEmpty").hidden = db.tasks.length>0;
 }
 
 function renderStats(wt){
@@ -852,6 +893,7 @@ function renderTeam(wt, leader){
   });
   document.querySelectorAll("[data-lead]").forEach(inp=>inp.onchange=()=>{
     const id = inp.dataset.lead;
+    if (!can("leader")){ inp.checked=false; deny(); return; }
     if (!confirm(`Set ${M(id).name} as leader for this week (${$("weekLbl").textContent})?`)){ inp.checked=false; return; }
     db.leaders[wkKey()] = id; save(); render(); toast(`👑 ${M(id).name} is now the leader for this week`);
   });
@@ -897,7 +939,7 @@ function taskHTML(t){
     <div class="t-av" style="background:linear-gradient(135deg,${m.c1},${m.c2})">${initials(m.name)}</div>
     <div>
       <div class="t-title ${t.status==="done"?"done":""}">${esc(t.title)}</div>
-      <div class="meta"><b style="color:${m.c1}">${m.name}</b><span>· Deadline ${fmt(t.deadline)}</span>
+      <div class="meta"><b style="color:${m.c1}">${m.name}</b><span>· Deadline ${fmt(t.deadline)}</span>${t.assignedBy&&t.assignedBy!==t.member&&M(t.assignedBy)?`<span>· by ${M(t.assignedBy).name}</span>`:""}
         <span class="pill ${pc}">${pl}</span><span class="pill ${sc}">${sl}</span>
         ${t.completedAt?`<span>· Done ${fmt(t.completedAt)}</span>`:""}
         ${t.estHours?`<span>· Est ${fmtH(t.estHours)}</span>`:""}
@@ -990,12 +1032,13 @@ function renderHistory(){
     </div>`;
   }).join("");
   document.querySelectorAll("[data-hist]").forEach(s=>s.onchange=()=>{
+    if (!can("leader")){ deny(); render(); return; }
     db.leaders[s.dataset.hist] = s.value; save(); render(); toast(`👑 Leader updated`);
   });
 }
 
 // ---------- navigation ----------
-const TITLES = {dash:"Dashboard", tasks:"Tasks", perf:"Performance", insights:"Insights", team:"Members", leaders:"Leader History", data:"Backup", settings:"Settings", reports:"Reports & Data"};
+const TITLES = {notes:"Daily Notes", dash:"Dashboard", tasks:"Tasks", perf:"Performance", insights:"Insights", team:"Members", leaders:"Leader History", data:"Backup", settings:"Settings", reports:"Reports & Data"};
 const SUBS = {perf:"rp-perf", leaders:"rp-lead", data:"rp-data"};
 function go(v){
   const sec = SUBS[v]; if (sec) v = "reports";
@@ -1015,7 +1058,7 @@ document.querySelectorAll(".tb[data-v]").forEach(b=>b.onclick=()=>go(b.dataset.v
 // ---------- tasks ----------
 function fillSelects(){
   const opts = MEMBERS.map(m=>`<option value="${m.id}">${m.name}</option>`).join("");
-  const f = $("fMember"), pf = f.value; f.innerHTML = opts; f.value = M(pf) ? pf : ((MEMBERS[0]||{}).id || "");
+  const f = $("fMember"), pf = f.value; f.innerHTML = (can("assign") ? MEMBERS : [ME()]).map(m=>`<option value="${m.id}">${m.name}${m.status==="leave"?" (on leave)":""}</option>`).join(""); f.value = M(pf) ? pf : ((MEMBERS[0]||{}).id || "");
   if (selectedMember!=="all" && !M(selectedMember)) selectedMember = "all";
   $("flMember").innerHTML = `<option value="all">All Members</option>` + opts; $("flMember").value = selectedMember;
 }
@@ -1027,10 +1070,12 @@ function initForm(resetDeadline=true){
 }
 $("taskForm").onsubmit = e=>{
   e.preventDefault();
+  if (role()==="viewer") return deny(); const who = can("assign") ? $("fMember").value : ME().id;
+  if (M(who).status==="leave" && !confirm(`${M(who).name} is on leave. Assign anyway?`)) return;
   const date = today(), deadline = $("fDeadline").value;
   if (deadline < date){ toast("Deadline cannot be earlier than today"); return; }
   db.tasks.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),
-    member:$("fMember").value, title:$("fTitle").value.trim(), notes:$("fNotes").value.trim(),
+    member:who, assignedBy:ME().id, title:$("fTitle").value.trim(), notes:$("fNotes").value.trim(),
     date, deadline, priority:$("fPriority").value, status:"todo", progress:0, completedAt:null, created:Date.now(),
     estHours: +$("fEst").value || null, doneAt:null});
   save(); $("fTitle").value=""; $("fNotes").value=""; $("fEst").value=""; initForm(); $("fTitle").focus();
@@ -1039,6 +1084,7 @@ $("taskForm").onsubmit = e=>{
 $("taskList").addEventListener("change", e=>{
   const el = e.target, row = el.closest(".task"); if (!row) return;
   const t = db.tasks.find(x=>x.id===row.dataset.id); if (!t) return;
+  if (!canTask(t)){ deny(); render(); return; }
   if (el.dataset.act==="status"){
     if (el.value==="done") finish(t);
     else { t.status=el.value; t.completedAt=null; t.doneAt=null; if (t.status==="todo") t.progress=0; else if (t.progress>=100) t.progress=90; }
@@ -1053,6 +1099,7 @@ $("taskList").addEventListener("change", e=>{
 $("taskList").addEventListener("input", e=>{ if (e.target.dataset.act==="prog") e.target.nextElementSibling.textContent = e.target.value+"%"; });
 $("taskList").addEventListener("click", e=>{
   const b = e.target.closest("[data-act=del]"); if (!b) return;
+  { const tk = db.tasks.find(x=>x.id===b.closest(".task").dataset.id); if (!tk || !(can("delTask") || (canTask(tk) && tk.member===ME().id))) return deny(); }
   if (!confirm("Delete this task?")) return;
   db.tasks = db.tasks.filter(t=>t.id!==b.closest(".task").dataset.id); save(); render(); toast("Task deleted");
 });
@@ -1090,7 +1137,7 @@ $("importFile").onchange = e=>{
       if (!tasks.length && list.length) throw 0;
       const skipped = list.length - tasks.length;
       if (!confirm(`Restore ${tasks.length} task(s)?${skipped?` (${skipped} invalid entries will be skipped)`:""} Existing data will be replaced.`)) return;
-      if (mem&&mem.length) MEMBERS = mem; db = norm({tasks, leaders, members:MEMBERS, settings:(!Array.isArray(d)&&d.settings)||db.settings}); save(); fillSelects(); render();  toast("Data restored ✔");
+      if (mem&&mem.length) MEMBERS = mem; db = norm({tasks, leaders, members:MEMBERS, notes:(!Array.isArray(d)&&d.notes)||{}, settings:(!Array.isArray(d)&&d.settings)||db.settings}); save(); fillSelects(); render();  toast("Data restored ✔");
     }catch{ toast("Invalid backup file"); }
   };
   r.readAsText(f);
@@ -1170,11 +1217,11 @@ function drawPal(){
 function renderTeamPage(){
   const leader = leaderOf(wkKey());
   $("memCount").textContent = MEMBERS.length + " member" + (MEMBERS.length===1?"":"s");
-  $("memList").innerHTML = `<table class="tbl"><thead><tr><th>Member</th><th>Role</th><th class="r">Open</th><th class="r">Done</th><th class="r">Actions</th></tr></thead><tbody>` + MEMBERS.map(m=>{
+  $("memList").innerHTML = `<table class="tbl"><thead><tr><th>Member</th><th>Role</th><th>Access</th><th class="r">Open</th><th class="r">Done</th><th class="r">Actions</th></tr></thead><tbody>` + MEMBERS.map(m=>{
     const mine = db.tasks.filter(t=>t.member===m.id), done = mine.filter(t=>t.status==="done").length;
     return `<tr><td><div class="mrow"><div class="t-av" style="background:linear-gradient(135deg,${m.c1},${m.c2})">${initials(m.name)}</div>
       <div><b>${m.name}</b>${m.id===leader?` <span class="tag">👑 Leader</span>`:""}</div></div></td>
-      <td>${esc(m.role)}</td><td class="r">${mine.length-done}</td><td class="r">${done}</td>
+      <td>${esc(m.role)}</td><td><span class="acc ${m.access}">${ROLES[m.access]}</span>${m.status==="leave"?` <span class="pill s-late">On leave</span>`:""}</td><td class="r">${mine.length-done}</td><td class="r">${done}</td>
       <td class="r"><button class="btn sm" data-edit="${m.id}">Edit</button> <button class="btn sm" style="color:var(--bad)" data-del="${m.id}">Delete</button></td></tr>`;
   }).join("") + `</tbody></table>`;
   if (!$("mfPal").children.length) drawPal();
@@ -1186,24 +1233,28 @@ function resetMemForm(){
 $("mfPal").onclick = e=>{ const b = e.target.closest("[data-p]"); if (b){ palIdx = +b.dataset.p; drawPal(); } };
 $("mfCancel").onclick = resetMemForm;
 $("memForm").onsubmit = e=>{
-  e.preventDefault();
+  e.preventDefault(); if (!can("members")) return deny();
+  const access = $("mfAccess").value, status = $("mfStatus").value;
+  if (editId && M(editId).access==="admin" && access!=="admin" && MEMBERS.filter(x=>x.access==="admin").length<2){ toast("Keep at least one Admin"); return; }
   const name = clean($("mfName").value), role = clean($("mfRole").value) || "Team Member", [c1,c2] = PALETTE[palIdx];
   if (name.length < 2){ toast("Name must be at least 2 characters"); return; }
   if (MEMBERS.some(m=>m.name.toLowerCase()===name.toLowerCase() && m.id!==editId)){ toast("A member with this name already exists"); return; }
-  if (editId){ Object.assign(M(editId), {name, role, c1, c2}); toast("Member updated ✔"); }
+  if (editId){ Object.assign(M(editId), {name, role, c1, c2, access, status}); toast("Member updated ✔"); }
   else {
     const id = (name.toLowerCase().replace(/[^a-z0-9]+/g,"").slice(0,12) || "m") + Math.random().toString(36).slice(2,6);
-    MEMBERS.push({id, name, role, c1, c2}); toast(`${name} added to the team ✔`);
+    MEMBERS.push({id, name, role, c1, c2, access, status}); toast(`${name} added to the team ✔`);
   }
   save(); fillSelects(); resetMemForm(); render();
 };
 $("memList").addEventListener("click", e=>{
   const ed = e.target.closest("[data-edit]"), dl = e.target.closest("[data-del]");
-  if (ed){ const m = M(ed.dataset.edit); editId = m.id; $("mfName").value = m.name; $("mfRole").value = m.role;
+  if ((ed||dl) && !can("members")) return deny();
+  if (ed){ const m = M(ed.dataset.edit); editId = m.id; $("mfName").value = m.name; $("mfRole").value = m.role; $("mfAccess").value = m.access; $("mfStatus").value = m.status||"active";
     palIdx = Math.max(0, PALETTE.findIndex(p=>p[0]===m.c1)); drawPal(); $("mfTitle").textContent = "Edit Member"; $("mfSave").textContent = "Save changes"; $("mfCancel").hidden = false; $("mfName").focus(); }
   if (dl){
     const m = M(dl.dataset.del), n = db.tasks.filter(t=>t.member===m.id).length;
     if (MEMBERS.length<2){ toast("At least one member is required"); return; }
+    if (m.access==="admin" && MEMBERS.filter(x=>x.access==="admin").length<2){ toast("Keep at least one Admin"); return; }
     if (m.id===leaderOf(wkKey())){ toast("Change this week’s leader before deleting this member"); return; }
     if (!confirm(`Delete ${m.name}? Their ${n} task(s) will also be deleted.`)) return;
     MEMBERS.splice(MEMBERS.indexOf(m),1); db.tasks = db.tasks.filter(t=>t.member!==m.id);
@@ -1258,7 +1309,7 @@ function exportXlsx(){
     return {"Member":m.name, "Role":m.role, "Tasks":x.total, "Done":x.done, "On time":x.ontime, "Late":x.late, "Overdue":x.overdue,
       "Deadline met %":x.rate==null?"":x.rate, "Avg progress %":x.avg, "Est hours":+x.est.toFixed(2), "Actual hours":+x.spent.toFixed(2), "Score":x.score}; });
   X.utils.book_append_sheet(wb, sheetOf(X,tasks.length?tasks:[{ID:"",Member:"",Task:"",Notes:"",Date:"",Deadline:"",Priority:"",Status:""}]), "Tasks");
-  X.utils.book_append_sheet(wb, sheetOf(X,MEMBERS.map(m=>({"Name":m.name,"Role":m.role,"Colour 1":m.c1,"Colour 2":m.c2,"ID":m.id}))), "Members");
+  X.utils.book_append_sheet(wb, sheetOf(X,MEMBERS.map(m=>({"Name":m.name,"Role":m.role,"Access":ROLES[m.access],"Status":m.status==="leave"?"On leave":"Active","Colour 1":m.c1,"Colour 2":m.c2,"ID":m.id}))), "Members");
   X.utils.book_append_sheet(wb, sheetOf(X,Object.keys(db.leaders).sort().map(k=>({"Week Start (Mon)":k,"Leader":mn(db.leaders[k])}))), "Leaders");
   X.utils.book_append_sheet(wb, sheetOf(X,summary), "Week Summary");
   if (EXEC){ const E = EXEC, f = v=>v==null?"":v;
@@ -1273,6 +1324,10 @@ function exportXlsx(){
     X.utils.book_append_sheet(wb, sheetOf(X,E.pri.map(p=>({"Priority":PRN[p.k],"Tasks":p.n,"Done":p.done,"Deadline met %":f(p.rate),"Avg turnaround (days)":p.turn==null?"":r1(p.turn),"Overdue open":p.od}))), "Priority Performance");
     X.utils.book_append_sheet(wb, sheetOf(X,E.load.map(x=>({"Member":x.m.name,"Open tasks":x.o,"Completed (period)":x.d,"Hours logged (period)":x.h,"Score (period)":x.x.score}))), "Workload");
   }
+  const nr = []; Object.keys(db.notes).sort().forEach(d=>Object.entries(db.notes[d]).forEach(([w,o])=>{
+    o.items.forEach(i=>nr.push({"Date":d,"Member":mn(w),"Key point":i.t,"Done":i.d?"Yes":"No","Starred":i.s?"Yes":"No","Day notes":""}));
+    if (o.text) nr.push({"Date":d,"Member":mn(w),"Key point":"","Done":"","Starred":"","Day notes":o.text}); }));
+  if (nr.length) X.utils.book_append_sheet(wb, sheetOf(X,nr), "Daily Notes");
   X.utils.book_append_sheet(wb, sheetOf(X,[{"Info":`Week summary covers ${ws0} to ${we0}. The 'Week Summary', 'Exec KPIs', 'Weekly Trend', 'Priority Performance' and 'Workload' sheets and computed columns (Office Hours Spent, State) are ignored on import.`}]), "Notes");
   X.writeFile(wb, `mis-team-data-${today()}.xlsx`); toast("Excel exported ✔");
 }
@@ -1301,7 +1356,7 @@ function importXlsx(file){
         m = {id:String(id||"") || (name.toLowerCase().replace(/[^a-z0-9]+/g,"").slice(0,12)||"m")+Math.random().toString(36).slice(2,6), name, role:clean(role)||"Team Member", c1:hex.test(c1)?c1:p[0], c2:hex.test(c2)?c2:p[1]}; mem.push(m); added++; }
       return m;
     };
-    rows("Members").forEach(x=>ensure(x.Name, x.Role, x["Colour 1"], x["Colour 2"], x.ID));
+    rows("Members").forEach(x=>{ const m = ensure(x.Name, x.Role, x["Colour 1"], x["Colour 2"], x.ID), a = Object.keys(ROLES).find(k=>ROLES[k].toLowerCase()===String(x.Access).trim().toLowerCase()); if (m && a) m.access = a; });
     const tasks = replace ? [] : db.tasks.map(t=>({...t})), byId = new Map(tasks.map(t=>[t.id,t]));
     let n = 0, bad = 0;
     tr.forEach(x=>{
@@ -1323,8 +1378,12 @@ function importXlsx(file){
     const leaders = replace ? {} : {...db.leaders};
     rows("Leaders").forEach(x=>{ const k = xd(x["Week Start (Mon)"]), m = mem.find(y=>y.name.toLowerCase()===String(x.Leader).trim().toLowerCase());
       if (validDay(k) && m) leaders[ymd(monday(parse(k)))] = m.id; });
+    const notes = replace ? {} : JSON.parse(JSON.stringify(db.notes));
+    rows("Daily Notes").forEach(x=>{ const d = xd(x.Date), m = mem.find(y=>y.name.toLowerCase()===String(x.Member).trim().toLowerCase()); if (!validDay(d) || !m) return;
+      const o = ((notes[d] ??= {})[m.id] ??= {items:[],text:""}), t = String(x["Key point"]||"").trim();
+      if (t){ if (!o.items.some(i=>i.t===t)) o.items.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,6), t, d:/^y/i.test(x.Done), s:/^y/i.test(x.Starred)}); } else if (x["Day notes"]) o.text = String(x["Day notes"]); });
     if (!confirm(`${n} task(s) will be imported${bad?` (${bad} incomplete row(s) skipped)`:""}${added?`, ${added} new member(s)`:""}.\n${replace?"Existing data will be REPLACED.":"Existing data will be merged."} Continue?`)) return;
-    MEMBERS = mem; db = norm({tasks, leaders, members:MEMBERS, settings:db.settings}); save(); fillSelects(); render(); toast(`Excel import complete ✔ (${n} tasks)`);
+    MEMBERS = mem; db = norm({tasks, leaders, members:MEMBERS, notes, settings:db.settings}); save(); fillSelects(); render(); toast(`Excel import complete ✔ (${n} tasks)`);
   }catch(err){ toast("Import failed: " + (err.message || "invalid file")); } };
   r.readAsArrayBuffer(file);
 }
@@ -1345,7 +1404,7 @@ $("printBtn").onclick = ()=> window.print();
 document.addEventListener("keydown", e=>{
   if (e.target.matches("input,select,textarea") || e.ctrlKey || e.metaKey || e.altKey) return;
   if (e.key==="/"){ e.preventDefault(); go("tasks"); $("flSearch").focus(); }
-  const map = {"1":"dash","2":"tasks","3":"perf","4":"insights","5":"leaders","6":"data","7":"team","8":"settings"};
+  const map = {"1":"dash","2":"tasks","3":"perf","4":"insights","5":"leaders","6":"data","7":"team","8":"settings","9":"notes"};
   if (map[e.key]) go(map[e.key]);
 });
 
@@ -1372,7 +1431,7 @@ $("sSave").onclick = ()=>{
 };
 $("sReset").onclick = ()=>{
   if (!confirm("Reset all settings to defaults? Your tasks and members are not affected.")) return;
-  db.settings = {...DEF_SET, lastBackup:S().lastBackup}; save(); fillSet(); initForm(); render(); toast("Defaults restored");
+  db.settings = {...DEF_SET, lastBackup:S().lastBackup, me:S().me}; save(); fillSet(); initForm(); render(); toast("Defaults restored");
 };
 function renderSettings(){
   const K = S(); let kb = "–"; try{ kb = ((localStorage.getItem(KEY)||"").length/1024).toFixed(1); }catch{}
@@ -1789,8 +1848,8 @@ const newTask = ()=>{ go("tasks"); setTimeout(()=>$("fTitle").focus(), 60); };
 $("themeBtn").onclick = toggleTheme; $("newTaskBtn").onclick = newTask; $("heroAdd").onclick = newTask;
 $("heroImp").onclick = ()=> $("xlFile").click(); $("heroTpl").onclick = downloadTemplate;
 const CMDS = ()=> [
-  ...[["dash","Home"],["tasks","Tasks"],["insights","Insights"],["team","Members"],["reports","Reports"],["perf","Performance"],["leaders","Leader history"],["data","Data & backup"],["settings","Settings"]].map(([v,n])=>({g:"Go to", n, f:()=>go(v)})),
-  {g:"Action", n:"New task", f:newTask}, {g:"Action", n:"Export to Excel", f:exportXlsx}, {g:"Action", n:"Download backup", f:()=>$("exportBtn").click()},
+  ...[["dash","Home"],["notes","Daily notes"],["tasks","Tasks"],["insights","Insights"],["team","Members"],["reports","Reports"],["perf","Performance"],["leaders","Leader history"],["data","Data & backup"],["settings","Settings"]].map(([v,n])=>({g:"Go to", n, f:()=>go(v)})),
+  {g:"Action", n:"New task", f:newTask}, {g:"Action", n:"New key point (today)", f:()=>{ nDay = today(); go("notes"); setTimeout(()=>$("nIn").focus(),60); }}, {g:"Action", n:"Export to Excel", f:exportXlsx}, {g:"Action", n:"Download backup", f:()=>$("exportBtn").click()},
   {g:"Action", n:"Print insights report", f:()=>{ go("insights"); setTimeout(()=>window.print(), 200); }},
   {g:"Action", n:"Toggle light / dark theme", f:toggleTheme}, {g:"Action", n:"Jump to this week", f:()=>$("thisW").click()},
   ...MEMBERS.map(m=>({g:"Member", n:m.name, f:()=>{ selectedMember = m.id; $("flMember").value = m.id; go("tasks"); }}))];
@@ -1831,6 +1890,84 @@ document.addEventListener("keydown", e=>{
   save();
 })();
 
+// ---------- v5: roles & capabilities ----------
+const ROLES = {admin:"Admin", lead:"Team Lead", member:"Member", viewer:"Viewer"};
+const CAPS = {assign:"Assign tasks to others", editAny:"Update anyone’s tasks", delTask:"Delete tasks", leader:"Set weekly leader", teamNotes:"View team members’ notes", members:"Manage members & roles", data:"Import, restore & erase data", settings:"Change settings"};
+const DEF_PERMS = {lead:["assign","editAny","delTask","leader","teamNotes"], member:[], viewer:[]};
+const ME = () => M(S().me) || MEMBERS.find(m=>m.access==="admin") || MEMBERS[0];
+const role = () => (ME()||{}).access || "admin";
+const perms = () => ({...DEF_PERMS, ...(S().perms||{})});
+const can = k => role()==="admin" || (role()!=="viewer" || k==="teamNotes") && (perms()[role()]||[]).includes(k);
+const deny = () => { toast(`🔒 Your role (${ROLES[role()]}) can’t do that`); return false; };
+const canTask = t => role()!=="viewer" && (t.member===ME().id || can("editAny"));
+[["sSave","settings"],["sReset","settings"],["sWipe","data"],["importBtn","data"],["xlImport","data"],["clearWeek","data"]].forEach(([id,k])=>
+  $(id).addEventListener("click", e=>{ if (!can(k)){ e.stopImmediatePropagation(); e.preventDefault(); deny(); } }, true));
+$("meSel").onchange = e=>{ db.settings.me = e.target.value; nWho = ""; save(); fillSelects(); initForm(false); render(); toast(`Now acting as ${ME().name} · ${ROLES[role()]}`); };
+function renderAccess(){
+  const me = ME(); $("meSel").innerHTML = MEMBERS.map(m=>`<option value="${m.id}">${esc(m.name)} · ${ROLES[m.access]}</option>`).join(""); $("meSel").value = me.id;
+  $("lockTeam").hidden = can("members"); $("memPanel").hidden = !can("members");
+  const cnt = k => MEMBERS.filter(m=>m.access===k).length, P = perms();
+  $("roleCnt").textContent = Object.keys(ROLES).map(k=>`${ROLES[k]} ${cnt(k)}`).join(" · ");
+  $("pmat").innerHTML = `<table class="tbl pm"><thead><tr><th>Capability</th>${Object.values(ROLES).map(r=>`<th>${r}</th>`).join("")}</tr></thead><tbody>` +
+    Object.entries(CAPS).map(([k,l])=>`<tr><td>${l}</td><td>✔</td>${["lead","member","viewer"].map(r=>`<td><input type="checkbox" data-pm="${r}|${k}" ${P[r].includes(k)?"checked":""} ${(r==="viewer"&&k!=="teamNotes")||!can("members")?"disabled":""}></td>`).join("")}</tr>`).join("") +
+    `</tbody></table><p class="hint" style="margin-top:10px">Everyone can update their own tasks and keep their own notes; Viewers are read-only. Admin always has full access. Roles are enforced inside this browser dashboard — pick who you are with the selector in the header.</p>`;
+}
+$("pmat").onchange = e=>{ const c = e.target.dataset.pm; if (!c) return; if (!can("members")) return deny();
+  const [r,k] = c.split("|"), set = new Set(perms()[r]); e.target.checked ? set.add(k) : set.delete(k);
+  db.settings.perms = {...perms(), [r]:[...set]}; save(); render(); };
+
+// ---------- v5: daily notes ----------
+let nDay = today(), nWho = "", nT;
+const NW = () => (nWho && M(nWho) && can("teamNotes")) ? nWho : ME().id;
+const nOf = (d, w=NW()) => (db.notes[d]||{})[w] || {items:[], text:""};
+const nMk = d => ((db.notes[d] ??= {})[NW()] ??= {items:[], text:""});
+const nEdit = () => role()!=="viewer" && NW()===ME().id;
+const nPct = o => o.items.length ? Math.round(o.items.filter(i=>i.d).length/o.items.length*100) : null;
+const carryList = () => [...Array(14)].flatMap((_,k)=>{ const d = ymd(addDays(parse(nDay),-(k+1))); return nOf(d).items.filter(i=>!i.d).map(i=>({d,i})); });
+function renderNotes(){
+  const w = NW(), x = nOf(nDay,w), ed = nEdit(), td = today(), wk = parse(ymd(monday(parse(nDay))));
+  $("nLbl").textContent = fmt(nDay,{weekday:"long",day:"numeric",month:"long",year:"numeric"}) + (nDay===td?" · Today":"");
+  $("nDate").value = nDay; $("nWho").hidden = !can("teamNotes");
+  if (!$("nWho").hidden) $("nWho").innerHTML = MEMBERS.map(m=>`<option value="${m.id}" ${m.id===w?"selected":""}>${m.id===ME().id?"My notes":esc(m.name)+"’s notes"}</option>`).join("");
+  const days = [...Array(7)].map((_,i)=>ymd(addDays(wk,i)));
+  $("nWeek").innerHTML = days.map(d=>{ const o = nOf(d,w), n = o.items.length;
+    return `<button class="chip ${d===nDay?"on":""} ${d===td?"today":""}" data-nd="${d}"><b>${fmt(d,{weekday:"short"})} ${parse(d).getDate()}</b><span>${n?`${o.items.filter(i=>i.d).length}/${n} done`:"–"}</span></button>`; }).join("");
+  const p = nPct(x), wi = days.flatMap(d=>nOf(d,w).items), wp = wi.length ? Math.round(wi.filter(i=>i.d).length/wi.length*100) : null;
+  let st = 0, k = (nDay===td && p!==100) ? 1 : 0;
+  for (; k<90; k++){ const d = addDays(parse(nDay),-k), o = nOf(ymd(d),w); if (!o.items.length){ if (!isWorkDay(d)) continue; break; } if (nPct(o)===100) st++; else break; }
+  const kp = (l,v,sub,c)=>`<div class="kpi"><small>${l}</small><b${c?` style="color:${c}"`:""}>${v}</b><span>${sub}</span></div>`;
+  $("nKpis").innerHTML = kp("This day", p==null?"–":p+"%", `${x.items.filter(i=>i.d).length}/${x.items.length} key points`, p===100?"var(--ok)":"") + kp("This week", wp==null?"–":wp+"%", `${wi.filter(i=>i.d).length}/${wi.length} key points`) + kp("Streak", st+" day"+(st===1?"":"s"), "all key points done, in a row", st?"var(--ok)":"");
+  $("nAdd").hidden = !ed;
+  const its = x.items.slice().sort((a,b)=>(+!!a.d)-(+!!b.d) || (+!!b.s)-(+!!a.s));
+  $("nList").innerHTML = its.length ? its.map(i=>`<div class="nrow ${i.d?"dn":""} ${i.s?"star":""}" data-id="${i.id}"><input type="checkbox" ${i.d?"checked":""} ${ed?"":"disabled"}><span class="nt" title="Double-click to edit">${esc(i.t)}${i.from?` <span class="pill s-late">↪ from ${fmt(i.from)}</span>`:""}</span><button class="st ${i.s?"on":""}" data-a="star" ${ed?"":"disabled"} title="Must-do">★</button><button class="st" data-a="del" ${ed?"":"disabled"} title="Delete">✕</button></div>`).join("") : `<div class="empty">No key points for this day yet.</div>`;
+  const cl = ed ? carryList() : []; $("nCarry").hidden = !cl.length;
+  if (cl.length) $("nCarry").innerHTML = `<h3>↪ Unfinished from earlier days <small>${cl.length} pending</small></h3>` + cl.map(c=>`<div class="nrow"><span class="nt">${esc(c.i.t)} <span class="pill s-todo">${fmt(c.d)}</span></span><button class="btn sm" data-mv="${c.d}|${c.i.id}">Move here</button></div>`).join("") + `<div style="margin-top:10px"><button class="btn sm pri" data-mv="all">Move all to this day</button></div>`;
+  if (document.activeElement!==$("nText")) $("nText").value = x.text || ""; $("nText").disabled = !ed;
+  const due = db.tasks.filter(t=>t.member===w && t.status!=="done" && (t.deadline===nDay || (nDay===td && t.deadline<td))), dn = db.tasks.filter(t=>t.member===w && t.completedAt===nDay).length;
+  $("nDueSub").textContent = `${dn} completed on this day`;
+  $("nDue").innerHTML = due.length ? due.map(t=>{ const [sl,sc] = stLbl[stateOf(t)]; return `<div class="nrow"><span class="nt"><b>${esc(t.title)}</b><br><span class="pill ${sc}">${sl}</span> <span class="pill ${prLbl[t.priority][1]}">${prLbl[t.priority][0]}</span> <span class="sub">due ${fmt(t.deadline)}</span></span>${canTask(t)?`<button class="btn sm" data-fin="${t.id}">✔ Done</button>`:""}</div>`; }).join("") : `<div class="empty">Nothing due on this day 🎉</div>`;
+  const pend = nOf(td,ME().id).items.filter(i=>!i.d).length; $("tbNotes").hidden = !pend; $("tbNotes").textContent = pend>9 ? "9+" : pend;
+}
+const nGo = d => { nDay = d; render(); };
+$("nPrev").onclick = ()=>nGo(ymd(addDays(parse(nDay),-1))); $("nNext").onclick = ()=>nGo(ymd(addDays(parse(nDay),1))); $("nToday").onclick = ()=>nGo(today());
+$("nDate").onchange = e=>{ if (validDay(e.target.value)) nGo(e.target.value); };
+$("nWho").onchange = e=>{ nWho = e.target.value; render(); };
+$("nWeek").onclick = e=>{ const b = e.target.closest("[data-nd]"); if (b) nGo(b.dataset.nd); };
+$("nAdd").onsubmit = e=>{ e.preventDefault(); if (!nEdit()) return deny(); const v = $("nIn").value.trim().slice(0,200); if (!v) return;
+  nMk(nDay).items.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,5), t:v, d:false, s:$("nStar").checked}); $("nIn").value = ""; $("nStar").checked = false; save(); render(); $("nIn").focus(); };
+$("nList").onchange = e=>{ const r = e.target.closest(".nrow"); if (!r || !nEdit()) return; const i = nMk(nDay).items.find(z=>z.id===r.dataset.id); if (i){ i.d = e.target.checked; i.at = i.d ? Date.now() : null; save(); render(); } };
+$("nList").onclick = e=>{ const b = e.target.closest("[data-a]"), r = e.target.closest(".nrow"); if (!b || !r || !nEdit()) return;
+  const o = nMk(nDay), i = o.items.find(z=>z.id===r.dataset.id); if (!i) return; if (b.dataset.a==="star") i.s = !i.s; else o.items = o.items.filter(z=>z!==i); save(); render(); };
+$("nList").ondblclick = e=>{ const t = e.target.closest(".nt"), r = e.target.closest(".nrow"); if (!t || !nEdit()) return;
+  const i = nMk(nDay).items.find(z=>z.id===r.dataset.id), v = i && prompt("Edit key point", i.t); if (v && v.trim()){ i.t = v.trim().slice(0,200); save(); render(); } };
+$("nText").oninput = ()=>{ if (!nEdit()) return; nMk(nDay).text = $("nText").value.slice(0,5000); clearTimeout(nT); nT = setTimeout(save,400); };
+$("nCarry").onclick = e=>{ const b = e.target.closest("[data-mv]"); if (!b || !nEdit()) return;
+  const mv = (d,id)=>{ const src = nOf(d), i = src.items.find(z=>z.id===id); if (!i) return; src.items = src.items.filter(z=>z!==i); nMk(nDay).items.push({...i, from:d}); };
+  if (b.dataset.mv==="all") carryList().forEach(c=>mv(c.d,c.i.id)); else mv(...b.dataset.mv.split("|")); save(); render(); };
+$("nDue").onclick = e=>{ const b = e.target.closest("[data-fin]"); if (!b) return; const t = db.tasks.find(x=>x.id===b.dataset.fin); if (!t || !canTask(t)) return deny(); finish(t); save(); render(); toast("Task completed ✔"); };
+$("nCopy").onclick = ()=>{ const x = nOf(nDay), txt = `📝 ${M(NW()).name} — ${fmt(nDay,{weekday:"long",day:"numeric",month:"long"})}\n\nKey points:\n` + (x.items.map(i=>`${i.d?"✅":"⬜"} ${i.s?"★ ":""}${i.t}`).join("\n")||"–") + (x.text?`\n\nNotes:\n${x.text}`:"");
+  (navigator.clipboard ? navigator.clipboard.writeText(txt) : Promise.reject()).then(()=>toast("Day summary copied ✔"), ()=>toast("Copy failed")); };
+
 initForm();
 render();
 // refresh overdue states once a minute (skip while user is typing/dragging)
@@ -1849,7 +1986,7 @@ function tick(){
   // don't redraw a list the user is interacting with (status dropdown, slider, leader select);
   // the add-task form and filters live outside the redrawn areas, so typing there is safe
   const a = document.activeElement;
-  if (!a || !a.closest("#taskList, #histList, #v-settings")) render();
+  if (!a || !a.closest("#taskList, #histList, #v-settings, #v-notes, #pmat")) render();
 }
 setInterval(tick, 60000);
 // another tab/window of this dashboard saved changes → reload them so nothing gets overwritten

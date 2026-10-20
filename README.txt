@@ -56,3 +56,10 @@ Landing page v2 - liquid glass and motion
 - Hero: word-by-word headline entrance, 3D tilt on the dashboard preview, floating glass badges, count-up numbers, animated ring, bars and line chart
 - Sections reveal as you scroll; buttons have a light sweep; the final call-to-action pulses gently
 - Respects the "reduce motion" system setting (animations are turned off automatically)
+
+Version 5 - Team roles and daily notes
+- Roles & capabilities: every member has an access role (Admin, Team Lead, Member, Viewer) and a status (Active / On leave). Members > Roles & capabilities is a permission matrix you can edit (assign tasks, update anyone's tasks, delete tasks, set leader, view team notes, manage members, import/erase data, change settings).
+- "Acting as" selector in the header chooses who is using the dashboard; Members only see/assign their own tasks, Viewers are read-only. The first member of an existing workspace becomes Admin automatically. Roles are enforced inside the dashboard (browser-only app, no login).
+- Tasks remember who assigned them; at least one Admin is always kept.
+- Notes tab (key 9): day-wise key points with must-do stars and tick-off, day notes (auto-saved), week strip with progress, streak, "Tasks due" for the day with one-click Done, unfinished points from the last 14 days with Move here / Move all, copy day summary, team notes for roles that may view them. Badge on the tab shows today's pending key points.
+- Notes and roles are included in JSON backup and Excel export/import (Daily Notes sheet, Access/Status columns).

@@ -63,3 +63,8 @@ Version 5 - Team roles and daily notes
 - Tasks remember who assigned them; at least one Admin is always kept.
 - Notes tab (key 9): day-wise key points with must-do stars and tick-off, day notes (auto-saved), week strip with progress, streak, "Tasks due" for the day with one-click Done, unfinished points from the last 14 days with Move here / Move all, copy day summary, team notes for roles that may view them. Badge on the tab shows today's pending key points.
 - Notes and roles are included in JSON backup and Excel export/import (Daily Notes sheet, Access/Status columns).
+
+Version 6 - Final
+- Animated, professional "Set up your workspace" screen (drifting colour orbs, glass card with cursor spotlight and sheen, staggered entrance, template cards with icons, live team preview chips, step tracker, pulsing Create button) matching landing.html.
+- Task editing, activity log, notes search, "Today's key points" panel on Home, roles & permission matrix, daily notes (see Version 5).
+- Files: landing.html (entry page) -> index.html (app). Keep all files in one folder.

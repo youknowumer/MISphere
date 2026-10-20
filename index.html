@@ -721,6 +721,10 @@
           <a class="btn" id="ghOpen" target="_blank" rel="noopener" hidden style="text-decoration:none">↗ Open data file</a><a class="btn" id="ghHist" target="_blank" rel="noopener" hidden style="text-decoration:none">🕘 Change history</a></div>
         <p class="hint" style="margin-top:12px">The file holds a ready-to-read report (summary, module report, member report, task register) plus the full data for restore. Each save is a GitHub commit, so <b>Change history</b> shows who changed what and when.</p></div>
     </div>
+    <div class="panel" id="fsPanel"><h3>💾 Auto-save to a file <small>no token, no login — saves into one file on this computer after every change</small></h3>
+      <div id="fsStatus"></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px"><button class="btn pri" id="fsPick">📁 Choose file…</button><button class="btn" id="fsNow">⟳ Save now</button><button class="btn" id="fsOff">✖ Stop auto-save</button></div>
+      <p class="hint" style="margin-top:12px">Choose the file once (for example <b>mis-data.json</b> inside your MISphere repository folder). After that it is rewritten a moment after every change. To put it on GitHub, commit and push that folder (GitHub Desktop → Commit → Push), then open the file on GitHub to read it. Works in Chrome and Edge. After you reopen the page the browser asks you to allow access once (button “Save now”).</p></div>
     <div class="panel"><h3>ℹ System <small>storage and backup status · v2.0</small></h3><div id="sInfo"></div>
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px"><button class="btn pri" id="sSave">Save settings</button><button class="btn" id="sReset">Reset to defaults</button><button class="btn" onclick="go('data')">Open Data &amp; Backup</button><button class="btn" id="sWipe" style="color:var(--bad);margin-left:auto">🗑 Erase all data</button></div></div>
   </section>
@@ -740,12 +744,16 @@
 <div class="fgrid" style="grid-template-columns:1fr 2fr;margin-bottom:14px"><div><label>Module</label><select id="eModule"></select></div><div><label>Notes</label><input id="eNotes"></div></div>
 <div style="display:flex;gap:8px;justify-content:flex-end"><button class="btn" type="button" id="eCancel">Cancel</button><button class="btn pri" type="submit">Save</button></div></form></dialog>
 <dialog id="ghDlg"><form id="ghForm"><h3 style="margin-bottom:6px">☁ Live sync to GitHub</h3>
-<p class="hint" style="margin-bottom:14px">Saves your data into one file in a GitHub repository after every change. The token stays only in this browser — it is never written into backups, Excel files or the GitHub data file.</p>
-<div class="fgrid" style="grid-template-columns:1fr 1fr"><div><label>Owner (user or organisation)</label><input id="ghOwner" placeholder="e.g. youknowumer" autocomplete="off" required></div><div><label>Repository</label><input id="ghRepo" placeholder="e.g. MISphere" autocomplete="off" required></div>
+<p class="hint" style="margin-bottom:12px">Saves your data into one file in a GitHub repository after every change. Choose ONE way to connect.</p>
+<div style="border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:12px"><b style="font-size:13px">A · Cloudflare Worker (recommended — no token in the browser)</b>
+<p class="hint" style="margin:4px 0 10px">Deploy the Worker once (worker/DEPLOY.txt). The GitHub token stays inside Cloudflare; here you only enter the Worker address and your access code.</p>
+<div class="fgrid" style="grid-template-columns:2fr 1fr;margin-bottom:0"><div><label>Worker URL</label><input id="ghWorker" placeholder="https://misphere-github-bridge.you.workers.dev" autocomplete="off" spellcheck="false"></div><div><label>Access code</label><input id="ghKey" type="password" autocomplete="off" spellcheck="false"></div></div></div>
+<div style="border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:12px"><b style="font-size:13px">B · GitHub token typed into this browser</b>
+<div class="fgrid" style="grid-template-columns:1fr 1fr;margin:10px 0 12px"><div><label>Owner (user or organisation)</label><input id="ghOwner" placeholder="e.g. youknowumer" autocomplete="off"></div><div><label>Repository</label><input id="ghRepo" placeholder="e.g. MISphere" autocomplete="off"></div>
 <div><label>Branch</label><input id="ghBranch" placeholder="main" autocomplete="off"></div><div><label>File path in the repository</label><input id="ghPath" placeholder="data/mis-data.json" autocomplete="off"></div></div>
-<div style="margin-bottom:12px"><label>GitHub token (fine-grained, this repository only, permission “Contents: Read and write”)</label><input id="ghToken" type="password" autocomplete="off" spellcheck="false"></div>
+<div><label>GitHub token (classic: scope “repo” · fine-grained: Contents = Read and write)</label><input id="ghToken" type="password" autocomplete="off" spellcheck="false"></div></div>
 <div class="srow" style="border:none;padding:4px 0 12px"><div><b>Auto-sync</b><span>Save to GitHub a few seconds after every change</span></div><label class="sw"><input type="checkbox" id="ghAuto" checked><i></i></label></div>
-<p class="hint" style="margin-bottom:14px">Create the token at GitHub → Settings → Developer settings → Personal access tokens → Fine-grained tokens → Generate new token → select only this repository → Repository permissions → Contents → Read and write.</p>
+<p class="hint" style="margin-bottom:14px">The token / access code stays only in this browser — never in backups, Excel files or the GitHub data file.</p>
 <div style="display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap"><button class="btn" type="button" id="ghOff" style="color:var(--bad);margin-right:auto" hidden>Disconnect</button><button class="btn" type="button" id="ghCancel">Cancel</button><button class="btn pri" type="submit" id="ghSave">Save &amp; connect</button></div></form></dialog>
 <div id="cmd" hidden><div class="cbox"><input id="cmdIn" placeholder="Search tasks and members, or run a command…" autocomplete="off" aria-label="Quick actions"><div id="cmdList"></div>
   <div class="cfoot"><span><kbd>↑</kbd> <kbd>↓</kbd> navigate</span><span><kbd>Enter</kbd> run</span><span><kbd>Esc</kbd> close</span></div></div></div>
@@ -782,7 +790,9 @@ const DEFAULT_LEADER = "";
 const KEY = "mis_team_dashboard_v1";
 const GH_KEY = "mis_gh_sync_v1", MOD_KEY = "mis_active_module_v1";
 const DEFAULT_MODULES = ["Sales","Purchase","Inventory","Accounting","CRM","HR / Payroll","Manufacturing","Projects","Website / eCommerce","Reporting / BI","IT Infrastructure","General"];
-const GH_DEF = {owner:"",repo:"",branch:"main",path:"data/mis-data.json",token:"",auto:true,sha:"",stamp:"",last:0,dirty:false,pub:false};
+// Optional: fill both to connect every visitor automatically to your Cloudflare Worker (no prompts). The key then sits in this page, so use a key you can rotate.
+const PRESET_WORKER = {url:"", key:""};
+const GH_DEF = {worker:"",key:"",owner:"",repo:"",branch:"main",path:"data/mis-data.json",token:"",auto:true,sha:"",stamp:"",last:0,dirty:false,pub:false};
 let GH = (()=>{ try{ return {...GH_DEF, ...JSON.parse(localStorage.getItem(GH_KEY)||"{}")}; }catch{ return {...GH_DEF}; } })();
 let activeModule = (()=>{ try{ return localStorage.getItem(MOD_KEY)||"all"; }catch{ return "all"; } })();
 let ghSt = {s:"off", msg:""}, ghTimer = null, ghBusy = false, ghAgain = false, ghMute = false;
@@ -937,15 +947,15 @@ $("modCsv").onclick = ()=>{
 };
 
 // ---------- v7: live sync to GitHub (one JSON file in your repository) ----------
-const ghOn = () => !!(GH.owner && GH.repo && GH.token);
+const ghOn = () => !!(GH.worker && GH.key) || !!(GH.owner && GH.repo && GH.token);
 const ghSaveCfg = () => { try{ localStorage.setItem(GH_KEY, JSON.stringify(GH)); }catch{} };
-const ghUrl = () => `https://api.github.com/repos/${encodeURIComponent(GH.owner)}/${encodeURIComponent(GH.repo)}/contents/${GH.path.split("/").map(encodeURIComponent).join("/")}`;
-const ghHead = () => ({Accept:"application/vnd.github+json", Authorization:"Bearer "+GH.token, "X-GitHub-Api-Version":"2022-11-28"});
+const ghUrl = () => GH.worker ? GH.worker.replace(/\/+$/,"") + "/file" : `https://api.github.com/repos/${encodeURIComponent(GH.owner)}/${encodeURIComponent(GH.repo)}/contents/${GH.path.split("/").map(encodeURIComponent).join("/")}`;
+const ghHead = () => GH.worker ? {Accept:"application/vnd.github+json", "X-MIS-Key":GH.key} : {Accept:"application/vnd.github+json", Authorization:"Bearer "+GH.token, "X-GitHub-Api-Version":"2022-11-28"};
 const b64e = s => { const b = new TextEncoder().encode(s); let bin = ""; for (let i=0;i<b.length;i+=0x8000) bin += String.fromCharCode.apply(null, b.subarray(i,i+0x8000)); return btoa(bin); };
 const b64d = s => { const bin = atob(s.replace(/\s/g,"")), u = new Uint8Array(bin.length); for (let i=0;i<bin.length;i++) u[i] = bin.charCodeAt(i); return new TextDecoder().decode(u); };
 async function ghErr(r){
   let m = ""; try{ m = (await r.json()).message || ""; }catch{}
-  const e = new Error(r.status===401 ? "Token is invalid or expired — create a new one and reconnect"
+  const e = new Error(r.status===401 ? (GH.worker ? "The Worker rejected the access code — check the code (MIS_KEY secret) and the Worker URL" : "Token is invalid or expired — create a new one and reconnect")
     : r.status===403 ? "Access denied — the token needs “Contents: Read and write” on this repository (or GitHub rate limit reached)"
     : r.status===404 ? "Repository, branch or file not found — check owner / repo / branch, and that the token can access this repository"
     : r.status===409 || r.status===422 ? "GitHub reports a conflicting change — try Sync now again" : (m || "GitHub error " + r.status));
@@ -1060,26 +1070,44 @@ async function ghCheck(interactive){
   }catch(e){ ghSet("err", e.message || "Network error"); }
 }
 function ghOpenDlg(){
-  $("ghOwner").value = GH.owner; $("ghRepo").value = GH.repo; $("ghBranch").value = GH.branch; $("ghPath").value = GH.path; $("ghToken").value = ""; $("ghAuto").checked = GH.auto;
-  $("ghToken").placeholder = GH.token ? "•••••••• saved in this browser — leave blank to keep" : "github_pat_…  (fine-grained token)"; $("ghOff").hidden = !GH.token; $("ghDlg").showModal();
+  $("ghWorker").value = GH.worker; $("ghKey").value = ""; $("ghKey").placeholder = GH.key ? "•••••••• saved — leave blank to keep" : "";
+  $("ghOwner").value = GH.worker ? "" : GH.owner; $("ghRepo").value = GH.worker ? "" : GH.repo; $("ghBranch").value = GH.branch; $("ghPath").value = GH.path; $("ghToken").value = ""; $("ghAuto").checked = GH.auto;
+  $("ghToken").placeholder = GH.token ? "•••••••• saved in this browser — leave blank to keep" : "ghp_… or github_pat_…"; $("ghOff").hidden = !(GH.token || GH.worker); $("ghDlg").showModal();
 }
 $("ghCfg").onclick = $("suGh").onclick = ghOpenDlg;
 $("ghCancel").onclick = ()=>$("ghDlg").close();
-$("ghOff").onclick = ()=>{ if (!confirm("Disconnect GitHub and remove the saved token from this browser? Data already on GitHub stays there.")) return; GH = {...GH_DEF}; ghSaveCfg(); $("ghDlg").close(); ghSet("off"); toast("GitHub disconnected"); };
+$("ghOff").onclick = ()=>{ if (!confirm("Disconnect GitHub and remove the saved token / access code from this browser? Data already on GitHub stays there.")) return; GH = {...GH_DEF}; ghSaveCfg(); $("ghDlg").close(); ghSet("off"); toast("GitHub disconnected"); };
+async function ghConnectWorker(url, key, auto){
+  const w = url.replace(/\/+$/,"");
+  const r = await fetch(w + "/repo", {headers:{Accept:"application/json", "X-MIS-Key":key}, cache:"no-store"});
+  const keep = GH; GH = {...GH, worker:w, key}; if (!r.ok){ const e = await ghErr(r); GH = keep; throw e; }
+  const j = await r.json();
+  if (j.permissions && j.permissions.push===false){ GH = keep; throw new Error("The Worker's GitHub token can read but not write — give it write access (classic scope “repo”, or Contents: Read and write)"); }
+  GH = {...GH_DEF, ...keep, worker:w, key, owner:j.owner||"", repo:j.repo||"", branch:j.branch||"main", path:j.path||"data/mis-data.json", token:"", auto, pub:j.private===false,
+    ...(keep.worker===w && keep.owner===j.owner && keep.repo===j.repo && keep.path===j.path ? {} : {sha:"",stamp:"",dirty:false})};
+  ghSaveCfg();
+}
 $("ghForm").onsubmit = async e=>{
-  e.preventDefault(); const v = id=>$(id).value.trim(), nm = /^[\w.-]+$/;
-  const path = v("ghPath").replace(/^\/+/,"") || "data/mis-data.json", tok = v("ghToken") || GH.token;
-  if (!nm.test(v("ghOwner")) || !nm.test(v("ghRepo"))){ toast("Check the owner and repository name"); return; }
-  if (!tok){ toast("Paste your GitHub token"); return; }
-  const same = v("ghOwner")===GH.owner && v("ghRepo")===GH.repo && (v("ghBranch")||"main")===GH.branch && path===GH.path;
-  const old = GH; GH = {...GH, owner:v("ghOwner"), repo:v("ghRepo"), branch:v("ghBranch")||"main", path, token:tok, auto:$("ghAuto").checked, ...(same?{}:{sha:"",stamp:"",dirty:false})};
-  const btn = $("ghSave"); btn.disabled = true; btn.textContent = "Connecting…";
+  e.preventDefault(); const v = id=>$(id).value.trim(), nm = /^[\w.-]+$/, btn = $("ghSave"), old = GH;
+  btn.disabled = true; btn.textContent = "Connecting…";
   try{
-    const r = await fetch(`https://api.github.com/repos/${encodeURIComponent(GH.owner)}/${encodeURIComponent(GH.repo)}`, {headers:ghHead(), cache:"no-store"});
-    if (!r.ok) throw await ghErr(r);
-    const j = await r.json();
-    if (j.permissions && j.permissions.push===false) throw new Error("This token can read but not write to the repository — it needs “Contents: Read and write”");
-    GH.pub = j.private===false; ghSaveCfg(); $("ghDlg").close(); toast("GitHub connected ✔"); ghRender(); await ghCheck(true);
+    if (v("ghWorker")){
+      if (!/^https:\/\/[^\s]+$/.test(v("ghWorker"))) throw new Error("Worker URL must start with https://");
+      const key = v("ghKey") || GH.key; if (!key) throw new Error("Enter the access code");
+      await ghConnectWorker(v("ghWorker"), key, $("ghAuto").checked);
+    } else {
+      const path = v("ghPath").replace(/^\/+/,"") || "data/mis-data.json", tok = v("ghToken") || GH.token;
+      if (!nm.test(v("ghOwner")) || !nm.test(v("ghRepo"))) throw new Error("Fill the Worker URL, or the owner and repository name");
+      if (!tok) throw new Error("Paste your GitHub token");
+      const same = !GH.worker && v("ghOwner")===GH.owner && v("ghRepo")===GH.repo && (v("ghBranch")||"main")===GH.branch && path===GH.path;
+      GH = {...GH, worker:"", key:"", owner:v("ghOwner"), repo:v("ghRepo"), branch:v("ghBranch")||"main", path, token:tok, auto:$("ghAuto").checked, ...(same?{}:{sha:"",stamp:"",dirty:false})};
+      const r = await fetch(`https://api.github.com/repos/${encodeURIComponent(GH.owner)}/${encodeURIComponent(GH.repo)}`, {headers:ghHead(), cache:"no-store"});
+      if (!r.ok) throw await ghErr(r);
+      const j = await r.json();
+      if (j.permissions && j.permissions.push===false) throw new Error("This token can read but not write to the repository — classic token needs scope “repo”; fine-grained needs Contents: Read and write");
+      GH.pub = j.private===false; ghSaveCfg();
+    }
+    $("ghDlg").close(); toast("GitHub connected ✔"); ghRender(); await ghCheck(true);
   }catch(err){ GH = old; toast("GitHub: " + err.message); }
   finally{ btn.disabled = false; btn.textContent = "Save & connect"; }
 };
@@ -1088,6 +1116,41 @@ $("ghPull").onclick = ()=>{ if (confirm("Replace the data in this browser with t
 $("ghForce").onclick = ()=>{ if (confirm("Overwrite the GitHub file with the data in this browser? The previous version stays in the commit history.")) ghPush(true); };
 $("ghChip").onclick = ()=>{ if (ghSt.s==="conflict") ghResolve(); else if (ghSt.s==="err" && ghOn()) ghPush(); else go("settings"); };
 document.addEventListener("visibilitychange", ()=>{ if (document.visibilityState==="hidden" && ghSt.s==="pending") ghPush(); });
+
+// ---------- v7.1: auto-save to a local file (File System Access API, no token) ----------
+const FS_OK = typeof window.showSaveFilePicker === "function";
+let fsH = null, fsTimer = null, fsSt = {s:"off", msg:"", last:0};
+const idbOpen = () => new Promise((res,rej)=>{ const r = indexedDB.open("mis_fs_v1",1); r.onupgradeneeded = ()=>r.result.createObjectStore("h"); r.onsuccess = ()=>res(r.result); r.onerror = ()=>rej(r.error); });
+async function idbGet(){ try{ const d = await idbOpen(); return await new Promise(res=>{ const q = d.transaction("h").objectStore("h").get("f"); q.onsuccess = ()=>res(q.result||null); q.onerror = ()=>res(null); }); }catch{ return null; } }
+async function idbSet(v){ try{ const d = await idbOpen(); await new Promise(res=>{ const t = d.transaction("h","readwrite"); v ? t.objectStore("h").put(v,"f") : t.objectStore("h").delete("f"); t.oncomplete = ()=>res(); t.onerror = ()=>res(); }); }catch{} }
+function fsSet(s,msg){ fsSt = {...fsSt, s, msg:msg||""}; if (s==="ok") fsSt.last = Date.now(); fsRender(); }
+function fsRender(){
+  const st = $("fsStatus"); if (!st) return;
+  const t = fsSt.last ? new Date(fsSt.last).toLocaleString("en-GB") : "not yet";
+  const lab = !FS_OK ? "Not supported in this browser — open the dashboard in Chrome or Edge" : {off:"Not set up", ok:"Saved", perm:"Waiting for permission — click “Save now” once", err:"Failed"}[fsSt.s];
+  st.innerHTML = `<div class="kv"><span>Status</span><b style="color:${fsSt.s==="ok"?"var(--ok)":fsSt.s==="off"?"inherit":"var(--bad)"}">${esc(lab)}${fsSt.msg?" — "+esc(fsSt.msg):""}</b><span>File</span><b>${fsH ? esc(fsH.name) : "–"}</b><span>Last saved</span><b>${t}</b></div>`;
+  $("fsPick").disabled = !FS_OK; $("fsNow").disabled = !fsH; $("fsOff").disabled = !fsH;
+}
+async function fsWrite(interactive){
+  if (!fsH) return;
+  try{
+    let perm = await fsH.queryPermission({mode:"readwrite"});
+    if (perm!=="granted" && interactive) perm = await fsH.requestPermission({mode:"readwrite"});
+    if (perm!=="granted"){ fsSet("perm"); return; }
+    const w = await fsH.createWritable(); await w.write(JSON.stringify(ghPayload(), null, 2)); await w.close(); fsSet("ok");
+  }catch(e){ fsSet("err", e.message||"could not write"); }
+}
+function fsSchedule(){ if (!fsH) return; clearTimeout(fsTimer); fsTimer = setTimeout(()=>fsWrite(false), 1500); }
+$("fsPick").onclick = async ()=>{
+  try{
+    fsH = await showSaveFilePicker({suggestedName:"mis-data.json", types:[{description:"MIS data (JSON)", accept:{"application/json":[".json"]}}]});
+    await idbSet(fsH); await fsWrite(true); toast("Auto-save file ready ✔");
+  }catch(e){ if (e && e.name!=="AbortError") toast("Could not set the file: "+e.message); fsRender(); }
+};
+$("fsNow").onclick = ()=>fsWrite(true);
+$("fsOff").onclick = async ()=>{ fsH = null; await idbSet(null); fsSt = {s:"off", msg:"", last:0}; fsRender(); toast("Auto-save stopped (the file stays where it is)"); };
+(async()=>{ if (FS_OK){ fsH = await idbGet(); if (fsH){ try{ fsSt.s = (await fsH.queryPermission({mode:"readwrite"}))==="granted" ? "ok" : "perm"; }catch{ fsSt.s = "perm"; } } } fsRender(); })();
+
 
 
 function load(){
@@ -1101,7 +1164,7 @@ function load(){
 function save(){
   try{ localStorage.setItem(KEY, JSON.stringify(db)); }
   catch{ toast("⚠ Unable to save data — browser storage is disabled or full. Please take a backup!"); }
-  ghSchedule();
+  ghSchedule(); fsSchedule();
 }
 function toast(msg){ const t=$("toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove("show"),2200); }
 
@@ -1536,7 +1599,7 @@ $("importFile").onchange = e=>{
   const r = new FileReader();
   r.onload = ()=>{
     try{
-      const d = JSON.parse(r.result);
+      let d = JSON.parse(r.result); if (d && d.data && Array.isArray(d.data.tasks)) d = d.data;   // also accepts the auto-saved / GitHub data file
       const hex = /^#[0-9a-f]{3,8}$/i;
       const mem = (!Array.isArray(d) && Array.isArray(d.members)) ? d.members.filter(m=>m&&m.id&&m.name&&hex.test(m.c1)&&hex.test(m.c2)) : null;
       const find = id => (mem&&mem.length ? mem : MEMBERS).find(m=>m.id===id);
@@ -2434,7 +2497,13 @@ setInterval(tick, 60000);
 // another tab/window of this dashboard saved changes → reload them so nothing gets overwritten
 window.addEventListener("storage", e=>{ if (e.key===KEY){ db = norm(load()); fillSelects(); render(); } });
 
-ghRender(); if (ghOn()) ghCheck(false);
+ghRender();
+(async()=>{
+  if (PRESET_WORKER.url && PRESET_WORKER.key && !(GH.worker===PRESET_WORKER.url.replace(/\/+$/,"") && GH.key===PRESET_WORKER.key)){
+    try{ await ghConnectWorker(PRESET_WORKER.url, PRESET_WORKER.key, true); ghRender(); }catch(e){ ghSet("err", e.message); return; }
+  }
+  if (ghOn()) ghCheck(false);
+})();
 </script>
 </body>
 </html>

@@ -1,0 +1,12 @@
+{
+  "name": "misphere-github-bridge",
+  "main": "index.js",
+  "compatibility_date": "2025-01-01",
+  "vars": {
+    "GH_OWNER": "YOUR_GITHUB_USERNAME",
+    "GH_REPO": "MISphere",
+    "GH_BRANCH": "main",
+    "GH_PATH": "data/mis-data.json",
+    "ALLOWED_ORIGIN": "*"
+  }
+}

@@ -85,3 +85,12 @@ Live sync to GitHub (data saved into one file in your repository)
 - Other device / browser: open the site > "Load from GitHub" (setup screen) or Settings > Load from GitHub. If GitHub and this browser differ, sync pauses and asks you to choose Load from GitHub or Overwrite GitHub - nothing is overwritten silently.
 - The token is stored only in the browser you typed it in. It is never put in backups, Excel exports or the GitHub data file.
 - IMPORTANT: if the repository is public, anyone can read the data file. Use a private repository for real data (GitHub Pages from a private repo needs a paid GitHub plan; alternatively keep the site in one public repo and put the data in a separate private repo - just enter that repo in the connect form).
+
+Auto-save to a file (no token)
+- Settings > "Auto-save to a file" > Choose file...: pick a file once (e.g. mis-data.json inside your MISphere repository folder). It is rewritten ~1.5 s after every change, with the same readable report + full data as the GitHub file. Chrome / Edge only. After reopening the page, click "Save now" once to allow access again.
+- To publish: commit and push that folder (GitHub Desktop). "Restore from file" in Reports > Data & Backup accepts this file too.
+
+GitHub via Cloudflare Worker (no token in the browser)
+- Folder worker/ (index.js, wrangler.jsonc, DEPLOY.txt): a tiny Cloudflare Worker that holds the GitHub token as a secret and can read/write only ONE file in ONE repository. Follow worker/DEPLOY.txt once.
+- In MISphere: Settings > Live sync to GitHub > Connect > fill "Worker URL" + "Access code" (section A).
+- Zero-prompt mode: in index.html set PRESET_WORKER = {url:"https://...workers.dev", key:"your code"}. Every browser that opens the site then connects automatically, loads the data from GitHub if it is empty, and saves every change. The access code is then visible in the page source: anyone who finds it could overwrite the data file, so keep the repo private / rotate the code if needed (wrangler secret put MIS_KEY + edit index.html).

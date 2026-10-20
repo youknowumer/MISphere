@@ -1,0 +1,14 @@
+MISphere -> GitHub bridge: one-time setup (about 5 minutes)
+
+1. Edit wrangler.jsonc: set GH_OWNER (your GitHub username), GH_REPO, GH_BRANCH, GH_PATH.
+   Optional: ALLOWED_ORIGIN = your site, e.g. "https://YOURNAME.github.io" (safer than "*").
+2. In this folder run:
+     npx wrangler login
+     npx wrangler secret put GH_TOKEN     <- paste a GitHub token with write access to the repo
+                                             (classic token: scope "repo"; fine-grained: Contents = Read and write)
+     npx wrangler secret put MIS_KEY      <- invent a long access code, e.g. 30+ random characters
+     npx wrangler deploy
+   Wrangler prints the Worker URL, e.g. https://misphere-github-bridge.YOURNAME.workers.dev
+3. In MISphere: Settings > Live sync to GitHub > Connect, fill ONLY "Worker URL" and "Access code" > Save & connect.
+   (Or put both into PRESET_WORKER near the top of index.html so nobody has to enter anything - see README.)
+The token never leaves Cloudflare. The Worker can only touch that one file.

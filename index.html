@@ -731,6 +731,29 @@
   @keyframes v8up{from{opacity:0;transform:translateY(34px) scale(.95)}}
   ::-webkit-scrollbar{width:8px;height:8px}::-webkit-scrollbar-thumb{background:rgba(120,120,128,.4);border-radius:9px}
   @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.panel,.tabbar,.bd>*{background:var(--card)!important}}
+
+  /* ===== v8.3: transparent glass team cards ===== */
+  :root{--tc-bg:rgba(255,255,255,.34);--tc-bd:rgba(255,255,255,.65)}
+  html[data-theme=dark]{--tc-bg:rgba(255,255,255,.055);--tc-bd:rgba(255,255,255,.12)}
+  .team{gap:18px}
+  .mcard{background:linear-gradient(155deg,color-mix(in srgb,var(--c1) 20%,transparent),color-mix(in srgb,var(--c2) 6%,transparent) 55%,transparent 100%),var(--tc-bg)!important;border:.5px solid var(--tc-bd)!important;border-radius:26px!important;box-shadow:0 8px 30px rgba(0,0,0,.07),inset 0 1px 0 rgba(255,255,255,.55)!important;-webkit-backdrop-filter:blur(28px) saturate(190%);backdrop-filter:blur(28px) saturate(190%);transition:transform .4s var(--spring),box-shadow .4s var(--spring)}
+  @media(hover:hover){.mcard:hover{transform:translateY(-4px)!important;box-shadow:0 18px 44px color-mix(in srgb,var(--c1) 24%,transparent),inset 0 1px 0 rgba(255,255,255,.6)!important}}
+  .mcard:active{transform:scale(.985)!important}
+  .mcard.sel{box-shadow:0 0 0 2px var(--c1),0 14px 40px color-mix(in srgb,var(--c1) 30%,transparent)!important}
+  .mc-band{height:54px!important;background:transparent!important}
+  .mc-band::before{width:150px;height:150px;right:-44px;top:-84px;background:radial-gradient(circle,color-mix(in srgb,var(--c1) 55%,transparent),transparent 68%);filter:blur(6px)}
+  .mc-band::after{display:none}
+  .mc-body{padding:0 20px 18px!important}
+  .mc-av{width:58px!important;height:58px!important;margin-top:-30px!important;border:2.5px solid rgba(255,255,255,.7)!important;box-shadow:0 8px 20px color-mix(in srgb,var(--c1) 45%,transparent)!important}
+  .mc-name{font-size:18px!important;font-weight:700!important;letter-spacing:-.02em}
+  .mc-role{background:color-mix(in srgb,var(--c1) 14%,transparent)!important;color:var(--c1)!important;border:.5px solid color-mix(in srgb,var(--c1) 28%,transparent)}
+  html[data-theme=dark] .mc-role{color:color-mix(in srgb,var(--c1) 55%,#fff)!important}
+  html[data-theme] .mc-rank{background:color-mix(in srgb,var(--c1) 16%,transparent)!important;color:var(--text)!important;border:.5px solid color-mix(in srgb,var(--c1) 30%,transparent)!important;font-weight:700}
+  .mc-kv div,.mcard:hover .mc-kv div{background:color-mix(in srgb,var(--c1) 8%,transparent)!important;border:.5px solid color-mix(in srgb,var(--c1) 14%,transparent);border-radius:14px!important}
+  .mc-state{height:5px!important;background:rgba(120,120,128,.18)!important}
+  .mc-foot{border-top:.5px solid var(--tc-bd)!important}
+  .mcard.leave{opacity:.78}
+  @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.mcard{background-color:var(--card)!important}}
 </style>
 </head>
 <body>
@@ -955,7 +978,7 @@
       <div class="row"><button class="btn pri" id="v8Check">⟳ Check for updates</button><button class="btn pri" id="v8Go" style="display:none">⬆ Update now</button></div>
       <h4 style="margin:18px 0 4px;font-size:13px">Version history</h4><div id="v8Hist"></div>
       <h4 style="margin:18px 0 4px;font-size:13px">Automatic safety backups (restore point before every update)</h4><div id="v8Snaps"></div></div>
-    <div class="panel"><h3>ℹ System <small>storage and backup status · v8.2.0</small></h3><div id="sInfo"></div>
+    <div class="panel"><h3>ℹ System <small>storage and backup status · v8.3.0</small></h3><div id="sInfo"></div>
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px"><button class="btn pri" id="sSave">Save settings</button><button class="btn" id="sReset">Reset to defaults</button><button class="btn" onclick="go('data')">Open Data &amp; Backup</button><button class="btn" id="sWipe" style="color:var(--bad-t);margin-left:auto">🗑 Erase all data</button></div></div>
   </section>
 </main>
@@ -2747,8 +2770,9 @@ ghRender();
 <script>
 /* v8: stable updater + version history. Data lives in localStorage and is never touched by an update; a snapshot is taken first. */
 (()=>{
-const APP_VERSION="8.2.0", SNAP_KEY="mis_snapshots_v1", LOG_KEY="mis_update_log_v1", $=id=>document.getElementById(id);
+const APP_VERSION="8.3.0", SNAP_KEY="mis_snapshots_v1", LOG_KEY="mis_update_log_v1", $=id=>document.getElementById(id);
 const HISTORY=[
+ {v:"8.3.0",d:"2026-10-21",n:["Team cards redesigned: transparent glass with member-colour tint, glow and refined stats"]},
  {v:"8.2.0",d:"2026-10-21",n:["iOS design system: SF-style typography, system colours, large titles, switches and sheets", "Glitch fixes: no re-render flicker, lighter blur for smoother scrolling, no input zoom on iPhone", "Smoother spring animations on page change and dialogs"]},
  {v:"8.1.0",d:"2026-10-21",n:["iOS-style Software Update sheet with progress and What's New", "Smoother spring animations"]},
  {v:"8.0.0",d:"2026-10-21",n:["Stronger liquid-glass UI and smoother animations","One-click Update with automatic safety backup and rollback","Version history and restore points in Settings"]},

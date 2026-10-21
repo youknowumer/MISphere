@@ -831,6 +831,28 @@
   .tli.cur>i{border-color:var(--brand);background:var(--brand);box-shadow:0 0 0 5px color-mix(in srgb,var(--brand) 20%,transparent)}.tli.new>i{border-color:#34c759;background:#34c759}
   .tlc{flex:1;padding:10px 14px;border-radius:16px;background:var(--soft)}.tlh{display:flex;flex-wrap:wrap;gap:8px;align-items:center}.tlh b{font-size:14px}.tld{font-size:12px;color:var(--muted);margin-left:auto}
   .tlc ul{margin:6px 0 0 16px;font-size:12.5px;line-height:1.55;color:var(--muted)}
+
+  /* ===== v8.6: team card fixes ===== */
+  .mcard.pc{align-items:stretch!important;justify-content:flex-start;min-width:0;overflow:hidden}
+  .pc-head,.pc-prog,.pc-state,.pc-stats,.pc-foot{width:100%;min-width:0;box-sizing:border-box}
+  .pc-chip{flex:none}
+  .pc-pct.nil{opacity:.3}.pc-stats .z b{opacity:.38}.pc-stats .z{background:transparent!important}
+  .mcard.pc .pc-state:empty{background:rgba(120,120,128,.14)}
+  .sw{position:relative;display:inline-block;width:46px;height:28px;flex:none;cursor:pointer}
+  .sw input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;z-index:2;cursor:pointer;background:none!important;border:0!important;box-shadow:none!important}
+  .sw i{position:absolute;inset:0;border-radius:99px;background:rgba(120,120,128,.34);transition:background .3s}
+  .sw i::before{content:"";position:absolute;top:2px;left:2px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 3px 8px rgba(0,0,0,.22),0 1px 1px rgba(0,0,0,.12);transition:transform .35s var(--spring)}
+  .sw input:checked+i{background:var(--ok)}.sw input:checked+i::before{transform:translateX(18px)}.sw input:disabled{cursor:default}.sw input:focus-visible+i{box-shadow:0 0 0 3px var(--brand-soft)}
+
+  /* ===== v8.6b ===== */
+  .sw i{width:100%!important;height:100%!important;display:block!important;place-items:unset}
+  .pc-prog .pc-chip{margin-left:auto;align-self:center}
+  .lc-name{white-space:normal!important;line-height:1.12;overflow:visible!important;text-overflow:clip!important;word-break:break-word}
+  .lc-grid>div{background:rgba(255,255,255,.42)!important;border:.5px solid rgba(212,160,23,.28)!important;border-left:3px solid rgba(212,160,23,.7)!important;border-radius:16px!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.7)!important}
+  html[data-theme=dark] .lc-grid>div{background:rgba(255,255,255,.06)!important;box-shadow:none!important}
+  .pc-prog{align-items:center!important}.pc-lbl{flex:1;min-width:0}.pc-lbl em.lv{font-style:normal;font-weight:700;color:var(--warn)}
+  .pc-pct{font-size:42px}
+  @media(max-width:520px){.lc-top{flex-wrap:wrap;gap:8px}.lc-wk{margin-left:auto}.lc-band{padding-bottom:6px}}
 </style>
 <script>window.__v8err=0;addEventListener("error",function(){window.__v8err++});try{var u=JSON.parse(localStorage.getItem("mis_ui_v1"))||{};document.documentElement.dataset.accent=u.a||"ocean";document.documentElement.style.setProperty("--gb",({soft:14,standard:26,strong:44})[u.g||"standard"]+"px")}catch(e){}</script></head>
 <body>
@@ -1057,7 +1079,7 @@
       <div class="row"><button class="btn pri" id="v8Check">⟳ Check for updates</button><button class="btn pri" id="v8Go" style="display:none">⬆ Update now</button></div>
       <h4 style="margin:18px 0 4px;font-size:13px">Version history</h4><div id="v8Hist"></div>
       <h4 style="margin:18px 0 4px;font-size:13px">Automatic safety backups (restore point before every update)</h4><div id="v8Snaps"></div></div>
-    <div class="panel"><h3>ℹ System <small>storage and backup status · v8.5.0</small></h3><div id="sInfo"></div>
+    <div class="panel"><h3>ℹ System <small>storage and backup status · v8.6.0</small></h3><div id="sInfo"></div>
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px"><button class="btn pri" id="sSave">Save settings</button><button class="btn" id="sReset">Reset to defaults</button><button class="btn" onclick="go('data')">Open Data &amp; Backup</button><button class="btn" id="sWipe" style="color:var(--bad-t);margin-left:auto">🗑 Erase all data</button></div></div>
   </section>
 </main>
@@ -1713,16 +1735,15 @@ function renderTeam(wt, leader){
     return `<div class="mcard pc ${selectedMember===m.id?"sel":""}${m.status==="leave"?" leave":""}" data-id="${m.id}" aria-label="${esc(m.name)} — open tasks" style="--c1:${m.c1};--c2:${m.c2};--p:${s.avg}">
       <div class="pc-head">
         <div class="pc-ring"><div class="pc-av">${initials(m.name)}</div><i class="pc-dot ${m.status==="leave"?"off":""}" title="${m.status==="leave"?"On leave":"Active"}"></i></div>
-        <div class="pc-id"><div class="pc-name">${m.name}</div><div class="pc-role">${esc(m.role||"Team Member")}</div></div>
-        ${m.status==="leave"?`<span class="pc-chip warn">On leave</span>`:medal?`<span class="pc-chip">${medal}</span>`:""}
+        <div class="pc-id"><div class="pc-name" title="${esc(m.name)}">${m.name}</div><div class="pc-role" title="${esc(m.role||"Team Member")}">${esc(m.role||"Team Member")}</div></div>
       </div>
-      <div class="pc-prog"><div class="pc-pct">${s.avg}<small>%</small></div><div class="pc-lbl">Average progress<b>${s.total?`${s.total-s.done} open · ${s.done}/${s.total} done`:"No tasks this week"}</b></div></div>
+      <div class="pc-prog"><div class="pc-pct${s.total?"":" nil"}">${s.total?s.avg:"–"}${s.total?"<small>%</small>":""}</div><div class="pc-lbl">${m.status==="leave"?`<em class="lv">On leave</em>`:"Average progress"}<b>${medal&&s.total?medal+" · ":""}${s.total?`${s.total-s.done} open · ${s.done}/${s.total} done`:"No tasks this week"}</b></div></div>
       <div class="pc-state" title="${st.ontime} on time · ${st.late} late · ${st.overdue} overdue · ${st.progress} in progress · ${st.todo} to do">${[["ontime","--ok"],["late","--warn"],["overdue","--bad"],["progress","--info"],["todo","--st-todo"]].filter(x=>st[x[0]]).map(x=>`<i style="flex:${st[x[0]]};background:var(${x[1]})"></i>`).join("")}</div>
       <div class="pc-stats">
-        <div><b>${s.done}</b><span>Done</span></div>
-        <div><b style="color:var(--ok)">${s.ontime}</b><span>On time</span></div>
-        <div class="${s.overdue?"bad":""}"><b>${s.overdue}</b><span>Overdue</span></div>
-        <div><b>${s.score}</b><span>Score</span></div>
+        <div class="${s.done?"":"z"}"><b>${s.done}</b><span>Done</span></div>
+        <div class="${s.ontime?"":"z"}"><b style="color:var(--ok)">${s.ontime}</b><span>On time</span></div>
+        <div class="${s.overdue?"bad":"z"}"><b>${s.overdue}</b><span>Overdue</span></div>
+        <div class="${s.score<0?"bad":s.score?"":"z"}"><b>${s.score}</b><span>Score</span></div>
       </div>
       <div class="pc-foot"><span>👑 Make week leader</span><label class="sw" onclick="event.stopPropagation()"><input type="checkbox" data-lead="${m.id}"><i></i></label></div>
     </div>`;
@@ -2882,8 +2903,9 @@ ghRender();
 <script>
 /* v8: stable updater + version history. Data lives in localStorage and is never touched by an update; a snapshot is taken first. */
 (()=>{
-const APP_VERSION="8.5.0", SNAP_KEY="mis_snapshots_v1", LOG_KEY="mis_update_log_v1", $=id=>document.getElementById(id);
+const APP_VERSION="8.6.0", SNAP_KEY="mis_snapshots_v1", LOG_KEY="mis_update_log_v1", $=id=>document.getElementById(id);
 const HISTORY=[
+ {v:"8.6.0",d:"2026-10-21",n:["Team cards: fixed clipped avatar/badge overflow, rebuilt the leader switch, rank shown inline, quieter empty states (– instead of 0%), dimmed zero stats, tooltips for long names, refined leader card tiles"]},
  {v:"8.5.0",d:"2026-10-21",n:["Colour combos: Ocean, Aurora, Sunset, Forest, Graphite with an animated colour-mesh background", "Liquid-glass upgrade: edge bevel highlights, cursor-following shine, adjustable glass intensity (Soft / Standard / Strong)", "Update history timeline with install dates; Update available pill in the header", "Safer updates: verification step, failure screen, automatic recovery offer after a faulty session, background update checks"]},
  {v:"8.4.0",d:"2026-10-21",n:["Team cards rebuilt from scratch: progress-ring avatar, large completion figure, status bar and stat tiles", "Module manager in Settings: create, edit, rename, recolour, focus and delete modules with live task counts", "Quick plus button beside the module selector for instant module creation"]},
  {v:"8.3.0",d:"2026-10-21",n:["Team cards redesigned: transparent glass with member-colour tint, glow and refined stats"]},

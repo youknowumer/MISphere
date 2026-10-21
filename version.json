@@ -1,10 +1,23 @@
 {
-  "version": "8.6.0",
+  "version": "8.7.0",
   "date": "2026-10-21",
   "notes": [
-    "Team cards: fixed clipped avatar/badge overflow, rebuilt the leader switch, rank shown inline, quieter empty states (– instead of 0%), dimmed zero stats, tooltips for long names, refined leader card tiles"
+    "System health panel: storage, data integrity checks, backups and one-tap restore points",
+    "Daily automatic backup (last 5 restore points kept)",
+    "iOS-style notification banners, launch splash, offline/online alerts",
+    "Keyboard shortcuts sheet (press ?)"
   ],
   "history": [
+    {
+      "v": "8.7.0",
+      "d": "2026-10-21",
+      "n": [
+        "System health panel: storage, data integrity checks, backups and one-tap restore points",
+        "Daily automatic backup (last 5 restore points kept)",
+        "iOS-style notification banners, launch splash, offline/online alerts",
+        "Keyboard shortcuts sheet (press ?)"
+      ]
+    },
     {
       "v": "8.6.0",
       "d": "2026-10-21",

@@ -853,9 +853,26 @@
   .pc-prog{align-items:center!important}.pc-lbl{flex:1;min-width:0}.pc-lbl em.lv{font-style:normal;font-weight:700;color:var(--warn)}
   .pc-pct{font-size:42px}
   @media(max-width:520px){.lc-top{flex-wrap:wrap;gap:8px}.lc-wk{margin-left:auto}.lc-band{padding-bottom:6px}}
+
+  /* ===== v8.7: toast banner, splash, health, shortcuts ===== */
+  #toast{top:max(14px,env(safe-area-inset-top))!important;bottom:auto!important;left:50%!important;right:auto!important;max-width:min(440px,calc(100vw - 28px));padding:12px 20px!important;border-radius:20px!important;font-weight:600;font-size:14px;color:var(--text)!important;background:var(--gl-bg)!important;border:.5px solid var(--gl-bd)!important;box-shadow:0 14px 40px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.6)!important;-webkit-backdrop-filter:blur(30px) saturate(200%);backdrop-filter:blur(30px) saturate(200%);opacity:0!important;transform:translate(-50%,-26px) scale(.94)!important;transition:transform .5s var(--spring),opacity .3s!important;z-index:100001!important;pointer-events:none}
+  #toast.show{opacity:1!important;transform:translate(-50%,0) scale(1)!important}
+  #v87splash{position:fixed;inset:0;z-index:100000;display:flex;flex-direction:column;gap:14px;align-items:center;justify-content:center;background:var(--bg);pointer-events:none;animation:v87out .55s ease .45s forwards}
+  #v87splash .sp-ic{width:84px;height:84px;border-radius:22px;display:grid;place-items:center;background:linear-gradient(135deg,var(--m1),var(--m3));box-shadow:0 16px 40px color-mix(in srgb,var(--m1) 45%,transparent);animation:v87in .7s var(--spring) both}
+  #v87splash svg{width:50px;height:50px}#v87splash b{font-size:20px;letter-spacing:-.02em;animation:v87in .7s .08s var(--spring) both}
+  @keyframes v87in{from{opacity:0;transform:scale(.7) translateY(8px)}}@keyframes v87out{to{opacity:0;visibility:hidden;transform:scale(1.06)}}
+  @media print{#v87splash{display:none}}
+  .hl-top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:10px 0 14px;flex-wrap:wrap}
+  .hl-pill{padding:6px 13px;border-radius:99px;font-size:12.5px;font-weight:700}.hl-pill.ok{background:color-mix(in srgb,var(--ok) 16%,transparent);color:var(--ok)}.hl-pill.warn{background:color-mix(in srgb,var(--warn) 18%,transparent);color:var(--warn)}
+  .hl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+  .hl-grid>div{position:relative;overflow:hidden;padding:12px 14px;border-radius:16px;background:var(--soft)}.hl-grid b{display:block;font-size:20px;font-weight:700;letter-spacing:-.02em}.hl-grid span{font-size:11.5px;color:var(--muted)}.hl-grid .bad b{color:var(--bad)}
+  .hl-grid i{position:absolute;left:0;bottom:0;height:3px;width:var(--w);background:var(--brand);border-radius:0 3px 3px 0}
+  .v8nt.kb div{justify-content:space-between;align-items:center;padding:7px 0;border-bottom:.5px solid var(--line2)}.v8nt.kb div:last-child{border:0}.v8nt.kb div::before{display:none}
+  .v8nt kbd{font:600 12px ui-monospace,SFMono-Regular,Menlo,monospace;padding:3px 9px;border-radius:8px;background:var(--card);border:.5px solid var(--line);box-shadow:0 1px 0 var(--line)}
 </style>
 <script>window.__v8err=0;addEventListener("error",function(){window.__v8err++});try{var u=JSON.parse(localStorage.getItem("mis_ui_v1"))||{};document.documentElement.dataset.accent=u.a||"ocean";document.documentElement.style.setProperty("--gb",({soft:14,standard:26,strong:44})[u.g||"standard"]+"px")}catch(e){}</script></head>
 <body>
+<div id="v87splash" aria-hidden="true"><div class="sp-ic"><svg viewBox="0 0 64 64"><path d="M16 15v33h33" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 39l9-9 6 6 10-13" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="49" cy="23" r="4" fill="#f5d061"/></svg></div><b>MISphere</b></div>
 
 <main>
   <div class="top">
@@ -1071,6 +1088,7 @@
       <div id="fsStatus"></div>
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px"><button class="btn pri" id="fsPick">📁 Choose file…</button><button class="btn" id="fsNow">⟳ Save now</button><button class="btn" id="fsOff">✖ Stop auto-save</button></div>
       <p class="hint" style="margin-top:12px">Choose the file once (for example <b>mis-data.json</b> inside your MISphere repository folder). After that it is rewritten a moment after every change. To put it on GitHub, commit and push that folder (GitHub Desktop → Commit → Push), then open the file on GitHub to read it. Works in Chrome and Edge. After you reopen the page the browser asks you to allow access once (button “Save now”).</p></div>
+    <div class="panel" id="v87Health"><h3>🩺 System health <small>storage, data integrity and backups at a glance</small></h3><div id="v87H"></div><div class="row" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px"><button class="btn pri" id="v87Snap">Create restore point</button><button class="btn" id="v87Re">↻ Re-check</button></div></div>
     <div class="panel" id="uiPanel"><h3>🎨 Appearance <small>colour combo and liquid-glass intensity · saved on this device</small></h3><div class="ap-lbl">Colour combo</div><div class="ap-acc" id="apAcc"></div><div class="ap-lbl">Glass intensity</div><div class="ap-seg" id="apGl"></div></div>
     <div class="panel" id="modPanel"><h3>📦 Module manager <small>create, edit and organise the modules your tasks belong to</small></h3><div class="mm-grid" id="modMgr"></div></div>
     <div class="panel" id="v8Upd"><h3>🚀 Updates &amp; version history <small>one-click update · your data is backed up first and never lost</small></h3>
@@ -1079,7 +1097,7 @@
       <div class="row"><button class="btn pri" id="v8Check">⟳ Check for updates</button><button class="btn pri" id="v8Go" style="display:none">⬆ Update now</button></div>
       <h4 style="margin:18px 0 4px;font-size:13px">Version history</h4><div id="v8Hist"></div>
       <h4 style="margin:18px 0 4px;font-size:13px">Automatic safety backups (restore point before every update)</h4><div id="v8Snaps"></div></div>
-    <div class="panel"><h3>ℹ System <small>storage and backup status · v8.6.0</small></h3><div id="sInfo"></div>
+    <div class="panel"><h3>ℹ System <small>storage and backup status · v8.7.0</small></h3><div id="sInfo"></div>
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px"><button class="btn pri" id="sSave">Save settings</button><button class="btn" id="sReset">Reset to defaults</button><button class="btn" onclick="go('data')">Open Data &amp; Backup</button><button class="btn" id="sWipe" style="color:var(--bad-t);margin-left:auto">🗑 Erase all data</button></div></div>
   </section>
 </main>
@@ -2903,8 +2921,9 @@ ghRender();
 <script>
 /* v8: stable updater + version history. Data lives in localStorage and is never touched by an update; a snapshot is taken first. */
 (()=>{
-const APP_VERSION="8.6.0", SNAP_KEY="mis_snapshots_v1", LOG_KEY="mis_update_log_v1", $=id=>document.getElementById(id);
+const APP_VERSION="8.7.0", SNAP_KEY="mis_snapshots_v1", LOG_KEY="mis_update_log_v1", $=id=>document.getElementById(id);
 const HISTORY=[
+ {v:"8.7.0",d:"2026-10-21",n:["System health panel: storage, data integrity checks, backups and one-tap restore points", "Daily automatic backup (last 5 restore points kept)", "iOS-style notification banners, launch splash, offline/online alerts", "Keyboard shortcuts sheet (press ?)"]},
  {v:"8.6.0",d:"2026-10-21",n:["Team cards: fixed clipped avatar/badge overflow, rebuilt the leader switch, rank shown inline, quieter empty states (– instead of 0%), dimmed zero stats, tooltips for long names, refined leader card tiles"]},
  {v:"8.5.0",d:"2026-10-21",n:["Colour combos: Ocean, Aurora, Sunset, Forest, Graphite with an animated colour-mesh background", "Liquid-glass upgrade: edge bevel highlights, cursor-following shine, adjustable glass intensity (Soft / Standard / Strong)", "Update history timeline with install dates; Update available pill in the header", "Safer updates: verification step, failure screen, automatic recovery offer after a faulty session, background update checks"]},
  {v:"8.4.0",d:"2026-10-21",n:["Team cards rebuilt from scratch: progress-ring avatar, large completion figure, status bar and stat tiles", "Module manager in Settings: create, edit, rename, recolour, focus and delete modules with live task counts", "Quick plus button beside the module selector for instant module creation"]},
@@ -2917,7 +2936,7 @@ const rd=(k,f)=>{try{return JSON.parse(localStorage.getItem(k))||f}catch{return 
 const cmp=(a,b)=>{a=a.split(".").map(Number);b=b.split(".").map(Number);for(let i=0;i<3;i++){if((a[i]||0)!==(b[i]||0))return (a[i]||0)>(b[i]||0)?1:-1}return 0};
 const esc=t=>String(t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 let latest=null, remoteHist=[];
-function snapshot(why){const data=localStorage.getItem(KEY)||"";let a=rd(SNAP_KEY,[]);a.unshift({t:Date.now(),v:APP_VERSION,why,data});a=a.slice(0,3);if(!wr(SNAP_KEY,a)){a=a.slice(0,1);wr(SNAP_KEY,a)}return a}
+function snapshot(why){const data=localStorage.getItem(KEY)||"";let a=rd(SNAP_KEY,[]);a.unshift({t:Date.now(),v:APP_VERSION,why,data});a=a.slice(0,5);if(!wr(SNAP_KEY,a)){a=a.slice(0,1);wr(SNAP_KEY,a)}return a}
 function draw(){
  $("v8Cur").textContent=APP_VERSION;
  const all=[...remoteHist,...HISTORY].filter((x,i,r)=>r.findIndex(y=>y.v===x.v)===i).sort((a,b)=>cmp(b.v,a.v));
@@ -2969,8 +2988,18 @@ function done(){
  const o=show('<div class="v8ok"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div><h2>Update Complete</h2><div class="sub">MISphere '+APP_VERSION+' · all your data is intact</div><div class="sub" style="margin-top:14px;text-align:left;font-weight:600">What\'s New</div>'+notes(h)+'<div class="v8bt"><button class="p" id="v8c">Continue</button></div>');
  o.querySelector("#v8c").onclick=close;
 }
+
+function health(){const el=$("v87H");if(!el)return;let kb=0;try{kb=(localStorage.getItem(KEY)||"").length/1024}catch{}
+ const ids=new Set((MEMBERS||[]).map(m=>m.id)),T=db.tasks||[],orph=T.filter(t=>!ids.has(t.member)).length,bad=T.filter(t=>!/^\d{4}-\d{2}-\d{2}$/.test(t.deadline||"")).length;
+ const lb=+S().lastBackup||0,age=lb?Math.floor((Date.now()-lb)/864e5):null,pct=Math.min(100,kb/5120*100),n=orph+bad+(pct>80?1:0);
+ el.innerHTML=`<div class="hl-top"><span class="hl-pill ${n?"warn":"ok"}">${n?"● "+n+" item(s) need attention":"● All systems healthy"}</span><span class="hint">v${APP_VERSION} · ${navigator.onLine?"online":"offline"}</span></div><div class="hl-grid"><div><b>${kb.toFixed(1)} KB</b><span>Storage · ${pct.toFixed(1)}% of 5 MB</span><i style="--w:${pct}%"></i></div><div><b>${T.length}</b><span>Tasks · ${(MEMBERS||[]).length} members</span></div><div class="${orph?"bad":""}"><b>${orph}</b><span>Orphan tasks</span></div><div class="${bad?"bad":""}"><b>${bad}</b><span>Invalid deadlines</span></div><div><b>${age==null?"Never":age===0?"Today":age+"d ago"}</b><span>Last file backup</span></div><div><b>${rd(SNAP_KEY,[]).length}</b><span>Restore points</span></div></div>`}
+function keys(){const o=show('<div class="v8ic">'+LOGO+'</div><h2>Keyboard Shortcuts</h2><div class="sub">Work faster without leaving the keyboard</div><div class="v8nt kb">'+[["Ctrl / ⌘ + K","Command palette"],["/","Search"],["1 – 9","Switch pages"],["?","This sheet"],["Esc","Close dialogs"]].map(x=>"<div><kbd>"+x[0]+"</kbd><span>"+x[1]+"</span></div>").join("")+'</div><div class="v8bt"><button class="p" id="v8k">Done</button></div>');o.querySelector("#v8k").onclick=close;o.onclick=e=>{if(e.target===o)close()}}
+document.addEventListener("keydown",e=>{if(e.key==="?"&&!/INPUT|TEXTAREA|SELECT/.test((e.target||{}).tagName||"")&&!e.target.isContentEditable){e.preventDefault();ov?close():keys()}else if(e.key==="Escape"&&ov)close()});
+window.addEventListener("offline",()=>toast("📡 You’re offline — changes are saved on this device"));window.addEventListener("online",()=>toast("✅ Back online"));
+document.addEventListener("click",e=>{if(navigator.vibrate&&e.target.closest&&e.target.closest(".btn,.sw,.tabbar button,.ib"))navigator.vibrate(6)},{passive:true});
 document.addEventListener("DOMContentLoaded",()=>{
- if(!$("v8Upd"))return;draw();$("v8Check").onclick=()=>check(false);$("v8Go").onclick=()=>latest&&offer(latest,false);$("updPill").onclick=()=>latest&&offer(latest,false);
+ if(!$("v8Upd"))return;draw();health();$("v87Snap").onclick=()=>{snapshot("manual restore point");draw();health();toast("✅ Restore point created")};$("v87Re").onclick=()=>{health();toast("Health check complete")};setInterval(()=>{if(document.querySelector("#v-settings.on"))health()},4000);{const sn=rd(SNAP_KEY,[]);if((localStorage.getItem(KEY)||"").length>80&&(!sn[0]||Date.now()-sn[0].t>864e5)){snapshot("daily auto-backup");draw()}}
+ $("v8Check").onclick=()=>check(false);$("v8Go").onclick=()=>latest&&offer(latest,false);$("updPill").onclick=()=>latest&&offer(latest,false);
  const l=rd(LOG_KEY,[]);if(l[0]&&l[0].to===APP_VERSION&&Date.now()-l[0].t<120000)setTimeout(done,700);
  {const bt=rd("mis_boot",null);if(bt&&bt.ok===false&&bt.err>0&&Date.now()-bt.t<18e5){setTimeout(recover,900);wr("mis_boot",{v:bt.v,t:bt.t,ok:true,err:0,seen:1})}
   setTimeout(()=>{const e=window.__v8err||0;wr("mis_boot",{v:APP_VERSION,t:Date.now(),ok:e<3,err:e})},4000)}

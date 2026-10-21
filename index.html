@@ -794,15 +794,52 @@
   .mm-cols button.on{box-shadow:0 0 0 3px var(--bg),0 0 0 5px var(--brand)}
   .mm-err{color:var(--bad);font-size:12.5px;min-height:18px;margin-top:10px;font-weight:500}
   #modNew{border-radius:50%;background:var(--brand-soft)!important;color:var(--brand)!important}
+
+  /* ===== v8.5: colour combos, liquid glass, update history ===== */
+  :root{--gb:26px;--m1:#0a84ff;--m2:#5ac8fa;--m3:#5e5ce6;--brand-soft:color-mix(in srgb,var(--brand) 13%,transparent)}
+  html[data-theme=dark]{--brand-soft:color-mix(in srgb,var(--brand) 22%,transparent)}
+  html[data-accent=ocean]{--brand:#0a84ff;--m1:#0a84ff;--m2:#5ac8fa;--m3:#5e5ce6}html[data-theme=dark][data-accent=ocean]{--brand:#0a84ff;--m1:#0a84ff}
+  html[data-accent=aurora]{--brand:#5e5ce6;--m1:#5e5ce6;--m2:#bf5af2;--m3:#64d2ff}html[data-theme=dark][data-accent=aurora]{--brand:#7d7aff;--m1:#7d7aff}
+  html[data-accent=sunset]{--brand:#ff375f;--m1:#ff375f;--m2:#ff9f0a;--m3:#bf5af2}html[data-theme=dark][data-accent=sunset]{--brand:#ff5a7a;--m1:#ff5a7a}
+  html[data-accent=forest]{--brand:#1fa463;--m1:#1fa463;--m2:#64d2ff;--m3:#30b0c7}html[data-theme=dark][data-accent=forest]{--brand:#30d158;--m1:#30d158}
+  html[data-accent=graphite]{--brand:#5e6670;--m1:#5e6670;--m2:#8e8e93;--m3:#5e5ce6}html[data-theme=dark][data-accent=graphite]{--brand:#9aa0aa;--m1:#9aa0aa}
+  body{background:var(--bg)!important}
+  body::before{content:"";position:fixed;inset:-25%;z-index:-1;pointer-events:none;background:radial-gradient(38% 38% at 14% 18%,color-mix(in srgb,var(--m1) 34%,transparent),transparent 70%),radial-gradient(34% 34% at 86% 12%,color-mix(in srgb,var(--m2) 28%,transparent),transparent 70%),radial-gradient(44% 44% at 62% 92%,color-mix(in srgb,var(--m3) 26%,transparent),transparent 70%);filter:blur(24px);animation:v85drift 32s ease-in-out infinite alternate;will-change:transform}
+  html[data-theme=dark] body::before{opacity:.75}
+  @keyframes v85drift{to{transform:translate3d(3%,-2%,0) rotate(4deg) scale(1.06)}}
+  .panel,.mcard,.mm-card,.tabbar,.bd>*,.v8sh{-webkit-backdrop-filter:blur(var(--gb)) saturate(190%)!important;backdrop-filter:blur(var(--gb)) saturate(190%)!important}
+  .panel,.mm-card,.v8sh{box-shadow:0 10px 36px rgba(0,0,0,.09),inset 0 1.5px 0 rgba(255,255,255,.85),inset 1px 0 0 rgba(255,255,255,.35),inset 0 -1px 0 rgba(255,255,255,.18)!important}
+  html[data-theme=dark] .panel,html[data-theme=dark] .mm-card,html[data-theme=dark] .v8sh{box-shadow:0 12px 40px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.16),inset 1px 0 0 rgba(255,255,255,.06)!important}
+  .panel{position:relative}
+  .panel::after,.mcard::after,.mm-card::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .4s;background:radial-gradient(240px circle at var(--mx,50%) var(--my,0%),rgba(255,255,255,.34),transparent 65%)}
+  html[data-theme=dark] .panel::after,html[data-theme=dark] .mcard::after,html[data-theme=dark] .mm-card::after{background:radial-gradient(240px circle at var(--mx,50%) var(--my,0%),rgba(255,255,255,.12),transparent 65%)}
+  @media(hover:hover){.panel:hover::after,.mcard:hover::after,.mm-card:hover::after{opacity:1}}
+  .btn.pri,.v8bt .p,#v8Upd .chip.new{background:linear-gradient(135deg,var(--brand),color-mix(in srgb,var(--brand) 60%,var(--m3)))!important;color:#fff!important}
+  .v8bt .g{color:var(--brand)}.v8pr i{background:var(--brand)}.v8nt div::before{background:var(--brand)}.v8ic.spin::after{border-top-color:var(--brand)}
+  .v8ic{background:linear-gradient(135deg,var(--m1),var(--m3))}
+  .upd-pill{border:0;border-radius:99px;padding:7px 13px;font:600 12.5px inherit;font-family:inherit;color:#fff;cursor:pointer;background:linear-gradient(135deg,#34c759,#30b0c7);box-shadow:0 6px 18px rgba(52,199,89,.4);animation:v8pulse 2s infinite;white-space:nowrap}
+  .upd-pill[hidden]{display:none}.upd-pill:active{transform:scale(.95)}
+  .ap-lbl{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:14px 2px 8px}
+  .ap-acc{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:10px}
+  .ap-acc button{border:0;border-radius:18px;padding:10px 10px 9px;background:var(--soft);cursor:pointer;font:600 12.5px inherit;font-family:inherit;color:var(--text);display:flex;flex-direction:column;gap:8px;align-items:stretch;transition:transform .3s var(--spring),box-shadow .3s}
+  .ap-acc i{display:block;height:34px;border-radius:11px}.ap-acc button.on{box-shadow:0 0 0 2.5px var(--brand);transform:scale(1.03)}.ap-acc button:active{transform:scale(.96)}
+  .ap-seg{display:inline-flex;padding:3px;border-radius:12px;background:var(--soft)}
+  .ap-seg button{border:0;background:transparent;border-radius:9px;padding:7px 16px;font:600 13px inherit;font-family:inherit;color:var(--text);cursor:pointer;transition:background .25s,box-shadow .25s}
+  .ap-seg button.on{background:var(--card);box-shadow:0 2px 8px rgba(0,0,0,.14)}
+  .tl{position:relative;margin-top:8px;padding-left:4px}.tl::before{content:"";position:absolute;left:11px;top:10px;bottom:10px;width:2px;background:var(--line);border-radius:2px}
+  .tli{position:relative;display:flex;gap:14px;padding:6px 0}.tli>i{width:16px;height:16px;border-radius:50%;margin-top:6px;flex:none;background:var(--card);border:2.5px solid var(--line);z-index:1}
+  .tli.cur>i{border-color:var(--brand);background:var(--brand);box-shadow:0 0 0 5px color-mix(in srgb,var(--brand) 20%,transparent)}.tli.new>i{border-color:#34c759;background:#34c759}
+  .tlc{flex:1;padding:10px 14px;border-radius:16px;background:var(--soft)}.tlh{display:flex;flex-wrap:wrap;gap:8px;align-items:center}.tlh b{font-size:14px}.tld{font-size:12px;color:var(--muted);margin-left:auto}
+  .tlc ul{margin:6px 0 0 16px;font-size:12.5px;line-height:1.55;color:var(--muted)}
 </style>
-</head>
+<script>window.__v8err=0;addEventListener("error",function(){window.__v8err++});try{var u=JSON.parse(localStorage.getItem("mis_ui_v1"))||{};document.documentElement.dataset.accent=u.a||"ocean";document.documentElement.style.setProperty("--gb",({soft:14,standard:26,strong:44})[u.g||"standard"]+"px")}catch(e){}</script></head>
 <body>
 
 <main>
   <div class="top">
     <div class="brand"><div class="mk"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/></svg></div>
       <div><h1 id="pageTitle">Dashboard</h1><p id="todayLbl"></p></div></div>
-    <div class="topr"><select id="modSel" title="Module you are working on / viewing"></select><button class="ib" id="modNew" title="New module" aria-label="New module" style="font-size:22px;font-weight:300">＋</button><span class="ghc" id="ghChip" title="GitHub live sync"><i></i><span>GitHub: not connected</span></span><select id="meSel" title="Acting as (role-based access)" style="width:auto;max-width:200px"></select><button class="btn sm" id="cmdBtn" title="Quick actions (Ctrl/⌘ + K)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>Search<kbd>Ctrl K</kbd></button><button class="ib" id="themeBtn" title="Toggle light / dark" aria-label="Toggle theme"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button><button class="btn pri sm" id="newTaskBtn">＋ New task</button><span class="leadchip" id="offChip"></span><span class="leadchip" id="sideLeader"></span>
+    <div class="topr"><select id="modSel" title="Module you are working on / viewing"></select><button class="ib" id="modNew" title="New module" aria-label="New module" style="font-size:22px;font-weight:300">＋</button><button class="upd-pill" id="updPill" hidden>⬆ Update</button><span class="ghc" id="ghChip" title="GitHub live sync"><i></i><span>GitHub: not connected</span></span><select id="meSel" title="Acting as (role-based access)" style="width:auto;max-width:200px"></select><button class="btn sm" id="cmdBtn" title="Quick actions (Ctrl/⌘ + K)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>Search<kbd>Ctrl K</kbd></button><button class="ib" id="themeBtn" title="Toggle light / dark" aria-label="Toggle theme"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button><button class="btn pri sm" id="newTaskBtn">＋ New task</button><span class="leadchip" id="offChip"></span><span class="leadchip" id="sideLeader"></span>
     <div class="weeknav">
       <button class="ib" id="prevW" title="Previous week"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="m15 18-6-6 6-6"/></svg></button>
       <b id="weekLbl"></b>
@@ -1012,6 +1049,7 @@
       <div id="fsStatus"></div>
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px"><button class="btn pri" id="fsPick">📁 Choose file…</button><button class="btn" id="fsNow">⟳ Save now</button><button class="btn" id="fsOff">✖ Stop auto-save</button></div>
       <p class="hint" style="margin-top:12px">Choose the file once (for example <b>mis-data.json</b> inside your MISphere repository folder). After that it is rewritten a moment after every change. To put it on GitHub, commit and push that folder (GitHub Desktop → Commit → Push), then open the file on GitHub to read it. Works in Chrome and Edge. After you reopen the page the browser asks you to allow access once (button “Save now”).</p></div>
+    <div class="panel" id="uiPanel"><h3>🎨 Appearance <small>colour combo and liquid-glass intensity · saved on this device</small></h3><div class="ap-lbl">Colour combo</div><div class="ap-acc" id="apAcc"></div><div class="ap-lbl">Glass intensity</div><div class="ap-seg" id="apGl"></div></div>
     <div class="panel" id="modPanel"><h3>📦 Module manager <small>create, edit and organise the modules your tasks belong to</small></h3><div class="mm-grid" id="modMgr"></div></div>
     <div class="panel" id="v8Upd"><h3>🚀 Updates &amp; version history <small>one-click update · your data is backed up first and never lost</small></h3>
       <div class="row"><span class="chip">Installed v<span id="v8Cur"></span></span><span class="chip" id="v8Lat" style="display:none"></span><span id="v8Msg" class="hint"></span></div>
@@ -1019,7 +1057,7 @@
       <div class="row"><button class="btn pri" id="v8Check">⟳ Check for updates</button><button class="btn pri" id="v8Go" style="display:none">⬆ Update now</button></div>
       <h4 style="margin:18px 0 4px;font-size:13px">Version history</h4><div id="v8Hist"></div>
       <h4 style="margin:18px 0 4px;font-size:13px">Automatic safety backups (restore point before every update)</h4><div id="v8Snaps"></div></div>
-    <div class="panel"><h3>ℹ System <small>storage and backup status · v8.4.0</small></h3><div id="sInfo"></div>
+    <div class="panel"><h3>ℹ System <small>storage and backup status · v8.5.0</small></h3><div id="sInfo"></div>
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px"><button class="btn pri" id="sSave">Save settings</button><button class="btn" id="sReset">Reset to defaults</button><button class="btn" onclick="go('data')">Open Data &amp; Backup</button><button class="btn" id="sWipe" style="color:var(--bad-t);margin-left:auto">🗑 Erase all data</button></div></div>
   </section>
 </main>
@@ -2844,8 +2882,9 @@ ghRender();
 <script>
 /* v8: stable updater + version history. Data lives in localStorage and is never touched by an update; a snapshot is taken first. */
 (()=>{
-const APP_VERSION="8.4.0", SNAP_KEY="mis_snapshots_v1", LOG_KEY="mis_update_log_v1", $=id=>document.getElementById(id);
+const APP_VERSION="8.5.0", SNAP_KEY="mis_snapshots_v1", LOG_KEY="mis_update_log_v1", $=id=>document.getElementById(id);
 const HISTORY=[
+ {v:"8.5.0",d:"2026-10-21",n:["Colour combos: Ocean, Aurora, Sunset, Forest, Graphite with an animated colour-mesh background", "Liquid-glass upgrade: edge bevel highlights, cursor-following shine, adjustable glass intensity (Soft / Standard / Strong)", "Update history timeline with install dates; Update available pill in the header", "Safer updates: verification step, failure screen, automatic recovery offer after a faulty session, background update checks"]},
  {v:"8.4.0",d:"2026-10-21",n:["Team cards rebuilt from scratch: progress-ring avatar, large completion figure, status bar and stat tiles", "Module manager in Settings: create, edit, rename, recolour, focus and delete modules with live task counts", "Quick plus button beside the module selector for instant module creation"]},
  {v:"8.3.0",d:"2026-10-21",n:["Team cards redesigned: transparent glass with member-colour tint, glow and refined stats"]},
  {v:"8.2.0",d:"2026-10-21",n:["iOS design system: SF-style typography, system colours, large titles, switches and sheets", "Glitch fixes: no re-render flicker, lighter blur for smoother scrolling, no input zoom on iPhone", "Smoother spring animations on page change and dialogs"]},
@@ -2860,7 +2899,7 @@ function snapshot(why){const data=localStorage.getItem(KEY)||"";let a=rd(SNAP_KE
 function draw(){
  $("v8Cur").textContent=APP_VERSION;
  const all=[...remoteHist,...HISTORY].filter((x,i,r)=>r.findIndex(y=>y.v===x.v)===i).sort((a,b)=>cmp(b.v,a.v));
- $("v8Hist").innerHTML=all.map(x=>`<div class="ver"><b>v${esc(x.v)}</b> · ${esc(x.d||"")} ${x.v===APP_VERSION?'<span class="chip">current</span>':""}<br>${(x.n||[]).map(esc).join(" · ")}</div>`).join("");
+ const lg=rd(LOG_KEY,[]);$("v8Hist").innerHTML='<div class="tl">'+all.map(x=>{const ins=lg.find(l=>l.to===x.v),cur=x.v===APP_VERSION,nw=cmp(x.v,APP_VERSION)>0;return `<div class="tli${cur?" cur":""}${nw?" new":""}"><i></i><div class="tlc"><div class="tlh"><b>v${esc(x.v)}</b>${cur?'<span class="chip">Installed</span>':nw?'<span class="chip new">Available</span>':""}<span class="tld">${esc(x.d||"")}${ins?" · installed "+new Date(ins.t).toLocaleDateString():""}</span></div><ul>${(x.n||[]).map(t=>"<li>"+esc(t)+"</li>").join("")}</ul></div></div>`}).join("")+"</div>";
  const sn=rd(SNAP_KEY,[]);
  $("v8Snaps").innerHTML=sn.length?sn.map((x,i)=>`<div class="ver">${new Date(x.t).toLocaleString()} · v${esc(x.v)} · ${esc(x.why)} · ${(x.data.length/1024).toFixed(1)} KB <button class="btn" data-r="${i}" style="float:right;padding:4px 10px">Restore</button></div>`).join(""):'<p class="hint">No restore points yet. One is created automatically before every update.</p>';
  $("v8Snaps").querySelectorAll("[data-r]").forEach(b=>b.onclick=()=>{const x=rd(SNAP_KEY,[])[+b.dataset.r];if(!x||!confirm("Restore data from this backup? Current data is saved as a new restore point first."))return;snapshot("before restore");try{localStorage.setItem(KEY,x.data)}catch{return toast("⚠ Restore failed")}location.reload()});
@@ -2868,7 +2907,7 @@ function draw(){
 async function check(quiet){
  const m=$("v8Msg");if(!quiet)m.textContent="Checking…";
  try{const r=await fetch("version.json?_="+Date.now(),{cache:"no-store"});if(!r.ok)throw 0;const j=await r.json();latest=j;remoteHist=j.history||[];
-  const newer=cmp(j.version,APP_VERSION)>0;$("v8Lat").style.display=newer?"":"none";$("v8Lat").className="chip new";$("v8Lat").textContent="New v"+j.version;$("v8Go").style.display=newer?"":"none";
+  const newer=cmp(j.version,APP_VERSION)>0;$("v8Lat").style.display=newer?"":"none";$("v8Lat").className="chip new";$("v8Lat").textContent="New v"+j.version;$("v8Go").style.display=newer?"":"none";{const pl=$("updPill");if(pl){pl.hidden=!newer;pl.textContent="⬆ Update "+j.version}}
   m.textContent=newer?((j.notes||[]).join(" · ")||"A new version is ready."):"You are on the latest version ✓";
   if(newer)offer(j,quiet);
  }catch{m.textContent=quiet?"":"Could not reach version.json (open the site over http/https, not from a file).";}
@@ -2878,7 +2917,7 @@ async function update(){
  if(!latest)return;const bar=$("v8Bar"),fill=bar.firstElementChild;bar.style.display="block";
  const step=(p,t)=>{fill.style.width=p+"%";$("v8Msg").textContent=t;prog(p,t)};
  step(25,"Backing up your data…");snapshot("before update to v"+latest.version);
- await new Promise(r=>setTimeout(r,500));step(55,"Preparing update…");
+ await new Promise(r=>setTimeout(r,500));step(55,"Verifying update…");try{save()}catch{}let ok=false;try{const r=await fetch(location.pathname+"?probe="+Date.now(),{cache:"no-store"});ok=r.ok&&(await r.text()).includes("MISphere")}catch{}if(!ok){fail();return}step(72,"Preparing update…");
  try{if(window.caches)for(const k of await caches.keys())await caches.delete(k);if(navigator.serviceWorker)for(const g of await navigator.serviceWorker.getRegistrations())await g.unregister()}catch{}
  const l=rd(LOG_KEY,[]);l.unshift({t:Date.now(),from:APP_VERSION,to:latest.version});wr(LOG_KEY,l.slice(0,20));
  await new Promise(r=>setTimeout(r,500));step(100,"Restarting…");
@@ -2891,7 +2930,7 @@ function show(html){if(ov)ov.remove();ov=document.createElement("div");ov.classN
 function close(){if(!ov)return;const o=ov;o.classList.remove("on");ov=null;setTimeout(()=>o.remove(),400)}
 function notes(a){return '<div class="v8nt">'+(a||[]).map(x=>"<div>"+esc(x)+"</div>").join("")+"</div>"}
 function offer(j,quiet){
- if(quiet&&(+localStorage.getItem("mis_snooze_"+j.version)||0)>Date.now())return;
+ if(quiet&&((+localStorage.getItem("mis_snooze_"+j.version)||0)>Date.now()||ov||document.querySelector(".v8ov")))return;
  const o=show('<div class="v8ic">'+LOGO+'</div><h2>Software Update</h2><div class="sub">MISphere '+esc(j.version)+' is available · you have '+APP_VERSION+'</div>'+notes(j.notes)+'<div class="sub" style="margin-top:10px">🔒 Your data is backed up automatically before installing.</div><div class="v8bt"><button class="p" id="v8a">Update Now</button><button class="g" id="v8b">Remind Me Later</button></div>');
  o.querySelector("#v8a").onclick=()=>update();
  const later=()=>{localStorage.setItem("mis_snooze_"+j.version,Date.now()+12*36e5);close()};
@@ -2901,16 +2940,33 @@ function prog(p,t){
  if(!ov||!ov.querySelector(".v8pr")){show('<div class="v8ic spin">'+LOGO+'</div><h2>Updating MISphere…</h2><div class="sub" id="v8t">Preparing…</div><div class="v8pr"><i></i></div><div class="sub">Please keep this page open</div>')}
  ov.querySelector(".v8pr i").style.width=p+"%";ov.querySelector("#v8t").textContent=t;
 }
+function fail(){const o=show('<div class="v8ic" style="background:linear-gradient(135deg,#ff9f0a,#ff453a)"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><path d="M12 6v7M12 17.5v.5"/></svg></div><h2>Update Not Installed</h2><div class="sub">MISphere couldn\'t reach the update. Your data is safe and the current version keeps running.</div><div class="v8bt"><button class="p" id="v8r">Try Again</button><button class="g" id="v8x">Close</button></div>');o.querySelector("#v8r").onclick=()=>update();o.querySelector("#v8x").onclick=close}
+function recover(){const o=show('<div class="v8ic" style="background:linear-gradient(135deg,#ff9f0a,#ff453a)"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><path d="M12 6v7M12 17.5v.5"/></svg></div><h2>Something Went Wrong</h2><div class="sub">The last session had errors. You can continue, or restore your latest automatic backup.</div><div class="v8bt"><button class="p" id="v8r">Restore Latest Backup</button><button class="g" id="v8x">Continue</button></div>');o.querySelector("#v8x").onclick=close;o.querySelector("#v8r").onclick=()=>{const x=rd(SNAP_KEY,[])[0];if(!x){close();return toast("No backup available")}snapshot("before recovery");try{localStorage.setItem(KEY,x.data)}catch{return}location.reload()}}
 function done(){
  const h=(HISTORY.find(x=>x.v===APP_VERSION)||{}).n||[];
  const o=show('<div class="v8ok"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div><h2>Update Complete</h2><div class="sub">MISphere '+APP_VERSION+' · all your data is intact</div><div class="sub" style="margin-top:14px;text-align:left;font-weight:600">What\'s New</div>'+notes(h)+'<div class="v8bt"><button class="p" id="v8c">Continue</button></div>');
  o.querySelector("#v8c").onclick=close;
 }
 document.addEventListener("DOMContentLoaded",()=>{
- if(!$("v8Upd"))return;draw();$("v8Check").onclick=()=>check(false);$("v8Go").onclick=()=>latest&&offer(latest,false);
+ if(!$("v8Upd"))return;draw();$("v8Check").onclick=()=>check(false);$("v8Go").onclick=()=>latest&&offer(latest,false);$("updPill").onclick=()=>latest&&offer(latest,false);
  const l=rd(LOG_KEY,[]);if(l[0]&&l[0].to===APP_VERSION&&Date.now()-l[0].t<120000)setTimeout(done,700);
+ {const bt=rd("mis_boot",null);if(bt&&bt.ok===false&&bt.err>0&&Date.now()-bt.t<18e5){setTimeout(recover,900);wr("mis_boot",{v:bt.v,t:bt.t,ok:true,err:0,seen:1})}
+  setTimeout(()=>{const e=window.__v8err||0;wr("mis_boot",{v:APP_VERSION,t:Date.now(),ok:e<3,err:e})},4000)}
+ if(!/^file:/.test(location.protocol)){setInterval(()=>check(true),9e5);document.addEventListener("visibilitychange",()=>{if(!document.hidden&&Date.now()-(+localStorage.getItem("mis_last_check")||0)>6e5)check(true)})}
  if(!/^file:/.test(location.protocol)&&Date.now()-(+localStorage.getItem("mis_last_check")||0)>6*36e5)check(true);
 });
+})();
+</script>
+<script>
+(()=>{const K="mis_ui_v1",G={soft:14,standard:26,strong:44},$=id=>document.getElementById(id);
+const A=[["ocean","Ocean",["#0a84ff","#5ac8fa","#5e5ce6"]],["aurora","Aurora",["#5e5ce6","#bf5af2","#64d2ff"]],["sunset","Sunset",["#ff375f","#ff9f0a","#bf5af2"]],["forest","Forest",["#1fa463","#64d2ff","#30b0c7"]],["graphite","Graphite",["#5e6670","#8e8e93","#5e5ce6"]]];
+let u={};try{u=JSON.parse(localStorage.getItem(K))||{}}catch{}
+const ap=()=>{const r=document.documentElement;r.dataset.accent=u.a||"ocean";r.style.setProperty("--gb",G[u.g||"standard"]+"px");try{localStorage.setItem(K,JSON.stringify(u))}catch{}};
+function draw(){const a=u.a||"ocean",g=u.g||"standard";
+ $("apAcc").innerHTML=A.map(x=>`<button type="button" data-a="${x[0]}" class="${a===x[0]?"on":""}"><i style="background:linear-gradient(135deg,${x[2][0]},${x[2][1]} 55%,${x[2][2]})"></i><span>${x[1]}</span></button>`).join("");
+ $("apGl").innerHTML=Object.keys(G).map(k=>`<button type="button" data-g="${k}" class="${g===k?"on":""}">${k[0].toUpperCase()+k.slice(1)}</button>`).join("")}
+if($("apAcc")){draw();$("uiPanel").onclick=e=>{const a=e.target.closest("[data-a]"),g=e.target.closest("[data-g]");if(a)u.a=a.dataset.a;else if(g)u.g=g.dataset.g;else return;ap();draw()}}
+let raf=0;document.addEventListener("pointermove",e=>{if(raf)return;raf=requestAnimationFrame(()=>{raf=0;const c=e.target.closest&&e.target.closest(".mcard,.mm-card,.panel");if(!c)return;const r=c.getBoundingClientRect();c.style.setProperty("--mx",(e.clientX-r.left)+"px");c.style.setProperty("--my",(e.clientY-r.top)+"px")})},{passive:true});
 })();
 </script>
 </body>

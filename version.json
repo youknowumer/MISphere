@@ -1,12 +1,23 @@
 {
-  "version": "8.4.0",
+  "version": "8.5.0",
   "date": "2026-10-21",
   "notes": [
-    "Team cards rebuilt from scratch: progress-ring avatar, large completion figure, status bar and stat tiles",
-    "Module manager in Settings: create, edit, rename, recolour, focus and delete modules with live task counts",
-    "Quick plus button beside the module selector for instant module creation"
+    "Colour combos: Ocean, Aurora, Sunset, Forest, Graphite with an animated colour-mesh background",
+    "Liquid-glass upgrade: edge bevel highlights, cursor-following shine, adjustable glass intensity (Soft / Standard / Strong)",
+    "Update history timeline with install dates; Update available pill in the header",
+    "Safer updates: verification step, failure screen, automatic recovery offer after a faulty session, background update checks"
   ],
   "history": [
+    {
+      "v": "8.5.0",
+      "d": "2026-10-21",
+      "n": [
+        "Colour combos: Ocean, Aurora, Sunset, Forest, Graphite with an animated colour-mesh background",
+        "Liquid-glass upgrade: edge bevel highlights, cursor-following shine, adjustable glass intensity (Soft / Standard / Strong)",
+        "Update history timeline with install dates; Update available pill in the header",
+        "Safer updates: verification step, failure screen, automatic recovery offer after a faulty session, background update checks"
+      ]
+    },
     {
       "v": "8.4.0",
       "d": "2026-10-21",

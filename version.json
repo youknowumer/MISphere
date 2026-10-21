@@ -1,11 +1,21 @@
 {
-  "version": "8.1.0",
+  "version": "8.2.0",
   "date": "2026-10-21",
   "notes": [
-    "iOS-style Software Update sheet with progress and What's New",
-    "Smoother spring animations"
+    "iOS design system: SF-style typography, system colours, large titles, switches and sheets",
+    "Glitch fixes: no re-render flicker, lighter blur for smoother scrolling, no input zoom on iPhone",
+    "Smoother spring animations on page change and dialogs"
   ],
   "history": [
+    {
+      "v": "8.2.0",
+      "d": "2026-10-21",
+      "n": [
+        "iOS design system: SF-style typography, system colours, large titles, switches and sheets",
+        "Glitch fixes: no re-render flicker, lighter blur for smoother scrolling, no input zoom on iPhone",
+        "Smoother spring animations on page change and dialogs"
+      ]
+    },
     {
       "v": "8.1.0",
       "d": "2026-10-21",

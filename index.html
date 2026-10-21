@@ -6,7 +6,7 @@
 <title>MISphere — Team Performance, Roles & Daily Notes</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%236366f1'/%3E%3Cstop offset='1' stop-color='%238b5cf6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='url(%23g)'/%3E%3Cpath d='M16 15v33h33' fill='none' stroke='%23fff' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M24 39l9-9 6 6 10-13' fill='none' stroke='%23fff' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='49' cy='23' r='4' fill='%23f5d061'/%3E%3C/svg%3E">
 <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%236366f1'/%3E%3Cstop offset='1' stop-color='%238b5cf6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='url(%23g)'/%3E%3Cpath d='M16 15v33h33' fill='none' stroke='%23fff' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M24 39l9-9 6 6 10-13' fill='none' stroke='%23fff' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='49' cy='23' r='4' fill='%23f5d061'/%3E%3C/svg%3E">
-<meta name="theme-color" content="#4f46e5">
+<meta name="theme-color" content="#f2f2f7" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" defer></script>
 <style>
   :root{
@@ -700,6 +700,37 @@
   .v8ok{width:76px;height:76px;margin:0 auto 14px;border-radius:50%;background:#30d158;display:grid;place-items:center;animation:v8pop .6s cubic-bezier(.34,1.56,.64,1)}
   .v8ok svg{width:40px;stroke-dasharray:40;animation:v8dr .5s .3s ease both}
   @keyframes v8pop{from{transform:scale(0)}}@keyframes v8dr{from{stroke-dashoffset:40}}
+
+  /* ===== v8.2: iOS design system ===== */
+  :root{--bg:#f2f2f7;--card:#fff;--soft:rgba(118,118,128,.12);--line:rgba(60,60,67,.14);--line2:rgba(60,60,67,.08);--text:#000;--muted:rgba(60,60,67,.6);--brand:#007aff;--brand-soft:rgba(0,122,255,.12);--ok:#34c759;--warn:#ff9500;--bad:#ff3b30;--info:#5ac8fa;--gl-bg:rgba(255,255,255,.72);--gl-bd:rgba(255,255,255,.7);--gl-sh:0 4px 24px rgba(0,0,0,.07),inset 0 .5px 0 rgba(255,255,255,.9);--spring:cubic-bezier(.32,.72,0,1)}
+  html[data-theme=dark]{--bg:#000;--card:#1c1c1e;--soft:rgba(118,118,128,.24);--line:rgba(84,84,88,.55);--line2:rgba(84,84,88,.35);--text:#fff;--muted:rgba(235,235,245,.6);--brand:#0a84ff;--brand-soft:rgba(10,132,255,.2);--ok:#30d158;--warn:#ff9f0a;--bad:#ff453a;--info:#64d2ff;--gl-bg:rgba(28,28,30,.66);--gl-bd:rgba(255,255,255,.10);--gl-sh:0 6px 28px rgba(0,0,0,.5),inset 0 .5px 0 rgba(255,255,255,.12)}
+  html{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent}
+  body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Inter","Segoe UI",system-ui,sans-serif;letter-spacing:-.011em;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overscroll-behavior-y:none;background:radial-gradient(700px 420px at 0% -5%,rgba(0,122,255,.13),transparent 60%),radial-gradient(700px 420px at 100% 0%,rgba(175,82,222,.10),transparent 60%),var(--bg);background-attachment:scroll}
+  button,input,select,textarea{font-family:inherit;touch-action:manipulation}
+  .top h1{font-size:34px;font-weight:700;letter-spacing:-.03em}.top p{font-size:15px}
+  h3{letter-spacing:-.02em}
+  .panel,.kpi,.stat{border-radius:22px!important;border:.5px solid var(--gl-bd)!important}
+  .task,.card,.weeknav{border-radius:18px!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+  .panel:hover,.task:hover{transform:none!important}
+  @media(hover:none){.kpi:hover,.stat:hover,.btn:hover{transform:none!important}}
+  .btn{border-radius:12px!important;font-weight:600;background:var(--brand-soft)!important;color:var(--brand)!important;border:0!important;box-shadow:none!important;min-height:38px}
+  .btn.pri{background:var(--brand)!important;color:#fff!important}
+  .btn:active{transform:scale(.96)!important;opacity:.85}
+  .btn::after{display:none}
+  input,select,textarea{border-radius:12px!important;border:.5px solid var(--line)!important;background:var(--soft)!important;color:var(--text);transition:box-shadow .25s var(--spring),background .25s;-webkit-appearance:none;appearance:none}
+  input:focus,select:focus,textarea:focus{outline:0;box-shadow:0 0 0 4px var(--brand-soft)!important;border-color:var(--brand)!important}
+  @media(max-width:700px){input,select,textarea{font-size:16px!important}main{padding-left:16px!important;padding-right:16px!important}}
+  #v-settings input[type=checkbox]{width:51px;height:31px;border-radius:99px!important;background:rgba(120,120,128,.32)!important;position:relative;cursor:pointer;border:0!important;flex:none;transition:background .3s}
+  #v-settings input[type=checkbox]::after{content:"";position:absolute;top:2px;left:2px;width:27px;height:27px;border-radius:50%;background:#fff;box-shadow:0 3px 8px rgba(0,0,0,.25);transition:transform .35s var(--spring)}
+  #v-settings input[type=checkbox]:checked{background:var(--ok)!important}
+  #v-settings input[type=checkbox]:checked::after{transform:translateX(20px)}
+  .view.on{animation:v8in .42s var(--spring) both}
+  section,main>*{animation:none}
+  .bd{-webkit-backdrop-filter:blur(16px) saturate(160%);backdrop-filter:blur(16px) saturate(160%);background:rgba(0,0,0,.34)!important}
+  .bd>*{border-radius:28px!important;background:var(--gl-bg)!important;-webkit-backdrop-filter:blur(40px) saturate(200%);backdrop-filter:blur(40px) saturate(200%);border:.5px solid var(--gl-bd)!important;animation:v8up .5s var(--spring) both}
+  @keyframes v8up{from{opacity:0;transform:translateY(34px) scale(.95)}}
+  ::-webkit-scrollbar{width:8px;height:8px}::-webkit-scrollbar-thumb{background:rgba(120,120,128,.4);border-radius:9px}
+  @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.panel,.tabbar,.bd>*{background:var(--card)!important}}
 </style>
 </head>
 <body>
@@ -924,7 +955,7 @@
       <div class="row"><button class="btn pri" id="v8Check">⟳ Check for updates</button><button class="btn pri" id="v8Go" style="display:none">⬆ Update now</button></div>
       <h4 style="margin:18px 0 4px;font-size:13px">Version history</h4><div id="v8Hist"></div>
       <h4 style="margin:18px 0 4px;font-size:13px">Automatic safety backups (restore point before every update)</h4><div id="v8Snaps"></div></div>
-    <div class="panel"><h3>ℹ System <small>storage and backup status · v8.1.0</small></h3><div id="sInfo"></div>
+    <div class="panel"><h3>ℹ System <small>storage and backup status · v8.2.0</small></h3><div id="sInfo"></div>
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px"><button class="btn pri" id="sSave">Save settings</button><button class="btn" id="sReset">Reset to defaults</button><button class="btn" onclick="go('data')">Open Data &amp; Backup</button><button class="btn" id="sWipe" style="color:var(--bad-t);margin-left:auto">🗑 Erase all data</button></div></div>
   </section>
 </main>
@@ -2716,8 +2747,9 @@ ghRender();
 <script>
 /* v8: stable updater + version history. Data lives in localStorage and is never touched by an update; a snapshot is taken first. */
 (()=>{
-const APP_VERSION="8.1.0", SNAP_KEY="mis_snapshots_v1", LOG_KEY="mis_update_log_v1", $=id=>document.getElementById(id);
+const APP_VERSION="8.2.0", SNAP_KEY="mis_snapshots_v1", LOG_KEY="mis_update_log_v1", $=id=>document.getElementById(id);
 const HISTORY=[
+ {v:"8.2.0",d:"2026-10-21",n:["iOS design system: SF-style typography, system colours, large titles, switches and sheets", "Glitch fixes: no re-render flicker, lighter blur for smoother scrolling, no input zoom on iPhone", "Smoother spring animations on page change and dialogs"]},
  {v:"8.1.0",d:"2026-10-21",n:["iOS-style Software Update sheet with progress and What's New", "Smoother spring animations"]},
  {v:"8.0.0",d:"2026-10-21",n:["Stronger liquid-glass UI and smoother animations","One-click Update with automatic safety backup and rollback","Version history and restore points in Settings"]},
  {v:"7.0.0",d:"2026-10",n:["Modules, module reporting, live GitHub sync"]}];

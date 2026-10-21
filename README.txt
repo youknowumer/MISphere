@@ -94,3 +94,8 @@ GitHub via Cloudflare Worker (no token in the browser)
 - Folder worker/ (index.js, wrangler.jsonc, DEPLOY.txt): a tiny Cloudflare Worker that holds the GitHub token as a secret and can read/write only ONE file in ONE repository. Follow worker/DEPLOY.txt once.
 - In MISphere: Settings > Live sync to GitHub > Connect > fill "Worker URL" + "Access code" (section A).
 - Zero-prompt mode: in index.html set PRESET_WORKER = {url:"https://...workers.dev", key:"your code"}. Every browser that opens the site then connects automatically, loads the data from GitHub if it is empty, and saves every change. The access code is then visible in the page source: anyone who finds it could overwrite the data file, so keep the repo private / rotate the code if needed (wrangler secret put MIS_KEY + edit index.html).
+
+Version 8 - Glass, motion and one-click updates
+- Stronger liquid-glass cards/tab bar, smooth entrance and hover motion (respects "reduce motion").
+- Settings > Updates & version history: "Check for updates" reads version.json next to index.html. If it is newer, "Update now" takes an automatic safety backup of your data, clears caches and reloads the new version. Data is never deleted by an update; restore points (last 3) can be restored from the same panel.
+- To publish an update: upload the new index.html, bump APP_VERSION in the script at the bottom of index.html, and edit version.json (version, notes, history). Every open dashboard then offers the update (checked on open, at most every 6 hours).

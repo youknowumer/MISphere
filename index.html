@@ -653,6 +653,29 @@
   /* v10.2 aligned cards + header fit */
   .mc-leave{position:absolute;top:12px;left:12px;z-index:1;font-size:11px;font-weight:700;padding:4px 10px;border-radius:999px;color:#fff;background:rgba(255,255,255,.26);border:.5px solid rgba(255,255,255,.45);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
   #todayLbl{white-space:nowrap}.top .brand{flex:1 1 330px}.top{gap:8px}#modSel{max-width:150px}#meSel{max-width:190px!important}.ghc{font-size:11.5px;padding:7px 10px}
+
+  /* ===== v8: strong liquid glass + motion ===== */
+  :root{--gl-bg:rgba(255,255,255,.55);--gl-bd:rgba(255,255,255,.75);--gl-sh:0 8px 32px rgba(31,38,135,.14),inset 0 1px 0 rgba(255,255,255,.9);--ease:cubic-bezier(.22,1,.36,1)}
+  html[data-theme=dark]{--gl-bg:rgba(24,28,48,.50);--gl-bd:rgba(255,255,255,.13);--gl-sh:0 10px 36px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.10)}
+  html{scroll-behavior:smooth}
+  body{background:radial-gradient(900px 500px at 8% -5%,rgba(99,102,241,.28),transparent 60%),radial-gradient(800px 500px at 100% 10%,rgba(236,72,153,.18),transparent 60%),radial-gradient(900px 600px at 50% 110%,rgba(14,165,233,.22),transparent 60%),var(--bg);background-attachment:fixed}
+  .panel,.kpi,.stat,.weeknav,.task,.card{background:var(--gl-bg)!important;border:1px solid var(--gl-bd)!important;box-shadow:var(--gl-sh)!important;-webkit-backdrop-filter:blur(26px) saturate(185%);backdrop-filter:blur(26px) saturate(185%);transition:transform .45s var(--ease),box-shadow .45s var(--ease),background .3s}
+  .panel:hover,.kpi:hover,.stat:hover,.task:hover{transform:translateY(-3px);box-shadow:0 18px 48px rgba(79,70,229,.20),inset 0 1px 0 rgba(255,255,255,.95)!important}
+  .tabbar{background:var(--gl-bg)!important;border:1px solid var(--gl-bd)!important;box-shadow:var(--gl-sh)!important;-webkit-backdrop-filter:blur(36px) saturate(220%)!important;backdrop-filter:blur(36px) saturate(220%)!important}
+  .btn{position:relative;overflow:hidden;transition:transform .25s var(--ease),box-shadow .25s,background .25s}
+  .btn:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(79,70,229,.18)}
+  .btn::after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.45) 50%,transparent 65%);transform:translateX(-120%);transition:transform .7s var(--ease)}
+  .btn:hover::after{transform:translateX(120%)}
+  section,main>*{animation:v8in .55s var(--ease) both}
+  @keyframes v8in{from{opacity:0;transform:translateY(14px) scale(.985)}to{opacity:1;transform:none}}
+  #v8Upd .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:12px}
+  #v8Upd .chip{padding:4px 11px;border-radius:99px;font-size:12px;font-weight:700;background:var(--brand-soft);color:var(--brand)}
+  #v8Upd .chip.new{background:#12b76a;color:#fff;animation:v8pulse 1.6s infinite}
+  @keyframes v8pulse{50%{box-shadow:0 0 0 8px rgba(18,183,106,0)}0%{box-shadow:0 0 0 0 rgba(18,183,106,.5)}}
+  #v8Upd .ver{padding:10px 12px;border-radius:12px;background:var(--soft);margin-top:8px;font-size:13px}
+  #v8Upd .ver b{color:var(--brand)}
+  #v8Upd .bar{height:6px;border-radius:9px;background:var(--line);overflow:hidden;margin-top:12px;display:none}
+  #v8Upd .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#6366f1,#ec4899);transition:width .5s var(--ease)}
 </style>
 </head>
 <body>
@@ -871,7 +894,13 @@
       <div id="fsStatus"></div>
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px"><button class="btn pri" id="fsPick">📁 Choose file…</button><button class="btn" id="fsNow">⟳ Save now</button><button class="btn" id="fsOff">✖ Stop auto-save</button></div>
       <p class="hint" style="margin-top:12px">Choose the file once (for example <b>mis-data.json</b> inside your MISphere repository folder). After that it is rewritten a moment after every change. To put it on GitHub, commit and push that folder (GitHub Desktop → Commit → Push), then open the file on GitHub to read it. Works in Chrome and Edge. After you reopen the page the browser asks you to allow access once (button “Save now”).</p></div>
-    <div class="panel"><h3>ℹ System <small>storage and backup status · v2.0</small></h3><div id="sInfo"></div>
+    <div class="panel" id="v8Upd"><h3>🚀 Updates &amp; version history <small>one-click update · your data is backed up first and never lost</small></h3>
+      <div class="row"><span class="chip">Installed v<span id="v8Cur"></span></span><span class="chip" id="v8Lat" style="display:none"></span><span id="v8Msg" class="hint"></span></div>
+      <div class="bar" id="v8Bar"><i></i></div>
+      <div class="row"><button class="btn pri" id="v8Check">⟳ Check for updates</button><button class="btn pri" id="v8Go" style="display:none">⬆ Update now</button></div>
+      <h4 style="margin:18px 0 4px;font-size:13px">Version history</h4><div id="v8Hist"></div>
+      <h4 style="margin:18px 0 4px;font-size:13px">Automatic safety backups (restore point before every update)</h4><div id="v8Snaps"></div></div>
+    <div class="panel"><h3>ℹ System <small>storage and backup status · v8.0.0</small></h3><div id="sInfo"></div>
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px"><button class="btn pri" id="sSave">Save settings</button><button class="btn" id="sReset">Reset to defaults</button><button class="btn" onclick="go('data')">Open Data &amp; Backup</button><button class="btn" id="sWipe" style="color:var(--bad-t);margin-left:auto">🗑 Erase all data</button></div></div>
   </section>
 </main>
@@ -2658,6 +2687,52 @@ ghRender();
     try{ await ghConnectWorker(PRESET_WORKER.url, PRESET_WORKER.key, true); ghRender(); }catch(e){ ghSet("err", e.message); return; }
   }
   if (ghOn()) ghCheck(false);
+})();
+</script>
+<script>
+/* v8: stable updater + version history. Data lives in localStorage and is never touched by an update; a snapshot is taken first. */
+(()=>{
+const APP_VERSION="8.0.0", SNAP_KEY="mis_snapshots_v1", LOG_KEY="mis_update_log_v1", $=id=>document.getElementById(id);
+const HISTORY=[
+ {v:"8.0.0",d:"2026-10-21",n:["Stronger liquid-glass UI and smoother animations","One-click Update with automatic safety backup and rollback","Version history and restore points in Settings"]},
+ {v:"7.0.0",d:"2026-10",n:["Modules, module reporting, live GitHub sync"]}];
+const rd=(k,f)=>{try{return JSON.parse(localStorage.getItem(k))||f}catch{return f}}, wr=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v));return true}catch{return false}};
+const cmp=(a,b)=>{a=a.split(".").map(Number);b=b.split(".").map(Number);for(let i=0;i<3;i++){if((a[i]||0)!==(b[i]||0))return (a[i]||0)>(b[i]||0)?1:-1}return 0};
+const esc=t=>String(t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+let latest=null, remoteHist=[];
+function snapshot(why){const data=localStorage.getItem(KEY)||"";let a=rd(SNAP_KEY,[]);a.unshift({t:Date.now(),v:APP_VERSION,why,data});a=a.slice(0,3);if(!wr(SNAP_KEY,a)){a=a.slice(0,1);wr(SNAP_KEY,a)}return a}
+function draw(){
+ $("v8Cur").textContent=APP_VERSION;
+ const all=[...remoteHist,...HISTORY].filter((x,i,r)=>r.findIndex(y=>y.v===x.v)===i).sort((a,b)=>cmp(b.v,a.v));
+ $("v8Hist").innerHTML=all.map(x=>`<div class="ver"><b>v${esc(x.v)}</b> · ${esc(x.d||"")} ${x.v===APP_VERSION?'<span class="chip">current</span>':""}<br>${(x.n||[]).map(esc).join(" · ")}</div>`).join("");
+ const sn=rd(SNAP_KEY,[]);
+ $("v8Snaps").innerHTML=sn.length?sn.map((x,i)=>`<div class="ver">${new Date(x.t).toLocaleString()} · v${esc(x.v)} · ${esc(x.why)} · ${(x.data.length/1024).toFixed(1)} KB <button class="btn" data-r="${i}" style="float:right;padding:4px 10px">Restore</button></div>`).join(""):'<p class="hint">No restore points yet. One is created automatically before every update.</p>';
+ $("v8Snaps").querySelectorAll("[data-r]").forEach(b=>b.onclick=()=>{const x=rd(SNAP_KEY,[])[+b.dataset.r];if(!x||!confirm("Restore data from this backup? Current data is saved as a new restore point first."))return;snapshot("before restore");try{localStorage.setItem(KEY,x.data)}catch{return toast("⚠ Restore failed")}location.reload()});
+}
+async function check(quiet){
+ const m=$("v8Msg");if(!quiet)m.textContent="Checking…";
+ try{const r=await fetch("version.json?_="+Date.now(),{cache:"no-store"});if(!r.ok)throw 0;const j=await r.json();latest=j;remoteHist=j.history||[];
+  const newer=cmp(j.version,APP_VERSION)>0;$("v8Lat").style.display=newer?"":"none";$("v8Lat").className="chip new";$("v8Lat").textContent="New v"+j.version;$("v8Go").style.display=newer?"":"none";
+  m.textContent=newer?((j.notes||[]).join(" · ")||"A new version is ready."):"You are on the latest version ✓";
+  if(newer&&quiet)toast("⬆ Update v"+j.version+" available — Settings › Updates");
+ }catch{m.textContent=quiet?"":"Could not reach version.json (open the site over http/https, not from a file).";}
+ localStorage.setItem("mis_last_check",Date.now());draw();
+}
+async function update(){
+ if(!latest)return;const bar=$("v8Bar"),fill=bar.firstElementChild;bar.style.display="block";
+ const step=(p,t)=>{fill.style.width=p+"%";$("v8Msg").textContent=t};
+ step(25,"Backing up your data…");snapshot("before update to v"+latest.version);
+ await new Promise(r=>setTimeout(r,500));step(55,"Clearing old cache…");
+ try{if(window.caches)for(const k of await caches.keys())await caches.delete(k);if(navigator.serviceWorker)for(const g of await navigator.serviceWorker.getRegistrations())await g.unregister()}catch{}
+ const l=rd(LOG_KEY,[]);l.unshift({t:Date.now(),from:APP_VERSION,to:latest.version});wr(LOG_KEY,l.slice(0,20));
+ await new Promise(r=>setTimeout(r,500));step(100,"Updating…");
+ setTimeout(()=>location.replace(location.pathname+"?v="+latest.version+"&t="+Date.now()),400);
+}
+document.addEventListener("DOMContentLoaded",()=>{
+ if(!$("v8Upd"))return;draw();$("v8Check").onclick=()=>check(false);$("v8Go").onclick=update;
+ const l=rd(LOG_KEY,[]);if(l[0]&&l[0].to===APP_VERSION&&Date.now()-l[0].t<120000)setTimeout(()=>toast("✅ Updated to v"+APP_VERSION+" — your data is intact"),600);
+ if(!/^file:/.test(location.protocol)&&Date.now()-(+localStorage.getItem("mis_last_check")||0)>6*36e5)check(true);
+});
 })();
 </script>
 </body>

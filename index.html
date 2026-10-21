@@ -676,6 +676,30 @@
   #v8Upd .ver b{color:var(--brand)}
   #v8Upd .bar{height:6px;border-radius:9px;background:var(--line);overflow:hidden;margin-top:12px;display:none}
   #v8Upd .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#6366f1,#ec4899);transition:width .5s var(--ease)}
+
+  /* ===== v8.1: iOS-style software update sheet ===== */
+  .v8ov{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(10,12,28,.38);-webkit-backdrop-filter:blur(14px) saturate(160%);backdrop-filter:blur(14px) saturate(160%);opacity:0;transition:opacity .35s ease}
+  .v8ov.on{opacity:1}
+  .v8sh{width:min(400px,100%);border-radius:30px;padding:26px 22px 18px;text-align:center;color:var(--text);background:var(--gl-bg);border:1px solid var(--gl-bd);box-shadow:0 30px 80px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.7);-webkit-backdrop-filter:blur(40px) saturate(200%);backdrop-filter:blur(40px) saturate(200%);transform:translateY(40px) scale(.92);transition:transform .55s cubic-bezier(.32,.72,0,1)}
+  html:not([data-theme=dark]) .v8sh{background:rgba(255,255,255,.78)}
+  .v8ov.on .v8sh{transform:none}
+  .v8ic{width:76px;height:76px;margin:0 auto 14px;border-radius:19px;background:linear-gradient(135deg,#6366f1,#8b5cf6);display:grid;place-items:center;box-shadow:0 10px 26px rgba(99,102,241,.45);position:relative}
+  .v8ic svg{width:44px;height:44px}
+  .v8ic.spin::after{content:"";position:absolute;inset:-7px;border-radius:25px;border:3px solid transparent;border-top-color:#0a84ff;animation:v8sp 1s linear infinite}
+  @keyframes v8sp{to{transform:rotate(360deg)}}
+  .v8sh h2{font-size:20px;font-weight:700;letter-spacing:-.2px}
+  .v8sh .sub{color:var(--muted);font-size:13px;margin-top:4px}
+  .v8nt{text-align:left;margin:16px 0 4px;padding:12px 14px;border-radius:16px;background:rgba(120,120,140,.12);font-size:13px;line-height:1.5}
+  .v8nt div{display:flex;gap:9px;padding:3px 0}.v8nt div::before{content:"";width:6px;height:6px;border-radius:9px;background:#0a84ff;margin-top:7px;flex:none}
+  .v8bt{display:flex;flex-direction:column;gap:8px;margin-top:16px}
+  .v8bt button{border:0;border-radius:14px;padding:14px;font:600 16px inherit;font-family:inherit;cursor:pointer;transition:transform .2s,filter .2s}
+  .v8bt button:active{transform:scale(.97)}.v8bt button:hover{filter:brightness(1.06)}
+  .v8bt .p{background:#0a84ff;color:#fff}.v8bt .g{background:transparent;color:#0a84ff;font-weight:500;font-size:15px;padding:9px}
+  .v8pr{height:5px;border-radius:9px;background:rgba(120,120,140,.25);overflow:hidden;margin:20px 6px 8px}
+  .v8pr i{display:block;height:100%;width:4%;border-radius:9px;background:#0a84ff;transition:width .6s cubic-bezier(.32,.72,0,1)}
+  .v8ok{width:76px;height:76px;margin:0 auto 14px;border-radius:50%;background:#30d158;display:grid;place-items:center;animation:v8pop .6s cubic-bezier(.34,1.56,.64,1)}
+  .v8ok svg{width:40px;stroke-dasharray:40;animation:v8dr .5s .3s ease both}
+  @keyframes v8pop{from{transform:scale(0)}}@keyframes v8dr{from{stroke-dashoffset:40}}
 </style>
 </head>
 <body>
@@ -900,7 +924,7 @@
       <div class="row"><button class="btn pri" id="v8Check">⟳ Check for updates</button><button class="btn pri" id="v8Go" style="display:none">⬆ Update now</button></div>
       <h4 style="margin:18px 0 4px;font-size:13px">Version history</h4><div id="v8Hist"></div>
       <h4 style="margin:18px 0 4px;font-size:13px">Automatic safety backups (restore point before every update)</h4><div id="v8Snaps"></div></div>
-    <div class="panel"><h3>ℹ System <small>storage and backup status · v8.0.0</small></h3><div id="sInfo"></div>
+    <div class="panel"><h3>ℹ System <small>storage and backup status · v8.1.0</small></h3><div id="sInfo"></div>
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px"><button class="btn pri" id="sSave">Save settings</button><button class="btn" id="sReset">Reset to defaults</button><button class="btn" onclick="go('data')">Open Data &amp; Backup</button><button class="btn" id="sWipe" style="color:var(--bad-t);margin-left:auto">🗑 Erase all data</button></div></div>
   </section>
 </main>
@@ -2692,8 +2716,9 @@ ghRender();
 <script>
 /* v8: stable updater + version history. Data lives in localStorage and is never touched by an update; a snapshot is taken first. */
 (()=>{
-const APP_VERSION="8.0.0", SNAP_KEY="mis_snapshots_v1", LOG_KEY="mis_update_log_v1", $=id=>document.getElementById(id);
+const APP_VERSION="8.1.0", SNAP_KEY="mis_snapshots_v1", LOG_KEY="mis_update_log_v1", $=id=>document.getElementById(id);
 const HISTORY=[
+ {v:"8.1.0",d:"2026-10-21",n:["iOS-style Software Update sheet with progress and What's New", "Smoother spring animations"]},
  {v:"8.0.0",d:"2026-10-21",n:["Stronger liquid-glass UI and smoother animations","One-click Update with automatic safety backup and rollback","Version history and restore points in Settings"]},
  {v:"7.0.0",d:"2026-10",n:["Modules, module reporting, live GitHub sync"]}];
 const rd=(k,f)=>{try{return JSON.parse(localStorage.getItem(k))||f}catch{return f}}, wr=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v));return true}catch{return false}};
@@ -2714,23 +2739,45 @@ async function check(quiet){
  try{const r=await fetch("version.json?_="+Date.now(),{cache:"no-store"});if(!r.ok)throw 0;const j=await r.json();latest=j;remoteHist=j.history||[];
   const newer=cmp(j.version,APP_VERSION)>0;$("v8Lat").style.display=newer?"":"none";$("v8Lat").className="chip new";$("v8Lat").textContent="New v"+j.version;$("v8Go").style.display=newer?"":"none";
   m.textContent=newer?((j.notes||[]).join(" · ")||"A new version is ready."):"You are on the latest version ✓";
-  if(newer&&quiet)toast("⬆ Update v"+j.version+" available — Settings › Updates");
+  if(newer)offer(j,quiet);
  }catch{m.textContent=quiet?"":"Could not reach version.json (open the site over http/https, not from a file).";}
  localStorage.setItem("mis_last_check",Date.now());draw();
 }
 async function update(){
  if(!latest)return;const bar=$("v8Bar"),fill=bar.firstElementChild;bar.style.display="block";
- const step=(p,t)=>{fill.style.width=p+"%";$("v8Msg").textContent=t};
+ const step=(p,t)=>{fill.style.width=p+"%";$("v8Msg").textContent=t;prog(p,t)};
  step(25,"Backing up your data…");snapshot("before update to v"+latest.version);
- await new Promise(r=>setTimeout(r,500));step(55,"Clearing old cache…");
+ await new Promise(r=>setTimeout(r,500));step(55,"Preparing update…");
  try{if(window.caches)for(const k of await caches.keys())await caches.delete(k);if(navigator.serviceWorker)for(const g of await navigator.serviceWorker.getRegistrations())await g.unregister()}catch{}
  const l=rd(LOG_KEY,[]);l.unshift({t:Date.now(),from:APP_VERSION,to:latest.version});wr(LOG_KEY,l.slice(0,20));
- await new Promise(r=>setTimeout(r,500));step(100,"Updating…");
+ await new Promise(r=>setTimeout(r,500));step(100,"Restarting…");
  setTimeout(()=>location.replace(location.pathname+"?v="+latest.version+"&t="+Date.now()),400);
 }
+
+const LOGO='<svg viewBox="0 0 64 64"><path d="M16 15v33h33" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 39l9-9 6 6 10-13" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="49" cy="23" r="4" fill="#f5d061"/></svg>';
+let ov=null;
+function show(html){if(ov)ov.remove();ov=document.createElement("div");ov.className="v8ov";ov.innerHTML='<div class="v8sh" role="dialog" aria-modal="true">'+html+'</div>';document.body.appendChild(ov);requestAnimationFrame(()=>ov.classList.add("on"));return ov}
+function close(){if(!ov)return;const o=ov;o.classList.remove("on");ov=null;setTimeout(()=>o.remove(),400)}
+function notes(a){return '<div class="v8nt">'+(a||[]).map(x=>"<div>"+esc(x)+"</div>").join("")+"</div>"}
+function offer(j,quiet){
+ if(quiet&&(+localStorage.getItem("mis_snooze_"+j.version)||0)>Date.now())return;
+ const o=show('<div class="v8ic">'+LOGO+'</div><h2>Software Update</h2><div class="sub">MISphere '+esc(j.version)+' is available · you have '+APP_VERSION+'</div>'+notes(j.notes)+'<div class="sub" style="margin-top:10px">🔒 Your data is backed up automatically before installing.</div><div class="v8bt"><button class="p" id="v8a">Update Now</button><button class="g" id="v8b">Remind Me Later</button></div>');
+ o.querySelector("#v8a").onclick=()=>update();
+ const later=()=>{localStorage.setItem("mis_snooze_"+j.version,Date.now()+12*36e5);close()};
+ o.querySelector("#v8b").onclick=later;o.onclick=e=>{if(e.target===o)later()};
+}
+function prog(p,t){
+ if(!ov||!ov.querySelector(".v8pr")){show('<div class="v8ic spin">'+LOGO+'</div><h2>Updating MISphere…</h2><div class="sub" id="v8t">Preparing…</div><div class="v8pr"><i></i></div><div class="sub">Please keep this page open</div>')}
+ ov.querySelector(".v8pr i").style.width=p+"%";ov.querySelector("#v8t").textContent=t;
+}
+function done(){
+ const h=(HISTORY.find(x=>x.v===APP_VERSION)||{}).n||[];
+ const o=show('<div class="v8ok"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div><h2>Update Complete</h2><div class="sub">MISphere '+APP_VERSION+' · all your data is intact</div><div class="sub" style="margin-top:14px;text-align:left;font-weight:600">What\'s New</div>'+notes(h)+'<div class="v8bt"><button class="p" id="v8c">Continue</button></div>');
+ o.querySelector("#v8c").onclick=close;
+}
 document.addEventListener("DOMContentLoaded",()=>{
- if(!$("v8Upd"))return;draw();$("v8Check").onclick=()=>check(false);$("v8Go").onclick=update;
- const l=rd(LOG_KEY,[]);if(l[0]&&l[0].to===APP_VERSION&&Date.now()-l[0].t<120000)setTimeout(()=>toast("✅ Updated to v"+APP_VERSION+" — your data is intact"),600);
+ if(!$("v8Upd"))return;draw();$("v8Check").onclick=()=>check(false);$("v8Go").onclick=()=>latest&&offer(latest,false);
+ const l=rd(LOG_KEY,[]);if(l[0]&&l[0].to===APP_VERSION&&Date.now()-l[0].t<120000)setTimeout(done,700);
  if(!/^file:/.test(location.protocol)&&Date.now()-(+localStorage.getItem("mis_last_check")||0)>6*36e5)check(true);
 });
 })();

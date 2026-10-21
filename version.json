@@ -1,10 +1,21 @@
 {
-  "version": "8.3.0",
+  "version": "8.4.0",
   "date": "2026-10-21",
   "notes": [
-    "Team cards redesigned: transparent glass with member-colour tint, glow and refined stats"
+    "Team cards rebuilt from scratch: progress-ring avatar, large completion figure, status bar and stat tiles",
+    "Module manager in Settings: create, edit, rename, recolour, focus and delete modules with live task counts",
+    "Quick plus button beside the module selector for instant module creation"
   ],
   "history": [
+    {
+      "v": "8.4.0",
+      "d": "2026-10-21",
+      "n": [
+        "Team cards rebuilt from scratch: progress-ring avatar, large completion figure, status bar and stat tiles",
+        "Module manager in Settings: create, edit, rename, recolour, focus and delete modules with live task counts",
+        "Quick plus button beside the module selector for instant module creation"
+      ]
+    },
     {
       "v": "8.3.0",
       "d": "2026-10-21",

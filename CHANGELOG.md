@@ -2,6 +2,11 @@
 
 All notable changes to MISphere, newest first.
 
+## 10.5.0 — 2026-10-22
+
+- Eight new colour combos (Lavender, Rose, Mint, Citrus, Coral, Sky, Berry, Midnight) plus Auto, which follows the time of day
+- Liquid glass refinements: stronger refraction on header and tab bar, glossy accent buttons with a light sweep, richer colour swatches, smooth colour fade when switching
+
 ## 10.4.1 — 2026-10-22
 
 - Smoothness pass: scroll position is kept after every change, search waits until you pause typing, softer spring transitions on cards, progress bars, pills and buttons, animated dialogs, no stuck hover on touch screens

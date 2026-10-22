@@ -409,6 +409,17 @@
   .kbc{transition:background-color .2s ease,box-shadow .2s ease,transform .2s ease}
   img,svg{image-rendering:auto}
   @media(hover:none){.mcard:hover,.task:hover{transform:none}}
+
+  /* v10.5 liquid glass refinements (iOS 26 style) */
+  .tabbar,.top{-webkit-backdrop-filter:blur(var(--gb)) saturate(190%) brightness(1.04);backdrop-filter:blur(var(--gb)) saturate(190%) brightness(1.04)}
+  .btn.pri,.tb.on{position:relative;overflow:hidden;background-image:linear-gradient(180deg,color-mix(in srgb,#fff 28%,transparent),transparent 55%),linear-gradient(135deg,var(--m1),var(--m2))!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.55),inset 0 -1px 0 rgba(0,0,0,.08),0 6px 18px color-mix(in srgb,var(--brand) 38%,transparent)}
+  .btn.pri::after,.tb.on::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.45) 50%,transparent 65%);transform:translateX(-120%);transition:transform .7s cubic-bezier(.22,1,.36,1);pointer-events:none}
+  .btn.pri:hover::after,.tb.on:hover::after{transform:translateX(120%)}
+  .ap-acc button{transition:transform .3s cubic-bezier(.34,1.56,.64,1),box-shadow .25s ease}
+  .ap-acc i{box-shadow:inset 0 1px 0 rgba(255,255,255,.6),inset 0 -8px 14px rgba(255,255,255,.12),0 4px 12px rgba(0,0,0,.12)}
+  body{transition:background-color .6s ease}
+  html[data-accent]{transition:--brand .5s}
+  .mchip.on{backdrop-filter:blur(10px) saturate(160%);-webkit-backdrop-filter:blur(10px) saturate(160%)}
   /* v10.4 multi-assignee */
   .span-all{grid-column:1/-1}
   .mp-hint{font-weight:500;color:var(--mut,#667085);font-size:11.5px;margin-left:4px}
@@ -845,6 +856,16 @@
   html[data-accent=sunset]{--brand:#ff375f;--m1:#ff375f;--m2:#ff9f0a;--m3:#bf5af2}html[data-theme=dark][data-accent=sunset]{--brand:#ff5a7a;--m1:#ff5a7a}
   html[data-accent=forest]{--brand:#1fa463;--m1:#1fa463;--m2:#64d2ff;--m3:#30b0c7}html[data-theme=dark][data-accent=forest]{--brand:#30d158;--m1:#30d158}
   html[data-accent=graphite]{--brand:#5e6670;--m1:#5e6670;--m2:#8e8e93;--m3:#5e5ce6}html[data-theme=dark][data-accent=graphite]{--brand:#9aa0aa;--m1:#9aa0aa}
+
+  /* v10.5 more colour combos */
+  html[data-accent=lavender]{--brand:#8e6cf0;--m1:#8e6cf0;--m2:#c9a7ff;--m3:#7fb8ff}html[data-theme=dark][data-accent=lavender]{--brand:#a78bfa;--m1:#a78bfa}
+  html[data-accent=rose]{--brand:#ff4f8b;--m1:#ff4f8b;--m2:#ffb3c9;--m3:#c77dff}html[data-theme=dark][data-accent=rose]{--brand:#ff6fa1;--m1:#ff6fa1}
+  html[data-accent=mint]{--brand:#12b886;--m1:#12b886;--m2:#8ff0d0;--m3:#4dc9ff}html[data-theme=dark][data-accent=mint]{--brand:#2ee6a8;--m1:#2ee6a8}
+  html[data-accent=citrus]{--brand:#f5a000;--m1:#f5a000;--m2:#ffd60a;--m3:#34c759}html[data-theme=dark][data-accent=citrus]{--brand:#ffbe2e;--m1:#ffbe2e}
+  html[data-accent=coral]{--brand:#ff6b4a;--m1:#ff6b4a;--m2:#ffb199;--m3:#ff3b8d}html[data-theme=dark][data-accent=coral]{--brand:#ff8a6b;--m1:#ff8a6b}
+  html[data-accent=sky]{--brand:#2d9cff;--m1:#2d9cff;--m2:#9ad8ff;--m3:#7a8bff}html[data-theme=dark][data-accent=sky]{--brand:#5ab6ff;--m1:#5ab6ff}
+  html[data-accent=berry]{--brand:#c2185b;--m1:#c2185b;--m2:#ff7ab6;--m3:#7b4dff}html[data-theme=dark][data-accent=berry]{--brand:#e0449a;--m1:#e0449a}
+  html[data-accent=midnight]{--brand:#4a5cff;--m1:#4a5cff;--m2:#25d0ff;--m3:#9b5cff}html[data-theme=dark][data-accent=midnight]{--brand:#7d8bff;--m1:#7d8bff}
   body{background:var(--bg)!important}
   body::before{content:"";position:fixed;inset:-25%;z-index:-1;pointer-events:none;background:radial-gradient(38% 38% at 14% 18%,color-mix(in srgb,var(--m1) 34%,transparent),transparent 70%),radial-gradient(34% 34% at 86% 12%,color-mix(in srgb,var(--m2) 28%,transparent),transparent 70%),radial-gradient(44% 44% at 62% 92%,color-mix(in srgb,var(--m3) 26%,transparent),transparent 70%);filter:blur(24px);animation:v85drift 32s ease-in-out infinite alternate;will-change:transform}
   html[data-theme=dark] body::before{opacity:.75}
@@ -1099,7 +1120,7 @@
   @media(max-width:900px){.fbar{grid-template-columns:1fr 1fr}#flExp,#flReset{grid-column:auto}}
   html[data-theme=dark] .tsc[data-f=todo] b{color:var(--text)}
 </style>
-<script>window.__v8err=0;addEventListener("error",function(){window.__v8err++});try{var u=JSON.parse(localStorage.getItem("mis_ui_v1"))||{};document.documentElement.dataset.accent=u.a||"ocean";document.documentElement.style.setProperty("--gb",({soft:14,standard:26,strong:44})[u.g||"standard"]+"px")}catch(e){}</script></head>
+<script>window.__v8err=0;addEventListener("error",function(){window.__v8err++});try{var u=JSON.parse(localStorage.getItem("mis_ui_v1"))||{};var h=new Date().getHours();document.documentElement.dataset.accent=(u.a==="auto"?(h<6?"midnight":h<10?"coral":h<17?"ocean":h<20?"sunset":"aurora"):u.a)||"ocean";document.documentElement.style.setProperty("--gb",({soft:14,standard:26,strong:44})[u.g||"standard"]+"px")}catch(e){}</script></head>
 <body>
 <div id="v87splash" aria-hidden="true"><div class="sp-ic"><svg viewBox="0 0 64 64"><path d="M16 15v33h33" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 39l9-9 6 6 10-13" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="49" cy="23" r="4" fill="#f5d061"/></svg></div><b>MISphere</b></div>
 
@@ -3454,7 +3475,7 @@ ghRender();
 <script>
 /* v8: stable updater + version history. Data lives in localStorage and is never touched by an update; a snapshot is taken first. */
 (()=>{
-const APP_VERSION="10.4.1", SNAP_KEY="mis_snapshots_v1", LOG_KEY="mis_update_log_v1", $=id=>document.getElementById(id);
+const APP_VERSION="10.5.0", SNAP_KEY="mis_snapshots_v1", LOG_KEY="mis_update_log_v1", $=id=>document.getElementById(id);
 const HISTORY=[
  {v:"8.7.0",d:"2026-10-21",n:["System health panel: storage, data integrity checks, backups and one-tap restore points", "Daily automatic backup (last 5 restore points kept)", "iOS-style notification banners, launch splash, offline/online alerts", "Keyboard shortcuts sheet (press ?)"]},
  {v:"8.6.0",d:"2026-10-21",n:["Team cards: fixed clipped avatar/badge overflow, rebuilt the leader switch, rank shown inline, quieter empty states (– instead of 0%), dimmed zero stats, tooltips for long names, refined leader card tiles"]},
@@ -3540,13 +3561,22 @@ document.addEventListener("DOMContentLoaded",()=>{
 </script>
 <script>
 (()=>{const K="mis_ui_v1",G={soft:14,standard:26,strong:44},$=id=>document.getElementById(id);
-const A=[["ocean","Ocean",["#0a84ff","#5ac8fa","#5e5ce6"]],["aurora","Aurora",["#5e5ce6","#bf5af2","#64d2ff"]],["sunset","Sunset",["#ff375f","#ff9f0a","#bf5af2"]],["forest","Forest",["#1fa463","#64d2ff","#30b0c7"]],["graphite","Graphite",["#5e6670","#8e8e93","#5e5ce6"]]];
+const A=[["ocean","Ocean",["#0a84ff","#5ac8fa","#5e5ce6"]],["aurora","Aurora",["#5e5ce6","#bf5af2","#64d2ff"]],["sunset","Sunset",["#ff375f","#ff9f0a","#bf5af2"]],["forest","Forest",["#1fa463","#64d2ff","#30b0c7"]],["graphite","Graphite",["#5e6670","#8e8e93","#5e5ce6"]],["lavender","Lavender",["#8e6cf0","#c9a7ff","#7fb8ff"]],
+["rose","Rose",["#ff4f8b","#ffb3c9","#c77dff"]],
+["mint","Mint",["#12b886","#8ff0d0","#4dc9ff"]],
+["citrus","Citrus",["#f5a000","#ffd60a","#34c759"]],
+["coral","Coral",["#ff6b4a","#ffb199","#ff3b8d"]],
+["sky","Sky",["#2d9cff","#9ad8ff","#7a8bff"]],
+["berry","Berry",["#c2185b","#ff7ab6","#7b4dff"]],
+["midnight","Midnight",["#4a5cff","#25d0ff","#9b5cff"]],["auto","Auto",["#ff9f0a","#0a84ff","#5e5ce6"]]];
 let u={};try{u=JSON.parse(localStorage.getItem(K))||{}}catch{}
-const ap=()=>{const r=document.documentElement;r.dataset.accent=u.a||"ocean";r.style.setProperty("--gb",G[u.g||"standard"]+"px");try{localStorage.setItem(K,JSON.stringify(u))}catch{}};
+const auto=()=>{const h=new Date().getHours();return h<6?"midnight":h<10?"coral":h<17?"ocean":h<20?"sunset":"aurora"};
+const ap=()=>{const r=document.documentElement;r.dataset.accent=(u.a==="auto"?auto():u.a)||"ocean";r.style.setProperty("--gb",G[u.g||"standard"]+"px");try{localStorage.setItem(K,JSON.stringify(u))}catch{}};
 function draw(){const a=u.a||"ocean",g=u.g||"standard";
  $("apAcc").innerHTML=A.map(x=>`<button type="button" data-a="${x[0]}" class="${a===x[0]?"on":""}"><i style="background:linear-gradient(135deg,${x[2][0]},${x[2][1]} 55%,${x[2][2]})"></i><span>${x[1]}</span></button>`).join("");
  $("apGl").innerHTML=Object.keys(G).map(k=>`<button type="button" data-g="${k}" class="${g===k?"on":""}">${k[0].toUpperCase()+k.slice(1)}</button>`).join("")}
 if($("apAcc")){draw();$("uiPanel").onclick=e=>{const a=e.target.closest("[data-a]"),g=e.target.closest("[data-g]");if(a)u.a=a.dataset.a;else if(g)u.g=g.dataset.g;else return;ap();draw()}}
+setInterval(()=>{if(u.a==="auto")ap()},6e5);
 let raf=0;document.addEventListener("pointermove",e=>{if(raf)return;raf=requestAnimationFrame(()=>{raf=0;const c=e.target.closest&&e.target.closest(".mcard,.mm-card,.panel");if(!c)return;const r=c.getBoundingClientRect();c.style.setProperty("--mx",(e.clientX-r.left)+"px");c.style.setProperty("--my",(e.clientY-r.top)+"px")})},{passive:true});
 })();
 </script>
@@ -3647,7 +3677,7 @@ body.rm *,body.rm *::before,body.rm *::after{animation:none!important;transition
 /* v10.2 · Pro layer — Insights executive summary & report header, Settings workspace.  © 2026 Muhammad Umer Faheem. All rights reserved. */
 (()=>{
 "use strict";
-const VER = "10.4.1";
+const VER = "10.5.0";
 const $$ = (sel,root=document)=>[...root.querySelectorAll(sel)];
 const nm = v=>String(v||"").replace(/[<>"`]/g,"").trim().slice(0,40);
 const CONF = {none:"", internal:"Internal use", confidential:"Confidential"};

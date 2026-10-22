@@ -940,9 +940,6 @@
   .bch b{font-size:15px;letter-spacing:-.02em}.bcn{min-width:24px;text-align:center;padding:1px 8px;border-radius:99px;background:var(--card);font-size:12px;font-weight:700;font-variant-numeric:tabular-nums}
   .bch em{margin-left:auto;font-style:normal;font-size:11.5px;font-weight:600;color:var(--muted)}.bch em.bad{color:var(--bad)}
   .bcb{display:flex;flex-direction:column;gap:10px}
-  .board .task{display:grid!important;grid-template-columns:auto minmax(0,1fr)!important;gap:10px!important;padding:12px!important;cursor:grab;box-shadow:0 2px 10px rgba(0,0,0,.06)}
-  .board .task .act{grid-column:1/-1}.board .task.dragging{opacity:.45;transform:scale(.97)}.board .task:active{cursor:grabbing}
-  .board .task .act .r{flex-wrap:wrap}
   .bempty{padding:26px 10px;text-align:center;font-size:13px;color:var(--muted);border:1.5px dashed var(--line);border-radius:18px}
   .bhint{font-size:12px;color:var(--muted);text-align:center;margin-top:12px}
   @media(max-width:900px){.board{grid-auto-flow:column;grid-template-columns:none;grid-auto-columns:86%;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px;overscroll-behavior-x:contain}.bcol{scroll-snap-align:center}.tsum{grid-template-columns:repeat(2,1fr)}.bhint{display:none}}
@@ -951,17 +948,44 @@
   .tabbar{position:fixed!important;left:50%!important;right:auto!important;top:auto!important;bottom:max(14px,env(safe-area-inset-bottom))!important;transform:translateX(-50%)!important;z-index:60!important;margin:0!important;view-transition-name:tabbar}
   .top{position:sticky!important;top:max(12px,env(safe-area-inset-top))!important;z-index:25}
   .tabbar::before{z-index:-1}
-  #edgeT,#edgeB{position:fixed;left:0;right:0;z-index:20;pointer-events:none;opacity:0;transition:opacity .45s var(--ease)}
-  #edgeT{top:0;height:calc(env(safe-area-inset-top,0px) + 76px)}
-  #edgeB{bottom:0;height:calc(env(safe-area-inset-bottom,0px) + 150px)}
-  #edgeT.on,#edgeB.on{opacity:.8}#edgeT.on.mv,#edgeB.on.mv{opacity:1;transition-duration:.15s}
-  #edgeT::before,#edgeT::after,#edgeB::before,#edgeB::after{content:"";position:absolute;inset:0}
-  #edgeT::before{-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);-webkit-mask-image:linear-gradient(to bottom,#000 0,rgba(0,0,0,.6) 55%,transparent 100%);mask-image:linear-gradient(to bottom,#000 0,rgba(0,0,0,.6) 55%,transparent 100%)}
-  #edgeT::after{-webkit-backdrop-filter:blur(18px) saturate(160%);backdrop-filter:blur(18px) saturate(160%);background:linear-gradient(to bottom,color-mix(in srgb,var(--bg) 70%,transparent),transparent);-webkit-mask-image:linear-gradient(to bottom,#000 0,transparent 70%);mask-image:linear-gradient(to bottom,#000 0,transparent 70%)}
-  #edgeB::before{-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);-webkit-mask-image:linear-gradient(to top,#000 0,rgba(0,0,0,.6) 55%,transparent 100%);mask-image:linear-gradient(to top,#000 0,rgba(0,0,0,.6) 55%,transparent 100%)}
-  #edgeB::after{-webkit-backdrop-filter:blur(20px) saturate(160%);backdrop-filter:blur(20px) saturate(160%);background:linear-gradient(to top,color-mix(in srgb,var(--bg) 75%,transparent),transparent);-webkit-mask-image:linear-gradient(to top,#000 0,transparent 70%);mask-image:linear-gradient(to top,#000 0,transparent 70%)}
+
+  /* ===== v9.2: board cards + iOS progressive edge blur ===== */
+  .board .bcard{display:flex!important;flex-direction:column;gap:9px!important;padding:12px 12px 10px 15px!important;border-radius:18px!important;background:var(--card)!important;position:relative;overflow:hidden;cursor:grab;content-visibility:visible!important;box-shadow:0 1px 2px rgba(0,0,0,.06),0 8px 18px -10px rgba(0,0,0,.22)!important;transition:transform .35s var(--spring2),box-shadow .25s,opacity .2s}
+  .bcard::before{content:"";position:absolute;left:0;top:12px;bottom:12px;width:3.5px;border-radius:0 4px 4px 0;background:var(--sc,#8e8e93)}
+  .bcard.st-progress{--sc:var(--info)}.bcard.st-overdue{--sc:var(--bad)}.bcard.st-ontime{--sc:var(--ok)}.bcard.st-late{--sc:var(--warn)}
+  .bcard.dragging{opacity:.4;transform:scale(.97)}.bcard:active{cursor:grabbing}
+  .bc-top,.bc-meta,.bc-foot,.bc-prog{display:flex;align-items:center;gap:8px;min-width:0}.bc-top{flex-wrap:wrap}.bc-sp{flex:1}
+  .bc-title{margin:0;font-size:14.5px;font-weight:650;letter-spacing:-.015em;line-height:1.3;overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .bc-title.done{color:var(--muted);text-decoration:line-through;text-decoration-color:color-mix(in srgb,var(--muted) 50%,transparent)}
+  .bc-notes{margin:-3px 0 0;font-size:12.5px;line-height:1.4;color:var(--muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .bc-meta{justify-content:space-between;font-size:12px}.bc-who{display:flex;align-items:center;gap:7px;min-width:0;font-weight:600}.bc-who span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .bc-who i{flex:none;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font:700 9.5px/1 inherit;font-style:normal;color:#fff}
+  .bc-due{flex:none;font-weight:600;color:var(--muted)}.bc-due.bad{color:var(--bad)}.bc-due.warn{color:var(--warn-t,var(--warn))}.bc-due.ok{color:var(--ok)}.bc-due.info{color:var(--info)}
+  .bc-prog b{flex:none;min-width:34px;text-align:right;font-size:12px;font-variant-numeric:tabular-nums}.bc-prog .tpg{flex:1}
+  .bc-range{-webkit-appearance:none;appearance:none;flex:1;width:auto!important;height:6px;padding:0!important;border:0!important;border-radius:99px!important;box-shadow:none!important;background:linear-gradient(90deg,var(--brand) var(--p),var(--soft) var(--p))!important;cursor:pointer}
+  .bc-range::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.35),0 0 0 .5px rgba(0,0,0,.12)}
+  .bc-range::-moz-range-thumb{width:18px;height:18px;border:0;border-radius:50%;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.35)}
+  .bc-foot{flex-wrap:wrap;font-size:12px;color:var(--muted)}.bc-est{font-weight:600}
+  .bq{border:0;border-radius:99px;padding:6px 12px;min-height:30px;font:600 12px inherit;font-family:inherit;cursor:pointer;background:var(--brand-soft);color:var(--brand)}
+  .bq.ok{background:color-mix(in srgb,var(--ok) 16%,transparent);color:var(--ok-t,var(--ok))}
+  .bi{width:28px!important;height:28px!important;min-width:0!important;padding:0!important;font-size:13px;opacity:.55;border-radius:9px!important}.bi:hover{opacity:1}
+  .bcard .sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);opacity:0;pointer-events:none;border:0;padding:0}
+  .bcol{transition:opacity .3s,box-shadow .25s,background .25s}.bcol.dim{opacity:.5}.bcol.dim:hover,.board.drag .bcol.dim{opacity:1}
+  .bcb{min-height:72px}
+  .bempty{display:flex;flex-direction:column;gap:2px}.bempty small{display:none;font-size:11.5px}
+  .board.drag .bempty{border-color:var(--cc);color:var(--cc)}.board.drag .bempty small{display:block}
+  /* edge blur (no opacity on the container: opacity would disable backdrop-filter) */
+  #edgeT,#edgeB{position:fixed;left:0;right:0;z-index:20;pointer-events:none}
+  #edgeT{top:0;height:calc(env(safe-area-inset-top,0px) + 64px);--d:to bottom}
+  #edgeB{bottom:0;height:calc(env(safe-area-inset-bottom,0px) + 120px);--d:to top}
+  #edgeT i,#edgeB i{position:absolute;inset:0;-webkit-backdrop-filter:none;backdrop-filter:none;-webkit-mask-image:linear-gradient(var(--d),#000 0,#000 var(--a),transparent var(--z));mask-image:linear-gradient(var(--d),#000 0,#000 var(--a),transparent var(--z));transition:-webkit-backdrop-filter .5s var(--ease),backdrop-filter .5s var(--ease)}
+  #edgeT i:nth-child(1),#edgeB i:nth-child(1){--b:24px;--a:25%;--z:45%}#edgeT i:nth-child(2),#edgeB i:nth-child(2){--b:12px;--a:35%;--z:65%}
+  #edgeT i:nth-child(3),#edgeB i:nth-child(3){--b:6px;--a:55%;--z:85%}#edgeT i:nth-child(4),#edgeB i:nth-child(4){--b:2.5px;--a:75%;--z:100%}
+  #edgeT.on i,#edgeB.on i{-webkit-backdrop-filter:blur(var(--b));backdrop-filter:blur(var(--b))}
+  #edgeT::after,#edgeB::after{content:"";position:absolute;inset:0;background:linear-gradient(var(--d),color-mix(in srgb,var(--bg) 55%,transparent),transparent);opacity:0;transition:opacity .5s var(--ease)}
+  #edgeT.on::after,#edgeB.on::after{opacity:1}
   @media print{#edgeT,#edgeB{display:none}}
-  @media(prefers-reduced-transparency:reduce){#edgeT::before,#edgeT::after,#edgeB::before,#edgeB::after{-webkit-backdrop-filter:none;backdrop-filter:none}}
+  @media(prefers-reduced-transparency:reduce){#edgeT.on i,#edgeB.on i{-webkit-backdrop-filter:none;backdrop-filter:none}}
 </style>
 <script>window.__v8err=0;addEventListener("error",function(){window.__v8err++});try{var u=JSON.parse(localStorage.getItem("mis_ui_v1"))||{};document.documentElement.dataset.accent=u.a||"ocean";document.documentElement.style.setProperty("--gb",({soft:14,standard:26,strong:44})[u.g||"standard"]+"px")}catch(e){}</script></head>
 <body>
@@ -1896,16 +1920,39 @@ function renderTaskSum(base, fs){
     <div class="tpg" title="${n.done} of ${base.length} done"><i style="width:${pct}%"></i></div><div class="tpl2">${base.length?`${n.done} of ${base.length} done · ${pct}% complete this week`:"No tasks this week yet"}</div>`;
   document.querySelectorAll("#tView button").forEach(b=>b.classList.toggle("on", b.dataset.v===tView));
 }
-function renderBoard(list){
+function dueInfo(t){
+  if (t.status==="done"){ const late = stateOf(t)==="late"; return [`${late?"Done late":"Done on time"} · ${fmt(t.completedAt,{day:"numeric",month:"short"})}`, late?"warn":"ok"]; }
+  const diff = Math.round((new Date(t.deadline+"T00:00:00")-new Date(today()+"T00:00:00"))/864e5);
+  if (diff<0) return [`${-diff}d overdue`,"bad"]; if (diff===0) return ["Due today","warn"]; if (diff===1) return ["Due tomorrow","info"];
+  return ["Due "+fmt(t.deadline,{day:"numeric",month:"short"}),"mut"];
+}
+function boardCard(t){
+  const m = M(t.member) || {name:"?",c1:"#999",c2:"#bbb"}, st = stateOf(t), done = t.status==="done";
+  const [pl,pc] = prLbl[t.priority] || ["",""], prog = done ? 100 : (t.progress||0), [dl,dk] = dueInfo(t);
+  const by = t.assignedBy && t.assignedBy!==t.member && M(t.assignedBy) ? ` title="Assigned by ${esc(M(t.assignedBy).name)}"` : "";
+  const q = (to,l,c="")=>`<button type="button" class="bq ${c}" data-act="mv" data-to="${to}">${l}</button>`;
+  const acts = t.status==="todo" ? q("progress","Start")+q("done","Done","ok") : t.status==="progress" ? q("done","Mark done","ok")+q("todo","To do") : q("progress","Reopen");
+  return `<article draggable="true" class="task bcard st-${st}" data-id="${t.id}">
+    <div class="bc-top"><span class="pill ${pc}">${pl}</span>${t.module?`<span class="pill mod" title="Module">▣ ${esc(t.module)}</span>`:""}${carryPill(t)}<span class="bc-sp"></span>
+      <button type="button" class="ib bi" data-act="edit" title="Edit task" aria-label="Edit task">✏</button><button type="button" class="ib bi" data-act="del" title="Delete task" aria-label="Delete task">🗑</button></div>
+    <h5 class="bc-title${done?" done":""}">${esc(t.title)}</h5>
+    ${t.notes?`<p class="bc-notes">${esc(t.notes)}</p>`:""}
+    <div class="bc-meta"><span class="bc-who"${by}><i style="background:linear-gradient(135deg,${m.c1},${m.c2})">${initials(m.name)}</i><span>${esc(m.name)}</span></span><span class="bc-due ${dk}">${dl}</span></div>
+    <div class="bc-prog">${done?`<div class="tpg"><i style="width:100%"></i></div><b>100%</b>`:`<input type="range" class="bc-range" min="0" max="100" step="10" value="${prog}" style="--p:${prog}%" data-act="prog" aria-label="Progress"><b>${prog}%</b>`}</div>
+    <div class="bc-foot">${counterHTML(t)}${t.estHours?`<span class="bc-est">Est ${fmtH(t.estHours)}</span>`:""}<span class="bc-sp"></span>${acts}</div>
+    <select class="sr" data-act="status" tabindex="-1" aria-hidden="true"><option value="todo" ${t.status==="todo"?"selected":""}>To Do</option><option value="progress" ${t.status==="progress"?"selected":""}>In Progress</option><option value="done" ${done?"selected":""}>Done</option></select>
+  </article>`;
+}
+function renderBoard(list, fs){
+  const focus = ["todo","progress","done"].includes(fs) ? fs : "";
   const sortCol = (k,a,b)=> k==="done" ? (b.completedAt||"").localeCompare(a.completedAt||"") : ((stateOf(b)==="overdue")-(stateOf(a)==="overdue")) || tieSort(a,b);
   return `<div class="board">${COLS.map(c=>{
     const items = list.filter(t=>t.status===c[0]).sort((a,b)=>sortCol(c[0],a,b));
-    const od = items.filter(t=>stateOf(t)==="overdue").length;
-    const lt = items.filter(t=>stateOf(t)==="late").length;
+    const od = items.filter(t=>stateOf(t)==="overdue").length, lt = items.filter(t=>stateOf(t)==="late").length;
     const meta = c[0]==="done" ? (items.length?`${items.length-lt} on time${lt?` · ${lt} late`:""}`:"") : (od?`${od} overdue`:"");
-    return `<section class="bcol" data-col="${c[0]}" style="--cc:${c[2]}"><header class="bch"><i></i><b>${c[1]}</b><span class="bcn">${items.length}</span>${meta?`<em class="${od?"bad":""}">${meta}</em>`:""}</header>
-      <div class="bcb">${items.length?items.map(t=>taskHTML(t).replace('<div class="task ','<div draggable="true" class="task ')).join(""):`<div class="bempty">${c[3]}</div>`}</div></section>`;
-  }).join("")}</div><div class="bhint">Drag a card to another column to change its status. On touch screens use the status menu on the card.</div>`;
+    return `<section class="bcol${focus&&focus!==c[0]?" dim":""}" data-col="${c[0]}" style="--cc:${c[2]}" aria-label="${c[1]}"><header class="bch"><i></i><b>${c[1]}</b><span class="bcn">${items.length}</span>${meta?`<em class="${od?"bad":""}">${meta}</em>`:""}</header>
+      <div class="bcb">${items.length?items.map(boardCard).join(""):`<div class="bempty">${c[3]}<small>Drop a card here</small></div>`}</div></section>`;
+  }).join("")}</div><div class="bhint">Drag a card to another column, or use the buttons on the card. On touch screens use the buttons.</div>`;
 }
 function renderTasks(){
   const fs = $("flStatus").value, q = $("flSearch").value.trim().toLowerCase();
@@ -1924,8 +1971,13 @@ function renderTasks(){
   });
   $("taskCount").textContent = `${list.length} task(s)`;
   if (!base.length){ $("taskList").innerHTML = `<div class="empty">No tasks found. Use the form above to add one.</div>`; return; }
-  if (!list.length){ $("taskList").innerHTML = `<div class="empty">No tasks match this filter. <button type="button" class="btn sm" id="tClear">Show all</button></div>`; return; }
-  if (tView==="board"){ $("taskList").innerHTML = renderBoard(list); return; }
+  if (!list.length && tView!=="board"){ $("taskList").innerHTML = `<div class="empty">No tasks match this filter. <button type="button" class="btn sm" id="tClear">Show all</button></div>`; return; }
+  if (tView==="board"){
+    const bl = fs==="overdue" ? list : base; $("taskCount").textContent = `${bl.length} task(s)`;
+    const ob = $("taskList").querySelector(".board"), sl = ob ? ob.scrollLeft : 0;
+    $("taskList").innerHTML = renderBoard(bl, fs);
+    const nb = $("taskList").querySelector(".board"); if (nb) nb.scrollLeft = sl; return;
+  }
   const byDay = {};
   list.sort((a,b)=> listDay(a).localeCompare(listDay(b)) || tieSort(a,b)).forEach(t=> (byDay[listDay(t)] ??= []).push(t));
   const td = today();
@@ -2124,6 +2176,11 @@ $("taskList").addEventListener("drop", e=>{ const col=e.target.closest(".bcol");
   const sel=$("taskList").querySelector(`.task[data-id="${dragId}"] [data-act=status]`); dragId=null;
   document.querySelectorAll(".over").forEach(x=>x.classList.remove("over"));
   if(!sel||sel.value===col.dataset.col) return; sel.value=col.dataset.col; sel.dispatchEvent(new Event("change",{bubbles:true})); });
+$("taskList").addEventListener("click", e=>{ const b=e.target.closest("[data-act=mv]"); if(!b) return; const sel=b.closest(".task")&&b.closest(".task").querySelector("[data-act=status]"); if(!sel) return; sel.value=b.dataset.to; sel.dispatchEvent(new Event("change",{bubbles:true})); });
+$("taskList").addEventListener("input", e=>{ if(e.target.classList&&e.target.classList.contains("bc-range")) e.target.style.setProperty("--p", e.target.value+"%"); });
+document.addEventListener("pointerup", ()=>document.querySelectorAll(".task[draggable=false]").forEach(c=>c.draggable=true));
+$("taskList").addEventListener("dragstart", ()=>{ const b=$("taskList").querySelector(".board"); if(b) b.classList.add("drag"); });
+$("taskList").addEventListener("dragend", ()=>{ const b=$("taskList").querySelector(".board"); if(b) b.classList.remove("drag"); });
 $("flMember").onchange = e=>{ selectedMember = e.target.value; render(); };
 $("flStatus").onchange = render; $("flSort").onchange = render; $("flSearch").oninput = render;
 $("prevW").onclick = ()=>{ weekStart = addDays(weekStart,-7); render(); };
@@ -3054,7 +3111,7 @@ ghRender();
 <script>
 /* v8: stable updater + version history. Data lives in localStorage and is never touched by an update; a snapshot is taken first. */
 (()=>{
-const APP_VERSION="9.1.1", SNAP_KEY="mis_snapshots_v1", LOG_KEY="mis_update_log_v1", $=id=>document.getElementById(id);
+const APP_VERSION="9.2.0", SNAP_KEY="mis_snapshots_v1", LOG_KEY="mis_update_log_v1", $=id=>document.getElementById(id);
 const HISTORY=[
  {v:"8.7.0",d:"2026-10-21",n:["System health panel: storage, data integrity checks, backups and one-tap restore points", "Daily automatic backup (last 5 restore points kept)", "iOS-style notification banners, launch splash, offline/online alerts", "Keyboard shortcuts sheet (press ?)"]},
  {v:"8.6.0",d:"2026-10-21",n:["Team cards: fixed clipped avatar/badge overflow, rebuilt the leader switch, rank shown inline, quieter empty states (– instead of 0%), dimmed zero stats, tooltips for long names, refined leader card tiles"]},
@@ -3165,12 +3222,10 @@ addEventListener("online",()=>r.classList.remove("offline"));addEventListener("o
 })();
 </script>
 <script>
-/* v9.1.1: top and bottom edge blur that responds to scrolling */
-(()=>{const d=document,mk=id=>{let e=d.getElementById(id);if(!e){e=d.createElement("div");e.id=id;e.setAttribute("aria-hidden","true");d.body.appendChild(e)}return e},T=mk("edgeT"),B=mk("edgeB");let tm=0,rf=0;
-const upd=()=>{rf=0;const y=scrollY,h=d.documentElement;T.classList.toggle("on",y>6);B.classList.toggle("on",y+innerHeight<h.scrollHeight-8)};
-const mv=()=>{T.classList.add("mv");B.classList.add("mv");clearTimeout(tm);tm=setTimeout(()=>{T.classList.remove("mv");B.classList.remove("mv")},380);if(!rf)rf=requestAnimationFrame(upd)};
-addEventListener("scroll",mv,{passive:true});addEventListener("resize",()=>{if(!rf)rf=requestAnimationFrame(upd)},{passive:true});
-new MutationObserver(()=>{if(!rf)rf=requestAnimationFrame(upd)}).observe(d.body,{childList:true,subtree:true});upd();
+/* v9.2: iOS-style progressive edge blur */
+(()=>{const d=document,mk=id=>{const o=d.getElementById(id);if(o)o.remove();const e=d.createElement("div");e.id=id;e.setAttribute("aria-hidden","true");for(let i=0;i<4;i++)e.appendChild(d.createElement("i"));d.body.appendChild(e);return e},T=mk("edgeT"),B=mk("edgeB");let rf=0;
+const upd=()=>{rf=0;const y=scrollY,h=d.documentElement.scrollHeight;T.classList.toggle("on",y>4);B.classList.toggle("on",y+innerHeight<h-4)},q=()=>{if(!rf)rf=requestAnimationFrame(upd)};
+addEventListener("scroll",q,{passive:true});addEventListener("resize",q,{passive:true});if(window.ResizeObserver)new ResizeObserver(q).observe(d.body);q();
 })();
 </script>
 </body>

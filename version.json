@@ -1,13 +1,23 @@
 {
-  "version": "9.1.1",
+  "version": "9.2.0",
   "date": "2026-10-22",
   "notes": [
-    "Tab bar fixed: locked to the bottom centre again (v9 styling had pushed it out of place)",
-    "Header stays pinned at the top while scrolling",
-    "New top and bottom edge blur that fades in as you scroll, stronger while moving",
-    "Tab bar stays steady during page transitions"
+    "Board rebuilt: compact cards with priority, module, assignee, relative due date (Due today, 2d overdue), progress slider, timer, estimate",
+    "One-tap actions on cards (Start, Mark done, Reopen) plus drag & drop; board keeps its scroll position after changes",
+    "Status tiles now focus a column instead of emptying the others; clearer empty states and drop targets",
+    "Edge blur rebuilt as a true progressive blur (iOS style): fixed the blur not rendering, smoother fade, lower CPU use"
   ],
   "history": [
+    {
+      "v": "9.2.0",
+      "d": "2026-10-22",
+      "n": [
+        "Board rebuilt: compact cards with priority, module, assignee, relative due date (Due today, 2d overdue), progress slider, timer, estimate",
+        "One-tap actions on cards (Start, Mark done, Reopen) plus drag & drop; board keeps its scroll position after changes",
+        "Status tiles now focus a column instead of emptying the others; clearer empty states and drop targets",
+        "Edge blur rebuilt as a true progressive blur (iOS style): fixed the blur not rendering, smoother fade, lower CPU use"
+      ]
+    },
     {
       "v": "9.1.1",
       "d": "2026-10-22",

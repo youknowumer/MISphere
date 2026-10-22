@@ -110,3 +110,6 @@ Version 9.1 - Task board
 
 Version 9.1.1
 - Tab bar position locked (bottom centre), header pinned, new top/bottom edge blur that responds to scrolling.
+
+Version 9.2
+- Board cards redesigned (quick actions, due labels, progress), progressive edge blur rebuilt.

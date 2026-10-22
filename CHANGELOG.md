@@ -2,6 +2,12 @@
 
 All notable changes to MISphere, newest first.
 
+## 10.4.0 — 2026-10-22
+
+- Assign one task to several people: pick any number of members (first is the Owner) in New task and Edit task; stacked avatars and a people badge on list and board cards
+- Shared tasks count for every assignee in member stats, filters, leader view, notifications and reports; export/import accepts several names in the Member column (comma separated); removing a member keeps tasks shared with others
+- Smoother picker: chips toggle in place with a spring animation, no re-render or jump, 44px tap targets, keyboard accessible
+
 ## 10.3.0 — 2026-10-22
 
 - Command header redesign: live greeting and clock, week context (ISO week, relative), office-day progress bar, live task pulse (open / due today / overdue), profile avatar, compact sticky mode on scroll, responsive mobile layout

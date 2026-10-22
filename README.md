@@ -4,7 +4,7 @@
 
 **Team performance, tasks and daily notes — in one fast, private dashboard.**
 
-![Version](https://img.shields.io/badge/version-10.1.0-4f46e5)
+![Version](https://img.shields.io/badge/version-10.2.0-4f46e5)
 ![Licence](https://img.shields.io/badge/licence-All%20Rights%20Reserved-red)
 ![No backend](https://img.shields.io/badge/backend-none-0a84ff)
 ![Data](https://img.shields.io/badge/data-stays%20in%20your%20browser-30d158)
@@ -76,7 +76,7 @@ Please report vulnerabilities privately; see [SECURITY.md](SECURITY.md). Note th
 
 ## Licence and copyright
 
-Copyright © 2026 YOUR NAME. **All rights reserved.**
+Copyright © 2026 Muhammad Umer Faheem. **All rights reserved.**
 
 This is proprietary software. No permission is given to copy, modify, distribute, host or reuse it without written consent. See [LICENSE](LICENSE). Third-party components keep their own licences: [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 

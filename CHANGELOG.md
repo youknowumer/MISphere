@@ -2,6 +2,14 @@
 
 All notable changes to MISphere, newest first.
 
+## 10.2.0 — 2026-10-22
+
+- Insights: new report header (organisation, classification, prepared by), executive summary with delivery-health ring, targets scorecard, auto key findings and recommended actions, print/PDF header and footer
+- Settings rebuilt as a sectioned workspace: search, unsaved-changes bar with validation, per-section reset, settings export / import, live previews
+- New settings: organisation, prepared by, classification, opening page, hours format, default analysis period, at-risk window, attention look-ahead, backup reminder, reduce motion
+- Fix: Insights tags could leak into saved settings
+- Copyright and licence now name Muhammad Umer Faheem
+
 ## Version 10.1
 - Insights: line and bar charts only. iOS colour-graded glass theme. Tasks: Due filter and CSV export of the current view.
 - Updates no longer keep or offer restore points (use Reports > Backup download for your own backups).

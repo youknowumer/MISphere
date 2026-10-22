@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-<!-- MISphere — Copyright (c) 2026. All rights reserved. Unauthorised copying, modification or distribution is prohibited. See LICENSE. -->
+<!-- MISphere — Copyright (c) 2026 Muhammad Umer Faheem. All rights reserved. Unauthorised copying, modification or distribution is prohibited. See LICENSE. -->
 <head>
 <meta charset="UTF-8">
-<meta name="copyright" content="© 2026 MISphere. All rights reserved.">
+<meta name="copyright" content="© 2026 Muhammad Umer Faheem. All rights reserved."><meta name="author" content="Muhammad Umer Faheem">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>MISphere — Team Performance, Roles & Daily Notes</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%236366f1'/%3E%3Cstop offset='1' stop-color='%238b5cf6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='url(%23g)'/%3E%3Cpath d='M16 15v33h33' fill='none' stroke='%23fff' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M24 39l9-9 6 6 10-13' fill='none' stroke='%23fff' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='49' cy='23' r='4' fill='%23f5d061'/%3E%3C/svg%3E">
@@ -1174,10 +1174,14 @@
 
   <!-- INSIGHTS -->
   <section class="view" id="v-insights">
-    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px">
-      <p class="hint">Analytical summary for the selected week — efficiency, workload and deadline discipline.</p>
-      <div style="display:flex;gap:8px"><button class="btn sm" id="xlExport2">⬇ Excel</button><button class="btn sm" id="csvBtn">⬇ CSV report</button><button class="btn sm pri" id="printBtn">🖨 Print report</button></div>
-    </div>
+    <header class="rhead" id="insHead">
+      <div class="rh-main">
+        <div class="rh-eye"><span class="rh-badge" id="rhConf"></span><span id="rhOrg"></span></div>
+        <h2>Performance insights report</h2>
+        <dl class="rh-meta" id="rhMeta"></dl>
+      </div>
+      <div class="rh-act no-print"><button class="btn sm" id="xlExport2">⬇ Excel</button><button class="btn sm" id="csvBtn">⬇ CSV report</button><button class="btn sm pri" id="printBtn">🖨 Print / PDF</button></div>
+    </header>
     <div class="kpis" id="kpis"></div>
     <div class="cols even">
       <div class="panel"><h3>Daily Activity <small>created vs completed</small></h3><div id="actChart"></div></div>
@@ -1249,49 +1253,114 @@
 
   <!-- SETTINGS -->
   <section class="view" id="v-settings">
-    <div class="cols even">
-      <div class="panel"><h3>⏱ Office hours <small>drives the task timer</small></h3>
-        <div class="fgrid two" style="grid-template-columns:1fr 1fr"><div><label>Start hour (0–23)</label><input type="number" data-s="start" min="0" max="23"></div><div><label>End hour (1–24)</label><input type="number" data-s="end" min="1" max="24"></div></div>
-        <label>Working days</label><div class="daychips" id="sDays"></div></div>
-      <div class="panel"><h3>🎯 Targets <small>used for status colours in Insights</small></h3>
-        <div class="fgrid two" style="grid-template-columns:1fr 1fr"><div><label>Completion target %</label><input type="number" data-s="tc" min="0" max="100"></div><div><label>Deadline-met target %</label><input type="number" data-s="td" min="0" max="100"></div><div><label>Efficiency target %</label><input type="number" data-s="te" min="0" max="300"></div><div><label>Max open tasks per member</label><input type="number" data-s="cap" min="1"></div></div></div>
+    <div class="shead">
+      <div><h2>Settings</h2><p class="hint">Configure how MISphere measures work, flags risk and prepares reports. Changes apply to the whole workspace on this device.</p></div>
+      <div class="ssearch"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="sFind" type="search" placeholder="Search settings…" aria-label="Search settings" autocomplete="off"></div>
     </div>
-    <div class="cols even">
-      <div class="panel"><h3>⚖ Scoring <small>leaderboard points per task</small></h3>
-        <div class="fgrid two" style="grid-template-columns:1fr 1fr"><div><label>On-time points</label><input type="number" data-s="pon" step="0.5"></div><div><label>Late points</label><input type="number" data-s="plate" step="0.5"></div><div><label>Overdue penalty</label><input type="number" data-s="pov" step="0.5"></div><div><label>High-priority multiplier</label><input type="number" data-s="phi" step="0.1" min="1"></div></div></div>
-      <div class="panel"><h3>🧩 Preferences</h3>
-        <div style="margin-bottom:12px"><label>Department name</label><input data-s="dept" maxlength="40"></div>
-        <div class="fgrid two" style="grid-template-columns:1fr 1fr"><div><label>Default priority</label><select data-s="pri"><option value="high">High</option><option value="med">Medium</option><option value="low">Low</option></select></div><div><label>New-task deadline (days ahead)</label><input type="number" data-s="due" min="0" max="30"></div></div>
-        <div class="srow"><div><b>Theme</b><span>Light, dark, or follow your device</span></div><select data-s="theme" style="width:auto"><option value="auto">Auto</option><option value="light">Light</option><option value="dark">Dark</option></select></div><div class="srow"><div><b>Compact layout</b><span>Tighter spacing for dense screens</span></div><label class="sw"><input type="checkbox" data-s="compact"><i></i></label></div><div class="srow"><div><b>Show “Needs attention” panel</b><span>On the Home page</span></div><label class="sw"><input type="checkbox" data-s="attn"><i></i></label></div></div>
-    </div>
-    <div class="cols even">
-      <div class="panel"><h3>▣ Modules <small>the list shown in “Working on module” and in the task form</small></h3>
-        <label>Module names <span style="font-weight:500">· one per line</span></label><textarea id="sModules" rows="8" placeholder="Sales&#10;Inventory&#10;Accounting"></textarea>
-        <div class="srow"><div><b>Require a module on new tasks</b><span>Task cannot be added until a module is chosen</span></div><label class="sw"><input type="checkbox" data-s="reqMod"><i></i></label></div>
-        <p class="hint" style="margin-top:8px">Press <b>Save settings</b> below to apply. Existing tasks keep their module even if you remove it from this list.</p></div>
-      <div class="panel" id="ghPanel"><h3>☁ Live sync to GitHub <small>every change is saved into one JSON file in your repository</small></h3>
-        <div id="ghStatus"></div>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px"><button class="btn pri" id="ghCfg">⚙ Connect / configure</button><button class="btn" id="ghNow">⟳ Sync now</button><button class="btn" id="ghPull">⬇ Load from GitHub</button><button class="btn" id="ghForce">⬆ Overwrite GitHub</button>
-          <a class="btn" id="ghOpen" target="_blank" rel="noopener" hidden style="text-decoration:none">↗ Open data file</a><a class="btn" id="ghHist" target="_blank" rel="noopener" hidden style="text-decoration:none">🕘 Change history</a></div>
-        <p class="hint" style="margin-top:12px">The file holds a ready-to-read report (summary, module report, member report, task register) plus the full data for restore. Each save is a GitHub commit, so <b>Change history</b> shows who changed what and when.</p></div>
-    </div>
-    <div class="panel" id="fsPanel"><h3>💾 Auto-save to a file <small>no token, no login — saves into one file on this computer after every change</small></h3>
-      <div id="fsStatus"></div>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px"><button class="btn pri" id="fsPick">📁 Choose file…</button><button class="btn" id="fsNow">⟳ Save now</button><button class="btn" id="fsOff">✖ Stop auto-save</button></div>
-      <p class="hint" style="margin-top:12px">Choose the file once (for example <b>mis-data.json</b> inside your MISphere repository folder). After that it is rewritten a moment after every change. To put it on GitHub, commit and push that folder (GitHub Desktop → Commit → Push), then open the file on GitHub to read it. Works in Chrome and Edge. After you reopen the page the browser asks you to allow access once (button “Save now”).</p></div>
-    <div class="panel" id="v87Health"><h3>🩺 System health <small>storage, data integrity and backups at a glance</small></h3><div id="v87H"></div><div class="row" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px"><button class="btn" id="v87Re">↻ Re-check</button></div></div>
-    <div class="panel" id="uiPanel"><h3>🎨 Appearance <small>colour combo and liquid-glass intensity · saved on this device</small></h3><div class="ap-lbl">Colour combo</div><div class="ap-acc" id="apAcc"></div><div class="ap-lbl">Glass intensity</div><div class="ap-seg" id="apGl"></div></div>
-    <div class="panel" id="modPanel"><h3>📦 Module manager <small>create, edit and organise the modules your tasks belong to</small></h3><div class="mm-grid" id="modMgr"></div></div>
-    <div class="panel" id="v8Upd"><h3>🚀 Updates &amp; version history <small>one-click update · your data stays on this device</small></h3>
-      <div class="row"><span class="chip">Installed v<span id="v8Cur"></span></span><span class="chip" id="v8Lat" style="display:none"></span><span id="v8Msg" class="hint"></span></div>
-      <div class="bar" id="v8Bar"><i></i></div>
-      <div class="row"><button class="btn pri" id="v8Check">⟳ Check for updates</button><button class="btn pri" id="v8Go" style="display:none">⬆ Update now</button></div>
-      <h4 style="margin:18px 0 4px;font-size:13px">Version history</h4><div id="v8Hist"></div>
+    <div class="slay">
+      <nav class="snav" id="sNav" aria-label="Settings sections"></nav>
+      <div class="sbody">
+
+        <div class="ssec" data-ss="general">
+          <div class="sec-title"><h2>General</h2><small>Identity, defaults for new work and where the app opens</small></div>
+          <div class="panel"><h3>🏢 Workspace <small>shown in the header and on every report</small></h3>
+            <div class="fgrid two" style="grid-template-columns:1fr 1fr"><div><label>Department / team name</label><input data-s="dept" maxlength="40"><p class="fh">Appears next to the date in the page header.</p></div><div><label>Organisation name</label><input data-s="org" maxlength="40" placeholder="e.g. Acme Pvt Ltd"><p class="fh">Printed on the report header. Optional.</p></div></div>
+            <div class="srow"><div><b>Opens on</b><span>The page shown when you launch the dashboard</span></div><select data-s="landing" style="width:auto"><option value="dash">Home</option><option value="tasks">Tasks</option><option value="notes">Daily notes</option><option value="insights">Insights</option><option value="perf">Performance</option></select></div></div>
+          <div class="panel"><h3>✏️ New task defaults</h3>
+            <div class="fgrid two" style="grid-template-columns:1fr 1fr"><div><label>Default priority</label><select data-s="pri"><option value="high">High</option><option value="med">Medium</option><option value="low">Low</option></select></div><div><label>Deadline (days ahead)</label><input type="number" data-s="due" min="0" max="30"><p class="fh">0 = same day as the task date.</p></div></div></div>
+        </div>
+
+        <div class="ssec" data-ss="time">
+          <div class="sec-title"><h2>Work &amp; time</h2><small>Office hours drive the task timer, utilisation and capacity</small></div>
+          <div class="panel"><h3>⏱ Office hours <small>the timer only counts inside these hours</small></h3>
+            <div class="fgrid two" style="grid-template-columns:1fr 1fr"><div><label>Start hour (0–23)</label><input type="number" data-s="start" min="0" max="23"></div><div><label>End hour (1–24)</label><input type="number" data-s="end" min="1" max="24"></div></div>
+            <label>Working days</label><div class="daychips" id="sDays"></div>
+            <div class="sprev" id="pvTime"></div></div>
+          <div class="panel"><h3>🕒 Display</h3>
+            <div class="srow"><div><b>Hours format</b><span>How logged and estimated time is written across the app</span></div><select data-s="hoursFmt" style="width:auto"><option value="hm">2h 30m</option><option value="dec">2.5 h</option></select></div></div>
+        </div>
+
+        <div class="ssec" data-ss="targets">
+          <div class="sec-title"><h2>Targets &amp; alerts</h2><small>The standards Insights compares your team against</small></div>
+          <div class="panel"><h3>🎯 Performance targets <small>drive the colours, health score and scorecard in Insights</small></h3>
+            <div class="fgrid two" style="grid-template-columns:1fr 1fr"><div><label>Completion target %</label><input type="number" data-s="tc" min="0" max="100"><p class="fh">Share of the week’s tasks that should be done.</p></div><div><label>Deadline-met target %</label><input type="number" data-s="td" min="0" max="100"><p class="fh">Completed on time ÷ (completed + overdue).</p></div><div><label>Efficiency target %</label><input type="number" data-s="te" min="0" max="300"><p class="fh">Estimated ÷ actual hours. 100% = on estimate.</p></div><div><label>Max open tasks per member</label><input type="number" data-s="cap" min="1"><p class="fh">Above this a member is flagged as overloaded.</p></div></div></div>
+          <div class="panel"><h3>🚨 Risk &amp; reminders</h3>
+            <div class="fgrid two" style="grid-template-columns:1fr 1fr"><div><label>At-risk window (days)</label><input type="number" data-s="riskD" min="0" max="14"><p class="fh">A task is “at risk” if it is due within this many days…</p></div><div><label>…and progress is below %</label><input type="number" data-s="riskP" min="0" max="100"><p class="fh">Used in Executive insights and the Excel export.</p></div><div><label>“Needs attention” look-ahead (days)</label><input type="number" data-s="soonD" min="0" max="7"><p class="fh">Home lists open tasks overdue or due within this window.</p></div><div><label>Backup reminder after (days)</label><input type="number" data-s="bkDays" min="1" max="90"><p class="fh">Backup is flagged as stale after this many days.</p></div></div>
+            <div class="srow"><div><b>Show “Needs attention” panel</b><span>On the Home page</span></div><label class="sw"><input type="checkbox" data-s="attn"><i></i></label></div></div>
+          <div class="panel"><h3>⚖ Scoring <small>leaderboard points per task</small></h3>
+            <div class="fgrid two" style="grid-template-columns:1fr 1fr"><div><label>On-time points</label><input type="number" data-s="pon" step="0.5"></div><div><label>Late points</label><input type="number" data-s="plate" step="0.5"></div><div><label>Overdue penalty</label><input type="number" data-s="pov" step="0.5"></div><div><label>High-priority multiplier</label><input type="number" data-s="phi" step="0.1" min="1"></div></div>
+            <div class="sprev" id="pvScore"></div></div>
+        </div>
+
+        <div class="ssec" data-ss="modules">
+          <div class="sec-title"><h2>Modules</h2><small>The work areas every task is tagged to</small></div>
+          <div class="panel"><h3>▣ Module list <small>shown in “Working on module” and in the task form</small></h3>
+            <label>Module names <span style="font-weight:500">· one per line</span></label><textarea id="sModules" rows="8" placeholder="Sales&#10;Inventory&#10;Accounting"></textarea>
+            <div class="srow"><div><b>Require a module on new tasks</b><span>Task cannot be added until a module is chosen</span></div><label class="sw"><input type="checkbox" data-s="reqMod"><i></i></label></div>
+            <p class="hint" style="margin-top:8px">Press <b>Save settings</b> to apply. Existing tasks keep their module even if you remove it from this list.</p></div>
+          <div class="panel" id="modPanel"><h3>📦 Module manager <small>create, edit and organise the modules your tasks belong to</small></h3><div class="mm-grid" id="modMgr"></div></div>
+        </div>
+
+        <div class="ssec" data-ss="reports">
+          <div class="sec-title"><h2>Reports &amp; insights</h2><small>How Insights opens and how printed reports are branded</small></div>
+          <div class="panel"><h3>📊 Insights defaults</h3>
+            <div class="srow"><div><b>Default analysis period</b><span>Period selected in Advanced and Executive analytics</span></div><select data-s="perDef" style="width:auto"><option value="1">This week</option><option value="4">4 weeks</option><option value="12">12 weeks</option><option value="26">26 weeks</option></select></div>
+</div>
+          <div class="panel"><h3>🖨 Report branding <small>used in the Insights header and on print / PDF</small></h3>
+            <div class="fgrid two" style="grid-template-columns:1fr 1fr"><div><label>Prepared by</label><input data-s="prep" maxlength="40" placeholder="Defaults to the Admin’s name"><p class="fh">Name printed under the report title.</p></div><div><label>Classification</label><select data-s="conf"><option value="none">None</option><option value="internal">Internal use</option><option value="confidential">Confidential</option></select><p class="fh">Shown as a badge and in the print footer.</p></div></div></div>
+        </div>
+
+        <div class="ssec" data-ss="appearance">
+          <div class="sec-title"><h2>Appearance</h2><small>Theme, density and motion</small></div>
+          <div class="panel"><h3>🧩 Display</h3>
+            <div class="srow"><div><b>Theme</b><span>Light, dark, or follow your device</span></div><select data-s="theme" style="width:auto"><option value="auto">Auto</option><option value="light">Light</option><option value="dark">Dark</option></select></div>
+            <div class="srow"><div><b>Compact layout</b><span>Tighter spacing for dense screens</span></div><label class="sw"><input type="checkbox" data-s="compact"><i></i></label></div>
+            <div class="srow"><div><b>Reduce motion</b><span>Turns off animations and transitions</span></div><label class="sw"><input type="checkbox" data-s="rmotion"><i></i></label></div></div>
+          <div class="panel" id="uiPanel"><h3>🎨 Appearance <small>colour combo and liquid-glass intensity · saved on this device</small></h3><div class="ap-lbl">Colour combo</div><div class="ap-acc" id="apAcc"></div><div class="ap-lbl">Glass intensity</div><div class="ap-seg" id="apGl"></div></div>
+        </div>
+
+        <div class="ssec" data-ss="data">
+          <div class="sec-title"><h2>Data &amp; sync</h2><small>Where your data lives and how it is protected</small></div>
+          <div class="panel" id="ghPanel"><h3>☁ Live sync to GitHub <small>every change is saved into one JSON file in your repository</small></h3>
+            <div id="ghStatus"></div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px"><button class="btn pri" id="ghCfg">⚙ Connect / configure</button><button class="btn" id="ghNow">⟳ Sync now</button><button class="btn" id="ghPull">⬇ Load from GitHub</button><button class="btn" id="ghForce">⬆ Overwrite GitHub</button>
+              <a class="btn" id="ghOpen" target="_blank" rel="noopener" hidden style="text-decoration:none">↗ Open data file</a><a class="btn" id="ghHist" target="_blank" rel="noopener" hidden style="text-decoration:none">🕘 Change history</a></div>
+            <p class="hint" style="margin-top:12px">The file holds a ready-to-read report (summary, module report, member report, task register) plus the full data for restore. Each save is a GitHub commit, so <b>Change history</b> shows who changed what and when.</p></div>
+          <div class="panel" id="fsPanel"><h3>💾 Auto-save to a file <small>no token, no login — saves into one file on this computer after every change</small></h3>
+            <div id="fsStatus"></div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px"><button class="btn pri" id="fsPick">📁 Choose file…</button><button class="btn" id="fsNow">⟳ Save now</button><button class="btn" id="fsOff">✖ Stop auto-save</button></div>
+            <p class="hint" style="margin-top:12px">Choose the file once (for example <b>mis-data.json</b> inside your MISphere repository folder). After that it is rewritten a moment after every change. To put it on GitHub, commit and push that folder (GitHub Desktop → Commit → Push), then open the file on GitHub to read it. Works in Chrome and Edge. After you reopen the page the browser asks you to allow access once (button “Save now”).</p></div>
+          <div class="panel"><h3>🧰 Settings backup <small>move your configuration to another device or keep a copy</small></h3>
+            <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn" id="sExp">⬇ Export settings</button><button class="btn" id="sImp">⬆ Import settings</button><input type="file" id="sImpFile" accept=".json" hidden></div>
+            <p class="hint" style="margin-top:10px">Only configuration (targets, scoring, modules, preferences) is included — never tasks, notes or tokens.</p></div>
+          <div class="panel" id="v87Health"><h3>🩺 System health <small>storage, data integrity and backups at a glance</small></h3><div id="v87H"></div><div class="row" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px"><button class="btn" id="v87Re">↻ Re-check</button></div></div>
+        </div>
+
+        <div class="ssec" data-ss="about">
+          <div class="sec-title"><h2>System &amp; about</h2><small>Updates, storage and legal</small></div>
+          <div class="panel" id="v8Upd"><h3>🚀 Updates &amp; version history <small>one-click update · your data stays on this device</small></h3>
+            <div class="row"><span class="chip">Installed v<span id="v8Cur"></span></span><span class="chip" id="v8Lat" style="display:none"></span><span id="v8Msg" class="hint"></span></div>
+            <div class="bar" id="v8Bar"><i></i></div>
+            <div class="row"><button class="btn pri" id="v8Check">⟳ Check for updates</button><button class="btn pri" id="v8Go" style="display:none">⬆ Update now</button></div>
+            <h4 style="margin:18px 0 4px;font-size:13px">Version history</h4><div id="v8Hist"></div></div>
+          <div class="panel"><h3>ℹ System <small>storage and backup status</small></h3><div id="sInfo"></div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px"><button class="btn" onclick="go('data')">Open Data &amp; Backup</button><button class="btn" id="sReset">Reset all settings</button><button class="btn" id="sWipe" style="color:var(--bad-t);margin-left:auto">🗑 Erase all data</button></div></div>
+          <div class="panel about"><h3>© About &amp; legal</h3>
+            <div class="abt"><div class="abt-mk"><svg viewBox="0 0 64 64" width="30" height="30"><path d="M16 15v33h33" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 39l9-9 6 6 10-13" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="49" cy="23" r="4" fill="#f5d061"/></svg></div>
+              <div><b>MISphere <span id="abV"></span></b><span>Team performance, tasks and daily notes</span></div></div>
+            <dl class="abl"><div><dt>Author &amp; owner</dt><dd>Muhammad Umer Faheem</dd></div><div><dt>Copyright</dt><dd>© 2026 Muhammad Umer Faheem. All rights reserved.</dd></div><div><dt>Licence</dt><dd>Proprietary — no copying, modification, hosting or redistribution without written permission.</dd></div><div><dt>Privacy</dt><dd>No server, no login, no tracking. Data stays in this browser unless you turn on GitHub sync or file auto-save.</dd></div><div><dt>Third-party</dt><dd>SheetJS (Apache-2.0) for Excel, Inter and other fonts (SIL OFL 1.1).</dd></div></dl></div>
+        </div>
+
       </div>
-    <div class="panel"><h3>ℹ System <small>storage and backup status · v8.7.0</small></h3><div id="sInfo"></div>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px"><button class="btn pri" id="sSave">Save settings</button><button class="btn" id="sReset">Reset to defaults</button><button class="btn" onclick="go('data')">Open Data &amp; Backup</button><button class="btn" id="sWipe" style="color:var(--bad-t);margin-left:auto">🗑 Erase all data</button></div></div>
+    </div>
+    <div class="sbar" id="sBar" role="region" aria-label="Unsaved changes" hidden>
+      <span class="sdot"></span><b id="sBarT">Unsaved changes</b><span id="sBarSub" class="hint"></span>
+      <div class="sbtns"><button class="btn" id="sDisc">Discard</button><button class="btn" id="sSecReset">Reset section</button><button class="btn pri" id="sSave">Save settings</button></div>
+    </div>
   </section>
+  <footer class="legal" id="legal"><span>MISphere <b id="lgV"></b></span><span class="dotsep">·</span><span>© 2026 Muhammad Umer Faheem. All rights reserved.</span></footer>
 </main>
+<div class="prfoot" id="prFoot" aria-hidden="true"><span id="pfL"></span><span>© 2026 Muhammad Umer Faheem · MISphere · All rights reserved</span><span id="pfR"></span></div>
 <nav class="tabbar" aria-label="Primary">
   <button class="tb on" data-v="dash" aria-label="Home" data-k="Home · 1" title="Home"><svg viewBox="0 0 24 24"><path class="f" d="M4 10.5 12 4l8 6.5V19a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 19z"/><path class="cut" d="M10 14v2.5M14 14v2.5"/></svg><span class="lb">Home</span></button>
   <button class="tb" data-v="tasks" aria-label="Tasks" data-k="Tasks · 2" title="Tasks"><svg viewBox="0 0 24 24"><rect class="f" x="5" y="4" width="14" height="17" rx="3"/><path class="cut" d="M9 13l2.2 2.2L15.5 11"/></svg><span class="lb">Tasks</span><b class="bd" id="tbOver" hidden></b></button>
@@ -1359,7 +1428,7 @@ const GH_DEF = {worker:"",key:"",owner:"",repo:"",branch:"main",path:"data/mis-d
 let GH = (()=>{ try{ return {...GH_DEF, ...JSON.parse(localStorage.getItem(GH_KEY)||"{}")}; }catch{ return {...GH_DEF}; } })();
 let activeModule = (()=>{ try{ return localStorage.getItem(MOD_KEY)||"all"; }catch{ return "all"; } })();
 let ghSt = {s:"off", msg:""}, ghTimer = null, ghBusy = false, ghAgain = false, ghMute = false;
-const DEF_SET = {modules:DEFAULT_MODULES.slice(), reqMod:false, start:9, end:18, days:[1,2,3,4,5], tc:85, td:80, te:100, cap:8, pon:10, plate:5, pov:5, phi:1.5, dept:"Team", pri:"med", due:0, compact:false, attn:true, lastBackup:0, theme:"auto", me:"", perms:null};
+const DEF_SET = {modules:DEFAULT_MODULES.slice(), reqMod:false, start:9, end:18, days:[1,2,3,4,5], tc:85, td:80, te:100, cap:8, pon:10, plate:5, pov:5, phi:1.5, dept:"Team", pri:"med", due:0, compact:false, attn:true, lastBackup:0, theme:"auto", me:"", perms:null, org:"", prep:"", conf:"internal", landing:"dash", hoursFmt:"hm", perDef:1, riskD:2, riskP:50, soonD:1, bkDays:7, rmotion:false};
 const S = () => db.settings;
 const $ = id => document.getElementById(id);
 const M = id => MEMBERS.find(m=>m.id===id);
@@ -2317,7 +2386,7 @@ function delta(a,b,inv){
   return `<em class="dl ${good?"up":"down"}">${d>0?"▲":"▼"} ${Math.abs(d)} vs last week</em>`;
 }
 function renderAttention(){
-  const td = today(), tm = ymd(addDays(new Date(),1)), el = $("attention");
+  const td = today(), tm = ymd(addDays(new Date(),S().soonD)), el = $("attention");
   el.hidden = !S().attn; const rows = T().filter(t=>t.status!=="done" && t.deadline<=tm)
     .sort((a,b)=> a.deadline.localeCompare(b.deadline) || PR[a.priority]-PR[b.priority]);
   el.classList.toggle("clear", !rows.length);
@@ -2591,7 +2660,7 @@ function exportXlsx(){
       ["Delivery health score",E.health,E.hl],["Throughput (tasks / week)",r1(E.tp),""],["Delivery reliability %",f(E.rel),`target ${E.K.td}%`],
       ["Median turnaround (working days)",f(E.c50==null?null:r1(E.c50)),""],["P85 turnaround",f(E.c85==null?null:r1(E.c85)),""],["P95 turnaround",f(E.c95==null?null:r1(E.c95)),""],
       ["Open backlog",E.openAll.length,""],["Pace (tasks / week, 28 d)",r1(E.pace),""],["Backlog runway (weeks)",E.runway==null?"":r1(E.runway),E.clearBy||""],
-      ["Net flow 28 d (created - completed)",E.net,""],["Overdue (open)",E.odAll.length,`${E.odHigh.length} high priority`],["At risk (due <=2 d, <50%)",E.risk.length,""],
+      ["Net flow 28 d (created - completed)",E.net,""],["Overdue (open)",E.odAll.length,`${E.odHigh.length} high priority`],[`At risk (due <=${E.K.riskD} d, <${E.K.riskP}%)`,E.risk.length,""],
       ["Workload balance %",E.balance,"100 = even"],["Estimate accuracy %",f(E.estAcc),""],["Estimate bias %",f(E.bias),"positive = took longer"],["Output stability %",f(E.predict),""]
     ].map(r=>({"Metric":r[0],"Value":r[1],"Note":r[2]}))), "Exec KPIs");
     X.utils.book_append_sheet(wb, sheetOf(X,E.W.map(w=>({"Week start":w.a,"Created":w.created,"Completed":w.done,"Deadline met % (of completed)":f(w.ontime),"Completion % (of created)":f(w.coh),"Office hours on completed":w.hours}))), "Weekly Trend");
@@ -2685,26 +2754,27 @@ document.addEventListener("keydown", e=>{
 
 
 // ---------- v2: settings ----------
-const NUMS = ["start","end","tc","td","te","cap","pon","plate","pov","phi","due"];
+const NUMS = ["start","end","tc","td","te","cap","pon","plate","pov","phi","due","perDef","riskD","riskP","soonD","bkDays"];
 function applySet(){ const s = S(); OFFICE.start = s.start; OFFICE.end = s.end; OFFICE.days = s.days; document.body.classList.toggle("compact", !!s.compact);
   document.documentElement.dataset.theme = s.theme==="auto" ? (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") : s.theme;
   const tcm = document.querySelector('meta[name=theme-color]'); if (tcm) tcm.content = document.documentElement.dataset.theme==="dark" ? "#000000" : "#f2f2f7"; }
 try{ matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ()=>{ if (db && S().theme==="auto") applySet(); }); }catch{}
 function fillSet(){
   const s = S(); $("sModules").value = (s.modules||[]).join("\n");
-  document.querySelectorAll("[data-s]").forEach(el=>{ const k = el.dataset.s; if (el.type==="checkbox") el.checked = !!s[k]; else el.value = s[k]; });
+  document.querySelectorAll("#v-settings [data-s]").forEach(el=>{ const k = el.dataset.s; if (el.type==="checkbox") el.checked = !!s[k]; else el.value = s[k]; });
   $("sDays").innerHTML = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].map((n,i)=>{ const d = (i+1)%7; return `<button type="button" class="chip ${s.days.includes(d)?"on":""}" data-d="${d}"><b>${n}</b></button>`; }).join("");
 }
 $("sDays").onclick = e=>{ const b = e.target.closest("[data-d]"); if (b) b.classList.toggle("on"); };
 $("sSave").onclick = ()=>{
   const s = {...S()};
-  document.querySelectorAll("[data-s]").forEach(el=>{ const k = el.dataset.s; s[k] = el.type==="checkbox" ? el.checked : NUMS.includes(k) ? +el.value : String(el.value).slice(0,40); });
+  document.querySelectorAll("#v-settings [data-s]").forEach(el=>{ const k = el.dataset.s; s[k] = el.type==="checkbox" ? el.checked : NUMS.includes(k) ? +el.value : String(el.value).slice(0,40); });
   s.days = [...document.querySelectorAll("#sDays .chip.on")].map(b=>+b.dataset.d);
   { const seen = []; $("sModules").value.split("\n").forEach(l=>{ const c = clean(l); if (c && !seen.some(x=>x.toLowerCase()===c.toLowerCase())) seen.push(c); }); s.modules = seen.slice(0,60); }
   if (!s.days.length || !(s.start>=0) || !(s.end<=24) || s.start>=s.end){ toast("Check office hours and working days"); return; }
   ["tc","td","te"].forEach(k=> s[k] = Math.max(0, Math.min(300, s[k]||0)));
   s.cap = Math.max(1, s.cap|0); s.due = Math.max(0, Math.min(30, s.due|0)); s.phi = Math.max(1, s.phi||1);
-  s.dept = clean(s.dept) || "Team";
+  s.dept = clean(s.dept) || "Team"; const nm = v=>String(v||"").replace(/[<>"`]/g,"").trim().slice(0,40); s.org = nm(s.org); s.prep = nm(s.prep);
+  s.riskD = Math.max(0, Math.min(14, s.riskD|0)); s.riskP = Math.max(0, Math.min(100, s.riskP|0)); s.soonD = Math.max(0, Math.min(7, s.soonD|0)); s.bkDays = Math.max(1, Math.min(90, s.bkDays|0)); if (![1,4,12,26].includes(s.perDef)) s.perDef = 1;
   db.settings = s; save(); initForm(); render(); toast("Settings saved ✔");
 };
 $("sReset").onclick = ()=>{
@@ -2713,7 +2783,7 @@ $("sReset").onclick = ()=>{
 };
 function renderSettings(){
   const K = S(); let kb = "–"; try{ kb = ((localStorage.getItem(KEY)||"").length/1024).toFixed(1); }catch{}
-  const d = K.lastBackup ? Math.floor((Date.now()-K.lastBackup)/864e5) : null, bad = d==null || d>7;
+  const d = K.lastBackup ? Math.floor((Date.now()-K.lastBackup)/864e5) : null, bad = d==null || d>K.bkDays;
   const k = (l,v,sub,c)=>`<div class="kpi"><small>${l}</small><b${c?` style="color:${c}"`:""}>${v}</b><span>${sub}</span></div>`;
   $("sInfo").innerHTML = `<div class="kpis" style="margin:0">${k("Members",MEMBERS.length,"in the team")}${k("Tasks stored",db.tasks.length,"across all weeks")}${k("Storage used",kb+" KB","browser localStorage")}${k("Last backup",d==null?"Never":d===0?"Today":d+"d ago",bad?"backup recommended":"up to date",bad?"var(--bad)":"var(--ok)")}</div>`;
   $("scoreHint").textContent = `completed before deadline = +${K.pon} · completed late = +${K.plate} · overdue = −${K.pov} · in progress = progress % ÷ 20. High-priority tasks are weighted ×${K.phi}.`;
@@ -2762,7 +2832,7 @@ function renderAdvanced(){
   else if (od.length) F.push([wn, `${od.length} overdue task${od.length===1?"":"s"}, none of them high priority.`]);
   if (eff!=null) F.push([rag(eff,K.te), `Time efficiency is <b>${eff}%</b> (target ${K.te}%): tasks are finishing ${eff>=100?"within":"slower than"} their estimates.`]);
   const dB = K.lastBackup ? Math.floor((Date.now()-K.lastBackup)/864e5) : null;
-  if (dB==null || dB>7) F.push([wn, dB==null ? "No backup has been taken yet. Download one from Data &amp; Backup." : `The last backup was ${dB} days ago.`]);
+  if (dB==null || dB>K.bkDays) F.push([wn, dB==null ? "No backup has been taken yet. Download one from Data &amp; Backup." : `The last backup was ${dB} days ago.`]);
 
   const kp = (l,v,sub,c)=>`<div class="kpi rag" style="--c:${c}"><small>${l}</small><b>${v}</b><span>${sub}</span></div>`;
   const kpis = kp("Health score", health, `${hl} · completion, deadlines, efficiency, overdue`, hc)
@@ -2870,8 +2940,8 @@ function execModel(){
   const clearBy = runway==null || !openAll.length ? null : ymd(addDays(new Date(), Math.ceil(runway*7)));
   const net = cr28-done28;
   const odAll = openAll.filter(t=>t.deadline<td), odHigh = odAll.filter(t=>t.priority==="high");
-  const risk = openAll.filter(t=>t.deadline>=td && t.deadline<=ymd(addDays(new Date(),2)) && (t.progress||0)<50);
-  const dueSoon = openAll.filter(t=>t.deadline>=td && t.deadline<=ymd(addDays(new Date(),2)));
+  const risk = openAll.filter(t=>t.deadline>=td && t.deadline<=ymd(addDays(new Date(),K.riskD)) && (t.progress||0)<K.riskP);
+  const dueSoon = openAll.filter(t=>t.deadline>=td && t.deadline<=ymd(addDays(new Date(),K.riskD)));
 
   // slippage watchlist
   const late = done.filter(t=>t.completedAt>t.deadline).map(t=>({t, d:daysBetween(t.deadline,t.completedAt), k:"Completed late"}));
@@ -2924,7 +2994,7 @@ function execActions(X){
   if (X.balance<60 && X.load.length>2) A.push([2, `Workload is concentrated (balance index ${X.balance}%)`, `${esc(X.heavy.m.name)} carries ${X.heavy.o} open tasks. Consider cross-training so the load is shared.`]);
   if (X.c85!=null) A.push([3, `Commit to a service level: 85% of tasks finish within ${r1(X.c85)} working days`, "Use this as the default turnaround promise to stakeholders."]);
   const dB = K.lastBackup ? Math.floor((Date.now()-K.lastBackup)/864e5) : null;
-  if (dB==null || dB>7) A.push([2, dB==null ? "No backup has been taken yet" : `Last backup was ${dB} days ago`, "Download an Excel or JSON backup from Reports › Data & Backup."]);
+  if (dB==null || dB>K.bkDays) A.push([2, dB==null ? "No backup has been taken yet" : `Last backup was ${dB} days ago`, "Download an Excel or JSON backup from Reports › Data & Backup."]);
   return A.sort((a,b)=>a[0]-b[0]);
 }
 
@@ -3061,7 +3131,7 @@ $("rpNav").onclick = e=>{ const b = e.target.closest("[data-sec]"); if (!b) retu
   document.querySelectorAll("#rpNav .chip").forEach(c=>c.classList.toggle("on", c===b)); $(b.dataset.sec).scrollIntoView({behavior:"smooth", block:"start"}); };
 function renderReports(wt){
   const K = S(), L = leaderOf(wkKey()), rk = ranking(wt, L), top = rk.find(r=>r.s.total), ts = statsOf(wt.filter(t=>t.member!==L));
-  const d = K.lastBackup ? Math.floor((Date.now()-K.lastBackup)/864e5) : null, stale = d==null || d>7;
+  const d = K.lastBackup ? Math.floor((Date.now()-K.lastBackup)/864e5) : null, stale = d==null || d>K.bkDays;
   const k = (l,v,sub,c)=>`<div class="kpi rag" style="--c:${c}"><small>${l}</small><b>${v}</b><span>${sub}</span></div>`;
   $("rpKpis").innerHTML = k("Week leader", M(L).name, $("weekLbl").textContent, "#d4a017")
     + k("Top performer", top ? top.m.name : "–", top ? `${top.s.score} pts · ${top.s.done}/${top.s.total} done` : "no tasks this week", "var(--brand)")
@@ -3299,7 +3369,7 @@ ghRender();
 <script>
 /* v8: stable updater + version history. Data lives in localStorage and is never touched by an update; a snapshot is taken first. */
 (()=>{
-const APP_VERSION="10.1.0", SNAP_KEY="mis_snapshots_v1", LOG_KEY="mis_update_log_v1", $=id=>document.getElementById(id);
+const APP_VERSION="10.2.0", SNAP_KEY="mis_snapshots_v1", LOG_KEY="mis_update_log_v1", $=id=>document.getElementById(id);
 const HISTORY=[
  {v:"8.7.0",d:"2026-10-21",n:["System health panel: storage, data integrity checks, backups and one-tap restore points", "Daily automatic backup (last 5 restore points kept)", "iOS-style notification banners, launch splash, offline/online alerts", "Keyboard shortcuts sheet (press ?)"]},
  {v:"8.6.0",d:"2026-10-21",n:["Team cards: fixed clipped avatar/badge overflow, rebuilt the leader switch, rank shown inline, quieter empty states (– instead of 0%), dimmed zero stats, tooltips for long names, refined leader card tiles"]},
@@ -3414,5 +3484,298 @@ addEventListener("scroll",q,{passive:true});addEventListener("resize",q,{passive
 })();
 </script>
 <script>try{initInsNav();renderInsightsPro(weekTasks())}catch(e){console.error("insights",e)}</script>
+<style id="pro-layer-css">
+/* ===== v10.2 · Pro layer: report header, executive summary, settings workspace ===== */
+.legal{display:flex;justify-content:center;flex-wrap:wrap;gap:6px;margin:34px 0 0;padding-top:16px;border-top:1px solid var(--line2);font-size:12px;color:var(--muted)}
+.legal b{font-weight:650;color:var(--text)}.legal .dotsep{opacity:.5}
+.prfoot{display:none}
+body:has(#v-insights.on) .legal{display:none}
+/* report header */
+.rhead{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;margin:0 0 16px;padding:22px 24px;border-radius:20px;border:1px solid var(--line);background:linear-gradient(135deg,color-mix(in srgb,var(--brand) 9%,var(--card)),var(--card) 62%);box-shadow:var(--shadow)}
+.rh-eye{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:12px;font-weight:650;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+.rh-badge{padding:3px 10px;border-radius:99px;font-size:11px;letter-spacing:.05em;background:var(--brand-soft);color:var(--brand)}
+.rh-badge.confidential{background:color-mix(in srgb,var(--bad) 14%,var(--card));color:var(--bad-t)}.rh-badge:empty{display:none}
+.rhead h2{font-size:24px;letter-spacing:-.02em;margin:6px 0 12px}
+.rh-meta{display:flex;flex-wrap:wrap;gap:8px 28px;margin:0}.rh-meta div{min-width:120px}
+.rh-meta dt{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:650}.rh-meta dd{margin:2px 0 0;font-size:13.5px;font-weight:600}
+.rh-act{display:flex;gap:8px;flex-wrap:wrap}
+/* executive summary */
+.xs{padding:24px}
+.xs-top{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;flex-wrap:wrap;margin-bottom:18px}
+.xs-top h3{margin:0 0 6px}.xs-top p{margin:0;font-size:14px;line-height:1.6;max-width:760px}
+.verdict{display:inline-flex;align-items:center;gap:7px;padding:7px 14px;border-radius:99px;font-size:13px;font-weight:700;white-space:nowrap}
+.verdict::before{content:"";width:9px;height:9px;border-radius:50%;background:currentColor}
+.verdict.ok{background:color-mix(in srgb,var(--ok) 14%,var(--card));color:var(--ok-t)}.verdict.warn{background:color-mix(in srgb,var(--warn) 16%,var(--card));color:var(--warn-t)}.verdict.bad{background:color-mix(in srgb,var(--bad) 14%,var(--card));color:var(--bad-t)}.verdict.na{background:var(--soft);color:var(--muted)}
+.xs-main{display:grid;grid-template-columns:190px 1fr;gap:26px;align-items:center;margin-bottom:22px}
+.hring{position:relative;width:170px;height:170px;margin:auto}.hring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.hring .hc{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}.hring .hc b{font-size:40px;letter-spacing:-.03em;line-height:1}.hring .hc span{font-size:12px;color:var(--muted);font-weight:600;margin-top:4px}
+.gauges{display:grid;grid-template-columns:1fr 1fr;gap:16px 26px}
+.gg-h{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:7px}.gg-h small{font-size:12px;font-weight:650;color:var(--muted)}.gg-h b{font-size:20px;letter-spacing:-.02em}
+.gg-bar{position:relative;height:10px;border-radius:99px;background:var(--soft);overflow:visible}
+.gg-bar i{display:block;height:100%;border-radius:99px;background:var(--gc,var(--brand))}
+.gg-bar u{position:absolute;top:-4px;bottom:-4px;width:2px;border-radius:2px;background:var(--text);opacity:.7;text-decoration:none}
+.gg-f{display:flex;justify-content:space-between;gap:8px;margin-top:7px;font-size:11.5px;color:var(--muted)}.gg-f .up{color:var(--ok-t);font-weight:650}.gg-f .dn{color:var(--bad-t);font-weight:650}
+.xs-cols{display:grid;grid-template-columns:1.2fr 1fr;gap:26px;border-top:1px solid var(--line2);padding-top:20px}
+.xs-cols h4{margin:0 0 10px;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.xl{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.xl li{display:flex;gap:10px;font-size:13.5px;line-height:1.55}.xl li::before{content:"";flex:0 0 9px;height:9px;margin-top:6px;border-radius:50%;background:var(--tc,var(--muted))}
+.xl li.ok{--tc:var(--ok)}.xl li.warn{--tc:var(--warn)}.xl li.bad{--tc:var(--bad)}
+ol.xl{counter-reset:a}ol.xl li{counter-increment:a}ol.xl li::before{content:counter(a);flex:0 0 22px;height:22px;margin-top:0;border-radius:8px;background:var(--brand-soft);color:var(--brand);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center}
+ol.xl li small{display:block;color:var(--muted);font-size:12px}
+.xs-note{margin:16px 0 0;font-size:11.5px;color:var(--muted)}
+.rfoot{margin-top:26px;padding:16px 4px 0;border-top:1px solid var(--line2);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:12px;color:var(--muted)}.rfoot b{color:var(--text)}
+@media(max-width:900px){.xs-main,.xs-cols{grid-template-columns:1fr}.gauges{grid-template-columns:1fr}.rhead{padding:18px}}
+/* settings workspace */
+.shead{display:flex;justify-content:space-between;align-items:flex-end;gap:14px;flex-wrap:wrap;margin-bottom:18px}
+.shead h2{font-size:22px;margin:0 0 4px;letter-spacing:-.02em}.shead p{margin:0;max-width:640px}
+.ssearch{position:relative;width:min(320px,100%)}.ssearch svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none}.ssearch input{padding-left:36px}
+.slay{display:grid;grid-template-columns:236px minmax(0,1fr);gap:26px;align-items:start}
+.snav{position:sticky;top:max(92px,calc(env(safe-area-inset-top) + 92px));display:flex;flex-direction:column;gap:3px;padding:8px;border-radius:18px;border:1px solid var(--line);background:var(--card);box-shadow:var(--shadow)}
+.snav button{display:flex;gap:11px;align-items:center;text-align:left;border:0;background:transparent;border-radius:12px;padding:10px 12px;cursor:pointer;font-family:inherit;color:var(--text);transition:background .15s}
+.snav button:hover{background:var(--soft)}.snav button.on{background:var(--brand-soft);color:var(--brand)}
+.snav svg{flex:0 0 18px;width:18px;height:18px;opacity:.85}.snav b{display:block;font-size:13px;font-weight:650}.snav span{display:block;font-size:11.5px;color:var(--muted);margin-top:1px}.snav button.on span{color:inherit;opacity:.75}
+#v-settings:not(.searching) .ssec:not(.on){display:none}
+.sbody{min-width:0;padding-bottom:96px}.ssec .sec-title{margin-top:0}
+.fh{margin:6px 0 0;font-size:11.5px;line-height:1.5;color:var(--muted)}.fh.err{color:var(--bad-t);font-weight:600}
+#v-settings input[aria-invalid=true]{outline:2px solid var(--bad);outline-offset:0}
+.sprev{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;padding:12px 14px;border-radius:14px;background:var(--soft);font-size:12.5px;color:var(--muted)}
+.sprev b{color:var(--text)}.sprev .pc{padding:4px 10px;border-radius:99px;background:var(--card);border:1px solid var(--line2)}
+.sbar{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(max(14px,env(safe-area-inset-bottom)) + 78px);z-index:40;width:min(760px,calc(100vw - 24px));display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:11px 14px;border-radius:18px;border:1px solid var(--line);background:color-mix(in srgb,var(--card) 88%,transparent);-webkit-backdrop-filter:blur(22px) saturate(180%);backdrop-filter:blur(22px) saturate(180%);box-shadow:0 18px 50px rgba(15,23,42,.22)}
+.sbar[hidden]{display:none}.sbar .sdot{width:9px;height:9px;border-radius:50%;background:var(--warn);box-shadow:0 0 0 4px color-mix(in srgb,var(--warn) 25%,transparent)}.sbar.err .sdot{background:var(--bad);box-shadow:0 0 0 4px color-mix(in srgb,var(--bad) 25%,transparent)}
+.sbar b{font-size:13px}.sbtns{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}.sbtns .btn[disabled]{opacity:.5;pointer-events:none}
+.about .abt{display:flex;align-items:center;gap:14px;margin-bottom:14px}.abt-mk{width:52px;height:52px;border-radius:15px;background:linear-gradient(135deg,#6366f1,#8b5cf6);display:flex;align-items:center;justify-content:center}.abt b{font-size:16px;display:block}.abt span{font-size:12.5px;color:var(--muted)}
+.abl{margin:0;display:grid;gap:0}.abl div{display:grid;grid-template-columns:130px 1fr;gap:12px;padding:10px 0;border-top:1px solid var(--line2);font-size:13px}.abl dt{color:var(--muted);font-weight:600}.abl dd{margin:0}
+@media(max-width:900px){.slay{grid-template-columns:1fr;gap:14px}.snav{position:sticky;top:max(84px,calc(env(safe-area-inset-top) + 84px));z-index:15;flex-direction:row;overflow-x:auto;padding:6px;scrollbar-width:none}.snav::-webkit-scrollbar{display:none}.snav button{flex:0 0 auto;padding:8px 12px}.snav span{display:none}.abl div{grid-template-columns:1fr;gap:2px}}
+.ssec .sec-title{flex-wrap:wrap;gap:4px 14px}
+body.rm *,body.rm *::before,body.rm *::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+@media print{
+  @page{margin:14mm 12mm 18mm;@bottom-right{content:"Page " counter(page) " of " counter(pages);font-size:9pt;color:#667}}
+  .legal,.snav{display:none!important}
+  .rhead{background:none;border:0;border-bottom:2px solid #4f46e5;border-radius:0;box-shadow:none;padding:0 0 10px}.rh-act{display:none!important}
+  .xs,.rhead{break-inside:avoid}.xs{box-shadow:none}
+  .prfoot{display:flex;position:fixed;left:0;right:0;bottom:0;justify-content:space-between;gap:10px;padding-top:5px;border-top:1px solid #ccd;font-size:8.5pt;color:#556}
+  #v-insights{padding-bottom:12mm}
+}
+</style>
+<script id="pro-layer">
+/* v10.2 · Pro layer — Insights executive summary & report header, Settings workspace.  © 2026 Muhammad Umer Faheem. All rights reserved. */
+(()=>{
+"use strict";
+const VER = "10.2.0";
+const $$ = (sel,root=document)=>[...root.querySelectorAll(sel)];
+const nm = v=>String(v||"").replace(/[<>"`]/g,"").trim().slice(0,40);
+const CONF = {none:"", internal:"Internal use", confidential:"Confidential"};
+
+/* ---------- behaviour hooks for the new settings ---------- */
+{ const _a = applySet; applySet = function(){ _a(); document.body.classList.toggle("rm", !!S().rmotion); }; }
+{ const _h = fmtH; fmtH = function(h){ return S().hoursFmt==="dec" ? (Math.round(h*10)/10)+" h" : _h(h); }; }
+
+/* ---------- SETTINGS WORKSPACE ---------- */
+const I = d=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
+const SECS = [
+  ["general","General","Identity & defaults",I('<path d="M4 10.5 12 4l8 6.5V19a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 19z"/>')],
+  ["time","Work & time","Hours, days, format",I('<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>')],
+  ["targets","Targets & alerts","Standards, risk, scoring",I('<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r=".8"/>')],
+  ["modules","Modules","Work areas",I('<rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/>')],
+  ["reports","Reports & insights","Defaults, branding",I('<path d="M5 20V10M12 20V4M19 20v-7"/>')],
+  ["appearance","Appearance","Theme & motion",I('<circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor"/>')],
+  ["data","Data & sync","GitHub, files, health",I('<ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6"/>')],
+  ["about","System & about","Updates, legal",I('<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/>')]
+];
+const SEC_KEYS = {general:["dept","org","landing","pri","due"], time:["start","end","days","hoursFmt"],
+  targets:["tc","td","te","cap","riskD","riskP","soonD","bkDays","attn","pon","plate","pov","phi"], modules:["modules","reqMod"],
+  reports:["perDef","prep","conf"], appearance:["theme","compact","rmotion"]};
+let curSec = (()=>{ try{ return localStorage.getItem("mis_ssec")||"general"; }catch{ return "general"; } })();
+if (!SECS.some(x=>x[0]===curSec)) curSec = "general";
+const V = ()=>$("v-settings");
+const normMods = txt=>{ const seen=[]; String(txt).split("\n").forEach(l=>{ const c=clean(l); if(c && !seen.some(x=>x.toLowerCase()===c.toLowerCase())) seen.push(c); }); return seen.slice(0,60); };
+const conv = (el,v)=> el.type==="checkbox" ? !!v : NUMS.includes(el.dataset.s) ? +v : String(v==null?"":v).trim();
+function formState(){
+  const o = {}; $$("#v-settings [data-s]").forEach(el=>{ o[el.dataset.s] = conv(el, el.type==="checkbox" ? el.checked : el.value); });
+  o.days = $$("#sDays .chip.on").map(b=>+b.dataset.d).sort((a,b)=>a-b); o.modules = normMods($("sModules").value); return o;
+}
+function savedState(){
+  const s = S(), o = {}; $$("#v-settings [data-s]").forEach(el=>{ o[el.dataset.s] = conv(el, s[el.dataset.s]); });
+  o.days = (s.days||[]).slice().sort((a,b)=>a-b); o.modules = (s.modules||[]).slice(); return o;
+}
+const diffKeys = ()=>{ const a=formState(), b=savedState(); return Object.keys(a).filter(k=>JSON.stringify(a[k])!==JSON.stringify(b[k])); };
+
+function validate(){
+  const f = formState(), err = {}, set=(k,m)=>{ err[k]=m; };
+  const num = (k,lo,hi,label)=>{ if(!Number.isFinite(f[k]) || f[k]<lo || f[k]>hi) set(k,`${label} must be between ${lo} and ${hi}.`); };
+  num("start",0,23,"Start hour"); num("end",1,24,"End hour");
+  if(!err.start && !err.end && f.start>=f.end) set("end","End hour must be later than the start hour.");
+  num("tc",0,100,"Completion target"); num("td",0,100,"Deadline target"); num("te",0,300,"Efficiency target"); num("cap",1,999,"Open-task cap");
+  num("riskD",0,14,"At-risk window"); num("riskP",0,100,"Progress threshold"); num("soonD",0,7,"Look-ahead"); num("bkDays",1,90,"Backup reminder"); num("due",0,30,"Deadline days");
+  num("phi",1,10,"High-priority multiplier"); ["pon","plate","pov"].forEach(k=>num(k,0,100,"Points"));
+  if(!f.days.length) set("days","Pick at least one working day.");
+  if(!f.dept) set("dept","Department name cannot be empty.");
+  return err;
+}
+function paintErrors(err){
+  $$("#v-settings [data-s]").forEach(el=>{ const k=el.dataset.s, bad=!!err[k]; if(bad) el.setAttribute("aria-invalid","true"); else el.removeAttribute("aria-invalid"); });
+  $$("#v-settings .fh.err").forEach(n=>n.remove());
+  Object.keys(err).forEach(k=>{
+    const el = k==="days" ? $("sDays") : k==="end"||k==="start" ? document.querySelector('[data-s="end"]') : document.querySelector(`[data-s="${k}"]`); if(!el) return;
+    const host = k==="days" ? el : el.parentElement, p = document.createElement("p"); p.className="fh err"; p.textContent=err[k]; host.appendChild(p);
+  });
+}
+function previews(){
+  const f = formState(), n = MEMBERS.length, hrs = Math.max(0, f.end-f.start), wk = hrs*f.days.length;
+  const t = $("pvTime"); if(t) t.innerHTML = `<span class="pc">Daily capacity <b>${hrs} h</b></span><span class="pc">Weekly per member <b>${wk} h</b> (${f.days.length} day${f.days.length===1?"":"s"})</span><span class="pc">Team of ${n} <b>${wk*n} h</b> / week</span>`;
+  const hi = f.phi, c = $("pvScore"); if(c) c.innerHTML = `<span class="pc">On time <b>+${f.pon}</b></span><span class="pc">Late <b>+${f.plate}</b></span><span class="pc">Overdue <b>−${f.pov}</b></span><span class="pc">High-priority on time <b>+${Math.round(f.pon*hi*10)/10}</b></span><span class="pc">High-priority overdue <b>−${Math.round(f.pov*hi*10)/10}</b></span>`;
+}
+let _rf = 0;
+function refresh(){
+  const v = V(); if(!v) return;
+  const err = validate(), keys = diffKeys(), ne = Object.keys(err).length;
+  paintErrors(err); previews();
+  const bar = $("sBar"); bar.hidden = !keys.length && !ne; bar.classList.toggle("err", !!ne);
+  $("sBarT").textContent = ne ? `${ne} setting${ne===1?"":"s"} ${ne===1?"needs":"need"} fixing` : `${keys.length} unsaved change${keys.length===1?"":"s"}`;
+  $("sBarSub").textContent = ne ? "Fix the highlighted fields to save." : "Review, then save to apply everywhere.";
+  $("sSave").disabled = !!ne; $("sSave").toggleAttribute("disabled", !!ne);
+  $("sSecReset").hidden = !SEC_KEYS[curSec];
+}
+const queue = ()=>{ if(!_rf) _rf = requestAnimationFrame(()=>{ _rf=0; refresh(); }); };
+
+function buildNav(){
+  $("sNav").innerHTML = SECS.map(([id,t,sub,ic])=>`<button type="button" data-sec="${id}" class="${id===curSec?"on":""}" aria-current="${id===curSec}">${ic}<div><b>${t}</b><span>${sub}</span></div></button>`).join("");
+}
+function showSec(id){
+  curSec = id; try{ localStorage.setItem("mis_ssec",id); }catch{}
+  $$("#v-settings .ssec").forEach(s=>s.classList.toggle("on", s.dataset.ss===id));
+  $$("#sNav button").forEach(b=>{ const on=b.dataset.sec===id; b.classList.toggle("on",on); b.setAttribute("aria-current",on); });
+  refresh();
+}
+function find(){
+  const q = $("sFind").value.trim().toLowerCase(), v = V(); v.classList.toggle("searching", !!q); let any=false;
+  $$("#v-settings .ssec").forEach(sec=>{ let vis=0;
+    $$(".panel",sec).forEach(p=>{ const hay=(p.textContent+" "+$$("[placeholder]",p).map(i=>i.placeholder).join(" ")).toLowerCase(), hit=!q||hay.includes(q); p.style.display=hit?"":"none"; if(hit) vis++; });
+    sec.style.display = q ? (vis?"block":"none") : ""; if(vis) any=true; });
+  let n = $("sNone"); if(!n){ n=document.createElement("p"); n.id="sNone"; n.className="hint"; n.style.padding="18px 4px"; document.querySelector("#v-settings .sbody").prepend(n); }
+  n.hidden = !(q && !any); n.textContent = `No settings match “${$("sFind").value.trim()}”.`;
+}
+function setField(k,val){
+  if(k==="days"){ $$("#sDays .chip").forEach(b=>b.classList.toggle("on", val.includes(+b.dataset.d))); return; }
+  if(k==="modules"){ $("sModules").value = val.join("\n"); return; }
+  const el = document.querySelector(`#v-settings [data-s="${k}"]`); if(!el) return; if(el.type==="checkbox") el.checked=!!val; else el.value = val;
+}
+function initSettings(){
+  if(!V() || $("sNav").dataset.ok) return; $("sNav").dataset.ok = 1;
+  buildNav(); showSec(curSec);
+  $("sNav").addEventListener("click", e=>{ const b=e.target.closest("[data-sec]"); if(!b) return; $("sFind").value=""; find(); showSec(b.dataset.sec); scrollTo({top:0,behavior:"smooth"}); });
+  $("sFind").addEventListener("input", find);
+  V().addEventListener("input", queue); V().addEventListener("change", queue); $("sDays").addEventListener("click", ()=>setTimeout(queue,0));
+  $("sDisc").onclick = ()=>{ fillSet(); toast("Changes discarded"); };
+  $("sSecReset").onclick = ()=>{ (SEC_KEYS[curSec]||[]).forEach(k=> setField(k, k==="modules" ? DEFAULT_MODULES.slice() : Array.isArray(DEF_SET[k]) ? DEF_SET[k].slice() : DEF_SET[k])); refresh(); toast("Section reset — press Save to apply"); };
+  // after a successful save, re-sync the form with the cleaned values and apply side effects
+  let before; $("sSave").addEventListener("click", ()=>{ before = db.settings; }, true);
+  $("sSave").addEventListener("click", ()=>{ if(db.settings!==before){ insPer = S().perDef||1; fillSet(); render(); } });
+  // export / import settings
+  $("sExp").onclick = ()=>{ const {lastBackup,me,perms,...cfg} = S(); const blob = new Blob([JSON.stringify({_mis:"settings", app:"MISphere", version:VER, exported:new Date().toISOString(), settings:cfg},null,2)],{type:"application/json"});
+    const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = `mis-settings-${today()}.json`; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href),4000); toast("Settings exported"); };
+  $("sImp").onclick = ()=>{ if(!can("settings")) return deny(); $("sImpFile").click(); };
+  $("sImpFile").onchange = e=>{ const f = e.target.files[0]; e.target.value=""; if(!f) return; const r = new FileReader();
+    r.onload = ()=>{ try{
+      const j = JSON.parse(r.result), src = j && j._mis==="settings" && j.settings && typeof j.settings==="object" ? j.settings : null; if(!src) throw 0;
+      const skip = ["lastBackup","me","perms"], pick = {};
+      Object.keys(DEF_SET).filter(k=>!skip.includes(k)).forEach(k=>{ if(!(k in src)) return; const d=DEF_SET[k], v=src[k];
+        if(Array.isArray(d)){ if(Array.isArray(v)) pick[k] = k==="modules" ? normMods(v.join("\n")) : v.map(Number).filter(n=>n>=0&&n<=6); }
+        else if(typeof d==="number"){ if(Number.isFinite(+v)) pick[k] = +v; } else if(typeof d==="boolean"){ if(typeof v==="boolean") pick[k]=v; } else if(typeof d==="string"){ if(typeof v==="string") pick[k]=nm(v); } });
+      if(src.modMeta && typeof src.modMeta==="object" && !Array.isArray(src.modMeta)) pick.modMeta = src.modMeta;
+      if(!confirm(`Import ${Object.keys(pick).length} settings from “${f.name}”? Your tasks and members are not affected.`)) return;
+      db.settings = {...S(), ...pick}; save(); fillSet(); initForm(); render(); toast("Settings imported ✔");
+    }catch{ toast("That file is not a MISphere settings export"); } };
+    r.readAsText(f); };
+  $("lgV").textContent = "v"+VER; $("abV").textContent = "v"+VER;
+}
+{ const _f = fillSet; fillSet = function(){ _f(); initSettings(); const f=$("sFind"); if(f&&f.value){ f.value=""; find(); } refresh(); $("abV").textContent="v"+VER; }; }
+
+/* ---------- INSIGHTS: report header, executive summary, footer ---------- */
+const gauge = (label,val,txt,tgt,scale,col,foot,delta)=>`<div class="gg"><div class="gg-h"><small>${label}</small><b style="color:${col}">${txt}</b></div>
+  <div class="gg-bar" role="img" aria-label="${label} ${txt}, target ${tgt}"><i style="width:${Math.max(0,Math.min(100,val/scale*100))}%;--gc:${col}"></i><u style="left:${Math.min(100,tgt/scale*100)}%" title="Target"></u></div>
+  <div class="gg-f"><span>${foot}</span>${delta||""}</div></div>`;
+const dlt = (c,p,u="pts")=> c==null||p==null ? "" : c===p ? `<span>no change</span>` : `<span class="${c>p?"up":"dn"}">${c>p?"▲":"▼"} ${Math.abs(c-p)} ${u}</span>`;
+const rg = (v,t)=> v==null ? "var(--muted)" : v>=t ? "var(--ok)" : v>=t*.8 ? "var(--warn)" : "var(--bad)";
+const pl = (n,w)=> `${n} ${w}${n===1?"":"s"}`;
+function ensureReportDom(){
+  const v = $("v-insights"); if(!v || $("insSum")) return;
+  const sum = document.createElement("div"); sum.id="insSum"; sum.className="panel xs"; sum.dataset.s="overview";
+  const nav = $("insNav"), kp = $("kpis"); (nav&&nav.nextSibling ? nav.parentNode : kp.parentNode).insertBefore(sum, kp);
+  const ft = document.createElement("div"); ft.id="insFoot"; ft.className="rfoot"; v.appendChild(ft);
+}
+function renderReport(){
+  ensureReportDom(); const sum = $("insSum"); if(!sum) return;
+  const K = S(), wt = weekTasks(), s = statsOf(wt), ps = statsOf(prevWeekTasks()), td = today();
+  const adm = MEMBERS.find(m=>m.access==="admin") || MEMBERS[0] || {name:"—"}, prep = K.prep || adm.name;
+  const wlbl = $("weekLbl").textContent, scope = activeModule==="all" ? "All modules" : (typeof modName==="function" ? modName(activeModule==="__none"?"":activeModule) : activeModule);
+  const gen = new Date().toLocaleString("en-GB",{day:"numeric",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"});
+  const cl = CONF[K.conf]||"";
+  $("rhConf").textContent = cl; $("rhConf").className = "rh-badge "+(K.conf||"none"); $("rhOrg").textContent = [K.org, K.dept].filter(Boolean).join(" · ");
+  $("rhMeta").innerHTML = [["Reporting week",wlbl],["Scope",scope],["Prepared by",prep],["Generated",gen]].map(([a,b])=>`<div><dt>${a}</dt><dd>${esc(b)}</dd></div>`).join("");
+  $("pfL").textContent = [K.org||K.dept, cl].filter(Boolean).join(" · ") + (wlbl?` · ${wlbl}`:""); $("pfR").textContent = "Generated "+gen;
+
+  const comp = s.total ? Math.round(s.done/s.total*100) : null, pcomp = ps.total ? Math.round(ps.done/ps.total*100) : null;
+  const eff = s.doneSpent ? Math.round(s.doneEst/s.doneSpent*100) : null, peff = ps.doneSpent ? Math.round(ps.doneEst/ps.doneSpent*100) : null;
+  const per = MEMBERS.map(m=>{ const l = wt.filter(t=>t.member===m.id); return {m, s:statsOf(l), open:T().filter(t=>t.member===m.id && t.status!=="done").length}; });
+  const peak = per.slice().sort((a,b)=>b.open-a.open)[0], X = (typeof EXEC!=="undefined" && EXEC) || null;
+  const health = X && X.health!=null ? X.health : null, hl = health==null ? "–" : health>=80 ? "Healthy" : health>=60 ? "Watch" : "At risk";
+  const hc = health==null ? "var(--muted)" : health>=80 ? "var(--ok)" : health>=60 ? "var(--warn)" : "var(--bad)";
+  const vcl = !s.total ? "na" : health>=80 ? "ok" : health>=60 ? "warn" : "bad", vtx = !s.total ? "No data yet" : health>=80 ? "On track" : health>=60 ? "Needs attention" : "At risk";
+  const od = T().filter(t=>stateOf(t)==="overdue"), odHi = od.filter(t=>t.priority==="high");
+  const risk = X ? X.risk : [];
+  const over = per.filter(r=>r.open>K.cap).sort((a,b)=>b.open-a.open), light = per.filter(r=>r.m.status!=="leave").sort((a,b)=>a.open-b.open)[0];
+  const ranked = per.filter(r=>r.s.total>0).sort((a,b)=>b.s.score-a.s.score);
+
+  const head = !s.total ? `No tasks are recorded for ${wlbl}. Add tasks or switch week to see the summary.`
+    : `For <b>${esc(wlbl)}</b> the team completed <b>${s.done} of ${s.total}</b> tasks (<b>${comp}%</b>)${s.rate!=null?`, with <b>${s.rate}%</b> delivered on time`:""}. ${od.length?`<b>${pl(od.length,"task")}</b> ${od.length===1?"is":"are"} currently overdue${odHi.length?`, ${odHi.length} of high priority`:""}.`:"Nothing is overdue."} Delivery health is <b style="color:${hc}">${health==null?"–":health+"/100"} · ${hl}</b>.`;
+
+  const F = [];
+  if(comp!=null) F.push([comp>=K.tc?"ok":comp>=K.tc*.8?"warn":"bad", `Completion is <b>${comp}%</b> against a ${K.tc}% target${pcomp!=null&&pcomp!==comp?` — ${comp>pcomp?"up":"down"} ${Math.abs(comp-pcomp)} pts on last week`:""}.`]);
+  if(s.rate!=null) F.push([s.rate>=K.td?"ok":s.rate>=K.td*.8?"warn":"bad", `<b>${s.rate}%</b> of due work was delivered on time (target ${K.td}%): ${s.ontime} on time, ${s.late} late, ${s.overdue} overdue.`]);
+  if(odHi.length) F.push(["bad", `<b>${pl(odHi.length,"high-priority task")}</b> overdue — ${odHi.slice(0,2).map(t=>`“${esc(t.title.slice(0,38))}”`).join(", ")}${odHi.length>2?" and more":""}.`]);
+  else if(od.length) F.push(["warn", `${pl(od.length,"overdue task")}, none high priority.`]);
+  if(ranked.length>1) F.push(["ok", `<b>${esc(ranked[0].m.name)}</b> leads the week with ${ranked[0].s.score} pts (${ranked[0].s.done}/${ranked[0].s.total} done).`]);
+  if(over.length) F.push(["bad", `<b>${esc(over[0].m.name)}</b> carries ${over[0].open} open tasks, above the cap of ${K.cap}${over.length>1?` (plus ${over.length-1} more over cap)`:""}.`]);
+  else if(X && X.balance!=null && MEMBERS.length>2 && X.balance<60) F.push(["warn", `Workload is uneven (balance index ${X.balance}%). Consider redistributing open tasks.`]);
+  if(risk.length) F.push(["warn", `<b>${pl(risk.length,"task")}</b> due within ${K.riskD} day${K.riskD===1?"":"s"} ${risk.length===1?"is":"are"} under ${K.riskP}% progress.`]);
+  if(eff!=null) F.push([eff>=K.te?"ok":eff>=K.te*.8?"warn":"bad", `Time efficiency is <b>${eff}%</b> (target ${K.te}%) — work is finishing ${eff>=100?"within":"slower than"} its estimates.`]);
+  if(!F.length) F.push(["warn","Not enough activity this week to draw conclusions."]);
+
+  const A = [];
+  if(odHi.length) A.push([`Escalate ${pl(odHi.length,"high-priority overdue task")}`, "Agree a recovery date with each owner today."]);
+  if(over.length && light && light.m.id!==over[0].m.id) A.push([`Rebalance work from ${esc(over[0].m.name)}`, `${esc(light.m.name)} has the most free capacity (${light.open} open).`]);
+  if(risk.length) A.push([`Check progress on ${pl(risk.length,"at-risk task")}`, `Due within ${K.riskD} day${K.riskD===1?"":"s"} with under ${K.riskP}% done.`]);
+  if(s.total && !s.est) A.push(["Add hour estimates to tasks", "Efficiency and forecasts need estimates to be meaningful."]);
+  const dB = K.lastBackup ? Math.floor((Date.now()-K.lastBackup)/864e5) : null;
+  if(dB==null || dB>K.bkDays) A.push(["Download a backup", dB==null ? "No backup has been taken yet." : `Last backup was ${dB} days ago.`]);
+  if(!A.length) A.push(["Keep the current pace", "All targets are being met — no corrective action needed."]);
+
+  const C = 2*Math.PI*66, arc = health==null?0:health/100*C;
+  const capV = peak ? peak.open : 0, capCol = capV<=K.cap ? "var(--ok)" : capV<=K.cap*1.25 ? "var(--warn)" : "var(--bad)";
+  const escale = Math.max(150, Math.round(K.te*1.4));
+  sum.innerHTML = `<div class="xs-top"><div><h3>Executive summary</h3><p>${head}</p></div><span class="verdict ${vcl}">${vtx}</span></div>
+    <div class="xs-main"><div class="hring" role="img" aria-label="Delivery health ${health==null?"unknown":health+" out of 100"}"><svg viewBox="0 0 160 160"><circle cx="80" cy="80" r="66" fill="none" stroke="var(--soft)" stroke-width="14"/><circle cx="80" cy="80" r="66" fill="none" stroke="${hc}" stroke-width="14" stroke-linecap="round" stroke-dasharray="${arc.toFixed(1)} ${(C-arc).toFixed(1)}"/></svg><div class="hc"><b style="color:${hc}">${health==null?"–":health}</b><span>${hl} · health</span></div></div>
+      <div class="gauges">${gauge("Completion",comp||0,comp==null?"–":comp+"%",K.tc,100,rg(comp,K.tc),`Target ${K.tc}%`,dlt(comp,pcomp))}
+        ${gauge("Deadline met",s.rate||0,s.rate==null?"–":s.rate+"%",K.td,100,rg(s.rate,K.td),`Target ${K.td}%`,dlt(s.rate,ps.rate))}
+        ${gauge("Time efficiency",eff||0,eff==null?"–":eff+"%",K.te,escale,rg(eff,K.te),`Target ${K.te}%`,dlt(eff,peff))}
+        ${gauge("Peak workload",capV,peak?capV+" open":"–",K.cap,Math.max(K.cap*1.5,capV,1),capCol,peak?`${esc(peak.m.name)} · cap ${K.cap}`:`Cap ${K.cap} per member`,"")}</div></div>
+    <div class="xs-cols"><div><h4>Key findings</h4><ul class="xl">${F.slice(0,6).map(([c,t])=>`<li class="${c}">${t}</li>`).join("")}</ul></div>
+      <div><h4>Recommended actions</h4><ol class="xl">${A.slice(0,4).map(([t,d])=>`<li><span>${t}<small>${d}</small></span></li>`).join("")}</ol></div></div>
+    <p class="xs-note">Generated automatically from the tasks on this device and the targets in Settings. The marker on each bar is the target; colours: green = met, amber = within 20%, red = below.</p>`;
+  const ft = $("insFoot"); if(ft) ft.innerHTML = `<span>© 2026 <b>Muhammad Umer Faheem</b>. All rights reserved. · MISphere v${VER}</span><span>${cl?cl+" · ":""}Generated ${gen}</span>`;
+}
+/* run after every render */
+{ const _r = render; render = function(){ _r(); try{ renderReport(); }catch(e){ console.error("report",e); } }; }
+/* nicer PDF file name */
+let _t0; addEventListener("beforeprint", ()=>{ _t0 = document.title; document.title = `${S().dept||"Team"} — Insights ${$("weekLbl")?$("weekLbl").textContent:""}`.trim(); });
+addEventListener("afterprint", ()=>{ if(_t0) document.title=_t0; });
+
+/* ---------- boot ---------- */
+if (db && S().perDef && S().perDef!==1) insPer = S().perDef;
+initSettings(); try{ render(); }catch(e){ console.error(e); }
+if (MEMBERS.length && S().landing && S().landing!=="dash" && TITLES[S().landing]) go(S().landing);
+})();
+</script>
 </body>
 </html>

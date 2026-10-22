@@ -2,6 +2,10 @@
 
 All notable changes to MISphere, newest first.
 
+## 10.4.1 — 2026-10-22
+
+- Smoothness pass: scroll position is kept after every change, search waits until you pause typing, softer spring transitions on cards, progress bars, pills and buttons, animated dialogs, no stuck hover on touch screens
+
 ## 10.4.0 — 2026-10-22
 
 - Assign one task to several people: pick any number of members (first is the Owner) in New task and Edit task; stacked avatars and a people badge on list and board cards

@@ -393,6 +393,22 @@
   @media(max-width:820px){.top{position:static}.rnav{top:0}.rsec{scroll-margin-top:70px}#offChip,#sideLeader,#cmdBtn kbd{display:none}}
   @media print{.top{position:static;box-shadow:none;border:none}.topr{display:none}}
 
+
+  /* v10.4 smoothness */
+  html{scroll-padding-top:96px;overflow-anchor:auto}
+  body{overscroll-behavior-y:none}
+  .task,.bcard,.mcard,.panel,.kpi,.stat{transition:transform .28s cubic-bezier(.22,1,.36,1),box-shadow .28s ease,background-color .25s ease,border-color .25s ease,opacity .25s ease}
+  .tpg i,.bc-prog .tpg i,.bar i,.ring circle{transition:width .45s cubic-bezier(.22,1,.36,1),stroke-dashoffset .6s cubic-bezier(.22,1,.36,1),background-color .3s}
+  .pill,.btn,.ib,.bq,.tb{transition:background-color .2s ease,color .2s ease,transform .22s cubic-bezier(.34,1.56,.64,1),box-shadow .2s ease,opacity .2s ease}
+  .btn:active,.ib:active,.bq:active{transform:scale(.95)}
+  dialog[open]{animation:dlgIn .32s cubic-bezier(.22,1,.36,1)}
+  dialog::backdrop{animation:bdIn .28s ease}
+  @keyframes dlgIn{from{opacity:0;transform:translateY(14px) scale(.97)}to{opacity:1;transform:none}}
+  @keyframes bdIn{from{opacity:0}to{opacity:1}}
+  .task.dragging{opacity:.55;transform:scale(.98)}
+  .kbc{transition:background-color .2s ease,box-shadow .2s ease,transform .2s ease}
+  img,svg{image-rendering:auto}
+  @media(hover:none){.mcard:hover,.task:hover{transform:none}}
   /* v10.4 multi-assignee */
   .span-all{grid-column:1/-1}
   .mp-hint{font-weight:500;color:var(--mut,#667085);font-size:11.5px;margin-left:4px}
@@ -3438,7 +3454,7 @@ ghRender();
 <script>
 /* v8: stable updater + version history. Data lives in localStorage and is never touched by an update; a snapshot is taken first. */
 (()=>{
-const APP_VERSION="10.4.0", SNAP_KEY="mis_snapshots_v1", LOG_KEY="mis_update_log_v1", $=id=>document.getElementById(id);
+const APP_VERSION="10.4.1", SNAP_KEY="mis_snapshots_v1", LOG_KEY="mis_update_log_v1", $=id=>document.getElementById(id);
 const HISTORY=[
  {v:"8.7.0",d:"2026-10-21",n:["System health panel: storage, data integrity checks, backups and one-tap restore points", "Daily automatic backup (last 5 restore points kept)", "iOS-style notification banners, launch splash, offline/online alerts", "Keyboard shortcuts sheet (press ?)"]},
  {v:"8.6.0",d:"2026-10-21",n:["Team cards: fixed clipped avatar/badge overflow, rebuilt the leader switch, rank shown inline, quieter empty states (– instead of 0%), dimmed zero stats, tooltips for long names, refined leader card tiles"]},
@@ -3631,7 +3647,7 @@ body.rm *,body.rm *::before,body.rm *::after{animation:none!important;transition
 /* v10.2 · Pro layer — Insights executive summary & report header, Settings workspace.  © 2026 Muhammad Umer Faheem. All rights reserved. */
 (()=>{
 "use strict";
-const VER = "10.4.0";
+const VER = "10.4.1";
 const $$ = (sel,root=document)=>[...root.querySelectorAll(sel)];
 const nm = v=>String(v||"").replace(/[<>"`]/g,"").trim().slice(0,40);
 const CONF = {none:"", internal:"Internal use", confidential:"Confidential"};
@@ -3965,6 +3981,13 @@ let cp = false; addEventListener("scroll", ()=>{ const y = scrollY; if(!cp && y>
 // publish the header height so sticky sub-navs sit just under it
 const setH = ()=>{ const r = top.getBoundingClientRect(); document.documentElement.style.setProperty("--tph", Math.max(0, Math.round(r.bottom + 0))+"px"); };
 if(window.ResizeObserver) new ResizeObserver(setH).observe(top); addEventListener("resize", setH); setH();
+// ---------- v10.4: smoothness layer ----------
+{ const _render = render;
+  render = function(){ const y = window.scrollY, dl = document.scrollingElement; const r = _render.apply(this, arguments);
+    if (dl && Math.abs(dl.scrollTop - y) > 1) dl.scrollTop = y; return r; };   // never jump to top after a change
+  ["flSearch","nSearch"].forEach(id=>{ const el = $(id); if (!el) return; let tm = 0;
+    el.addEventListener("input", e=>{ e.stopImmediatePropagation(); clearTimeout(tm); tm = setTimeout(()=>requestAnimationFrame(render), 140); }, true); });   // type freely, list updates once you pause
+}
 try{ render(); }catch(e){ console.error(e); }
 })();
 </script>

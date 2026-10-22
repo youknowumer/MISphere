@@ -1,13 +1,23 @@
 {
-  "version": "9.0.0",
+  "version": "9.1.0",
   "date": "2026-10-22",
   "notes": [
-    "iOS 26 Liquid Glass: refractive edge rims, specular highlights, deeper blur and saturation on header, tab bar and cards",
-    "Smooth page transitions (View Transitions), spring press feedback on every control, faster long lists",
-    "Typography: SF Pro / Inter with tabular numbers, balanced headings, no long-name overflow",
-    "Glitch fixes: layout shift from scrollbar, 16px inputs (no iPhone zoom), safe-area spacing, 44px tap targets, keyboard focus rings, reduced-transparency and high-contrast support"
+    "Task status summary: To do / In progress / Done / Overdue tiles with a weekly completion bar; tap a tile to filter",
+    "New Board view: To do, In progress and Done columns with counts, overdue and on-time/late markers",
+    "Drag a card between columns to change its status (timer, progress and activity log update as before)",
+    "Clearer empty states and a one-tap Show all when a filter has no matches"
   ],
   "history": [
+    {
+      "v": "9.1.0",
+      "d": "2026-10-22",
+      "n": [
+        "Task status summary: To do / In progress / Done / Overdue tiles with a weekly completion bar; tap a tile to filter",
+        "New Board view: To do, In progress and Done columns with counts, overdue and on-time/late markers",
+        "Drag a card between columns to change its status (timer, progress and activity log update as before)",
+        "Clearer empty states and a one-tap Show all when a filter has no matches"
+      ]
+    },
     {
       "v": "9.0.0",
       "d": "2026-10-22",

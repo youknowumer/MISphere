@@ -918,6 +918,34 @@
   @media(prefers-reduced-transparency:reduce){.tabbar,.top,.panel,.kpi,.stat,.mm-card{-webkit-backdrop-filter:none;backdrop-filter:none;background-color:var(--card)}}
   @media(prefers-contrast:more){:root{--line:rgba(60,60,67,.5)}.panel::after,.tabbar::after{display:none}}
   @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}}
+
+  /* ===== v9.1: task status summary + board ===== */
+  .ph{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.ph h3{margin:0}
+  .tvs{display:inline-flex;padding:3px;border-radius:12px;background:var(--soft)}
+  .tvs button{border:0;background:transparent!important;color:var(--muted)!important;font:600 13px inherit;font-family:inherit;padding:6px 14px;border-radius:9px;cursor:pointer;min-height:32px;box-shadow:none!important}
+  .tvs button.on{background:var(--card)!important;color:var(--text)!important;box-shadow:0 2px 8px rgba(0,0,0,.12)!important}
+  .tsum{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0 10px}
+  .tsc{position:relative;text-align:left;border:0;border-radius:18px;padding:12px 14px;background:color-mix(in srgb,var(--tc) 12%,var(--card));color:var(--text);cursor:pointer;font-family:inherit;overflow:hidden;box-shadow:inset 0 0 0 .5px color-mix(in srgb,var(--tc) 25%,transparent)}
+  .tsc::before{content:"";position:absolute;left:14px;top:0;width:26px;height:3px;border-radius:0 0 3px 3px;background:var(--tc)}
+  .tsc b{display:block;font-size:26px;font-weight:700;letter-spacing:-.03em;font-variant-numeric:tabular-nums;color:var(--tc);margin-top:4px;line-height:1.1}
+  .tsc span{font-size:12px;font-weight:600;color:var(--muted)}
+  .tsc.on{box-shadow:0 0 0 2px var(--tc),0 8px 20px -8px var(--tc)}.tsc.z b{opacity:.45}
+  .tpg{height:6px;border-radius:99px;background:var(--soft);overflow:hidden}.tpg i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--info),var(--ok));transition:width .7s var(--ease)}
+  .tpl2{font-size:12px;color:var(--muted);margin:6px 2px 14px}
+  .board{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;align-items:start}
+  .bcol{border-radius:24px;padding:10px;background:var(--soft);transition:box-shadow .25s,background .25s;min-height:160px}
+  .bcol.over{box-shadow:0 0 0 2.5px var(--cc);background:color-mix(in srgb,var(--cc) 10%,var(--soft))}
+  .bch{display:flex;align-items:center;gap:8px;padding:6px 8px 12px;flex-wrap:wrap}
+  .bch i{width:10px;height:10px;border-radius:50%;background:var(--cc);box-shadow:0 0 0 4px color-mix(in srgb,var(--cc) 22%,transparent)}
+  .bch b{font-size:15px;letter-spacing:-.02em}.bcn{min-width:24px;text-align:center;padding:1px 8px;border-radius:99px;background:var(--card);font-size:12px;font-weight:700;font-variant-numeric:tabular-nums}
+  .bch em{margin-left:auto;font-style:normal;font-size:11.5px;font-weight:600;color:var(--muted)}.bch em.bad{color:var(--bad)}
+  .bcb{display:flex;flex-direction:column;gap:10px}
+  .board .task{display:grid!important;grid-template-columns:auto minmax(0,1fr)!important;gap:10px!important;padding:12px!important;cursor:grab;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+  .board .task .act{grid-column:1/-1}.board .task.dragging{opacity:.45;transform:scale(.97)}.board .task:active{cursor:grabbing}
+  .board .task .act .r{flex-wrap:wrap}
+  .bempty{padding:26px 10px;text-align:center;font-size:13px;color:var(--muted);border:1.5px dashed var(--line);border-radius:18px}
+  .bhint{font-size:12px;color:var(--muted);text-align:center;margin-top:12px}
+  @media(max-width:900px){.board{grid-auto-flow:column;grid-template-columns:none;grid-auto-columns:86%;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px;overscroll-behavior-x:contain}.bcol{scroll-snap-align:center}.tsum{grid-template-columns:repeat(2,1fr)}.bhint{display:none}}
 </style>
 <script>window.__v8err=0;addEventListener("error",function(){window.__v8err++});try{var u=JSON.parse(localStorage.getItem("mis_ui_v1"))||{};document.documentElement.dataset.accent=u.a||"ocean";document.documentElement.style.setProperty("--gb",({soft:14,standard:26,strong:44})[u.g||"standard"]+"px")}catch(e){}</script></head>
 <body>
@@ -973,7 +1001,8 @@
       </form>
     </div>
     <div class="panel">
-      <h3>This Week’s Tasks <small id="taskCount"></small></h3>
+      <div class="ph"><h3>This Week’s Tasks <small id="taskCount"></small></h3><div class="tvs" id="tView" role="group" aria-label="Task view"><button type="button" data-v="day">By day</button><button type="button" data-v="board">Board</button></div></div>
+      <div id="taskSum"></div>
       <div class="filters">
         <select id="flMember"></select>
         <select id="flStatus">
@@ -1841,20 +1870,46 @@ function tieSort(a,b){
   if (k==="priority") return PR[a.priority]-PR[b.priority] || a.deadline.localeCompare(b.deadline);
   return a.created-b.created;
 }
+let tView = (()=>{ try{ return localStorage.getItem("mis_tview")==="board" ? "board" : "day"; }catch{ return "day"; } })();
+const COLS = [["todo","To do","var(--st-todo,var(--muted))","Nothing waiting"],["progress","In progress","var(--info)","Nothing in progress"],["done","Done","var(--ok)","Finished tasks appear here"]];
+function renderTaskSum(base, fs){
+  const n = {todo:0,progress:0,done:0,overdue:0}; base.forEach(t=>{ n[t.status]++; if (stateOf(t)==="overdue") n.overdue++; });
+  const pct = base.length ? Math.round(n.done/base.length*100) : 0;
+  const tiles = [["todo","To do",n.todo,"--st-todo"],["progress","In progress",n.progress,"--info"],["done","Done",n.done,"--ok"],["overdue","Overdue",n.overdue,"--bad"]];
+  $("taskSum").innerHTML = `<div class="tsum">${tiles.map(x=>`<button type="button" class="tsc${fs===x[0]?" on":""}${x[0]==="overdue"&&!x[2]?" z":""}" data-f="${x[0]}" style="--tc:var(${x[3]},var(--muted))" aria-pressed="${fs===x[0]}"><b>${x[2]}</b><span>${x[1]}</span></button>`).join("")}</div>
+    <div class="tpg" title="${n.done} of ${base.length} done"><i style="width:${pct}%"></i></div><div class="tpl2">${base.length?`${n.done} of ${base.length} done · ${pct}% complete this week`:"No tasks this week yet"}</div>`;
+  document.querySelectorAll("#tView button").forEach(b=>b.classList.toggle("on", b.dataset.v===tView));
+}
+function renderBoard(list){
+  const sortCol = (k,a,b)=> k==="done" ? (b.completedAt||"").localeCompare(a.completedAt||"") : ((stateOf(b)==="overdue")-(stateOf(a)==="overdue")) || tieSort(a,b);
+  return `<div class="board">${COLS.map(c=>{
+    const items = list.filter(t=>t.status===c[0]).sort((a,b)=>sortCol(c[0],a,b));
+    const od = items.filter(t=>stateOf(t)==="overdue").length;
+    const lt = items.filter(t=>stateOf(t)==="late").length;
+    const meta = c[0]==="done" ? (items.length?`${items.length-lt} on time${lt?` · ${lt} late`:""}`:"") : (od?`${od} overdue`:"");
+    return `<section class="bcol" data-col="${c[0]}" style="--cc:${c[2]}"><header class="bch"><i></i><b>${c[1]}</b><span class="bcn">${items.length}</span>${meta?`<em class="${od?"bad":""}">${meta}</em>`:""}</header>
+      <div class="bcb">${items.length?items.map(t=>taskHTML(t).replace('<div class="task ','<div draggable="true" class="task ')).join(""):`<div class="bempty">${c[3]}</div>`}</div></section>`;
+  }).join("")}</div><div class="bhint">Drag a card to another column to change its status. On touch screens use the status menu on the card.</div>`;
+}
 function renderTasks(){
   const fs = $("flStatus").value, q = $("flSearch").value.trim().toLowerCase();
   const [ws, we] = weekRange();
-  const list = T().filter(t=>{
+  const base = T().filter(t=>{
     const d = listDay(t); if (d < ws || d > we) return false;
     if (selectedMember!=="all" && t.member!==selectedMember) return false;
-    const st = stateOf(t);
-    if (fs==="done" && t.status!=="done") return false;
-    if (["todo","progress","overdue"].includes(fs) && st!==fs) return false;
     if (q && !(t.title+" "+(t.notes||"")+" "+(t.module||"")).toLowerCase().includes(q)) return false;
     return true;
   });
+  renderTaskSum(base, fs);
+  const list = base.filter(t=>{
+    if (fs==="overdue") return stateOf(t)==="overdue";
+    if (["todo","progress","done"].includes(fs)) return t.status===fs;
+    return true;
+  });
   $("taskCount").textContent = `${list.length} task(s)`;
-  if (!list.length){ $("taskList").innerHTML = `<div class="empty">No tasks found. Use the form above to add one.</div>`; return; }
+  if (!base.length){ $("taskList").innerHTML = `<div class="empty">No tasks found. Use the form above to add one.</div>`; return; }
+  if (!list.length){ $("taskList").innerHTML = `<div class="empty">No tasks match this filter. <button type="button" class="btn sm" id="tClear">Show all</button></div>`; return; }
+  if (tView==="board"){ $("taskList").innerHTML = renderBoard(list); return; }
   const byDay = {};
   list.sort((a,b)=> listDay(a).localeCompare(listDay(b)) || tieSort(a,b)).forEach(t=> (byDay[listDay(t)] ??= []).push(t));
   const td = today();
@@ -2040,6 +2095,19 @@ $("taskList").addEventListener("click", e=>{
   { const x = db.tasks.find(t=>t.id===b.closest(".task").dataset.id); if (x) logAct(`deleted task “${x.title}”`); }
   db.tasks = db.tasks.filter(t=>t.id!==b.closest(".task").dataset.id); save(); render(); toast("Task deleted");
 });
+// ---------- v9.1: status summary, board view, drag & drop ----------
+$("tView").addEventListener("click", e=>{ const b=e.target.closest("button[data-v]"); if(!b) return; tView=b.dataset.v; try{localStorage.setItem("mis_tview",tView)}catch{} renderTasks(); });
+$("taskSum").addEventListener("click", e=>{ const b=e.target.closest("[data-f]"); if(!b) return; const s=$("flStatus"); s.value = s.value===b.dataset.f ? "all" : b.dataset.f; render(); });
+$("taskList").addEventListener("click", e=>{ if(e.target.id==="tClear"){ $("flStatus").value="all"; $("flSearch").value=""; render(); } });
+$("taskList").addEventListener("pointerdown", e=>{ const c=e.target.closest(".task[draggable]"); if(c) c.draggable = !e.target.closest("input,select,button,textarea"); });
+let dragId=null;
+$("taskList").addEventListener("dragstart", e=>{ const c=e.target.closest&&e.target.closest(".task"); if(!c) return; dragId=c.dataset.id; c.classList.add("dragging"); e.dataTransfer.effectAllowed="move"; try{e.dataTransfer.setData("text/plain",dragId)}catch{} });
+$("taskList").addEventListener("dragend", ()=>{ dragId=null; document.querySelectorAll(".dragging,.over").forEach(x=>x.classList.remove("dragging","over")); });
+$("taskList").addEventListener("dragover", e=>{ const col=e.target.closest(".bcol"); if(!col||!dragId) return; e.preventDefault(); document.querySelectorAll(".bcol.over").forEach(x=>x!==col&&x.classList.remove("over")); col.classList.add("over"); });
+$("taskList").addEventListener("drop", e=>{ const col=e.target.closest(".bcol"); if(!col||!dragId) return; e.preventDefault();
+  const sel=$("taskList").querySelector(`.task[data-id="${dragId}"] [data-act=status]`); dragId=null;
+  document.querySelectorAll(".over").forEach(x=>x.classList.remove("over"));
+  if(!sel||sel.value===col.dataset.col) return; sel.value=col.dataset.col; sel.dispatchEvent(new Event("change",{bubbles:true})); });
 $("flMember").onchange = e=>{ selectedMember = e.target.value; render(); };
 $("flStatus").onchange = render; $("flSort").onchange = render; $("flSearch").oninput = render;
 $("prevW").onclick = ()=>{ weekStart = addDays(weekStart,-7); render(); };
@@ -2970,7 +3038,7 @@ ghRender();
 <script>
 /* v8: stable updater + version history. Data lives in localStorage and is never touched by an update; a snapshot is taken first. */
 (()=>{
-const APP_VERSION="9.0.0", SNAP_KEY="mis_snapshots_v1", LOG_KEY="mis_update_log_v1", $=id=>document.getElementById(id);
+const APP_VERSION="9.1.0", SNAP_KEY="mis_snapshots_v1", LOG_KEY="mis_update_log_v1", $=id=>document.getElementById(id);
 const HISTORY=[
  {v:"8.7.0",d:"2026-10-21",n:["System health panel: storage, data integrity checks, backups and one-tap restore points", "Daily automatic backup (last 5 restore points kept)", "iOS-style notification banners, launch splash, offline/online alerts", "Keyboard shortcuts sheet (press ?)"]},
  {v:"8.6.0",d:"2026-10-21",n:["Team cards: fixed clipped avatar/badge overflow, rebuilt the leader switch, rank shown inline, quieter empty states (– instead of 0%), dimmed zero stats, tooltips for long names, refined leader card tiles"]},

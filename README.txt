@@ -104,3 +104,6 @@ Version 8 - Glass, motion and one-click updates
 Version 9 - Liquid Glass polish
 - iOS 26 style glass (edge rims, specular highlights), smooth page transitions, spring press feedback, Inter/SF typography with tabular numbers, layout and mobile glitch fixes, accessibility fallbacks (reduced motion / transparency, high contrast).
 - Publish: upload index.html + version.json; open dashboards offer 'Update now' (auto backup first).
+
+Version 9.1 - Task board
+- Tasks: status summary tiles (To do / In progress / Done / Overdue), By day and Board views, drag & drop between columns. Status filters now follow the task's status (an overdue open task still counts under To do / In progress; use Overdue to see only late ones).

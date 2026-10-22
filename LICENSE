@@ -1,0 +1,57 @@
+MISphere — Proprietary Software Licence
+
+Copyright (c) 2026 YOUR NAME. All rights reserved.
+
+This repository and everything in it, including the source code, design,
+text, graphics, templates, documentation and data formats (together, the
+"Software"), are the exclusive property of YOUR NAME ("the Owner").
+The Software is protected by copyright law and international treaties.
+
+1. NO LICENCE GRANTED
+   No licence or right is granted to you except as stated in this file.
+   Nothing here transfers ownership of, or any intellectual property in,
+   the Software.
+
+2. WHAT YOU MAY DO
+   (a) View the source code in this repository.
+   (b) Use the features GitHub itself provides to every user of a public
+       repository under the GitHub Terms of Service (for example viewing
+       and forking within GitHub).
+   (c) Use a copy of the Software that the Owner has given you in writing,
+       strictly within the terms of that written permission.
+
+3. WHAT YOU MAY NOT DO without the Owner's prior written permission
+   (a) copy, reproduce, modify, adapt, translate or create derivative works;
+   (b) distribute, publish, sublicense, rent, lease, sell or host the
+       Software or any part of it, on any website, service or platform;
+   (c) use the Software, in whole or in part, in any product or service,
+       commercial or non-commercial;
+   (d) remove or alter any copyright, trademark or proprietary notice;
+   (e) present the Software, its name or its design as your own work.
+
+4. THIRD-PARTY COMPONENTS
+   Third-party components used by the Software remain under their own
+   licences. They are listed in THIRD_PARTY_NOTICES.md. This licence does
+   not apply to them and they are not owned by the Owner.
+
+5. FEEDBACK
+   If you send the Owner suggestions or contributions, you grant the Owner a
+   perpetual, worldwide, royalty-free right to use them without obligation.
+
+6. TERMINATION
+   Any permission under section 2(c) ends automatically if you breach this
+   licence. On termination you must stop using the Software and delete all
+   copies in your possession.
+
+7. NO WARRANTY
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   IMPLIED, INCLUDING BUT NOT LIMITED TO MERCHANTABILITY, FITNESS FOR A
+   PARTICULAR PURPOSE, ACCURACY AND NON-INFRINGEMENT.
+
+8. LIMITATION OF LIABILITY
+   TO THE MAXIMUM EXTENT PERMITTED BY LAW, THE OWNER IS NOT LIABLE FOR ANY
+   CLAIM, DAMAGES OR OTHER LIABILITY, INCLUDING LOSS OF DATA, ARISING FROM
+   THE USE OF, OR INABILITY TO USE, THE SOFTWARE.
+
+To request permission or a commercial licence, contact the Owner through the
+details on the repository profile page.

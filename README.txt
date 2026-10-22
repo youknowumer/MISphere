@@ -116,3 +116,7 @@ Version 9.2
 
 Version 9.3 - Insights Pro
 - SVG charts, KPI trends, section switcher (Overview / Team / Modules / Executive), tooltips; board class names separated from Insights charts.
+
+Version 10 - Single Admin, leader from members, task filters
+- One Admin; everyone else is a Member. Admin & leader panel in Members; leader is chosen from members.
+- Tasks: themed filter toolbar (search, member, status, priority, sort, reset, result count).

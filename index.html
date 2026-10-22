@@ -1026,6 +1026,20 @@
   #ctip.on{opacity:1;transform:none}#ctip .h{font-weight:700;margin-bottom:2px}
   @media(max-width:640px){.insnav{top:max(70px,calc(env(safe-area-inset-top) + 70px))}.kp2>b{font-size:28px}.donut{width:140px;height:140px}}
   @media(prefers-reduced-motion:reduce){svg.cx .ln,svg.cx .cg path,.donut .seg{animation:none!important;stroke-dashoffset:0!important}}
+
+  /* ---------- v10: final polish ---------- */
+  :root{accent-color:var(--brand)}::selection{background:var(--brand-soft)}:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+  #meSel{display:none!important}
+  .fbar{display:grid;grid-template-columns:minmax(220px,1.6fr) repeat(4,minmax(120px,1fr)) auto;gap:10px;align-items:end;padding:12px;margin:0 0 8px;border:.5px solid var(--line);border-radius:18px;background:var(--glass,var(--soft));-webkit-backdrop-filter:saturate(1.6) blur(14px);backdrop-filter:saturate(1.6) blur(14px);box-shadow:0 8px 24px -18px rgba(0,0,0,.35);transition:border-color .2s,box-shadow .2s}
+  .fbar.on{border-color:color-mix(in srgb,var(--brand) 50%,var(--line));box-shadow:0 0 0 3px var(--brand-soft),0 8px 24px -18px rgba(0,0,0,.35)}
+  .fi{display:flex;flex-direction:column;gap:4px;margin:0;min-width:0}
+  .fi small{font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding-left:2px}
+  .fi select,.fi input{width:100%;min-width:0!important;height:38px;font-size:13px}
+  .fi.fs{position:relative}.fi.fs span{position:absolute;left:12px;bottom:10px;font-size:13px;opacity:.55;pointer-events:none}.fi.fs input{padding-left:34px}
+  #flReset{height:38px;white-space:nowrap}
+  .fres{font-size:12px;color:var(--muted);margin:0 2px 12px;min-height:16px}
+  .arow{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:12px 0;border-bottom:.5px solid var(--line)}.arow small{display:block;color:var(--muted);font-size:12px;margin-top:2px}.arow select{width:auto;min-width:200px}
+  @media(max-width:900px){.fbar{grid-template-columns:1fr 1fr}.fi.fs,#flReset{grid-column:1/-1}.arow{flex-direction:column;align-items:stretch}.arow select{width:100%}}
 </style>
 <script>window.__v8err=0;addEventListener("error",function(){window.__v8err++});try{var u=JSON.parse(localStorage.getItem("mis_ui_v1"))||{};document.documentElement.dataset.accent=u.a||"ocean";document.documentElement.style.setProperty("--gb",({soft:14,standard:26,strong:44})[u.g||"standard"]+"px")}catch(e){}</script></head>
 <body>
@@ -1083,15 +1097,15 @@
     <div class="panel">
       <div class="ph"><h3>This Week’s Tasks <small id="taskCount"></small></h3><div class="tvs" id="tView" role="group" aria-label="Task view"><button type="button" data-v="day">By day</button><button type="button" data-v="board">Board</button></div></div>
       <div id="taskSum"></div>
-      <div class="filters">
-        <select id="flMember"></select>
-        <select id="flStatus">
-          <option value="all">All Status</option><option value="todo">To Do</option><option value="progress">In Progress</option>
-          <option value="done">Done</option><option value="overdue">Overdue</option>
-        </select>
-        <select id="flSort"><option value="new">Sort: Newest</option><option value="deadline">Sort: Deadline</option><option value="priority">Sort: Priority</option></select>
-        <input id="flSearch" placeholder="Search...">
+      <div class="fbar" id="fBar" role="search" aria-label="Task filters">
+        <label class="fi fs"><span>🔍</span><input id="flSearch" type="search" placeholder="Search title, notes or module…" aria-label="Search tasks"></label>
+        <label class="fi"><small>Member</small><select id="flMember"></select></label>
+        <label class="fi"><small>Status</small><select id="flStatus"><option value="all">All status</option><option value="todo">To Do</option><option value="progress">In Progress</option><option value="done">Done</option><option value="overdue">Overdue</option></select></label>
+        <label class="fi"><small>Priority</small><select id="flPriority"><option value="all">All priorities</option><option value="high">High</option><option value="med">Medium</option><option value="low">Low</option></select></label>
+        <label class="fi"><small>Sort</small><select id="flSort"><option value="new">Newest</option><option value="deadline">Deadline</option><option value="priority">Priority</option></select></label>
+        <button type="button" class="btn sm" id="flReset" hidden>Reset filters <b id="flN"></b></button>
       </div>
+      <div class="fres" id="fRes" aria-live="polite"></div>
       <div id="taskList"></div>
     </div>
   </section>
@@ -1106,14 +1120,14 @@
           <div style="margin-bottom:12px"><label>Full name</label><input id="mfName" maxlength="40" placeholder="Full name" required></div>
           <div style="margin-bottom:12px"><label>Role / designation</label><input id="mfRole" maxlength="40" list="roleList" placeholder="e.g. Data Analyst">
             <datalist id="roleList"><option value="Team Member"><option value="Senior Analyst"><option value="Data Analyst"><option value="Developer"><option value="Support Officer"><option value="Intern"></datalist></div>
-          <div class="fgrid" style="grid-template-columns:1fr 1fr;margin-bottom:12px"><div><label>Access role</label><select id="mfAccess"><option value="member">Member</option><option value="lead">Team Lead</option><option value="admin">Admin</option><option value="viewer">Viewer (read-only)</option></select></div><div><label>Status</label><select id="mfStatus"><option value="active">Active</option><option value="leave">On leave</option></select></div></div>
+          <div class="fgrid" style="grid-template-columns:1fr 1fr;margin-bottom:12px"><input type="hidden" id="mfAccess" value="member"><div><label>Status</label><select id="mfStatus"><option value="active">Active</option><option value="leave">On leave</option></select></div></div>
           <div style="margin-bottom:16px"><label>Colour</label><div class="sw-row" id="mfPal"></div></div>
           <div style="display:flex;gap:8px"><button class="btn pri" type="submit" id="mfSave">Add Member</button><button class="btn" type="button" id="mfCancel" hidden>Cancel</button></div>
         </form>
         <p class="hint" style="margin-top:14px">A new member becomes available in the task form, filters, leaderboard and analytics immediately. Deleting a member also removes their tasks — take a backup first.</p>
       </div>
     </div>
-    <div class="panel"><h3>🔐 Roles &amp; capabilities <small id="roleCnt"></small></h3><div class="twrap" id="pmat"></div></div>
+    <div class="panel"><h3>🔐 Admin &amp; leader <small id="roleCnt"></small></h3><div class="twrap" id="pmat"></div></div>
     <div class="panel"><h3>🕘 Activity <small>last 40 actions</small></h3><div id="actLog"></div></div>
   </section>
 
@@ -1300,7 +1314,7 @@
       <div style="margin-bottom:16px"><label>Department name</label><input id="suDept" maxlength="40" placeholder="e.g. Operations"></div>
       <div style="margin-bottom:20px"><label>Team members <span style="font-weight:500">· one per line as “Name, Role” (up to 20) — the first person becomes Admin</span></label><textarea id="suMem" rows="6" placeholder="Name, Role&#10;Name, Role"></textarea><div class="sprev" id="suPrev"></div></div>
       <div class="sbtns"><button class="btn pri" id="suGo">Create workspace →</button><button class="btn" id="suXl">⬆ Import filled Excel template</button><button class="btn" id="suTpl">⬇ Download Excel template</button><button class="btn" id="suGh" type="button">☁ Load from GitHub</button></div>
-      <div class="strust"><span>🔐 Roles &amp; access</span><span>📝 Daily notes</span><span>📊 Executive insights</span><span>🧾 Activity log</span><span>⬆ Excel import / export</span></div>
+      <div class="strust"><span>🔐 Admin &amp; leader</span><span>📝 Daily notes</span><span>📊 Executive insights</span><span>🧾 Activity log</span><span>⬆ Excel import / export</span></div>
     </div>
   </div>
 </div>
@@ -1350,8 +1364,8 @@ const IOSMAP = {"#f59e0b":{c1:"#ff9500",c2:"#ffb340"},"#4f46e5":{c1:"#007aff",c2
 function norm(d){
   const ok = m => m && m.id && m.name && /^#[0-9a-f]{3,8}$/i.test(m.c1) && /^#[0-9a-f]{3,8}$/i.test(m.c2);
   let list = Array.isArray(d.members) ? d.members.filter(ok) : [];
-  d.members = MEMBERS = list.map(m=>({id:String(m.id), name:clean(m.name), role:clean(m.role)||"Team Member", ...(IOSMAP[String(m.c1).toLowerCase()] || {c1:m.c1, c2:m.c2}), access:["admin","lead","member","viewer"].includes(m.access)?m.access:"member", status:m.status==="leave"?"leave":"active"}));
-  if (MEMBERS.length && !MEMBERS.some(m=>m.access==="admin")) MEMBERS[0].access = "admin";
+  d.members = MEMBERS = list.map(m=>({id:String(m.id), name:clean(m.name), role:clean(m.role)||"Team Member", ...(IOSMAP[String(m.c1).toLowerCase()] || {c1:m.c1, c2:m.c2}), access:m.access==="admin"?"admin":"member", status:m.status==="leave"?"leave":"active"}));
+  if (MEMBERS.length){ const ai = Math.max(0, MEMBERS.findIndex(m=>m.access==="admin")); MEMBERS.forEach((m,i)=>m.access = i===ai ? "admin" : "member"); }
   d.log = Array.isArray(d.log) ? d.log.slice(-200) : [];
   d.notes = d.notes && typeof d.notes==="object" && !Array.isArray(d.notes) ? d.notes : {};
   d.settings = {...DEF_SET, ...(d.settings||{})};
@@ -1995,11 +2009,12 @@ function renderBoard(list, fs){
   }).join("")}</div><div class="kbhint">Drag a card to another column, or use the buttons on the card. On touch screens use the buttons.</div>`;
 }
 function renderTasks(){
-  const fs = $("flStatus").value, q = $("flSearch").value.trim().toLowerCase();
+  const fs = $("flStatus").value, fp = $("flPriority").value, q = $("flSearch").value.trim().toLowerCase();
   const [ws, we] = weekRange();
   const base = T().filter(t=>{
     const d = listDay(t); if (d < ws || d > we) return false;
     if (selectedMember!=="all" && t.member!==selectedMember) return false;
+    if (fp!=="all" && t.priority!==fp) return false;
     if (q && !(t.title+" "+(t.notes||"")+" "+(t.module||"")).toLowerCase().includes(q)) return false;
     return true;
   });
@@ -2010,6 +2025,9 @@ function renderTasks(){
     return true;
   });
   $("taskCount").textContent = `${list.length} task(s)`;
+  { const act = (fs!=="all")+(fp!=="all")+(selectedMember!=="all")+!!q, all = T().filter(t=>{ const d = listDay(t); return d>=ws && d<=we; }).length;
+    $("flReset").hidden = !act; $("flN").textContent = act ? `(${act})` : ""; $("fBar").classList.toggle("on", !!act);
+    $("fRes").textContent = act ? `Showing ${list.length} of ${all} task${all===1?"":"s"} this week` : ""; }
   if (!base.length){ $("taskList").innerHTML = `<div class="empty">No tasks found. Use the form above to add one.</div>`; return; }
   if (!list.length && tView!=="board"){ $("taskList").innerHTML = `<div class="empty">No tasks match this filter. <button type="button" class="btn sm" id="tClear">Show all</button></div>`; return; }
   if (tView==="board"){
@@ -2206,7 +2224,7 @@ $("taskList").addEventListener("click", e=>{
 // ---------- v9.1: status summary, board view, drag & drop ----------
 $("tView").addEventListener("click", e=>{ const b=e.target.closest("button[data-v]"); if(!b) return; tView=b.dataset.v; try{localStorage.setItem("mis_tview",tView)}catch{} renderTasks(); });
 $("taskSum").addEventListener("click", e=>{ const b=e.target.closest("[data-f]"); if(!b) return; const s=$("flStatus"); s.value = s.value===b.dataset.f ? "all" : b.dataset.f; render(); });
-$("taskList").addEventListener("click", e=>{ if(e.target.id==="tClear"){ $("flStatus").value="all"; $("flSearch").value=""; render(); } });
+$("taskList").addEventListener("click", e=>{ if(e.target.id==="tClear") $("flReset").click(); });
 $("taskList").addEventListener("pointerdown", e=>{ const c=e.target.closest(".task[draggable]"); if(c) c.draggable = !e.target.closest("input,select,button,textarea"); });
 let dragId=null;
 $("taskList").addEventListener("dragstart", e=>{ const c=e.target.closest&&e.target.closest(".task"); if(!c) return; dragId=c.dataset.id; c.classList.add("dragging"); e.dataTransfer.effectAllowed="move"; try{e.dataTransfer.setData("text/plain",dragId)}catch{} });
@@ -2222,7 +2240,8 @@ document.addEventListener("pointerup", ()=>document.querySelectorAll(".task[drag
 $("taskList").addEventListener("dragstart", ()=>{ const b=$("taskList").querySelector(".board"); if(b) b.classList.add("drag"); });
 $("taskList").addEventListener("dragend", ()=>{ const b=$("taskList").querySelector(".board"); if(b) b.classList.remove("drag"); });
 $("flMember").onchange = e=>{ selectedMember = e.target.value; render(); };
-$("flStatus").onchange = render; $("flSort").onchange = render; $("flSearch").oninput = render;
+$("flReset").onclick = ()=>{ $("flStatus").value="all"; $("flPriority").value="all"; $("flSearch").value=""; selectedMember="all"; $("flMember").value="all"; render(); };
+$("flPriority").onchange = render; $("flStatus").onchange = render; $("flSort").onchange = render; $("flSearch").oninput = render;
 $("prevW").onclick = ()=>{ weekStart = addDays(weekStart,-7); render(); };
 $("nextW").onclick = ()=>{ weekStart = addDays(weekStart,7); render(); };
 $("thisW").onclick = ()=>{ weekStart = monday(new Date()); render(); };
@@ -2353,7 +2372,7 @@ $("mfCancel").onclick = resetMemForm;
 $("memForm").onsubmit = e=>{
   e.preventDefault(); if (!can("members")) return deny();
   const access = $("mfAccess").value, status = $("mfStatus").value;
-  if (editId && M(editId).access==="admin" && access!=="admin" && MEMBERS.filter(x=>x.access==="admin").length<2){ toast("Keep at least one Admin"); return; }
+  if (editId && M(editId).access==="admin" && access!=="admin" && MEMBERS.filter(x=>x.access==="admin").length<2){ toast("Transfer Admin to another member first"); return; }
   const name = clean($("mfName").value), role = clean($("mfRole").value) || "Team Member", [c1,c2] = PALETTE[palIdx];
   if (name.length < 2){ toast("Name must be at least 2 characters"); return; }
   if (MEMBERS.some(m=>m.name.toLowerCase()===name.toLowerCase() && m.id!==editId)){ toast("A member with this name already exists"); return; }
@@ -2372,7 +2391,7 @@ $("memList").addEventListener("click", e=>{
   if (dl){
     const m = M(dl.dataset.del), n = db.tasks.filter(t=>t.member===m.id).length;
     if (MEMBERS.length<2){ toast("At least one member is required"); return; }
-    if (m.access==="admin" && MEMBERS.filter(x=>x.access==="admin").length<2){ toast("Keep at least one Admin"); return; }
+    if (m.access==="admin" && MEMBERS.filter(x=>x.access==="admin").length<2){ toast("Transfer Admin to another member first"); return; }
     if (m.id===leaderOf(wkKey())){ toast("Change this week’s leader before deleting this member"); return; }
     if (!confirm(`Delete ${m.name}? Their ${n} task(s) will also be deleted.`)) return;
     logAct(`removed member ${m.name}`); MEMBERS.splice(MEMBERS.indexOf(m),1); db.tasks = db.tasks.filter(t=>t.member!==m.id);
@@ -3124,10 +3143,10 @@ document.addEventListener("keydown", e=>{
 })();
 
 // ---------- v5: roles & capabilities ----------
-const ROLES = {admin:"Admin", lead:"Team Lead", member:"Member", viewer:"Viewer"};
+const ROLES = {admin:"Admin", member:"Member"};
 const CAPS = {assign:"Assign tasks to others", editAny:"Update anyone’s tasks", delTask:"Delete tasks", leader:"Set weekly leader", teamNotes:"View team members’ notes", members:"Manage members & roles", data:"Import, restore & erase data", settings:"Change settings"};
 const DEF_PERMS = {lead:["assign","editAny","delTask","leader","teamNotes"], member:[], viewer:[]};
-const ME = () => M(S().me) || MEMBERS.find(m=>m.access==="admin") || MEMBERS[0];
+const ME = () => MEMBERS.find(m=>m.access==="admin") || MEMBERS[0];
 const role = () => (ME()||{}).access || "admin";
 const perms = () => ({...DEF_PERMS, ...(S().perms||{})});
 const can = k => role()==="admin" || (role()!=="viewer" || k==="teamNotes") && (perms()[role()]||[]).includes(k);
@@ -3137,17 +3156,19 @@ const canTask = t => role()!=="viewer" && (t.member===ME().id || can("editAny"))
   $(id).addEventListener("click", e=>{ if (!can(k)){ e.stopImmediatePropagation(); e.preventDefault(); deny(); } }, true));
 $("meSel").onchange = e=>{ db.settings.me = e.target.value; nWho = ""; save(); fillSelects(); initForm(false); render(); toast(`Now acting as ${ME().name} · ${ROLES[role()]}`); };
 function renderAccess(){
-  const me = ME(); $("meSel").innerHTML = MEMBERS.map(m=>`<option value="${m.id}">${esc(m.name)} · ${ROLES[m.access]}</option>`).join(""); $("meSel").value = me.id;
-  $("lockTeam").hidden = can("members"); $("memPanel").hidden = !can("members");
-  const cnt = k => MEMBERS.filter(m=>m.access===k).length, P = perms();
-  $("roleCnt").textContent = Object.keys(ROLES).map(k=>`${ROLES[k]} ${cnt(k)}`).join(" · ");
-  $("pmat").innerHTML = `<table class="tbl pm"><thead><tr><th>Capability</th>${Object.values(ROLES).map(r=>`<th>${r}</th>`).join("")}</tr></thead><tbody>` +
-    Object.entries(CAPS).map(([k,l])=>`<tr><td>${l}</td><td>✔</td>${["lead","member","viewer"].map(r=>`<td><input type="checkbox" data-pm="${r}|${k}" ${P[r].includes(k)?"checked":""} ${(r==="viewer"&&k!=="teamNotes")||!can("members")?"disabled":""}></td>`).join("")}</tr>`).join("") +
-    `</tbody></table><p class="hint" style="margin-top:10px">Everyone can update their own tasks and keep their own notes; Viewers are read-only. Admin always has full access. Roles are enforced inside this browser dashboard — pick who you are with the selector in the header.</p>`;
+  const opt = id => MEMBERS.map(m=>`<option value="${m.id}"${m.id===id?" selected":""}>${esc(m.name)}${m.status==="leave"?" (on leave)":""}</option>`).join("");
+  $("meSel").hidden = true; $("lockTeam").hidden = true; $("memPanel").hidden = false;
+  $("roleCnt").textContent = MEMBERS.length ? `1 Admin · ${MEMBERS.length-1} Member${MEMBERS.length===2?"":"s"}` : "";
+  $("pmat").innerHTML = !MEMBERS.length ? `<p class="hint">Add members first, then pick the leader here.</p>` :
+    `<div class="arow"><div><b>Admin</b><small>One owner with full control of tasks, members, data and settings</small></div><select id="admSel" aria-label="Admin">${opt(ME().id)}</select></div>
+     <div class="arow"><div><b>Leader · ${esc($("weekLbl").textContent)}</b><small>Choose from your members. The leader is kept out of the team ranking</small></div><select id="ldSel" aria-label="Leader of the week">${opt(leaderOf(wkKey()))}</select></div>
+     <p class="hint" style="margin-top:10px">Everyone else is a Member. There are no separate access levels.</p>`;
 }
-$("pmat").onchange = e=>{ const c = e.target.dataset.pm; if (!c) return; if (!can("members")) return deny();
-  const [r,k] = c.split("|"), set = new Set(perms()[r]); e.target.checked ? set.add(k) : set.delete(k); logAct(`${e.target.checked?"granted":"revoked"} “${CAPS[k]}” for ${ROLES[r]}`);
-  db.settings.perms = {...perms(), [r]:[...set]}; save(); render(); };
+$("pmat").onchange = e=>{ const id = e.target.value, el = e.target.id; if (!id || !M(id)) return;
+  if (el==="admSel"){ if (id===ME().id) return; if (!confirm(`Make ${M(id).name} the Admin? ${ME().name} becomes a Member.`)){ render(); return; }
+    logAct(`transferred Admin to ${M(id).name}`); MEMBERS.forEach(m=>m.access = m.id===id ? "admin" : "member"); }
+  else if (el==="ldSel"){ db.leaders[wkKey()] = id; logAct(`set ${M(id).name} as leader for week of ${wkKey()}`); toast(`👑 ${M(id).name} is now the leader`); }
+  else return; save(); fillSelects(); render(); };
 
 // ---------- v5: daily notes ----------
 let nDay = today(), nWho = "", nT;
@@ -3261,7 +3282,7 @@ ghRender();
 <script>
 /* v8: stable updater + version history. Data lives in localStorage and is never touched by an update; a snapshot is taken first. */
 (()=>{
-const APP_VERSION="9.3.0", SNAP_KEY="mis_snapshots_v1", LOG_KEY="mis_update_log_v1", $=id=>document.getElementById(id);
+const APP_VERSION="10.0.0", SNAP_KEY="mis_snapshots_v1", LOG_KEY="mis_update_log_v1", $=id=>document.getElementById(id);
 const HISTORY=[
  {v:"8.7.0",d:"2026-10-21",n:["System health panel: storage, data integrity checks, backups and one-tap restore points", "Daily automatic backup (last 5 restore points kept)", "iOS-style notification banners, launch splash, offline/online alerts", "Keyboard shortcuts sheet (press ?)"]},
  {v:"8.6.0",d:"2026-10-21",n:["Team cards: fixed clipped avatar/badge overflow, rebuilt the leader switch, rank shown inline, quieter empty states (– instead of 0%), dimmed zero stats, tooltips for long names, refined leader card tiles"]},

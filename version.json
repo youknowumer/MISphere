@@ -1,14 +1,23 @@
 {
-  "version": "9.3.0",
+  "version": "10.0.0",
   "date": "2026-10-22",
   "notes": [
-    "Insights rebuilt with crisp SVG charts: daily activity bars with gridlines, today highlight and average line; status donut; smooth 6-week trend with area fill",
-    "KPI cards now show change vs last week and a 6-week sparkline",
-    "Insights sections: Overview, Team, Modules, Executive (remembered); print still includes everything",
-    "Hover/tap tooltips on every chart, richer workload view with overdue share and rebalancing hint, friendly empty states",
-    "Fixed: board styles had clashed with the Insights bar charts (shared class names)"
+    "One Admin only: Team Lead / Viewer roles and the permission matrix are removed; older workspaces are converted automatically (first Admin kept, everyone else becomes Member)",
+    "Members > Admin & leader: transfer Admin and pick the weekly leader from your members; the 'Acting as' selector is gone",
+    "Tasks filters rebuilt as a theme-aware toolbar: search, member, status, priority, sort, active-filter count, one-click reset and a 'Showing X of Y' line",
+    "Theme polish: accent colour, focus rings and selection colour follow light / dark"
   ],
   "history": [
+    {
+      "v": "10.0.0",
+      "d": "2026-10-22",
+      "n": [
+        "One Admin only: Team Lead / Viewer roles and the permission matrix are removed; older workspaces are converted automatically (first Admin kept, everyone else becomes Member)",
+        "Members > Admin & leader: transfer Admin and pick the weekly leader from your members; the 'Acting as' selector is gone",
+        "Tasks filters rebuilt as a theme-aware toolbar: search, member, status, priority, sort, active-filter count, one-click reset and a 'Showing X of Y' line",
+        "Theme polish: accent colour, focus rings and selection colour follow light / dark"
+      ]
+    },
     {
       "v": "9.3.0",
       "d": "2026-10-22",

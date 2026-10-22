@@ -1,14 +1,17 @@
 {
-  "version": "10.2.0",
+  "version": "10.3.0",
   "date": "2026-10-22",
   "notes": [
-    "Insights: new report header (organisation, classification, prepared by), executive summary with delivery-health ring, targets scorecard, auto key findings and recommended actions, print/PDF header and footer",
-    "Settings rebuilt as a sectioned workspace: search, unsaved-changes bar with validation, per-section reset, settings export / import, live previews",
-    "New settings: organisation, prepared by, classification, opening page, hours format, default analysis period, at-risk window, attention look-ahead, backup reminder, reduce motion",
-    "Fix: Insights tags could leak into saved settings",
-    "Copyright and licence now name Muhammad Umer Faheem"
+    "Command header redesign: live greeting and clock, week context (ISO week, relative), office-day progress bar, live task pulse (open / due today / overdue), profile avatar, compact sticky mode on scroll, responsive mobile layout"
   ],
   "history": [
+    {
+      "v": "10.3.0",
+      "d": "2026-10-22",
+      "n": [
+        "Command header redesign: live greeting and clock, week context (ISO week, relative), office-day progress bar, live task pulse (open / due today / overdue), profile avatar, compact sticky mode on scroll, responsive mobile layout"
+      ]
+    },
     {
       "v": "10.2.0",
       "d": "2026-10-22",

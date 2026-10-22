@@ -2,6 +2,10 @@
 
 All notable changes to MISphere, newest first.
 
+## 10.3.0 — 2026-10-22
+
+- Command header redesign: live greeting and clock, week context (ISO week, relative), office-day progress bar, live task pulse (open / due today / overdue), profile avatar, compact sticky mode on scroll, responsive mobile layout
+
 ## 10.2.0 — 2026-10-22
 
 - Insights: new report header (organisation, classification, prepared by), executive summary with delivery-health ring, targets scorecard, auto key findings and recommended actions, print/PDF header and footer

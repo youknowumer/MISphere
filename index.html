@@ -420,6 +420,23 @@
   body{transition:background-color .6s ease}
   html[data-accent]{transition:--brand .5s}
   .mchip.on{backdrop-filter:blur(10px) saturate(160%);-webkit-backdrop-filter:blur(10px) saturate(160%)}
+
+  /* v10.7 action banner */
+  #toast .tx{display:inline-block;vertical-align:middle}
+  #toast .tact{margin-left:14px;border:0;border-radius:999px;padding:6px 14px;font:700 13px/1 inherit;background:var(--brand);color:#fff;cursor:pointer;vertical-align:middle;transition:transform .25s cubic-bezier(.34,1.56,.64,1)}
+  #toast .tact:active{transform:scale(.92)}
+  #toast.act{pointer-events:auto!important;display:flex!important;flex-wrap:nowrap!important;align-items:center;gap:12px;white-space:nowrap!important;width:max-content!important;max-width:calc(100vw - 28px)!important}
+  #toast.act .tx{overflow:hidden;text-overflow:ellipsis;min-width:0}
+  #toast.act .tact{margin-left:2px;flex:none}
+  /* v10.6 appearance options */
+  html[data-oled=on][data-theme=dark]{--bg:#000;--card:#08080a;--soft:rgba(118,118,128,.14);--gl-bg:rgba(8,8,12,.62)}
+  html[data-oled=on][data-theme=dark] body::before{opacity:.32}
+  html[data-fs=sm] body{zoom:.92}html[data-fs=lg] body{zoom:1.09}
+  html[data-rad=sharp] .panel,html[data-rad=sharp] .task,html[data-rad=sharp] .bcard,html[data-rad=sharp] .mcard,html[data-rad=sharp] .kpi,html[data-rad=sharp] .stat,html[data-rad=sharp] .mm-card,html[data-rad=sharp] dialog{border-radius:10px!important}
+  html[data-rad=sharp] .btn,html[data-rad=sharp] input,html[data-rad=sharp] select,html[data-rad=sharp] textarea,html[data-rad=sharp] .ib,html[data-rad=sharp] .pill{border-radius:7px!important}
+  html[data-bg=plain] body::before{display:none}
+  #apMore .ap-seg{margin-bottom:4px}
+  .pill.rep{background:color-mix(in srgb,var(--brand) 12%,transparent);color:var(--brand)}
   /* v10.4 multi-assignee */
   .span-all{grid-column:1/-1}
   .mp-hint{font-weight:500;color:var(--mut,#667085);font-size:11.5px;margin-left:4px}
@@ -851,21 +868,21 @@
   /* ===== v8.5: colour combos, liquid glass, update history ===== */
   :root{--gb:26px;--m1:#0a84ff;--m2:#5ac8fa;--m3:#5e5ce6;--brand-soft:color-mix(in srgb,var(--brand) 13%,transparent)}
   html[data-theme=dark]{--brand-soft:color-mix(in srgb,var(--brand) 22%,transparent)}
-  html[data-accent=ocean]{--brand:#0a84ff;--m1:#0a84ff;--m2:#5ac8fa;--m3:#5e5ce6}html[data-theme=dark][data-accent=ocean]{--brand:#0a84ff;--m1:#0a84ff}
-  html[data-accent=aurora]{--brand:#5e5ce6;--m1:#5e5ce6;--m2:#bf5af2;--m3:#64d2ff}html[data-theme=dark][data-accent=aurora]{--brand:#7d7aff;--m1:#7d7aff}
-  html[data-accent=sunset]{--brand:#ff375f;--m1:#ff375f;--m2:#ff9f0a;--m3:#bf5af2}html[data-theme=dark][data-accent=sunset]{--brand:#ff5a7a;--m1:#ff5a7a}
-  html[data-accent=forest]{--brand:#1fa463;--m1:#1fa463;--m2:#64d2ff;--m3:#30b0c7}html[data-theme=dark][data-accent=forest]{--brand:#30d158;--m1:#30d158}
-  html[data-accent=graphite]{--brand:#5e6670;--m1:#5e6670;--m2:#8e8e93;--m3:#5e5ce6}html[data-theme=dark][data-accent=graphite]{--brand:#9aa0aa;--m1:#9aa0aa}
+  html[data-accent=ocean]{--brand:#007AFF;--m1:#007AFF;--m2:#32ADE6;--m3:#5856D6}html[data-theme=dark][data-accent=ocean]{--brand:#0A84FF;--m1:#0A84FF}
+  html[data-accent=aurora]{--brand:#5856D6;--m1:#5856D6;--m2:#AF52DE;--m3:#32ADE6}html[data-theme=dark][data-accent=aurora]{--brand:#5E5CE6;--m1:#5E5CE6}
+  html[data-accent=sunset]{--brand:#FF3B30;--m1:#FF3B30;--m2:#FF9500;--m3:#FF2D55}html[data-theme=dark][data-accent=sunset]{--brand:#FF453A;--m1:#FF453A}
+  html[data-accent=forest]{--brand:#34C759;--m1:#34C759;--m2:#00C7BE;--m3:#30B0C7}html[data-theme=dark][data-accent=forest]{--brand:#30D158;--m1:#30D158}
+  html[data-accent=graphite]{--brand:#636366;--m1:#636366;--m2:#8E8E93;--m3:#5856D6}html[data-theme=dark][data-accent=graphite]{--brand:#8E8E93;--m1:#8E8E93}
 
-  /* v10.5 more colour combos */
-  html[data-accent=lavender]{--brand:#8e6cf0;--m1:#8e6cf0;--m2:#c9a7ff;--m3:#7fb8ff}html[data-theme=dark][data-accent=lavender]{--brand:#a78bfa;--m1:#a78bfa}
-  html[data-accent=rose]{--brand:#ff4f8b;--m1:#ff4f8b;--m2:#ffb3c9;--m3:#c77dff}html[data-theme=dark][data-accent=rose]{--brand:#ff6fa1;--m1:#ff6fa1}
-  html[data-accent=mint]{--brand:#12b886;--m1:#12b886;--m2:#8ff0d0;--m3:#4dc9ff}html[data-theme=dark][data-accent=mint]{--brand:#2ee6a8;--m1:#2ee6a8}
-  html[data-accent=citrus]{--brand:#f5a000;--m1:#f5a000;--m2:#ffd60a;--m3:#34c759}html[data-theme=dark][data-accent=citrus]{--brand:#ffbe2e;--m1:#ffbe2e}
-  html[data-accent=coral]{--brand:#ff6b4a;--m1:#ff6b4a;--m2:#ffb199;--m3:#ff3b8d}html[data-theme=dark][data-accent=coral]{--brand:#ff8a6b;--m1:#ff8a6b}
-  html[data-accent=sky]{--brand:#2d9cff;--m1:#2d9cff;--m2:#9ad8ff;--m3:#7a8bff}html[data-theme=dark][data-accent=sky]{--brand:#5ab6ff;--m1:#5ab6ff}
-  html[data-accent=berry]{--brand:#c2185b;--m1:#c2185b;--m2:#ff7ab6;--m3:#7b4dff}html[data-theme=dark][data-accent=berry]{--brand:#e0449a;--m1:#e0449a}
-  html[data-accent=midnight]{--brand:#4a5cff;--m1:#4a5cff;--m2:#25d0ff;--m3:#9b5cff}html[data-theme=dark][data-accent=midnight]{--brand:#7d8bff;--m1:#7d8bff}
+  /* v10.5 more colour combos — Apple system colours */
+  html[data-accent=lavender]{--brand:#AF52DE;--m1:#AF52DE;--m2:#D9A6FF;--m3:#5E9BFF}html[data-theme=dark][data-accent=lavender]{--brand:#BF5AF2;--m1:#BF5AF2}
+  html[data-accent=rose]{--brand:#FF2D55;--m1:#FF2D55;--m2:#FF8FB1;--m3:#AF52DE}html[data-theme=dark][data-accent=rose]{--brand:#FF375F;--m1:#FF375F}
+  html[data-accent=mint]{--brand:#00C7BE;--m1:#00C7BE;--m2:#32ADE6;--m3:#34C759}html[data-theme=dark][data-accent=mint]{--brand:#63E6E2;--m1:#63E6E2}
+  html[data-accent=citrus]{--brand:#FF9500;--m1:#FF9500;--m2:#FFCC00;--m3:#34C759}html[data-theme=dark][data-accent=citrus]{--brand:#FF9F0A;--m1:#FF9F0A}
+  html[data-accent=teal]{--brand:#30B0C7;--m1:#30B0C7;--m2:#64D2FF;--m3:#5856D6}html[data-theme=dark][data-accent=teal]{--brand:#40C8E0;--m1:#40C8E0}
+  html[data-accent=sky]{--brand:#32ADE6;--m1:#32ADE6;--m2:#007AFF;--m3:#5856D6}html[data-theme=dark][data-accent=sky]{--brand:#64D2FF;--m1:#64D2FF}
+  html[data-accent=cocoa]{--brand:#A2845E;--m1:#A2845E;--m2:#FF9500;--m3:#FF2D55}html[data-theme=dark][data-accent=cocoa]{--brand:#AC8E68;--m1:#AC8E68}
+  html[data-accent=midnight]{--brand:#5856D6;--m1:#5856D6;--m2:#007AFF;--m3:#AF52DE}html[data-theme=dark][data-accent=midnight]{--brand:#5E5CE6;--m1:#5E5CE6}
   body{background:var(--bg)!important}
   body::before{content:"";position:fixed;inset:-25%;z-index:-1;pointer-events:none;background:radial-gradient(38% 38% at 14% 18%,color-mix(in srgb,var(--m1) 34%,transparent),transparent 70%),radial-gradient(34% 34% at 86% 12%,color-mix(in srgb,var(--m2) 28%,transparent),transparent 70%),radial-gradient(44% 44% at 62% 92%,color-mix(in srgb,var(--m3) 26%,transparent),transparent 70%);filter:blur(24px);animation:v85drift 32s ease-in-out infinite alternate;will-change:transform}
   html[data-theme=dark] body::before{opacity:.75}
@@ -1120,7 +1137,7 @@
   @media(max-width:900px){.fbar{grid-template-columns:1fr 1fr}#flExp,#flReset{grid-column:auto}}
   html[data-theme=dark] .tsc[data-f=todo] b{color:var(--text)}
 </style>
-<script>window.__v8err=0;addEventListener("error",function(){window.__v8err++});try{var u=JSON.parse(localStorage.getItem("mis_ui_v1"))||{};var h=new Date().getHours();document.documentElement.dataset.accent=(u.a==="auto"?(h<6?"midnight":h<10?"coral":h<17?"ocean":h<20?"sunset":"aurora"):u.a)||"ocean";document.documentElement.style.setProperty("--gb",({soft:14,standard:26,strong:44})[u.g||"standard"]+"px")}catch(e){}</script></head>
+<script>window.__v8err=0;addEventListener("error",function(){window.__v8err++});try{var u=JSON.parse(localStorage.getItem("mis_ui_v1"))||{};var h=new Date().getHours();if(u.a==="coral")u.a="teal";if(u.a==="berry")u.a="rose";var D=document.documentElement.dataset;D.oled=u.o||"off";D.fs=u.f||"md";D.rad=u.r||"soft";D.bg=u.b||"mesh";document.documentElement.dataset.accent=(u.a==="auto"?(h<6?"midnight":h<10?"citrus":h<17?"ocean":h<20?"sunset":"aurora"):u.a)||"ocean";document.documentElement.style.setProperty("--gb",({soft:14,standard:26,strong:44})[u.g||"standard"]+"px")}catch(e){}</script></head>
 <body>
 <div id="v87splash" aria-hidden="true"><div class="sp-ic"><svg viewBox="0 0 64 64"><path d="M16 15v33h33" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 39l9-9 6 6 10-13" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="49" cy="23" r="4" fill="#f5d061"/></svg></div><b>MISphere</b></div>
 
@@ -1170,6 +1187,7 @@
           <div><label>Module</label><select id="fModule"></select></div>
           <div><label>Date</label><input id="fToday" disabled></div>
           <div><label>Deadline</label><input type="date" id="fDeadline" required></div>
+          <div><label>Repeat</label><select id="fRepeat"><option value="">Does not repeat</option><option value="daily">Every day</option><option value="weekdays">Every weekday</option><option value="weekly">Every week</option><option value="monthly">Every month</option></select></div>
           <div><label>Priority</label><select id="fPriority"><option value="high">High</option><option value="med" selected>Medium</option><option value="low">Low</option></select></div>
           <div><label>Estimate (hours)</label><input type="number" id="fEst" min="0" step="0.25" placeholder="e.g. 2"></div>
         </div>
@@ -1384,7 +1402,7 @@
             <div class="srow"><div><b>Theme</b><span>Light, dark, or follow your device</span></div><select data-s="theme" style="width:auto"><option value="auto">Auto</option><option value="light">Light</option><option value="dark">Dark</option></select></div>
             <div class="srow"><div><b>Compact layout</b><span>Tighter spacing for dense screens</span></div><label class="sw"><input type="checkbox" data-s="compact"><i></i></label></div>
             <div class="srow"><div><b>Reduce motion</b><span>Turns off animations and transitions</span></div><label class="sw"><input type="checkbox" data-s="rmotion"><i></i></label></div></div>
-          <div class="panel" id="uiPanel"><h3>🎨 Appearance <small>colour combo and liquid-glass intensity · saved on this device</small></h3><div class="ap-lbl">Colour combo</div><div class="ap-acc" id="apAcc"></div><div class="ap-lbl">Glass intensity</div><div class="ap-seg" id="apGl"></div></div>
+          <div class="panel" id="uiPanel"><h3>🎨 Appearance <small>colours, glass, surface, text size, corners and background · saved on this device</small></h3><div class="ap-lbl">Colour combo</div><div class="ap-acc" id="apAcc"></div><div class="ap-lbl">Glass intensity</div><div class="ap-seg" id="apGl"></div><div id="apMore"></div></div>
         </div>
 
         <div class="ssec" data-ss="data">
@@ -1440,7 +1458,7 @@
 </nav>
 <dialog id="tDlg"><form id="tForm"><h3 style="margin-bottom:14px">Edit task</h3>
 <div style="margin-bottom:10px"><label>Task</label><input id="eTitle" required maxlength="200"></div>
-<div class="fgrid" style="grid-template-columns:1fr 1fr"><div class="span-all"><label>Assigned to <span class="mp-hint">— tap to add or remove</span></label><div id="eMember" class="mpick" role="group" aria-label="Assigned to"></div></div><div><label>Deadline</label><input type="date" id="eDeadline" required></div><div><label>Priority</label><select id="ePri"><option value="high">High</option><option value="med">Medium</option><option value="low">Low</option></select></div><div><label>Estimate (hours)</label><input type="number" id="eEst" min="0" step="0.25"></div></div>
+<div class="fgrid" style="grid-template-columns:1fr 1fr"><div class="span-all"><label>Assigned to <span class="mp-hint">— tap to add or remove</span></label><div id="eMember" class="mpick" role="group" aria-label="Assigned to"></div></div><div><label>Deadline</label><input type="date" id="eDeadline" required></div><div><label>Priority</label><select id="ePri"><option value="high">High</option><option value="med">Medium</option><option value="low">Low</option></select></div><div><label>Estimate (hours)</label><input type="number" id="eEst" min="0" step="0.25"></div><div><label>Repeat</label><select id="eRepeat"><option value="">Does not repeat</option><option value="daily">Every day</option><option value="weekdays">Every weekday</option><option value="weekly">Every week</option><option value="monthly">Every month</option></select></div></div>
 <div class="fgrid" style="grid-template-columns:1fr 2fr;margin-bottom:14px"><div><label>Module</label><select id="eModule"></select></div><div><label>Notes</label><input id="eNotes"></div></div>
 <div style="display:flex;gap:8px;justify-content:flex-end"><button class="btn" type="button" id="eCancel">Cancel</button><button class="btn pri" type="submit">Save</button></div></form></dialog>
 <dialog id="ghDlg"><form id="ghForm"><h3 style="margin-bottom:6px">☁ Live sync to GitHub</h3>
@@ -1914,7 +1932,12 @@ function save(){
   catch{ toast("⚠ Unable to save data — browser storage is disabled or full. Please take a backup!"); }
   ghSchedule(); fsSchedule();
 }
-function toast(msg){ const t=$("toast"); t.setAttribute("role","status"); t.setAttribute("aria-live","polite"); t.textContent=msg; t.classList.add("show"); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove("show"),2200); }
+function toastAct(msg, label, fn){   // iOS-style banner with an action (e.g. Undo)
+  const t=$("toast"); t.setAttribute("role","status"); t.setAttribute("aria-live","polite"); t.innerHTML = `<span class="tx"></span><button type="button" class="tact"></button>`;
+  t.firstChild.textContent = msg; t.lastChild.textContent = label; t._fn = fn; t.classList.add("show","act"); clearTimeout(t._h);
+  t._h = setTimeout(()=>t.classList.remove("show","act"), 5000); }
+document.addEventListener("click", e=>{ const b=e.target.closest("#toast .tact"); if(!b) return; const t=$("toast"), f=t._fn; t._fn=null; t.classList.remove("show","act"); clearTimeout(t._h); if(f) f(); });
+function toast(msg){ $("toast").classList.remove("act"); const t=$("toast"); t.setAttribute("role","status"); t.setAttribute("aria-live","polite"); t.textContent=msg; t.classList.add("show"); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove("show"),2200); }
 
 const wkKey = () => ymd(weekStart);
 // leader for a week = that week's choice, else the latest earlier choice, else default
@@ -1981,9 +2004,35 @@ function clock(h){
   const sec = Math.floor(h*3600);
   return [Math.floor(sec/3600), Math.floor(sec/60)%60, sec%60].map(pad).join(":");
 }
-function finish(t){
-  t.status = "done"; t.completedAt = today(); t.progress = 100; t.doneAt = Date.now();
+const REPL = {daily:"Daily", weekdays:"Weekdays", weekly:"Weekly", monthly:"Monthly"};
+const repPill = t => t.repeat && REPL[t.repeat] ? `<span class="pill rep" title="Repeats ${REPL[t.repeat].toLowerCase()}">🔁 ${REPL[t.repeat]}</span>` : "";
+function nextDue(from, rule){
+  const d = parse(from);
+  if (rule==="daily") d.setDate(d.getDate()+1);
+  else if (rule==="weekdays"){ do d.setDate(d.getDate()+1); while (d.getDay()===0 || d.getDay()===6); }
+  else if (rule==="weekly") d.setDate(d.getDate()+7);
+  else if (rule==="monthly"){ const day = d.getDate(); d.setDate(1); d.setMonth(d.getMonth()+1); d.setDate(Math.min(day, new Date(d.getFullYear(), d.getMonth()+1, 0).getDate())); }
+  return ymd(d);
 }
+function spawnNext(t){   // repeating task: when finished, schedule the next one (once)
+  if (!t.repeat || !REPL[t.repeat] || t.nextMade) return;
+  let n = nextDue(t.deadline, t.repeat), guard = 0; while (n <= today() && guard++ < 400) n = nextDue(n, t.repeat);
+  const o = {...t, id:Date.now().toString(36)+Math.random().toString(36).slice(2,6), team:[...(t.team||[])], date:n, deadline:n, status:"todo", progress:0, completedAt:null, doneAt:null, nextMade:false, created:new Date(parse(n).setHours(9,0,0,0)).getTime(), assignedBy:t.assignedBy};
+  delete o.spentHours; t.nextMade = true; db.tasks.push(o);
+  logAct(`scheduled next “${t.title}” for ${n}`); toast(`🔁 Next “${t.title}” scheduled for ${fmt(n,{weekday:"short",day:"numeric",month:"short"})}`);
+}
+function finish(t){
+  t.status = "done"; t.completedAt = today(); t.progress = 100; t.doneAt = Date.now(); spawnNext(t);
+}
+$("taskList").addEventListener("click", e=>{
+  const b = e.target.closest("[data-act=dup]"); if (!b) return;
+  const t = db.tasks.find(x=>x.id===b.closest(".task").dataset.id); if (!t) return;
+  if (role()==="viewer" || !(can("assign") || has(t,ME().id))) return deny();
+  const c = {...t, id:Date.now().toString(36)+Math.random().toString(36).slice(2,6), team:[...(t.team||[])], title:t.title+" (copy)", date:today(), deadline:t.deadline<today()?today():t.deadline,
+    status:"todo", progress:0, completedAt:null, doneAt:null, nextMade:false, created:Date.now(), assignedBy:ME().id};
+  delete c.spentHours; db.tasks.push(c); logAct(`duplicated task “${t.title}”`); save(); render();
+  toastAct(`⧉ Duplicated “${t.title.length>34?t.title.slice(0,33)+"…":t.title}”`, "Undo", ()=>{ db.tasks = db.tasks.filter(x=>x.id!==c.id); logAct(`undid duplicate of “${t.title}”`); save(); render(); toast("Duplicate removed"); });
+});
 function statsOf(list){
   const s = {total:list.length, done:0, ontime:0, late:0, overdue:0, sum:0, score:0, est:0, spent:0, doneEst:0, doneSpent:0};
   list.forEach(t=>{
@@ -2151,8 +2200,8 @@ function boardCard(t){
   const q = (to,l,c="")=>`<button type="button" class="bq ${c}" data-act="mv" data-to="${to}">${l}</button>`;
   const acts = t.status==="todo" ? q("progress","Start")+q("done","Done","ok") : t.status==="progress" ? q("done","Mark done","ok")+q("todo","To do") : q("progress","Reopen");
   return `<article draggable="true" class="task bcard st-${st}" data-id="${t.id}">
-    <div class="bc-top"><span class="pill ${pc}">${pl}</span>${t.module?`<span class="pill mod" title="Module">▣ ${esc(t.module)}</span>`:""}${carryPill(t)}<span class="bc-sp"></span>
-      <button type="button" class="ib bi" data-act="edit" title="Edit task" aria-label="Edit task">✏</button><button type="button" class="ib bi" data-act="del" title="Delete task" aria-label="Delete task">🗑</button></div>
+    <div class="bc-top"><span class="pill ${pc}">${pl}</span>${t.module?`<span class="pill mod" title="Module">▣ ${esc(t.module)}</span>`:""}${carryPill(t)}${repPill(t)}<span class="bc-sp"></span>
+      <button type="button" class="ib bi" data-act="dup" title="Duplicate task" aria-label="Duplicate task">⧉</button><button type="button" class="ib bi" data-act="edit" title="Edit task" aria-label="Edit task">✏</button><button type="button" class="ib bi" data-act="del" title="Delete task" aria-label="Delete task">🗑</button></div>
     <h5 class="bc-title${done?" done":""}">${esc(t.title)}</h5>
     ${t.notes?`<p class="bc-notes">${esc(t.notes)}</p>`:""}
     <div class="bc-meta"><span class="bc-who"${by.length?by:` title="${esc(crewNames(t))}"`}>${crew(t).length>1 ? avStack(t,"mini") : `<i style="background:linear-gradient(135deg,${m.c1},${m.c2})">${initials(m.name)}</i>`}<span>${esc(crew(t).length>1 ? crewNames(t) : m.name)}</span></span><span class="bc-due ${dk}">${dl}</span></div>
@@ -2221,7 +2270,7 @@ function taskHTML(t){
         <span class="pill ${pc}">${pl}</span><span class="pill ${sc}">${sl}</span>${t.module?`<span class="pill mod" title="Module">▣ ${esc(t.module)}</span>`:""}
         ${t.completedAt?`<span>· Done ${fmt(t.completedAt)}</span>`:""}
         ${t.estHours?`<span>· Est ${fmtH(t.estHours)}</span>`:""}
-        ${carryPill(t)}
+        ${carryPill(t)}${repPill(t)}
         ${timePill(t)}</div>
       ${t.notes?`<div class="notes">${esc(t.notes)}</div>`:""}
     </div>
@@ -2232,7 +2281,7 @@ function taskHTML(t){
           <option value="progress" ${t.status==="progress"?"selected":""}>In Progress</option>
           <option value="done" ${t.status==="done"?"selected":""}>Done</option>
         </select>
-        <button class="btn sm" data-act="edit" title="Edit task">✏</button><button class="btn sm" data-act="del" title="Delete">🗑</button>
+        <button class="btn sm" data-act="dup" title="Duplicate task">⧉</button><button class="btn sm" data-act="edit" title="Edit task">✏</button><button class="btn sm" data-act="del" title="Delete">🗑</button>
       </div>
       <div class="r"><input type="range" min="0" max="100" step="10" value="${prog}" data-act="prog" ${t.status==="done"?"disabled":""}>
         <b style="font-size:12px;width:36px;text-align:right">${prog}%</b></div>
@@ -2383,10 +2432,10 @@ $("taskForm").onsubmit = e=>{
   const date = today(), deadline = $("fDeadline").value;
   if (deadline < date){ toast("Deadline cannot be earlier than today"); return; }
   db.tasks.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),
-    member:who, team:crewIds.slice(1), module:clean($("fModule").value), assignedBy:ME().id, title:$("fTitle").value.trim(), notes:$("fNotes").value.trim(),
+    member:who, team:crewIds.slice(1), repeat:$("fRepeat").value||"", module:clean($("fModule").value), assignedBy:ME().id, title:$("fTitle").value.trim(), notes:$("fNotes").value.trim(),
     date, deadline, priority:$("fPriority").value, status:"todo", progress:0, completedAt:null, created:Date.now(),
     estHours: +$("fEst").value || null, doneAt:null});
-  logAct(`added task “${$("fTitle").value.trim()}” for ${crewIds.map(i=>M(i).name).join(", ")}`); save(); $("fTitle").value=""; $("fNotes").value=""; $("fEst").value=""; initForm(); $("fTitle").focus();
+  logAct(`added task “${$("fTitle").value.trim()}” for ${crewIds.map(i=>M(i).name).join(", ")}`); save(); $("fTitle").value=""; $("fNotes").value=""; $("fEst").value=""; $("fRepeat").value=""; initForm(); $("fTitle").focus();
   weekStart = monday(parse(date)); render(); toast("Task added ✔");
 };
 $("taskList").addEventListener("change", e=>{
@@ -3402,13 +3451,13 @@ function renderNotes(){
 }
 function logAct(t){ (db.log ??= []).push({t:Date.now(), w:(ME()||{}).name||"", a:t}); db.log = db.log.slice(-200); }
 let eId = null;
-function openEdit(t){ eId = t.id; mpInit($("eMember"), can("assign")?MEMBERS:crewM(t), crew(t));
+function openEdit(t){ eId = t.id; mpInit($("eMember"), can("assign")?MEMBERS:crewM(t), crew(t)); $("eRepeat").value = t.repeat||"";
    $("eTitle").value = t.title; $("eDeadline").value = t.deadline; $("ePri").value = t.priority; $("eEst").value = t.estHours||""; $("eNotes").value = t.notes||""; $("eModule").value = t.module||""; $("tDlg").showModal(); }
 $("eCancel").onclick = ()=>$("tDlg").close();
 $("tForm").onsubmit = e=>{ e.preventDefault(); const t = db.tasks.find(x=>x.id===eId); if (!t || !canTask(t)) return deny();
   const dl = $("eDeadline").value; if (dl < t.date){ toast("Deadline can’t be before the task date"); return; }
   { const ids = can("assign") ? mpGet($("eMember")).filter(M) : crew(t); if (!ids.length){ toast("Choose at least one person"); return; } setCrew(t, ids); }
-  Object.assign(t, {title:$("eTitle").value.trim(), module:clean($("eModule").value), deadline:dl, priority:$("ePri").value, estHours:+$("eEst").value||null, notes:$("eNotes").value.trim()});
+  Object.assign(t, {repeat:$("eRepeat").value||"", title:$("eTitle").value.trim(), module:clean($("eModule").value), deadline:dl, priority:$("ePri").value, estHours:+$("eEst").value||null, notes:$("eNotes").value.trim()});
   logAct(`edited task “${t.title}”`); save(); $("tDlg").close(); render(); toast("Task updated ✔"); };
 $("homeFocus").onchange = e=>{ const r = e.target.closest("[data-hf]"); if (!r || role()==="viewer") return; const i = nOf(today(),ME().id).items.find(z=>z.id===r.dataset.hf); if (i){ i.d = true; i.at = Date.now(); save(); render(); } };
 $("nSearch").oninput = render;
@@ -3475,7 +3524,7 @@ ghRender();
 <script>
 /* v8: stable updater + version history. Data lives in localStorage and is never touched by an update; a snapshot is taken first. */
 (()=>{
-const APP_VERSION="10.5.0", SNAP_KEY="mis_snapshots_v1", LOG_KEY="mis_update_log_v1", $=id=>document.getElementById(id);
+const APP_VERSION="10.7.0", SNAP_KEY="mis_snapshots_v1", LOG_KEY="mis_update_log_v1", $=id=>document.getElementById(id);
 const HISTORY=[
  {v:"8.7.0",d:"2026-10-21",n:["System health panel: storage, data integrity checks, backups and one-tap restore points", "Daily automatic backup (last 5 restore points kept)", "iOS-style notification banners, launch splash, offline/online alerts", "Keyboard shortcuts sheet (press ?)"]},
  {v:"8.6.0",d:"2026-10-21",n:["Team cards: fixed clipped avatar/badge overflow, rebuilt the leader switch, rank shown inline, quieter empty states (– instead of 0%), dimmed zero stats, tooltips for long names, refined leader card tiles"]},
@@ -3561,21 +3610,17 @@ document.addEventListener("DOMContentLoaded",()=>{
 </script>
 <script>
 (()=>{const K="mis_ui_v1",G={soft:14,standard:26,strong:44},$=id=>document.getElementById(id);
-const A=[["ocean","Ocean",["#0a84ff","#5ac8fa","#5e5ce6"]],["aurora","Aurora",["#5e5ce6","#bf5af2","#64d2ff"]],["sunset","Sunset",["#ff375f","#ff9f0a","#bf5af2"]],["forest","Forest",["#1fa463","#64d2ff","#30b0c7"]],["graphite","Graphite",["#5e6670","#8e8e93","#5e5ce6"]],["lavender","Lavender",["#8e6cf0","#c9a7ff","#7fb8ff"]],
-["rose","Rose",["#ff4f8b","#ffb3c9","#c77dff"]],
-["mint","Mint",["#12b886","#8ff0d0","#4dc9ff"]],
-["citrus","Citrus",["#f5a000","#ffd60a","#34c759"]],
-["coral","Coral",["#ff6b4a","#ffb199","#ff3b8d"]],
-["sky","Sky",["#2d9cff","#9ad8ff","#7a8bff"]],
-["berry","Berry",["#c2185b","#ff7ab6","#7b4dff"]],
-["midnight","Midnight",["#4a5cff","#25d0ff","#9b5cff"]],["auto","Auto",["#ff9f0a","#0a84ff","#5e5ce6"]]];
+const A=[["ocean","Ocean",["#007AFF","#32ADE6","#5856D6"]],["aurora","Aurora",["#5856D6","#AF52DE","#32ADE6"]],["sunset","Sunset",["#FF3B30","#FF9500","#FF2D55"]],["forest","Forest",["#34C759","#00C7BE","#30B0C7"]],["graphite","Graphite",["#636366","#8E8E93","#5856D6"]],["lavender","Lavender",["#AF52DE","#D9A6FF","#5E9BFF"]],["rose","Rose",["#FF2D55","#FF8FB1","#AF52DE"]],["mint","Mint",["#00C7BE","#32ADE6","#34C759"]],["citrus","Citrus",["#FF9500","#FFCC00","#34C759"]],["teal","Teal",["#30B0C7","#64D2FF","#5856D6"]],["sky","Sky",["#32ADE6","#007AFF","#5856D6"]],["cocoa","Cocoa",["#A2845E","#FF9500","#FF2D55"]],["midnight","Midnight",["#5856D6","#007AFF","#AF52DE"]],["auto","Auto",["#FF9500","#007AFF","#5856D6"]]];
 let u={};try{u=JSON.parse(localStorage.getItem(K))||{}}catch{}
-const auto=()=>{const h=new Date().getHours();return h<6?"midnight":h<10?"coral":h<17?"ocean":h<20?"sunset":"aurora"};
-const ap=()=>{const r=document.documentElement;r.dataset.accent=(u.a==="auto"?auto():u.a)||"ocean";r.style.setProperty("--gb",G[u.g||"standard"]+"px");try{localStorage.setItem(K,JSON.stringify(u))}catch{}};
+if(u.a==="coral")u.a="teal";if(u.a==="berry")u.a="rose";
+const auto=()=>{const h=new Date().getHours();return h<6?"midnight":h<10?"citrus":h<17?"ocean":h<20?"sunset":"aurora"};
+const ap=()=>{const r=document.documentElement;r.dataset.oled=u.o||"off";r.dataset.fs=u.f||"md";r.dataset.rad=u.r||"soft";r.dataset.bg=u.b||"mesh";r.dataset.accent=(u.a==="auto"?auto():u.a)||"ocean";r.style.setProperty("--gb",G[u.g||"standard"]+"px");try{localStorage.setItem(K,JSON.stringify(u))}catch{}};
 function draw(){const a=u.a||"ocean",g=u.g||"standard";
  $("apAcc").innerHTML=A.map(x=>`<button type="button" data-a="${x[0]}" class="${a===x[0]?"on":""}"><i style="background:linear-gradient(135deg,${x[2][0]},${x[2][1]} 55%,${x[2][2]})"></i><span>${x[1]}</span></button>`).join("");
+ const R=[["o","Surface (dark mode)",[["off","Standard"],["on","True black"]]],["f","Text size",[["sm","Small"],["md","Default"],["lg","Large"]]],["r","Corners",[["soft","Soft"],["sharp","Sharp"]]],["b","Background",[["mesh","Animated colour"],["plain","Plain"]]]],dv={o:"off",f:"md",r:"soft",b:"mesh"};
+ $("apMore").innerHTML=R.map(x=>`<div class="ap-lbl">${x[1]}</div><div class="ap-seg">${x[2].map(o=>`<button type="button" data-k="${x[0]}" data-v="${o[0]}" class="${(u[x[0]]||dv[x[0]])===o[0]?"on":""}">${o[1]}</button>`).join("")}</div>`).join("")+`<div class="ap-lbl">Reset</div><div class="ap-seg"><button type="button" data-reset="1">Back to defaults</button></div>`;
  $("apGl").innerHTML=Object.keys(G).map(k=>`<button type="button" data-g="${k}" class="${g===k?"on":""}">${k[0].toUpperCase()+k.slice(1)}</button>`).join("")}
-if($("apAcc")){draw();$("uiPanel").onclick=e=>{const a=e.target.closest("[data-a]"),g=e.target.closest("[data-g]");if(a)u.a=a.dataset.a;else if(g)u.g=g.dataset.g;else return;ap();draw()}}
+if($("apAcc")){draw();$("uiPanel").onclick=e=>{const a=e.target.closest("[data-a]"),g=e.target.closest("[data-g]"),k=e.target.closest("[data-k]"),z=e.target.closest("[data-reset]");if(a)u.a=a.dataset.a;else if(g)u.g=g.dataset.g;else if(k)u[k.dataset.k]=k.dataset.v;else if(z)u={};else return;ap();draw()}}
 setInterval(()=>{if(u.a==="auto")ap()},6e5);
 let raf=0;document.addEventListener("pointermove",e=>{if(raf)return;raf=requestAnimationFrame(()=>{raf=0;const c=e.target.closest&&e.target.closest(".mcard,.mm-card,.panel");if(!c)return;const r=c.getBoundingClientRect();c.style.setProperty("--mx",(e.clientX-r.left)+"px");c.style.setProperty("--my",(e.clientY-r.top)+"px")})},{passive:true});
 })();
@@ -3677,7 +3722,7 @@ body.rm *,body.rm *::before,body.rm *::after{animation:none!important;transition
 /* v10.2 · Pro layer — Insights executive summary & report header, Settings workspace.  © 2026 Muhammad Umer Faheem. All rights reserved. */
 (()=>{
 "use strict";
-const VER = "10.5.0";
+const VER = "10.7.0";
 const $$ = (sel,root=document)=>[...root.querySelectorAll(sel)];
 const nm = v=>String(v||"").replace(/[<>"`]/g,"").trim().slice(0,40);
 const CONF = {none:"", internal:"Internal use", confidential:"Confidential"};

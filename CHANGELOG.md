@@ -2,6 +2,17 @@
 
 All notable changes to MISphere, newest first.
 
+## 10.7.0 — 2026-10-22
+
+- Duplicate shows an iOS-style banner “Duplicated … · Undo” for 5 seconds
+- Colour combos retuned to Apple system colours (Blue, Indigo, Purple, Pink, Red, Orange, Green, Mint, Teal, Cyan, Brown) with matching light and dark variants; Coral and Berry became Teal and Rose
+
+## 10.6.0 — 2026-10-22
+
+- Appearance: True black surface for dark mode (OLED), text size (Small / Default / Large), corner style (Soft / Sharp), plain or animated background, and a reset-to-defaults button
+- Repeating tasks: set Every day / weekday / week / month in New and Edit task; when you finish one, the next is scheduled automatically (once)
+- Duplicate task button on list and board cards
+
 ## 10.5.0 — 2026-10-22
 
 - Eight new colour combos (Lavender, Rose, Mint, Citrus, Coral, Sky, Berry, Midnight) plus Auto, which follows the time of day

@@ -1,11 +1,28 @@
 {
-  "version": "10.5.0",
+  "version": "10.7.0",
   "date": "2026-10-22",
   "notes": [
-    "Eight new colour combos (Lavender, Rose, Mint, Citrus, Coral, Sky, Berry, Midnight) plus Auto, which follows the time of day",
-    "Liquid glass refinements: stronger refraction on header and tab bar, glossy accent buttons with a light sweep, richer colour swatches, smooth colour fade when switching"
+    "Duplicate shows an iOS-style banner “Duplicated … · Undo” for 5 seconds",
+    "Colour combos retuned to Apple system colours (Blue, Indigo, Purple, Pink, Red, Orange, Green, Mint, Teal, Cyan, Brown) with matching light and dark variants; Coral and Berry became Teal and Rose"
   ],
   "history": [
+    {
+      "v": "10.7.0",
+      "d": "2026-10-22",
+      "n": [
+        "Duplicate shows an iOS-style banner “Duplicated … · Undo” for 5 seconds",
+        "Colour combos retuned to Apple system colours (Blue, Indigo, Purple, Pink, Red, Orange, Green, Mint, Teal, Cyan, Brown) with matching light and dark variants; Coral and Berry became Teal and Rose"
+      ]
+    },
+    {
+      "v": "10.6.0",
+      "d": "2026-10-22",
+      "n": [
+        "Appearance: True black surface for dark mode (OLED), text size (Small / Default / Large), corner style (Soft / Sharp), plain or animated background, and a reset-to-defaults button",
+        "Repeating tasks: set Every day / weekday / week / month in New and Edit task; when you finish one, the next is scheduled automatically (once)",
+        "Duplicate task button on list and board cards"
+      ]
+    },
     {
       "v": "10.5.0",
       "d": "2026-10-22",

@@ -99,3 +99,8 @@ Version 8 - Glass, motion and one-click updates
 - Stronger liquid-glass cards/tab bar, smooth entrance and hover motion (respects "reduce motion").
 - Settings > Updates & version history: "Check for updates" reads version.json next to index.html. If it is newer, "Update now" takes an automatic safety backup of your data, clears caches and reloads the new version. Data is never deleted by an update; restore points (last 3) can be restored from the same panel.
 - To publish an update: upload the new index.html, bump APP_VERSION in the script at the bottom of index.html, and edit version.json (version, notes, history). Every open dashboard then offers the update (checked on open, at most every 6 hours).
+
+
+Version 9 - Liquid Glass polish
+- iOS 26 style glass (edge rims, specular highlights), smooth page transitions, spring press feedback, Inter/SF typography with tabular numbers, layout and mobile glitch fixes, accessibility fallbacks (reduced motion / transparency, high contrast).
+- Publish: upload index.html + version.json; open dashboards offer 'Update now' (auto backup first).

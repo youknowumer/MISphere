@@ -1,13 +1,23 @@
 {
-  "version": "8.7.0",
-  "date": "2026-10-21",
+  "version": "9.0.0",
+  "date": "2026-10-22",
   "notes": [
-    "System health panel: storage, data integrity checks, backups and one-tap restore points",
-    "Daily automatic backup (last 5 restore points kept)",
-    "iOS-style notification banners, launch splash, offline/online alerts",
-    "Keyboard shortcuts sheet (press ?)"
+    "iOS 26 Liquid Glass: refractive edge rims, specular highlights, deeper blur and saturation on header, tab bar and cards",
+    "Smooth page transitions (View Transitions), spring press feedback on every control, faster long lists",
+    "Typography: SF Pro / Inter with tabular numbers, balanced headings, no long-name overflow",
+    "Glitch fixes: layout shift from scrollbar, 16px inputs (no iPhone zoom), safe-area spacing, 44px tap targets, keyboard focus rings, reduced-transparency and high-contrast support"
   ],
   "history": [
+    {
+      "v": "9.0.0",
+      "d": "2026-10-22",
+      "n": [
+        "iOS 26 Liquid Glass: refractive edge rims, specular highlights, deeper blur and saturation on header, tab bar and cards",
+        "Smooth page transitions (View Transitions), spring press feedback on every control, faster long lists",
+        "Typography: SF Pro / Inter with tabular numbers, balanced headings, no long-name overflow",
+        "Glitch fixes: layout shift from scrollbar, 16px inputs (no iPhone zoom), safe-area spacing, 44px tap targets, keyboard focus rings, reduced-transparency and high-contrast support"
+      ]
+    },
     {
       "v": "8.7.0",
       "d": "2026-10-21",

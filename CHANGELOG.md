@@ -2,6 +2,11 @@
 
 All notable changes to MISphere, newest first.
 
+## 10.8.0 — 2026-10-22
+
+- Workspace ↔ landing page: Home button and logo in the header, “Go to landing page” in Ctrl+K, and a Landing page card in Settings → System & about
+- Landing page: templates now open the setup with that template preselected; if a workspace already exists it shows a welcome-back bar, “Open your dashboard” buttons and a confirmation before templates; active section highlight in the menu, back-to-top button, version in the footer
+
 ## 10.7.0 — 2026-10-22
 
 - Duplicate shows an iOS-style banner “Duplicated … · Undo” for 5 seconds

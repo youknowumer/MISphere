@@ -1144,10 +1144,10 @@
 <main>
   <div class="top" id="appTop">
     <div class="tp-main">
-      <div class="brand"><div class="mk"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/></svg></div>
+      <div class="brand"><a class="mk" href="landing.html?from=app" title="Back to landing page" aria-label="Back to landing page" style="color:inherit;text-decoration:none"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/></svg></a>
         <div class="tp-ti"><div class="tp-eye"><i></i><span id="tpGreet"></span></div><h1 id="pageTitle">Dashboard</h1><p id="todayLbl"></p></div></div>
       <button class="tp-search" id="cmdBtn" title="Quick actions (Ctrl/⌘ + K)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span>Search or jump to…</span><kbd>Ctrl K</kbd></button>
-      <div class="topr"><select id="modSel" title="Module you are working on / viewing"></select><button class="ib" id="modNew" title="New module" aria-label="New module" style="font-size:22px;font-weight:300">＋</button><button class="upd-pill" id="updPill" hidden>⬆ Update</button><span class="ghc" id="ghChip" title="GitHub live sync"><i></i><span>GitHub: not connected</span></span><select id="meSel" title="Acting as (role-based access)" style="width:auto;max-width:200px"></select><button class="ib" id="themeBtn" title="Toggle light / dark" aria-label="Toggle theme"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button><button type="button" class="tp-av" id="tpAv" aria-label="Your profile"></button><button class="btn pri sm" id="newTaskBtn">＋ New task</button></div>
+      <div class="topr"><select id="modSel" title="Module you are working on / viewing"></select><button class="ib" id="modNew" title="New module" aria-label="New module" style="font-size:22px;font-weight:300">＋</button><button class="upd-pill" id="updPill" hidden>⬆ Update</button><span class="ghc" id="ghChip" title="GitHub live sync"><i></i><span>GitHub: not connected</span></span><select id="meSel" title="Acting as (role-based access)" style="width:auto;max-width:200px"></select><a class="ib" id="homeLink" href="landing.html?from=app" title="Back to landing page" aria-label="Back to landing page"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg></a><button class="ib" id="themeBtn" title="Toggle light / dark" aria-label="Toggle theme"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button><button type="button" class="tp-av" id="tpAv" aria-label="Your profile"></button><button class="btn pri sm" id="newTaskBtn">＋ New task</button></div>
     </div>
     <div class="tp-ctx">
       <div class="weeknav">
@@ -1424,6 +1424,7 @@
 
         <div class="ssec" data-ss="about">
           <div class="sec-title"><h2>System &amp; about</h2><small>Updates, storage and legal</small></div>
+          <div class="panel"><h3>🏠 Landing page <small>overview, templates and how it works</small></h3><div class="row"><a class="btn pri" href="landing.html?from=app">Open landing page →</a></div></div>
           <div class="panel" id="v8Upd"><h3>🚀 Updates &amp; version history <small>one-click update · your data stays on this device</small></h3>
             <div class="row"><span class="chip">Installed v<span id="v8Cur"></span></span><span class="chip" id="v8Lat" style="display:none"></span><span id="v8Msg" class="hint"></span></div>
             <div class="bar" id="v8Bar"><i></i></div>
@@ -3344,7 +3345,7 @@ const CMDS = ()=> [
   ...[["dash","Home"],["notes","Daily notes"],["tasks","Tasks"],["insights","Insights"],["team","Members"],["reports","Reports"],["perf","Performance"],["leaders","Leader history"],["data","Data & backup"],["settings","Settings"]].map(([v,n])=>({g:"Go to", n, f:()=>go(v)})),
   {g:"Action", n:"New task", f:newTask}, {g:"Action", n:"New key point (today)", f:()=>{ nDay = today(); go("notes"); setTimeout(()=>$("nIn").focus(),60); }}, {g:"Action", n:"Export to Excel", f:exportXlsx}, {g:"Go to", n:"Module report", f:()=>go("modules")}, {g:"Action", n:"Sync to GitHub now", f:()=>{ if (ghOn()) ghPush(); else go("settings"); }}, {g:"Action", n:"Download backup", f:()=>$("exportBtn").click()},
   {g:"Action", n:"Print insights report", f:()=>{ go("insights"); setTimeout(()=>window.print(), 200); }},
-  {g:"Action", n:"Toggle light / dark theme", f:toggleTheme}, {g:"Action", n:"Jump to this week", f:()=>$("thisW").click()},
+  {g:"Action", n:"Go to landing page", f:()=>{ location.href = "landing.html?from=app"; }}, {g:"Action", n:"Toggle light / dark theme", f:toggleTheme}, {g:"Action", n:"Jump to this week", f:()=>$("thisW").click()},
   ...MEMBERS.map(m=>({g:"Member", n:m.name, f:()=>{ selectedMember = m.id; $("flMember").value = m.id; go("tasks"); }}))];
 let ci = 0, cl = [];
 function cmdRender(){
@@ -3524,7 +3525,7 @@ ghRender();
 <script>
 /* v8: stable updater + version history. Data lives in localStorage and is never touched by an update; a snapshot is taken first. */
 (()=>{
-const APP_VERSION="10.7.0", SNAP_KEY="mis_snapshots_v1", LOG_KEY="mis_update_log_v1", $=id=>document.getElementById(id);
+const APP_VERSION="10.8.0", SNAP_KEY="mis_snapshots_v1", LOG_KEY="mis_update_log_v1", $=id=>document.getElementById(id);
 const HISTORY=[
  {v:"8.7.0",d:"2026-10-21",n:["System health panel: storage, data integrity checks, backups and one-tap restore points", "Daily automatic backup (last 5 restore points kept)", "iOS-style notification banners, launch splash, offline/online alerts", "Keyboard shortcuts sheet (press ?)"]},
  {v:"8.6.0",d:"2026-10-21",n:["Team cards: fixed clipped avatar/badge overflow, rebuilt the leader switch, rank shown inline, quieter empty states (– instead of 0%), dimmed zero stats, tooltips for long names, refined leader card tiles"]},
@@ -3722,7 +3723,7 @@ body.rm *,body.rm *::before,body.rm *::after{animation:none!important;transition
 /* v10.2 · Pro layer — Insights executive summary & report header, Settings workspace.  © 2026 Muhammad Umer Faheem. All rights reserved. */
 (()=>{
 "use strict";
-const VER = "10.7.0";
+const VER = "10.8.0";
 const $$ = (sel,root=document)=>[...root.querySelectorAll(sel)];
 const nm = v=>String(v||"").replace(/[<>"`]/g,"").trim().slice(0,40);
 const CONF = {none:"", internal:"Internal use", confidential:"Confidential"};
@@ -3936,6 +3937,9 @@ addEventListener("afterprint", ()=>{ if(_t0) document.title=_t0; });
 if (db && S().perDef && S().perDef!==1) insPer = S().perDef;
 initSettings(); try{ render(); }catch(e){ console.error(e); }
 if (MEMBERS.length && S().landing && S().landing!=="dash" && TITLES[S().landing]) go(S().landing);
+try{ const q = new URLSearchParams(location.search), tk = q.get("template"), ti = {blank:0, mis:1, support:2, sales:3}[tk];
+  if (ti!==undefined && !MEMBERS.length){ const b = document.querySelector(`#tplGrid [data-t="${ti}"]`); if (b){ b.click(); } }
+  if (tk) history.replaceState(null, "", location.pathname); }catch{}
 })();
 </script>
 <style id="top-css">

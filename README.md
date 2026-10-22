@@ -4,7 +4,7 @@
 
 **Team performance, tasks and daily notes — in one fast, private dashboard.**
 
-![Version](https://img.shields.io/badge/version-10.7.0-4f46e5)
+![Version](https://img.shields.io/badge/version-10.8.0-4f46e5)
 ![Licence](https://img.shields.io/badge/licence-All%20Rights%20Reserved-red)
 ![No backend](https://img.shields.io/badge/backend-none-0a84ff)
 ![Data](https://img.shields.io/badge/data-stays%20in%20your%20browser-30d158)

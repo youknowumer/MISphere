@@ -1,13 +1,23 @@
 {
-  "version": "10.0.0",
+  "version": "10.1.0",
   "date": "2026-10-22",
   "notes": [
-    "One Admin only: Team Lead / Viewer roles and the permission matrix are removed; older workspaces are converted automatically (first Admin kept, everyone else becomes Member)",
-    "Members > Admin & leader: transfer Admin and pick the weekly leader from your members; the 'Acting as' selector is gone",
-    "Tasks filters rebuilt as a theme-aware toolbar: search, member, status, priority, sort, active-filter count, one-click reset and a 'Showing X of Y' line",
-    "Theme polish: accent colour, focus rings and selection colour follow light / dark"
+    "Insights reporting uses line and bar charts only: member performance (bars + deadline line), estimated vs actual hours (bars), progress trend by member (lines), delivery health (bar)",
+    "iOS-style colour-graded liquid glass: accent-tinted background, specular rims, clearer status tiles in light and dark",
+    "Tasks filters: high-contrast themed toolbar, new Due filter, Export view (CSV)",
+    "Updates no longer create or offer restore points"
   ],
   "history": [
+    {
+      "v": "10.1.0",
+      "d": "2026-10-22",
+      "n": [
+        "Insights reporting uses line and bar charts only: member performance (bars + deadline line), estimated vs actual hours (bars), progress trend by member (lines), delivery health (bar)",
+        "iOS-style colour-graded liquid glass: accent-tinted background, specular rims, clearer status tiles in light and dark",
+        "Tasks filters: high-contrast themed toolbar, new Due filter, Export view (CSV)",
+        "Updates no longer create or offer restore points"
+      ]
+    },
     {
       "v": "10.0.0",
       "d": "2026-10-22",

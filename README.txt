@@ -120,3 +120,7 @@ Version 9.3 - Insights Pro
 Version 10 - Single Admin, leader from members, task filters
 - One Admin; everyone else is a Member. Admin & leader panel in Members; leader is chosen from members.
 - Tasks: themed filter toolbar (search, member, status, priority, sort, reset, result count).
+
+Version 10.1
+- Insights: line and bar charts only. iOS colour-graded glass theme. Tasks: Due filter and CSV export of the current view.
+- Updates no longer keep or offer restore points (use Reports > Backup download for your own backups).

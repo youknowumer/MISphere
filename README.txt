@@ -113,3 +113,6 @@ Version 9.1.1
 
 Version 9.2
 - Board cards redesigned (quick actions, due labels, progress), progressive edge blur rebuilt.
+
+Version 9.3 - Insights Pro
+- SVG charts, KPI trends, section switcher (Overview / Team / Modules / Executive), tooltips; board class names separated from Insights charts.

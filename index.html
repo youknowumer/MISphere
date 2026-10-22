@@ -933,16 +933,16 @@
   .tpg{height:6px;border-radius:99px;background:var(--soft);overflow:hidden}.tpg i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--info),var(--ok));transition:width .7s var(--ease)}
   .tpl2{font-size:12px;color:var(--muted);margin:6px 2px 14px}
   .board{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;align-items:start}
-  .bcol{border-radius:24px;padding:10px;background:var(--soft);transition:box-shadow .25s,background .25s;min-height:160px}
-  .bcol.over{box-shadow:0 0 0 2.5px var(--cc);background:color-mix(in srgb,var(--cc) 10%,var(--soft))}
-  .bch{display:flex;align-items:center;gap:8px;padding:6px 8px 12px;flex-wrap:wrap}
-  .bch i{width:10px;height:10px;border-radius:50%;background:var(--cc);box-shadow:0 0 0 4px color-mix(in srgb,var(--cc) 22%,transparent)}
-  .bch b{font-size:15px;letter-spacing:-.02em}.bcn{min-width:24px;text-align:center;padding:1px 8px;border-radius:99px;background:var(--card);font-size:12px;font-weight:700;font-variant-numeric:tabular-nums}
-  .bch em{margin-left:auto;font-style:normal;font-size:11.5px;font-weight:600;color:var(--muted)}.bch em.bad{color:var(--bad)}
-  .bcb{display:flex;flex-direction:column;gap:10px}
-  .bempty{padding:26px 10px;text-align:center;font-size:13px;color:var(--muted);border:1.5px dashed var(--line);border-radius:18px}
-  .bhint{font-size:12px;color:var(--muted);text-align:center;margin-top:12px}
-  @media(max-width:900px){.board{grid-auto-flow:column;grid-template-columns:none;grid-auto-columns:86%;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px;overscroll-behavior-x:contain}.bcol{scroll-snap-align:center}.tsum{grid-template-columns:repeat(2,1fr)}.bhint{display:none}}
+  .kbc{border-radius:24px;padding:10px;background:var(--soft);transition:box-shadow .25s,background .25s;min-height:160px}
+  .kbc.over{box-shadow:0 0 0 2.5px var(--cc);background:color-mix(in srgb,var(--cc) 10%,var(--soft))}
+  .kbh{display:flex;align-items:center;gap:8px;padding:6px 8px 12px;flex-wrap:wrap}
+  .kbh i{width:10px;height:10px;border-radius:50%;background:var(--cc);box-shadow:0 0 0 4px color-mix(in srgb,var(--cc) 22%,transparent)}
+  .kbh b{font-size:15px;letter-spacing:-.02em}.kbn{min-width:24px;text-align:center;padding:1px 8px;border-radius:99px;background:var(--card);font-size:12px;font-weight:700;font-variant-numeric:tabular-nums}
+  .kbh em{margin-left:auto;font-style:normal;font-size:11.5px;font-weight:600;color:var(--muted)}.kbh em.bad{color:var(--bad)}
+  .kbb{display:flex;flex-direction:column;gap:10px}
+  .kbe{padding:26px 10px;text-align:center;font-size:13px;color:var(--muted);border:1.5px dashed var(--line);border-radius:18px}
+  .kbhint{font-size:12px;color:var(--muted);text-align:center;margin-top:12px}
+  @media(max-width:900px){.board{grid-auto-flow:column;grid-template-columns:none;grid-auto-columns:86%;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px;overscroll-behavior-x:contain}.kbc{scroll-snap-align:center}.tsum{grid-template-columns:repeat(2,1fr)}.kbhint{display:none}}
 
   /* ===== v9.1.1: tab bar position locked + edge blur ===== */
   .tabbar{position:fixed!important;left:50%!important;right:auto!important;top:auto!important;bottom:max(14px,env(safe-area-inset-bottom))!important;transform:translateX(-50%)!important;z-index:60!important;margin:0!important;view-transition-name:tabbar}
@@ -970,10 +970,10 @@
   .bq.ok{background:color-mix(in srgb,var(--ok) 16%,transparent);color:var(--ok-t,var(--ok))}
   .bi{width:28px!important;height:28px!important;min-width:0!important;padding:0!important;font-size:13px;opacity:.55;border-radius:9px!important}.bi:hover{opacity:1}
   .bcard .sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);opacity:0;pointer-events:none;border:0;padding:0}
-  .bcol{transition:opacity .3s,box-shadow .25s,background .25s}.bcol.dim{opacity:.5}.bcol.dim:hover,.board.drag .bcol.dim{opacity:1}
-  .bcb{min-height:72px}
-  .bempty{display:flex;flex-direction:column;gap:2px}.bempty small{display:none;font-size:11.5px}
-  .board.drag .bempty{border-color:var(--cc);color:var(--cc)}.board.drag .bempty small{display:block}
+  .kbc{transition:opacity .3s,box-shadow .25s,background .25s}.kbc.dim{opacity:.5}.kbc.dim:hover,.board.drag .kbc.dim{opacity:1}
+  .kbb{min-height:72px}
+  .kbe{display:flex;flex-direction:column;gap:2px}.kbe small{display:none;font-size:11.5px}
+  .board.drag .kbe{border-color:var(--cc);color:var(--cc)}.board.drag .kbe small{display:block}
   /* edge blur (no opacity on the container: opacity would disable backdrop-filter) */
   #edgeT,#edgeB{position:fixed;left:0;right:0;z-index:20;pointer-events:none}
   #edgeT{top:0;height:calc(env(safe-area-inset-top,0px) + 64px);--d:to bottom}
@@ -986,6 +986,46 @@
   #edgeT.on::after,#edgeB.on::after{opacity:1}
   @media print{#edgeT,#edgeB{display:none}}
   @media(prefers-reduced-transparency:reduce){#edgeT.on i,#edgeB.on i{-webkit-backdrop-filter:none;backdrop-filter:none}}
+
+  /* ===== v9.3: Insights Pro ===== */
+  .insnav{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:0 0 16px;position:sticky;top:max(84px,calc(env(safe-area-inset-top) + 84px));z-index:15}
+  .insnav .tvs{background:var(--gl-bg);-webkit-backdrop-filter:blur(20px) saturate(180%);backdrop-filter:blur(20px) saturate(180%);box-shadow:var(--gl-sh)}
+  .insw{font-size:12.5px;font-weight:600;color:var(--muted)}
+  @media screen{#v-insights[data-sec=overview] [data-s]:not([data-s=overview]),#v-insights[data-sec=team] [data-s]:not([data-s=team]),#v-insights[data-sec=modules] [data-s]:not([data-s=modules]),#v-insights[data-sec=exec] [data-s]:not([data-s=exec]){display:none!important}}
+  @media print{.insnav,#ctip{display:none!important}}
+  .kp2{position:relative;display:flex;flex-direction:column;gap:2px;overflow:hidden}
+  .kp2::before{content:"";position:absolute;left:18px;top:0;width:30px;height:3px;border-radius:0 0 3px 3px;background:var(--kc)}
+  .kp-h{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:4px}.kp-h small{font-weight:600}
+  .kp2>b{font-size:32px;letter-spacing:-.035em;font-variant-numeric:tabular-nums;line-height:1.1;margin-top:4px}
+  .kp2>span{font-size:12px;color:var(--muted)}
+  .dl{font-style:normal;font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px;background:var(--soft);color:var(--muted);white-space:nowrap}
+  .dl.up{background:color-mix(in srgb,var(--ok) 15%,transparent);color:var(--ok-t,var(--ok))}.dl.down{background:color-mix(in srgb,var(--bad) 14%,transparent);color:var(--bad-t,var(--bad))}
+  .kp-sp{width:100%;height:34px;margin-top:8px}.kp-sp .gl{stroke:var(--line);stroke-width:1.5;stroke-dasharray:3 4}
+  svg.cx{width:100%;height:auto;display:block;overflow:visible}
+  svg.cx text{fill:var(--muted);font:600 11px -apple-system,BlinkMacSystemFont,"SF Pro Text","Inter",system-ui,sans-serif;font-variant-numeric:tabular-nums}
+  svg.cx .sub{font-weight:500;opacity:.8;font-size:10px}svg.cx .vl{fill:var(--text);font-size:10.5px;font-weight:700}svg.cx .tdl{fill:var(--brand);font-weight:700}
+  svg.cx .gl{stroke:var(--line2);stroke-width:1;shape-rendering:crispEdges}svg.cx .tdband{fill:var(--brand-soft)}
+  svg.cx .avg{stroke:var(--warn);stroke-width:1.2;stroke-dasharray:4 4;opacity:.8}svg.cx .avgt{fill:var(--warn-t,var(--warn));font-size:10px}
+  svg.cx .hit{fill:transparent;cursor:crosshair}svg.cx .cg:hover path{filter:brightness(1.1)}
+  svg.cx .ln{stroke-dasharray:1400;stroke-dashoffset:1400;animation:cxdraw 1.1s var(--ease) forwards}@keyframes cxdraw{to{stroke-dashoffset:0}}
+  svg.cx .cg path{transform-origin:50% 100%;transform-box:fill-box;animation:cxgrow .7s var(--ease) both}@keyframes cxgrow{from{transform:scaleY(0)}}
+  .legend b.gd{color:var(--ok)}.legend b.bd,.bd{color:var(--bad)}.legend b{color:var(--text)}
+  .cx-empty{display:flex;flex-direction:column;gap:4px;align-items:center;text-align:center;padding:38px 12px;border:1.5px dashed var(--line);border-radius:18px;color:var(--muted);font-size:13px}.cx-empty b{color:var(--text);font-size:14px}
+  .mixw{display:flex;align-items:center;gap:22px;flex-wrap:wrap}.donut{width:160px;height:160px;flex:none}
+  .donut .seg{transition:stroke-width .25s,opacity .25s;cursor:pointer;animation:cxspin .9s var(--ease) both}.donut .seg:hover{stroke-width:22}@keyframes cxspin{from{stroke-dasharray:0 400}}
+  .dn-b{font:700 28px -apple-system,"SF Pro Display","Inter",sans-serif;fill:var(--text);letter-spacing:-.03em}.dn-s{font:600 11px -apple-system,"Inter",sans-serif;fill:var(--muted)}
+  .mixl{flex:1;min-width:170px;display:flex;flex-direction:column;gap:7px}.mixl>div{display:grid;grid-template-columns:12px 1fr auto 40px;align-items:center;gap:8px;font-size:13px}
+  .mixl i{width:10px;height:10px;border-radius:3px}.mixl b{font-variant-numeric:tabular-nums}.mixl small{color:var(--muted);text-align:right;font-size:11.5px}.mixl .z{opacity:.45}
+  .subh{margin:20px 0 10px!important;font-size:13px}.prr{margin-bottom:11px}.prh{display:flex;justify-content:space-between;align-items:center;font-size:12px;margin-bottom:6px}
+  .stk{display:flex;height:9px;border-radius:99px;overflow:hidden;background:var(--soft)}.stk i{display:block;height:100%;transition:width .6s var(--ease)}
+  .ldn{font-size:12.5px;color:var(--muted);margin:0 0 14px;line-height:1.5}.ldn b{color:var(--text)}.ldr{margin-bottom:13px}
+  .ldh{display:flex;justify-content:space-between;gap:10px;align-items:center;font-size:12px;color:var(--muted);margin-bottom:6px;flex-wrap:wrap}.ldn2{display:flex;align-items:center;gap:8px;color:var(--text);font-size:13px}
+  .ldn2 i{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font:700 9.5px/1 inherit;font-style:normal;color:#fff}
+  .hlg{display:flex;align-items:center;gap:8px;margin-top:12px;font-size:11px;color:var(--muted)}.hlg i{width:120px;height:8px;border-radius:99px;background:linear-gradient(90deg,rgba(79,70,229,.12),rgba(79,70,229,.9))}
+  #ctip{position:fixed;z-index:200;pointer-events:none;padding:8px 12px;border-radius:12px;font-size:12px;line-height:1.5;color:var(--text);background:var(--gl-bg);border:.5px solid var(--gl-bd);box-shadow:0 12px 30px rgba(0,0,0,.22);-webkit-backdrop-filter:blur(24px) saturate(190%);backdrop-filter:blur(24px) saturate(190%);opacity:0;transform:translateY(4px);transition:opacity .15s,transform .15s}
+  #ctip.on{opacity:1;transform:none}#ctip .h{font-weight:700;margin-bottom:2px}
+  @media(max-width:640px){.insnav{top:max(70px,calc(env(safe-area-inset-top) + 70px))}.kp2>b{font-size:28px}.donut{width:140px;height:140px}}
+  @media(prefers-reduced-motion:reduce){svg.cx .ln,svg.cx .cg path,.donut .seg{animation:none!important;stroke-dashoffset:0!important}}
 </style>
 <script>window.__v8err=0;addEventListener("error",function(){window.__v8err++});try{var u=JSON.parse(localStorage.getItem("mis_ui_v1"))||{};document.documentElement.dataset.accent=u.a||"ocean";document.documentElement.style.setProperty("--gb",({soft:14,standard:26,strong:44})[u.g||"standard"]+"px")}catch(e){}</script></head>
 <body>
@@ -1802,7 +1842,7 @@ function render(){
   $("sideLeader").innerHTML = `👑 Leader: ${M(leader).name}`;
   const over = wt.filter(t=>stateOf(t)==="overdue").length;
   $("tbOver").hidden = !over; $("tbOver").textContent = over>9 ? "9+" : over;
-  applySet(); fillModules(); renderStats(wt); renderAttention(); renderInsights(wt); renderTeamPage(); renderDeep(); renderTeam(wt, leader); renderTasks(); renderPerf(wt, leader); renderHistory(); renderAdvanced(wt); renderExec(); renderSettings(); renderModMgr(); renderReports(wt); renderModules(); renderNotes(); renderAccess(); $("homeEmpty").hidden = db.tasks.length>0;
+  applySet(); fillModules(); renderStats(wt); renderAttention(); renderInsights(wt); renderTeamPage(); renderDeep(); renderInsightsPro(wt); renderTeam(wt, leader); renderTasks(); renderPerf(wt, leader); renderHistory(); renderAdvanced(wt); renderExec(); renderSettings(); renderModMgr(); renderReports(wt); renderModules(); renderNotes(); renderAccess(); $("homeEmpty").hidden = db.tasks.length>0;
 }
 
 function renderStats(wt){
@@ -1950,9 +1990,9 @@ function renderBoard(list, fs){
     const items = list.filter(t=>t.status===c[0]).sort((a,b)=>sortCol(c[0],a,b));
     const od = items.filter(t=>stateOf(t)==="overdue").length, lt = items.filter(t=>stateOf(t)==="late").length;
     const meta = c[0]==="done" ? (items.length?`${items.length-lt} on time${lt?` · ${lt} late`:""}`:"") : (od?`${od} overdue`:"");
-    return `<section class="bcol${focus&&focus!==c[0]?" dim":""}" data-col="${c[0]}" style="--cc:${c[2]}" aria-label="${c[1]}"><header class="bch"><i></i><b>${c[1]}</b><span class="bcn">${items.length}</span>${meta?`<em class="${od?"bad":""}">${meta}</em>`:""}</header>
-      <div class="bcb">${items.length?items.map(boardCard).join(""):`<div class="bempty">${c[3]}<small>Drop a card here</small></div>`}</div></section>`;
-  }).join("")}</div><div class="bhint">Drag a card to another column, or use the buttons on the card. On touch screens use the buttons.</div>`;
+    return `<section class="kbc${focus&&focus!==c[0]?" dim":""}" data-col="${c[0]}" style="--cc:${c[2]}" aria-label="${c[1]}"><header class="kbh"><i></i><b>${c[1]}</b><span class="kbn">${items.length}</span>${meta?`<em class="${od?"bad":""}">${meta}</em>`:""}</header>
+      <div class="kbb">${items.length?items.map(boardCard).join(""):`<div class="kbe">${c[3]}<small>Drop a card here</small></div>`}</div></section>`;
+  }).join("")}</div><div class="kbhint">Drag a card to another column, or use the buttons on the card. On touch screens use the buttons.</div>`;
 }
 function renderTasks(){
   const fs = $("flStatus").value, q = $("flSearch").value.trim().toLowerCase();
@@ -2171,8 +2211,8 @@ $("taskList").addEventListener("pointerdown", e=>{ const c=e.target.closest(".ta
 let dragId=null;
 $("taskList").addEventListener("dragstart", e=>{ const c=e.target.closest&&e.target.closest(".task"); if(!c) return; dragId=c.dataset.id; c.classList.add("dragging"); e.dataTransfer.effectAllowed="move"; try{e.dataTransfer.setData("text/plain",dragId)}catch{} });
 $("taskList").addEventListener("dragend", ()=>{ dragId=null; document.querySelectorAll(".dragging,.over").forEach(x=>x.classList.remove("dragging","over")); });
-$("taskList").addEventListener("dragover", e=>{ const col=e.target.closest(".bcol"); if(!col||!dragId) return; e.preventDefault(); document.querySelectorAll(".bcol.over").forEach(x=>x!==col&&x.classList.remove("over")); col.classList.add("over"); });
-$("taskList").addEventListener("drop", e=>{ const col=e.target.closest(".bcol"); if(!col||!dragId) return; e.preventDefault();
+$("taskList").addEventListener("dragover", e=>{ const col=e.target.closest(".kbc"); if(!col||!dragId) return; e.preventDefault(); document.querySelectorAll(".kbc.over").forEach(x=>x!==col&&x.classList.remove("over")); col.classList.add("over"); });
+$("taskList").addEventListener("drop", e=>{ const col=e.target.closest(".kbc"); if(!col||!dragId) return; e.preventDefault();
   const sel=$("taskList").querySelector(`.task[data-id="${dragId}"] [data-act=status]`); dragId=null;
   document.querySelectorAll(".over").forEach(x=>x.classList.remove("over"));
   if(!sel||sel.value===col.dataset.col) return; sel.value=col.dataset.col; sel.dispatchEvent(new Event("change",{bubbles:true})); });
@@ -2367,6 +2407,116 @@ function renderDeep(){
   $("loadChart").innerHTML = open.map(x=>`<div style="margin-bottom:14px"><div style="display:flex;justify-content:space-between;font-size:13px"><b>${x.m.name}</b>
     <span style="color:var(--muted)">${x.o} open${tot?` · ${Math.round(x.o/tot*100)}%`:""} · ${x.days==null?"–":x.days.toFixed(1)+" days avg"}</span></div>
     <div class="bar"><i style="width:${x.o/mx*100}%;background:linear-gradient(90deg,${x.m.c1},${x.m.c2})"></i></div></div>`).join("");
+}
+
+// ===== v9.3: Insights Pro (SVG charts, section switcher, tooltips) =====
+const INS_SECS = [["overview","Overview"],["team","Team"],["modules","Modules"],["exec","Executive"]];
+let insSec = (()=>{ try{ return localStorage.getItem("mis_insec")||"overview"; }catch{ return "overview"; } })();
+if (!INS_SECS.some(x=>x[0]===insSec)) insSec = "overview";
+const _hs = (el,h)=>{ if(el && el.__h!==h){ el.__h=h; el.innerHTML=h; } };
+const _nm = m=>m<=4?4:Math.ceil(m/4)*4;
+const _tip = (...l)=>esc(l.join("|"));
+function _rb(x,y,w,h,r){ r=Math.min(r,h,w/2); return `M${x},${y+h}V${y+r}Q${x},${y} ${x+r},${y}H${x+w-r}Q${x+w},${y} ${x+w},${y+r}V${y+h}Z`; }
+function _curve(p,lo,hi){ if(p.length<2) return ""; let d=`M${p[0][0]},${p[0][1]}`; const k=.18, cl=y=>Math.min(hi,Math.max(lo,y));
+  for(let i=0;i<p.length-1;i++){ const a=p[i-1]||p[i], b=p[i], c=p[i+1], e=p[i+2]||c;
+    d+=` C${(b[0]+(c[0]-a[0])*k).toFixed(1)},${cl(b[1]+(c[1]-a[1])*k).toFixed(1)} ${(c[0]-(e[0]-b[0])*k).toFixed(1)},${cl(c[1]-(e[1]-b[1])*k).toFixed(1)} ${c[0]},${c[1]}`; } return d; }
+function _segs(arr){ const out=[]; let cur=[]; arr.forEach(p=>{ if(p){ cur.push(p); } else if(cur.length){ out.push(cur); cur=[]; } }); if(cur.length) out.push(cur); return out; }
+function sparkPro(vals,color,id){
+  const W=120,H=34,v=vals.map((x,i)=>x==null?null:[i,x]).filter(Boolean);
+  if(v.length<2) return `<svg class="kp-sp" viewBox="0 0 ${W} ${H}" aria-hidden="true"><line x1="2" x2="${W-2}" y1="${H-4}" y2="${H-4}" class="gl"/></svg>`;
+  const xs=vals.length-1, mn=Math.min(...v.map(a=>a[1])), mx=Math.max(...v.map(a=>a[1])), r=(mx-mn)||1;
+  const P=v.map(a=>[+(4+a[0]*(W-8)/xs).toFixed(1), +(H-5-(a[1]-mn)/r*(H-12)).toFixed(1)]), last=P[P.length-1];
+  return `<svg class="kp-sp" viewBox="0 0 ${W} ${H}" aria-hidden="true"><defs><linearGradient id="sg${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${color}" stop-opacity=".35"/><stop offset="1" stop-color="${color}" stop-opacity="0"/></linearGradient></defs>
+    <path d="${_curve(P,0,H)}L${last[0]},${H}L${P[0][0]},${H}Z" fill="url(#sg${id})"/><path d="${_curve(P,0,H)}" fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round"/><circle cx="${last[0]}" cy="${last[1]}" r="3.2" fill="${color}"/></svg>`;
+}
+function renderInsightsPro(wt){
+  if(!$("kpis")) return;
+  const td = today(), s = statsOf(wt), wks = [5,4,3,2,1,0].map(wkStat), pv = wks[4].s;
+  const effOf = x=>x.doneSpent ? Math.round(x.doneEst/x.doneSpent*100) : null, compOf = x=>x.total ? Math.round(x.done/x.total*100) : null;
+  const comp = compOf(s), eff = effOf(s);
+  const dl = (c,p,u,good=true)=> (c==null||p==null) ? `<em class="dl">– vs last week</em>` : c===p ? `<em class="dl">no change</em>` : `<em class="dl ${good?(c>p?"up":"down"):"neu"}">${c>p?"▲":"▼"} ${Math.abs(c-p)}${u}</em>`;
+  const hd = pv.spent!=null && s.spent!==pv.spent ? `<em class="dl neu">${s.spent>pv.spent?"▲":"▼"} ${fmtH(Math.abs(s.spent-pv.spent))}</em>` : `<em class="dl">no change</em>`;
+  const kp = (i,l,v,sub,d,sp,c)=>`<div class="kpi kp2" style="--kc:${c}"><div class="kp-h"><small>${l}</small>${d}</div><b>${v}</b><span>${sub}</span>${sparkPro(sp,c,i)}</div>`;
+  _hs($("kpis"), kp(1,"Completion rate",comp==null?"–":comp+"%",`${s.done} of ${s.total} tasks`,dl(comp,compOf(pv),"pts"),wks.map(w=>compOf(w.s)),"var(--brand)")
+    + kp(2,"Deadline met",s.rate==null?"–":s.rate+"%",`${s.ontime} on time · ${s.late} late`,dl(s.rate,pv.rate,"pts"),wks.map(w=>w.s.rate),"var(--ok)")
+    + kp(3,"Hours logged",fmtH(s.spent),s.est?`of ${fmtH(s.est)} estimated`:"no estimates set",hd,wks.map(w=>w.s.spent||0),"var(--info)")
+    + kp(4,"Time efficiency",eff==null?"–":eff+"%",eff==null?"needs estimates on done tasks":eff>=100?"faster than estimated":"slower than estimated",dl(eff,effOf(pv),"pts"),wks.map(w=>effOf(w.s)),"var(--warn)"));
+
+  // ---- daily activity ----
+  const W1 = Math.max(300,Math.min(760,$("actChart").clientWidth||640)), H1 = 240, L=30, R=8, Tp=20, B=36, iw=W1-L-R, ih=H1-Tp-B, bw=iw/7;
+  const days = [...Array(7)].map((_,i)=>ymd(addDays(weekStart,i)));
+  const cr = days.map(d=>wt.filter(t=>t.date===d).length), dn = days.map(d=>T().filter(t=>t.completedAt===d).length), mx = _nm(Math.max(1,...cr,...dn));
+  const sc = v=>Tp+ih-v/mx*ih, tcr = cr.reduce((a,b)=>a+b,0), tdn = dn.reduce((a,b)=>a+b,0), pk = cr.indexOf(Math.max(...cr)), bwid = Math.max(8,Math.min(24,bw*.26)), avg = tcr/7;
+  if(!wt.length && !tdn){ _hs($("actChart"), `<div class="cx-empty"><b>No activity yet</b><span>Tasks you create and complete this week will be charted here.</span></div>`); }
+  else _hs($("actChart"), `<svg class="cx" viewBox="0 0 ${W1} ${H1}" role="img" aria-label="Tasks created and completed per day">
+    ${[0,1,2,3,4].map(i=>{ const v=mx*i/4, y=sc(v); return `<line class="gl" x1="${L}" x2="${W1-R}" y1="${y}" y2="${y}"/><text x="${L-8}" y="${y+4}" text-anchor="end">${v}</text>`; }).join("")}
+    ${days.map((d,i)=>{ const cx=L+bw*(i+.5), isT=d===td;
+      return `${isT?`<rect class="tdband" x="${cx-bw/2+3}" y="${Tp-6}" width="${bw-6}" height="${ih+6}" rx="12"/>`:""}
+      <g class="cg">${cr[i]?`<path d="${_rb(cx-bwid-2,sc(cr[i]),bwid,ih-(sc(cr[i])-Tp),7)}" fill="var(--brand)"/><text x="${cx-bwid/2-2}" y="${sc(cr[i])-5}" text-anchor="middle" class="vl">${cr[i]}</text>`:""}
+      ${dn[i]?`<path d="${_rb(cx+2,sc(dn[i]),bwid,ih-(sc(dn[i])-Tp),7)}" fill="var(--ok)"/><text x="${cx+bwid/2+2}" y="${sc(dn[i])-5}" text-anchor="middle" class="vl">${dn[i]}</text>`:""}
+      <rect class="hit" x="${cx-bw/2}" y="${Tp-6}" width="${bw}" height="${ih+6}" data-tip="${_tip(fmt(d,{weekday:"long",day:"numeric",month:"short"})+(isT?" · Today":""),"Created "+cr[i],"Completed "+dn[i])}"/></g>
+      <text x="${cx}" y="${H1-16}" text-anchor="middle" class="${isT?"tdl":""}">${fmt(d,{weekday:"short"})}</text><text x="${cx}" y="${H1-3}" text-anchor="middle" class="sub">${parse(d).getDate()}</text>`; }).join("")}
+    ${avg>0?`<line class="avg" x1="${L}" x2="${W1-R}" y1="${sc(avg)}" y2="${sc(avg)}"/><text class="avgt" x="${W1-R-2}" y="${sc(avg)-5}" text-anchor="end">avg ${avg.toFixed(1)}/day</text>`:""}</svg>
+    <div class="legend"><span><i style="background:var(--brand)"></i>Created <b>${tcr}</b></span><span><i style="background:var(--ok)"></i>Completed <b>${tdn}</b></span><span>Net <b class="${tdn>=tcr?"gd":"bd"}">${tdn-tcr>0?"+":""}${tdn-tcr}</b></span>${tcr?`<span>Busiest day <b>${fmt(days[pk],{weekday:"long"})}</b></span>`:""}</div>`);
+
+  // ---- status & priority mix (donut) ----
+  const cnt = {}; wt.forEach(t=>{ const k=stateOf(t); cnt[k]=(cnt[k]||0)+1; });
+  const defs = [["ontime","On time","var(--ok)"],["late","Late","var(--warn)"],["overdue","Overdue","var(--bad)"],["progress","In progress","var(--info)"],["todo","To do","var(--st-todo,#98a2b3)"]], tot = wt.length;
+  $("mixTotal").textContent = tot+" task"+(tot===1?"":"s");
+  const R0=62, SW=18, C=2*Math.PI*R0; let acc=0;
+  const ring = tot ? defs.filter(d=>cnt[d[0]]).map(([k,l,c])=>{ const f=cnt[k]/tot, len=Math.max(0,f*C-(defs.filter(d=>cnt[d[0]]).length>1?3:0)), o=-acc*C; acc+=f;
+      return `<circle class="seg" r="${R0}" cx="80" cy="80" fill="none" stroke="${c}" stroke-width="${SW}" stroke-dasharray="${len.toFixed(2)} ${(C-len).toFixed(2)}" stroke-dashoffset="${o.toFixed(2)}" data-tip="${_tip(l,cnt[k]+" task"+(cnt[k]===1?"":"s")+" · "+Math.round(f*100)+"%")}"/>`; }).join("") : `<circle r="${R0}" cx="80" cy="80" fill="none" stroke="var(--soft)" stroke-width="${SW}"/>`;
+  const dn2 = wt.filter(t=>t.status==="done").length;
+  const pr = ["high","med","low"].map(k=>{ const l=wt.filter(t=>t.priority===k); return {k,n:l.length,d:l.filter(t=>t.status==="done").length,o:l.filter(t=>stateOf(t)==="overdue").length}; });
+  _hs($("mixChart"), `<div class="mixw"><svg class="donut" viewBox="0 0 160 160" role="img" aria-label="Task status mix"><g transform="rotate(-90 80 80)">${ring}</g>
+      <text x="80" y="82" text-anchor="middle" class="dn-b">${tot?Math.round(dn2/tot*100)+"%":"–"}</text><text x="80" y="100" text-anchor="middle" class="dn-s">${tot?"done":"no tasks"}</text></svg>
+    <div class="mixl">${defs.map(([k,l,c])=>`<div class="${cnt[k]?"":"z"}"><i style="background:${c}"></i><span>${l}</span><b>${cnt[k]||0}</b><small>${tot?Math.round((cnt[k]||0)/tot*100):0}%</small></div>`).join("")}</div></div>
+    <h3 class="subh">By priority</h3>${pr.map(x=>`<div class="prr"><div class="prh"><span class="pill ${prLbl[x.k][1]}">${prLbl[x.k][0]}</span><span>${x.d}/${x.n} done${x.o?` · <b class="bd">${x.o} overdue</b>`:""}</span></div>
+      <div class="stk" data-tip="${_tip(prLbl[x.k][0]+" priority",x.d+" done",(x.n-x.d)+" open"+(x.o?" ("+x.o+" overdue)":""))}"><i style="width:${x.n?x.d/x.n*100:0}%;background:var(--ok)"></i><i style="width:${x.n?(x.n-x.d-x.o)/x.n*100:0}%;background:var(--brand);opacity:.28"></i><i style="width:${x.n?x.o/x.n*100:0}%;background:var(--bad)"></i></div></div>`).join("")}`);
+
+  // ---- 6-week trend (line + area) ----
+  const W2 = Math.max(300,Math.min(760,$("trendChart").clientWidth||640)), H2=250, L2=36, R2=22, T2=18, B2=48, iw2=W2-L2-R2, ih2=H2-T2-B2, yy = v=>T2+ih2-v/100*ih2, xx = i=>L2+iw2*i/5;
+  const A = wks.map((w,i)=>w.s.total?[+xx(i).toFixed(1),+yy(Math.round(w.s.done/w.s.total*100)).toFixed(1)]:null), Bp = wks.map((w,i)=>w.s.rate==null?null:[+xx(i).toFixed(1),+yy(w.s.rate).toFixed(1)]);
+  const ser = (P,c,id,area)=>_segs(P).map(sg=>sg.length<2?"":`${area?`<path d="${_curve(sg,T2,T2+ih2)}L${sg[sg.length-1][0]},${T2+ih2}L${sg[0][0]},${T2+ih2}Z" fill="url(#tg${id})"/>`:""}<path d="${_curve(sg,T2,T2+ih2)}" fill="none" stroke="${c}" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" class="ln"/>`).join("")
+    + P.map((p,i)=>p?`<circle cx="${p[0]}" cy="${p[1]}" r="${i===5?5.5:4}" fill="${c}" stroke="var(--card)" stroke-width="2"/>`:"").join("");
+  const c0 = compOf(wks[5].s), c1 = compOf(wks[4].s), real = wks.map(w=>compOf(w.s)).filter(v=>v!=null), av6 = real.length?Math.round(real.reduce((a,b)=>a+b,0)/real.length):null;
+  _hs($("trendChart"), real.length ? `<svg class="cx" viewBox="0 0 ${W2} ${H2}" role="img" aria-label="Six week completion and deadline trend"><defs><linearGradient id="tg1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--brand)" stop-opacity=".28"/><stop offset="1" stop-color="var(--brand)" stop-opacity="0"/></linearGradient></defs>
+    ${[0,25,50,75,100].map(v=>`<line class="gl" x1="${L2}" x2="${W2-R2}" y1="${yy(v)}" y2="${yy(v)}"/><text x="${L2-8}" y="${yy(v)+4}" text-anchor="end">${v}%</text>`).join("")}
+    ${ser(A,"var(--brand)",1,true)}${ser(Bp,"var(--ok)",2,false)}
+    ${wks.map((w,i)=>`<text x="${xx(i)}" y="${H2-26}" text-anchor="middle" class="${i===5?"tdl":""}">${fmt(w.a,{day:"numeric",month:"short"})}</text><text x="${xx(i)}" y="${H2-11}" text-anchor="middle" class="sub">${w.s.total} task${w.s.total===1?"":"s"}</text>
+      <rect class="hit" x="${xx(i)-iw2/10}" y="${T2}" width="${iw2/5}" height="${ih2}" data-tip="${_tip("Week of "+fmt(w.a,{day:"numeric",month:"short"})+(i===5?" (viewed)":""),w.s.total?"Completion "+compOf(w.s)+"% ("+w.s.done+"/"+w.s.total+")":"No tasks","Deadline met "+(w.s.rate==null?"–":w.s.rate+"%"))}"/>`).join("")}</svg>
+    <div class="legend"><span><i style="background:var(--brand)"></i>Completion %</span><span><i style="background:var(--ok)"></i>Deadline met %</span>${c0!=null&&c1!=null?`<span>Viewed week <b class="${c0>=c1?"gd":"bd"}">${c0>=c1?"▲":"▼"} ${Math.abs(c0-c1)} pts</b> vs last</span>`:""}${av6!=null?`<span>6-week average <b>${av6}%</b></span>`:""}</div>`
+    : `<div class="cx-empty"><b>No history yet</b><span>The trend appears once tasks exist in the last six weeks.</span></div>`);
+
+  // ---- workload ----
+  const op = MEMBERS.map(m=>{ const mine=T().filter(t=>t.member===m.id), dd=mine.filter(t=>t.status==="done"); return {m,o:mine.filter(t=>t.status!=="done").length,od:mine.filter(t=>stateOf(t)==="overdue").length,days:dd.length?dd.reduce((a,t)=>a+workDaysBetween(t.date,t.completedAt||t.date),0)/dd.length:null}; }).sort((a,b)=>b.o-a.o);
+  const to = op.reduce((a,x)=>a+x.o,0), mo = Math.max(1,...op.map(x=>x.o)), top = op[0];
+  _hs($("loadChart"), !MEMBERS.length ? `<div class="cx-empty"><b>No members</b></div>` : to ? `<div class="ldn">${top.o&&to?`Most loaded: <b>${esc(top.m.name)}</b> with ${top.o} open (${Math.round(top.o/to*100)}% of all open work)${op.length>2&&top.o/to>.4?` <b class="bd">· consider rebalancing</b>`:""}`:""}</div>`
+    + op.map(x=>`<div class="ldr" data-tip="${_tip(x.m.name,x.o+" open"+(x.od?" · "+x.od+" overdue":""),x.days==null?"No finished tasks yet":x.days.toFixed(1)+" working days avg to finish")}"><div class="ldh"><span class="ldn2"><i style="background:linear-gradient(135deg,${x.m.c1},${x.m.c2})">${initials(x.m.name)}</i><b>${esc(x.m.name)}</b></span><span>${x.o} open${to?` · ${Math.round(x.o/to*100)}%`:""} · ${x.days==null?"–":x.days.toFixed(1)+"d avg"}</span></div>
+      <div class="stk"><i style="width:${(x.o-x.od)/mo*100}%;background:linear-gradient(90deg,${x.m.c1},${x.m.c2})"></i><i style="width:${x.od/mo*100}%;background:var(--bad)"></i></div></div>`).join("")+`<div class="legend"><span><i style="background:var(--brand)"></i>Open</span><span><i style="background:var(--bad)"></i>Overdue</span></div>`
+    : `<div class="cx-empty"><b>Nothing in the queue</b><span>No open tasks for any member.</span></div>`);
+  const hm = $("heatmap"); if(hm && !hm.querySelector(".hlg")) hm.insertAdjacentHTML("beforeend",`<div class="hlg"><span>0%</span><i></i><span>100% progress</span></div>`);
+  const nl = $("insWk"); if(nl) nl.textContent = $("weekLbl") ? $("weekLbl").textContent : "";
+}
+function initInsNav(){
+  const v = $("v-insights"); if(!v || $("insNav")) return;
+  const tag = (el,s)=>{ if(el) el.dataset.s = s; };
+  tag($("kpis"),"overview"); tag($("actChart").closest(".cols"),"overview"); tag($("trendChart").closest(".panel"),"overview");
+  tag($("heatmap").closest(".cols"),"team"); tag($("memTbl").closest(".panel"),"team"); tag($("insMod").closest(".panel"),"modules"); tag($("adv"),"exec"); tag($("exec"),"exec");
+  const nav = document.createElement("div"); nav.id="insNav"; nav.className="insnav"; nav.setAttribute("role","tablist");
+  nav.innerHTML = `<div class="tvs">${INS_SECS.map(x=>`<button type="button" role="tab" data-sec="${x[0]}">${x[1]}</button>`).join("")}</div><span class="insw" id="insWk"></span>`;
+  $("kpis").parentNode.insertBefore(nav,$("kpis"));
+  const apply = ()=>{ v.dataset.sec = insSec; nav.querySelectorAll("button").forEach(b=>{ const on=b.dataset.sec===insSec; b.classList.toggle("on",on); b.setAttribute("aria-selected",on); }); };
+  nav.addEventListener("click",e=>{ const b=e.target.closest("[data-sec]"); if(!b) return; insSec=b.dataset.sec; try{localStorage.setItem("mis_insec",insSec)}catch{} apply(); scrollTo({top:0}); requestAnimationFrame(()=>renderInsightsPro(weekTasks())); });
+  apply();
+  if(window.ResizeObserver){ let lw=0; const ro=new ResizeObserver(()=>{ const w=($("actChart").clientWidth||0)+($("trendChart").clientWidth||0); if(w&&Math.abs(w-lw)>8){ lw=w; requestAnimationFrame(()=>renderInsightsPro(weekTasks())); } }); ro.observe($("actChart")); ro.observe($("trendChart")); }
+  const tp = document.createElement("div"); tp.id="ctip"; tp.setAttribute("role","tooltip"); document.body.appendChild(tp);
+  const hide = ()=>{ tp.classList.remove("on"); };
+  const show = (el,x,y)=>{ const ls=(el.dataset.tip||"").split("|"); tp.replaceChildren(...ls.map((l,i)=>{ const d=document.createElement("div"); if(!i) d.className="h"; d.textContent=l; return d; })); tp.classList.add("on");
+    const r=tp.getBoundingClientRect(); tp.style.left=Math.max(8,Math.min(innerWidth-r.width-8,x-r.width/2))+"px"; tp.style.top=Math.max(8,y-r.height-14)+"px"; };
+  document.addEventListener("pointermove",e=>{ const el=e.target.closest&&e.target.closest("[data-tip]"); if(el&&el.closest("#v-insights")) show(el,e.clientX,e.clientY); else hide(); },{passive:true});
+  document.addEventListener("pointerdown",e=>{ if(!(e.target.closest&&e.target.closest("[data-tip]"))) hide(); },{passive:true});
+  addEventListener("scroll",hide,{passive:true});
 }
 
 // ---------- Excel import / export ----------
@@ -3111,7 +3261,7 @@ ghRender();
 <script>
 /* v8: stable updater + version history. Data lives in localStorage and is never touched by an update; a snapshot is taken first. */
 (()=>{
-const APP_VERSION="9.2.0", SNAP_KEY="mis_snapshots_v1", LOG_KEY="mis_update_log_v1", $=id=>document.getElementById(id);
+const APP_VERSION="9.3.0", SNAP_KEY="mis_snapshots_v1", LOG_KEY="mis_update_log_v1", $=id=>document.getElementById(id);
 const HISTORY=[
  {v:"8.7.0",d:"2026-10-21",n:["System health panel: storage, data integrity checks, backups and one-tap restore points", "Daily automatic backup (last 5 restore points kept)", "iOS-style notification banners, launch splash, offline/online alerts", "Keyboard shortcuts sheet (press ?)"]},
  {v:"8.6.0",d:"2026-10-21",n:["Team cards: fixed clipped avatar/badge overflow, rebuilt the leader switch, rank shown inline, quieter empty states (– instead of 0%), dimmed zero stats, tooltips for long names, refined leader card tiles"]},
@@ -3228,5 +3378,6 @@ const upd=()=>{rf=0;const y=scrollY,h=d.documentElement.scrollHeight;T.classList
 addEventListener("scroll",q,{passive:true});addEventListener("resize",q,{passive:true});if(window.ResizeObserver)new ResizeObserver(q).observe(d.body);q();
 })();
 </script>
+<script>try{initInsNav();renderInsightsPro(weekTasks())}catch(e){console.error("insights",e)}</script>
 </body>
 </html>

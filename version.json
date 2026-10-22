@@ -1,13 +1,25 @@
 {
-  "version": "9.2.0",
+  "version": "9.3.0",
   "date": "2026-10-22",
   "notes": [
-    "Board rebuilt: compact cards with priority, module, assignee, relative due date (Due today, 2d overdue), progress slider, timer, estimate",
-    "One-tap actions on cards (Start, Mark done, Reopen) plus drag & drop; board keeps its scroll position after changes",
-    "Status tiles now focus a column instead of emptying the others; clearer empty states and drop targets",
-    "Edge blur rebuilt as a true progressive blur (iOS style): fixed the blur not rendering, smoother fade, lower CPU use"
+    "Insights rebuilt with crisp SVG charts: daily activity bars with gridlines, today highlight and average line; status donut; smooth 6-week trend with area fill",
+    "KPI cards now show change vs last week and a 6-week sparkline",
+    "Insights sections: Overview, Team, Modules, Executive (remembered); print still includes everything",
+    "Hover/tap tooltips on every chart, richer workload view with overdue share and rebalancing hint, friendly empty states",
+    "Fixed: board styles had clashed with the Insights bar charts (shared class names)"
   ],
   "history": [
+    {
+      "v": "9.3.0",
+      "d": "2026-10-22",
+      "n": [
+        "Insights rebuilt with crisp SVG charts: daily activity bars with gridlines, today highlight and average line; status donut; smooth 6-week trend with area fill",
+        "KPI cards now show change vs last week and a 6-week sparkline",
+        "Insights sections: Overview, Team, Modules, Executive (remembered); print still includes everything",
+        "Hover/tap tooltips on every chart, richer workload view with overdue share and rebalancing hint, friendly empty states",
+        "Fixed: board styles had clashed with the Insights bar charts (shared class names)"
+      ]
+    },
     {
       "v": "9.2.0",
       "d": "2026-10-22",

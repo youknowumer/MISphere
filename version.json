@@ -1,13 +1,23 @@
 {
-  "version": "9.1.0",
+  "version": "9.1.1",
   "date": "2026-10-22",
   "notes": [
-    "Task status summary: To do / In progress / Done / Overdue tiles with a weekly completion bar; tap a tile to filter",
-    "New Board view: To do, In progress and Done columns with counts, overdue and on-time/late markers",
-    "Drag a card between columns to change its status (timer, progress and activity log update as before)",
-    "Clearer empty states and a one-tap Show all when a filter has no matches"
+    "Tab bar fixed: locked to the bottom centre again (v9 styling had pushed it out of place)",
+    "Header stays pinned at the top while scrolling",
+    "New top and bottom edge blur that fades in as you scroll, stronger while moving",
+    "Tab bar stays steady during page transitions"
   ],
   "history": [
+    {
+      "v": "9.1.1",
+      "d": "2026-10-22",
+      "n": [
+        "Tab bar fixed: locked to the bottom centre again (v9 styling had pushed it out of place)",
+        "Header stays pinned at the top while scrolling",
+        "New top and bottom edge blur that fades in as you scroll, stronger while moving",
+        "Tab bar stays steady during page transitions"
+      ]
+    },
     {
       "v": "9.1.0",
       "d": "2026-10-22",

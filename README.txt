@@ -107,3 +107,6 @@ Version 9 - Liquid Glass polish
 
 Version 9.1 - Task board
 - Tasks: status summary tiles (To do / In progress / Done / Overdue), By day and Board views, drag & drop between columns. Status filters now follow the task's status (an overdue open task still counts under To do / In progress; use Overdue to see only late ones).
+
+Version 9.1.1
+- Tab bar position locked (bottom centre), header pinned, new top/bottom edge blur that responds to scrolling.

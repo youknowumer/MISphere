@@ -886,10 +886,10 @@
   .panel>div[style*=overflow],.tblwrap{-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
   img,svg{max-width:100%}
   /* Liquid glass surfaces: refraction edge, specular rim, depth */
-  .panel,.kpi,.stat,.mcard,.mm-card,.top,.tabbar,#cmd .box,.sheet,.v8card{position:relative;isolation:isolate}
+  .panel,.kpi,.stat,.mcard,.mm-card,#cmd .box,.sheet,.v8card{position:relative;isolation:isolate}.top,.tabbar{isolation:isolate}
   .tabbar,.top,.panel,.kpi,.stat,.mm-card{-webkit-backdrop-filter:blur(var(--gb,26px)) saturate(190%) brightness(1.04);backdrop-filter:blur(var(--gb,26px)) saturate(190%) brightness(1.04);background-image:var(--gl-hl);background-blend-mode:soft-light}
   .tabbar::after,.top::after,.panel::after,.kpi::after,.stat::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;pointer-events:none;background:var(--gl-hl);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:.9;z-index:1}
-  .tabbar{border-radius:34px!important;box-shadow:0 18px 50px -12px rgba(0,0,0,.28),0 2px 6px rgba(0,0,0,.06),inset 0 1px 0 rgba(255,255,255,.7),inset 0 -1px 0 rgba(255,255,255,.12)!important;padding-bottom:max(6px,env(safe-area-inset-bottom))}
+  .tabbar{border-radius:34px!important;box-shadow:0 18px 50px -12px rgba(0,0,0,.28),0 2px 6px rgba(0,0,0,.06),inset 0 1px 0 rgba(255,255,255,.7),inset 0 -1px 0 rgba(255,255,255,.12)!important}
   .tb{transition:background .35s var(--ease),color .25s,transform .35s var(--spring2);will-change:transform}
   .tb.on{box-shadow:0 6px 16px -4px color-mix(in srgb,var(--brand) 55%,transparent),inset 0 1px 0 rgba(255,255,255,.45)}
   .tb:active{transform:scale(.9)}
@@ -909,7 +909,7 @@
   ::view-transition-old(root){animation-name:v9out}::view-transition-new(root){animation-name:v9in}
   @keyframes v9in{from{opacity:0;transform:translateY(10px) scale(.992)}}@keyframes v9out{to{opacity:0;transform:scale(.996)}}
   .task,.mcard{content-visibility:auto;contain-intrinsic-size:auto 96px}
-  .tabbar,.top,#toast{transform:translateZ(0)}
+  
   ::-webkit-scrollbar{width:10px;height:10px}::-webkit-scrollbar-thumb{background:rgba(120,120,128,.4);border-radius:10px;border:3px solid transparent;background-clip:content-box}::-webkit-scrollbar-thumb:hover{background-color:rgba(120,120,128,.65)}
   ::selection{background:color-mix(in srgb,var(--brand) 30%,transparent)}
   /* small screens: safe areas and tap targets */
@@ -946,6 +946,22 @@
   .bempty{padding:26px 10px;text-align:center;font-size:13px;color:var(--muted);border:1.5px dashed var(--line);border-radius:18px}
   .bhint{font-size:12px;color:var(--muted);text-align:center;margin-top:12px}
   @media(max-width:900px){.board{grid-auto-flow:column;grid-template-columns:none;grid-auto-columns:86%;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px;overscroll-behavior-x:contain}.bcol{scroll-snap-align:center}.tsum{grid-template-columns:repeat(2,1fr)}.bhint{display:none}}
+
+  /* ===== v9.1.1: tab bar position locked + edge blur ===== */
+  .tabbar{position:fixed!important;left:50%!important;right:auto!important;top:auto!important;bottom:max(14px,env(safe-area-inset-bottom))!important;transform:translateX(-50%)!important;z-index:60!important;margin:0!important;view-transition-name:tabbar}
+  .top{position:sticky!important;top:max(12px,env(safe-area-inset-top))!important;z-index:25}
+  .tabbar::before{z-index:-1}
+  #edgeT,#edgeB{position:fixed;left:0;right:0;z-index:20;pointer-events:none;opacity:0;transition:opacity .45s var(--ease)}
+  #edgeT{top:0;height:calc(env(safe-area-inset-top,0px) + 76px)}
+  #edgeB{bottom:0;height:calc(env(safe-area-inset-bottom,0px) + 150px)}
+  #edgeT.on,#edgeB.on{opacity:.8}#edgeT.on.mv,#edgeB.on.mv{opacity:1;transition-duration:.15s}
+  #edgeT::before,#edgeT::after,#edgeB::before,#edgeB::after{content:"";position:absolute;inset:0}
+  #edgeT::before{-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);-webkit-mask-image:linear-gradient(to bottom,#000 0,rgba(0,0,0,.6) 55%,transparent 100%);mask-image:linear-gradient(to bottom,#000 0,rgba(0,0,0,.6) 55%,transparent 100%)}
+  #edgeT::after{-webkit-backdrop-filter:blur(18px) saturate(160%);backdrop-filter:blur(18px) saturate(160%);background:linear-gradient(to bottom,color-mix(in srgb,var(--bg) 70%,transparent),transparent);-webkit-mask-image:linear-gradient(to bottom,#000 0,transparent 70%);mask-image:linear-gradient(to bottom,#000 0,transparent 70%)}
+  #edgeB::before{-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);-webkit-mask-image:linear-gradient(to top,#000 0,rgba(0,0,0,.6) 55%,transparent 100%);mask-image:linear-gradient(to top,#000 0,rgba(0,0,0,.6) 55%,transparent 100%)}
+  #edgeB::after{-webkit-backdrop-filter:blur(20px) saturate(160%);backdrop-filter:blur(20px) saturate(160%);background:linear-gradient(to top,color-mix(in srgb,var(--bg) 75%,transparent),transparent);-webkit-mask-image:linear-gradient(to top,#000 0,transparent 70%);mask-image:linear-gradient(to top,#000 0,transparent 70%)}
+  @media print{#edgeT,#edgeB{display:none}}
+  @media(prefers-reduced-transparency:reduce){#edgeT::before,#edgeT::after,#edgeB::before,#edgeB::after{-webkit-backdrop-filter:none;backdrop-filter:none}}
 </style>
 <script>window.__v8err=0;addEventListener("error",function(){window.__v8err++});try{var u=JSON.parse(localStorage.getItem("mis_ui_v1"))||{};document.documentElement.dataset.accent=u.a||"ocean";document.documentElement.style.setProperty("--gb",({soft:14,standard:26,strong:44})[u.g||"standard"]+"px")}catch(e){}</script></head>
 <body>
@@ -3038,7 +3054,7 @@ ghRender();
 <script>
 /* v8: stable updater + version history. Data lives in localStorage and is never touched by an update; a snapshot is taken first. */
 (()=>{
-const APP_VERSION="9.1.0", SNAP_KEY="mis_snapshots_v1", LOG_KEY="mis_update_log_v1", $=id=>document.getElementById(id);
+const APP_VERSION="9.1.1", SNAP_KEY="mis_snapshots_v1", LOG_KEY="mis_update_log_v1", $=id=>document.getElementById(id);
 const HISTORY=[
  {v:"8.7.0",d:"2026-10-21",n:["System health panel: storage, data integrity checks, backups and one-tap restore points", "Daily automatic backup (last 5 restore points kept)", "iOS-style notification banners, launch splash, offline/online alerts", "Keyboard shortcuts sheet (press ?)"]},
  {v:"8.6.0",d:"2026-10-21",n:["Team cards: fixed clipped avatar/badge overflow, rebuilt the leader switch, rank shown inline, quieter empty states (– instead of 0%), dimmed zero stats, tooltips for long names, refined leader card tiles"]},
@@ -3146,6 +3162,15 @@ tc();new MutationObserver(tc).observe(r,{attributes:true,attributeFilter:["data-
 let q=0;d.addEventListener("pointermove",e=>{if(q||e.pointerType==="touch")return;q=requestAnimationFrame(()=>{q=0;const t=e.target.closest&&e.target.closest(".tabbar");if(!t)return;const b=t.getBoundingClientRect();t.style.setProperty("--sx",(e.clientX-b.left)+"px")})},{passive:true});
 const vh=()=>r.style.setProperty("--vh",innerHeight*.01+"px");vh();addEventListener("resize",vh,{passive:true});
 addEventListener("online",()=>r.classList.remove("offline"));addEventListener("offline",()=>r.classList.add("offline"));
+})();
+</script>
+<script>
+/* v9.1.1: top and bottom edge blur that responds to scrolling */
+(()=>{const d=document,mk=id=>{let e=d.getElementById(id);if(!e){e=d.createElement("div");e.id=id;e.setAttribute("aria-hidden","true");d.body.appendChild(e)}return e},T=mk("edgeT"),B=mk("edgeB");let tm=0,rf=0;
+const upd=()=>{rf=0;const y=scrollY,h=d.documentElement;T.classList.toggle("on",y>6);B.classList.toggle("on",y+innerHeight<h.scrollHeight-8)};
+const mv=()=>{T.classList.add("mv");B.classList.add("mv");clearTimeout(tm);tm=setTimeout(()=>{T.classList.remove("mv");B.classList.remove("mv")},380);if(!rf)rf=requestAnimationFrame(upd)};
+addEventListener("scroll",mv,{passive:true});addEventListener("resize",()=>{if(!rf)rf=requestAnimationFrame(upd)},{passive:true});
+new MutationObserver(()=>{if(!rf)rf=requestAnimationFrame(upd)}).observe(d.body,{childList:true,subtree:true});upd();
 })();
 </script>
 </body>

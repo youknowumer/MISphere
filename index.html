@@ -1173,6 +1173,7 @@
       <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn" id="heroAdd">＋ Add first task</button><button class="btn" id="heroImp">⬆ Import Excel</button><button class="btn" id="heroTpl">⬇ Excel template</button></div>
     </div>
     <div class="panel" id="homeFocus"></div>
+    <div class="sec-title sx"><h2>This week at a glance</h2><small>Key numbers, with the change compared to last week</small></div>
     <div class="stats" id="stats"></div>
     <div class="panel attn" id="attention"></div>
     <div class="sec-title"><h2>Team <span class="cnt-b" id="teamCnt"></span></h2><small>Ranked by this week’s score · click a card to open that member’s tasks</small><button class="btn sm" onclick="go('team')">＋ Add / manage members</button></div>
@@ -1201,8 +1202,20 @@
       </form>
     </div>
     <div class="panel">
-      <div class="ph"><h3>This Week’s Tasks <small id="taskCount"></small></h3><div class="tvs" id="tView" role="group" aria-label="Task view"><button type="button" data-v="day">By day</button><button type="button" data-v="board">Board</button></div></div>
-      <div id="taskSum"></div>
+      <div class="ph"><h3>This Week’s Tasks <small id="taskCount"></small></h3></div>
+      <div class="tsec" id="tsOverview"><div class="tsec-h"><b>Overview</b><small>Tap a tile to filter by status</small></div><div id="taskSum"></div></div>
+      <div class="tsec" id="tsView"><div class="tsec-h"><b>View</b><small id="vHint">How tasks are laid out</small></div>
+        <div class="vbar">
+          <div class="vseg" id="tView" role="group" aria-label="Task view" data-i="0"><i class="vseg-thumb" aria-hidden="true"></i>
+            <button type="button" data-v="day" title="Tasks grouped by day of the week"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="3"/><path d="M8 3v4M16 3v4M3.5 10h17"/></svg>By day</button>
+            <button type="button" data-v="board" title="Kanban board with drag and drop"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4" width="5.2" height="16" rx="1.6"/><rect x="9.4" y="4" width="5.2" height="10" rx="1.6"/><rect x="15.3" y="4" width="5.2" height="13" rx="1.6"/></svg>Board</button>
+          </div>
+          <span class="vdesc" id="vDesc"></span>
+          <button type="button" class="btn sm bsbtn" id="bsBtn" aria-expanded="false" aria-controls="bSet" hidden><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2.2"/><circle cx="8" cy="17" r="2.2"/></svg>Board settings<b class="bs-n" id="bsN" hidden></b></button>
+        </div>
+        <div class="bset" id="bSet" aria-hidden="true"><div class="bset-in" id="bSetIn"></div></div>
+      </div>
+      <div class="tsec" id="tsFilter"><div class="tsec-h"><b>Filters</b><small>Search, member, status, priority, deadline and sort</small></div>
       <div class="fbar" id="fBar" role="search" aria-label="Task filters">
         <label class="fi fs"><small>Search</small><input id="flSearch" type="search" placeholder="Search tasks…" aria-label="Search tasks"></label>
         <label class="fi"><small>Member</small><select id="flMember"></select></label>
@@ -1212,8 +1225,8 @@
         <label class="fi"><small>Sort</small><select id="flSort"><option value="new">Newest</option><option value="deadline">Deadline</option><option value="priority">Priority</option></select></label>
         <button type="button" class="btn sm" id="flExp" title="Download the tasks currently shown as CSV">⬇ Export view</button><button type="button" class="btn sm" id="flReset" hidden>Reset filters <b id="flN"></b></button>
       </div>
-      <div class="fres" id="fRes" aria-live="polite"></div>
-      <div id="taskList"></div>
+      <div class="fres" id="fRes" aria-live="polite"></div></div>
+      <div class="tsec" id="tsList"><div class="tsec-h"><b id="tsListT">Tasks</b><small id="tsListS"></small></div><div id="taskList"></div></div>
     </div>
   </section>
 
@@ -2182,14 +2195,65 @@ function tieSort(a,b){
   return a.created-b.created;
 }
 let tView = (()=>{ try{ return localStorage.getItem("mis_tview")==="board" ? "board" : "day"; }catch{ return "day"; } })();
+/* v10.9 · board settings (saved on this device) */
+const BS_KEY="mis_board_v1", BS_DEF={dens:"comfy",notes:1,module:1,who:1,prog:1,time:1,quick:1,todo:1,progress:1,done:1,wip:0,doneMax:0,odFirst:1};
+let BS=(()=>{ try{ const o=Object.assign({},BS_DEF,JSON.parse(localStorage.getItem(BS_KEY))||{}); if(!o.todo&&!o.progress&&!o.done){o.todo=o.progress=o.done=1} return o; }catch{ return {...BS_DEF}; } })();
+const bsSave=()=>{ try{ localStorage.setItem(BS_KEY,JSON.stringify(BS)); }catch{} };
 const COLS = [["todo","To do","var(--st-todo,var(--muted))","Nothing waiting"],["progress","In progress","var(--info)","Nothing in progress"],["done","Done","var(--ok)","Finished tasks appear here"]];
+function viewBarSync(){
+  const board = tView==="board", v=$("tView"); if(!v) return;
+  v.dataset.i = board?1:0;
+  $("vDesc").textContent = board ? "Kanban board · drag cards between columns" : "Grouped by day · newest day first";
+  $("vHint").textContent = board ? "Board layout" : "List layout";
+  $("tsListT").textContent = board ? "Board" : "Task list";
+  $("bsBtn").hidden = !board; if(!board) bsOpen(false);
+  const n = bsChanged(); $("bsN").hidden = !n; $("bsN").textContent = n;
+}
+const BS_CH=[["notes","Notes"],["module","Module"],["who","Assignee"],["prog","Progress"],["time","Timer & estimate"],["quick","Quick actions"]];
+const bsChanged=()=>Object.keys(BS_DEF).filter(k=>BS[k]!==BS_DEF[k]).length;
+function bsOpen(o){ const p=$("bSet"), b=$("bsBtn"); p.classList.toggle("open",!!o); p.setAttribute("aria-hidden",!o); b.setAttribute("aria-expanded",!!o); b.classList.toggle("on",!!o); }
+function bsBuild(){
+  const chip=(k,l,extra="")=>`<button type="button" class="bchip" data-bs-tg="${k}" aria-pressed="${!!BS[k]}"${extra}><i class="bck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></i>${l}</button>`;
+  const seg=(k,opts)=>`<div class="vseg sm" data-bs-seg="${k}" data-i="${opts.findIndex(o=>o[0]===BS[k])}" style="--n:${opts.length}"><i class="vseg-thumb" aria-hidden="true"></i>${opts.map(o=>`<button type="button" data-val="${o[0]}" class="${BS[k]===o[0]?"on":""}" aria-pressed="${BS[k]===o[0]}">${o[1]}</button>`).join("")}</div>`;
+  const sel=(k,opts)=>`<select data-bs-sel="${k}" aria-label="${k}">${opts.map(o=>`<option value="${o[0]}"${+BS[k]===o[0]?" selected":""}>${o[1]}</option>`).join("")}</select>`;
+  $("bSetIn").innerHTML=`<div class="bset-top"><div><b>Board settings</b><small>Saved on this device · applied instantly</small></div><button type="button" class="btn sm" data-bs-reset>Reset board</button></div>
+  <div class="bset-grid">
+    <div class="bsg"><h6>Card density</h6>${seg("dens",[["comfy","Comfortable"],["compact","Compact"]])}<p>Compact trims spacing and hides notes so more cards fit on screen.</p></div>
+    <div class="bsg"><h6>Columns</h6><div class="bchips">${chip("todo","To do",' style="--cc:var(--st-todo,var(--muted))"')}${chip("progress","In progress",' style="--cc:var(--info)"')}${chip("done","Done",' style="--cc:var(--ok)"')}</div><p>Hide the columns you do not need. At least one stays visible.</p></div>
+    <div class="bsg"><h6>Workflow</h6>
+      <label class="bsrow"><span>In-progress limit<small>Warns when too many tasks are started</small></span>${sel("wip",[[0,"No limit"],[3,"3 tasks"],[5,"5 tasks"],[8,"8 tasks"],[10,"10 tasks"]])}</label>
+      <label class="bsrow"><span>Done column shows<small>Keeps long weeks tidy</small></span>${sel("doneMax",[[0,"All"],[5,"Latest 5"],[10,"Latest 10"]])}</label>
+      <label class="bsrow"><span>Overdue first<small>Pin late work to the top</small></span><span class="sw"><input type="checkbox" data-bs-sw="odFirst"${BS.odFirst?" checked":""}><i></i></span></label>
+    </div>
+    <div class="bsg bsg-w"><h6>Show on cards</h6><div class="bchips">${BS_CH.map(c=>chip(c[0],c[1])).join("")}</div></div>
+  </div>`;
+}
+function bsSync(){
+  document.querySelectorAll("#bSet [data-bs-tg]").forEach(b=>b.setAttribute("aria-pressed",!!BS[b.dataset.bsTg]));
+  document.querySelectorAll("#bSet [data-bs-seg]").forEach(g=>{ const k=g.dataset.bsSeg, bs=[...g.querySelectorAll("button")]; bs.forEach((b,i)=>{ const on=b.dataset.val===BS[k]; b.classList.toggle("on",on); b.setAttribute("aria-pressed",on); if(on) g.dataset.i=i; }); });
+  document.querySelectorAll("#bSet [data-bs-sel]").forEach(x=>x.value=String(BS[x.dataset.bsSel]));
+  const sw=document.querySelector("#bSet [data-bs-sw]"); if(sw) sw.checked=!!BS.odFirst;
+  const n=bsChanged(); $("bsN").hidden=!n; $("bsN").textContent=n;
+}
+function bsApply(){ bsSave(); bsSync(); renderTasks(); }
+$("bsBtn").addEventListener("click",()=>bsOpen(!$("bSet").classList.contains("open")));
+$("bSet").addEventListener("click",e=>{
+  const t=e.target.closest("[data-bs-tg]"), g=e.target.closest("[data-bs-seg] button"), r=e.target.closest("[data-bs-reset]");
+  if(t){ const k=t.dataset.bsTg; if(["todo","progress","done"].includes(k) && BS[k] && !["todo","progress","done"].some(c=>c!==k&&BS[c])){ toast("Keep at least one column visible"); return; } BS[k]=BS[k]?0:1; bsApply(); }
+  else if(g){ BS[g.parentElement.dataset.bsSeg]=g.dataset.val; bsApply(); }
+  else if(r){ BS={...BS_DEF}; bsApply(); toast("Board settings reset"); }
+});
+$("bSet").addEventListener("change",e=>{ const s=e.target.dataset.bsSel, w=e.target.dataset.bsSw; if(s){ BS[s]=+e.target.value; bsApply(); } else if(w){ BS[w]=e.target.checked?1:0; bsApply(); } });
+$("taskList").addEventListener("click",e=>{ if(e.target.closest("[data-bsall]")){ BS.doneMax=0; bsApply(); } });
+bsBuild();
 function renderTaskSum(base, fs){
   const n = {todo:0,progress:0,done:0,overdue:0}; base.forEach(t=>{ n[t.status]++; if (stateOf(t)==="overdue") n.overdue++; });
   const pct = base.length ? Math.round(n.done/base.length*100) : 0;
   const tiles = [["todo","To do",n.todo,"--st-todo"],["progress","In progress",n.progress,"--info"],["done","Done",n.done,"--ok"],["overdue","Overdue",n.overdue,"--bad"]];
   $("taskSum").innerHTML = `<div class="tsum">${tiles.map(x=>`<button type="button" class="tsc${fs===x[0]?" on":""}${x[0]==="overdue"&&!x[2]?" z":""}" data-f="${x[0]}" style="--tc:var(${x[3]},var(--muted))" aria-pressed="${fs===x[0]}"><b>${x[2]}</b><span>${x[1]}</span></button>`).join("")}</div>
     <div class="tpg" title="${n.done} of ${base.length} done"><i style="width:${pct}%"></i></div><div class="tpl2">${base.length?`${n.done} of ${base.length} done · ${pct}% complete this week`:"No tasks this week yet"}</div>`;
-  document.querySelectorAll("#tView button").forEach(b=>b.classList.toggle("on", b.dataset.v===tView));
+  document.querySelectorAll("#tView button").forEach(b=>{ const on=b.dataset.v===tView; b.classList.toggle("on", on); b.setAttribute("aria-pressed", on); });
+  viewBarSync();
 }
 function dueInfo(t){
   if (t.status==="done"){ const late = stateOf(t)==="late"; return [`${late?"Done late":"Done on time"} · ${fmt(t.completedAt,{day:"numeric",month:"short"})}`, late?"warn":"ok"]; }
@@ -2216,13 +2280,17 @@ function boardCard(t){
 }
 function renderBoard(list, fs){
   const focus = ["todo","progress","done"].includes(fs) ? fs : "";
-  const sortCol = (k,a,b)=> k==="done" ? (b.completedAt||"").localeCompare(a.completedAt||"") : ((stateOf(b)==="overdue")-(stateOf(a)==="overdue")) || tieSort(a,b);
-  return `<div class="board">${COLS.map(c=>{
-    const items = list.filter(t=>t.status===c[0]).sort((a,b)=>sortCol(c[0],a,b));
-    const od = items.filter(t=>stateOf(t)==="overdue").length, lt = items.filter(t=>stateOf(t)==="late").length;
-    const meta = c[0]==="done" ? (items.length?`${items.length-lt} on time${lt?` · ${lt} late`:""}`:"") : (od?`${od} overdue`:"");
-    return `<section class="kbc${focus&&focus!==c[0]?" dim":""}" data-col="${c[0]}" style="--cc:${c[2]}" aria-label="${c[1]}"><header class="kbh"><i></i><b>${c[1]}</b><span class="kbn">${items.length}</span>${meta?`<em class="${od?"bad":""}">${meta}</em>`:""}</header>
-      <div class="kbb">${items.length?items.map(boardCard).join(""):`<div class="kbe">${c[3]}<small>Drop a card here</small></div>`}</div></section>`;
+  const cols = COLS.filter(c=>BS[c[0]]), shown = cols.length ? cols : COLS;
+  const sortCol = (k,a,b)=> k==="done" ? (b.completedAt||"").localeCompare(a.completedAt||"") : ((BS.odFirst?((stateOf(b)==="overdue")-(stateOf(a)==="overdue")):0) || tieSort(a,b));
+  const cls = ["board","n"+shown.length,BS.dens==="compact"?"bs-compact":"",!BS.notes&&"bh-notes",!BS.module&&"bh-module",!BS.who&&"bh-who",!BS.prog&&"bh-prog",!BS.time&&"bh-time",!BS.quick&&"bh-quick"].filter(Boolean).join(" ");
+  return `<div class="${cls}">${shown.map(c=>{
+    const all = list.filter(t=>t.status===c[0]).sort((a,b)=>sortCol(c[0],a,b));
+    const od = all.filter(t=>stateOf(t)==="overdue").length, lt = all.filter(t=>stateOf(t)==="late").length;
+    const lim = c[0]==="progress" && BS.wip>0, over = lim && all.length>BS.wip;
+    let items = all, hid = 0; if (c[0]==="done" && BS.doneMax>0 && all.length>BS.doneMax){ items = all.slice(0,BS.doneMax); hid = all.length-BS.doneMax; }
+    const meta = c[0]==="done" ? (all.length?`${all.length-lt} on time${lt?` · ${lt} late`:""}`:"") : (od?`${od} overdue`:"");
+    return `<section class="kbc${focus&&focus!==c[0]?" dim":""}${over?" wip-over":""}" data-col="${c[0]}" style="--cc:${c[2]}" aria-label="${c[1]}"><header class="kbh"><i></i><b>${c[1]}</b><span class="kbn${over?" over":""}" ${lim?`title="Work-in-progress limit: ${BS.wip}"`:""}>${all.length}${lim?`<small>/${BS.wip}</small>`:""}</span>${meta?`<em class="${od?"bad":""}">${meta}</em>`:""}${over?`<em class="bad wipn">Over limit by ${all.length-BS.wip}</em>`:""}</header>
+      <div class="kbb">${items.length?items.map(boardCard).join(""):`<div class="kbe">${c[3]}<small>Drop a card here</small></div>`}${hid?`<div class="kbmore"><span>+${hid} older done task${hid>1?"s":""} hidden</span><button type="button" data-bsall>Show all</button></div>`:""}</div></section>`;
   }).join("")}</div><div class="kbhint">Drag a card to another column, or use the buttons on the card. On touch screens use the buttons.</div>`;
 }
 function renderTasks(){
@@ -2242,7 +2310,7 @@ function renderTasks(){
     if (["todo","progress","done"].includes(fs)) return t.status===fs;
     return true;
   });
-  $("taskCount").textContent = `${list.length} task(s)`; window.__tl = list;
+  $("taskCount").textContent = `${list.length} task(s)`; window.__tl = list; $("tsListS").textContent = `${list.length} of ${base.length} shown`;
   { const act = (fs!=="all")+(fp!=="all")+(fd!=="all")+(selectedMember!=="all")+!!q, all = T().filter(t=>{ const d = listDay(t); return d>=ws && d<=we; }).length;
     $("flReset").hidden = !act; $("flN").textContent = act ? `(${act})` : ""; $("fBar").classList.toggle("on", !!act);
     $("fRes").textContent = act ? `Showing ${list.length} of ${all} task${all===1?"":"s"} this week` : ""; }
@@ -2379,7 +2447,65 @@ function go(v){
   if (v==="settings") fillSet();
   render();
   if (sec) $(sec).scrollIntoView({behavior:"smooth", block:"start"}); else window.scrollTo({top:0});
+  try{ enterFX($("v-"+v)); }catch(e){}
 }
+
+// ---------- v10.9 · motion layer (additive; every effect is skipped with Reduce motion) ----------
+const fxRM = ()=> document.body.classList.contains("rm") || matchMedia("(prefers-reduced-motion:reduce)").matches;
+const FX_ST = ".stat,.kpi,.tsc,.mcard,.lcard,.mm-card,.bcard,.task,.kbc,.nrow,.chip.on";
+let fxT = 0, fxIO = null;
+function countUp(root){
+  root.querySelectorAll(".stat .n,.kpi b,.tsc b").forEach(el=>{
+    if (el.children.length) return; const m = /^(-?\d+(?:\.\d+)?)(%|h)?$/.exec((el.textContent||"").trim()); if(!m) return;
+    const end = parseFloat(m[1]), dec = (m[1].split(".")[1]||"").length, suf = m[2]||"", t0 = performance.now(), D = 800 + Math.min(500, Math.abs(end)*4);
+    if (!isFinite(end) || end===0) return;
+    const step = now=>{ const k = Math.min(1,(now-t0)/D), e = 1-Math.pow(1-k,3); el.textContent = (end*e).toFixed(dec)+suf; if (k<1) requestAnimationFrame(step); else el.textContent = m[0]; };
+    el.textContent = (0).toFixed(dec)+suf; requestAnimationFrame(step); setTimeout(()=>{ el.textContent = m[0]; }, D+120);
+  });
+}
+function enterFX(el){
+  if (!el || fxRM()) return;
+  clearTimeout(fxT); document.querySelectorAll(".view.fx-in").forEach(v=>v.classList.remove("fx-in"));
+  const seen = new Map(); let n = 0;
+  el.querySelectorAll(FX_ST).forEach(x=>{ if (n++>90) return; const p = x.parentElement, i = seen.get(p)||0; seen.set(p,i+1); x.style.setProperty("--i", Math.min(i,12)); });
+  el.classList.remove("fx-in"); void el.offsetWidth; el.classList.add("fx-in");
+  fxT = setTimeout(()=>el.classList.remove("fx-in"), 1700);
+  countUp(el); fxReveal(el);
+}
+function fxReveal(el){
+  if (!("IntersectionObserver" in window)) return;
+  if (fxIO) fxIO.disconnect();
+  const vh = innerHeight, tgt = [...el.children].filter(c=>c.getBoundingClientRect().top > vh-40 && c.offsetHeight);
+  if (!tgt.length) return;
+  fxIO = new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add("rv-in"); fxIO.unobserve(e.target); setTimeout(()=>e.target.classList.remove("rv","rv-in"),900); } }),{threshold:.08,rootMargin:"0px 0px -6% 0px"});
+  tgt.forEach(c=>{ c.classList.add("rv"); fxIO.observe(c); });
+  setTimeout(()=>tgt.forEach(c=>c.classList.remove("rv","rv-in")), 5000);
+}
+function fxSwap(el){ if(!el||fxRM()) return; el.classList.remove("vswap"); void el.offsetWidth; el.classList.add("vswap"); setTimeout(()=>el.classList.remove("vswap"),700); }
+function fxBurst(x,y){
+  if (fxRM()) return;
+  const cs = getComputedStyle(document.documentElement), cols = ["--brand","--ok","--warn","--info","--bad"].map(v=>cs.getPropertyValue(v).trim()||"#0a84ff");
+  const host = document.createElement("div"); host.className = "fx-burst"; host.style.cssText = `left:${x}px;top:${y}px`;
+  const ring = document.createElement("b"); host.appendChild(ring);
+  for (let i=0;i<24;i++){
+    const p = document.createElement("i"), a = Math.random()*Math.PI*2, d = 46+Math.random()*96, w = 5+Math.random()*5;
+    p.style.cssText = `background:${cols[i%cols.length]};width:${w}px;height:${i%3?w*1.6:w}px;border-radius:${i%3===0?"50%":"2px"}`; host.appendChild(p);
+    if (p.animate) p.animate([{transform:"translate(0,0) rotate(0)",opacity:1},{transform:`translate(${Math.cos(a)*d}px,${Math.sin(a)*d-46+80}px) rotate(${Math.random()*720-360}deg)`,opacity:0}],{duration:900+Math.random()*500,easing:"cubic-bezier(.2,.7,.3,1)",fill:"forwards"});
+  }
+  document.body.appendChild(host); setTimeout(()=>host.remove(),1600);
+}
+let fxSeen = null, fxMoved = null;
+$("taskList").addEventListener("change", e=>{
+  const s = e.target.closest && e.target.closest("[data-act=status]"); if(!s) return; const c = s.closest(".task"); if(!c) return;
+  fxMoved = c.dataset.id; if (s.value==="done"){ const r = c.getBoundingClientRect(); fxBurst(r.left+Math.min(r.width/2,180), r.top+Math.min(r.height/2,60)); }
+}, true);
+function fxTasks(){
+  const root = $("taskList"), nodes = [...root.querySelectorAll(".task[data-id]")], prev = fxSeen; fxSeen = new Set(nodes.map(n=>n.dataset.id));
+  if (!prev || fxRM() || $("v-tasks").classList.contains("fx-in")) { fxMoved = null; return; }
+  let k = 0; nodes.forEach(n=>{ if (n.dataset.id===fxMoved) n.classList.add("fx-land"); else if (!prev.has(n.dataset.id) && k<16){ n.style.setProperty("--i",k++); n.classList.add("fx-new"); } }); fxMoved = null;
+}
+{ const _rt = renderTasks; renderTasks = function(){ _rt.apply(this,arguments); try{ fxTasks(); }catch(e){} }; }
+
 // ---------- bottom tab bar ----------
 function syncTabs(v){
   document.querySelectorAll(".tb[data-v]").forEach(b=>{ b.classList.toggle("on", b.dataset.v===v); b.toggleAttribute("aria-current", b.dataset.v===v); });
@@ -2469,7 +2595,7 @@ $("taskList").addEventListener("click", e=>{
   db.tasks = db.tasks.filter(t=>t.id!==b.closest(".task").dataset.id); save(); render(); toast("Task deleted");
 });
 // ---------- v9.1: status summary, board view, drag & drop ----------
-$("tView").addEventListener("click", e=>{ const b=e.target.closest("button[data-v]"); if(!b) return; tView=b.dataset.v; try{localStorage.setItem("mis_tview",tView)}catch{} renderTasks(); });
+$("tView").addEventListener("click", e=>{ const b=e.target.closest("button[data-v]"); if(!b) return; tView=b.dataset.v; try{localStorage.setItem("mis_tview",tView)}catch{} renderTasks(); fxSwap($("taskList")); });
 $("taskSum").addEventListener("click", e=>{ const b=e.target.closest("[data-f]"); if(!b) return; const s=$("flStatus"); s.value = s.value===b.dataset.f ? "all" : b.dataset.f; render(); });
 $("taskList").addEventListener("click", e=>{ if(e.target.id==="tClear") $("flReset").click(); });
 $("taskList").addEventListener("pointerdown", e=>{ const c=e.target.closest(".task[draggable]"); if(c) c.draggable = !e.target.closest("input,select,button,textarea"); });
@@ -3617,7 +3743,7 @@ ghRender();
 <script>
 /* v8: stable updater + version history. Data lives in localStorage and is never touched by an update; a snapshot is taken first. */
 (()=>{
-const APP_VERSION="10.8.1", SNAP_KEY="mis_snapshots_v1", LOG_KEY="mis_update_log_v1", $=id=>document.getElementById(id);
+const APP_VERSION="10.9.0", SNAP_KEY="mis_snapshots_v1", LOG_KEY="mis_update_log_v1", $=id=>document.getElementById(id);
 const HISTORY=[
  {v:"8.7.0",d:"2026-10-21",n:["System health panel: storage, data integrity checks, backups and one-tap restore points", "Daily automatic backup (last 5 restore points kept)", "iOS-style notification banners, launch splash, offline/online alerts", "Keyboard shortcuts sheet (press ?)"]},
  {v:"8.6.0",d:"2026-10-21",n:["Team cards: fixed clipped avatar/badge overflow, rebuilt the leader switch, rank shown inline, quieter empty states (– instead of 0%), dimmed zero stats, tooltips for long names, refined leader card tiles"]},
@@ -3820,7 +3946,7 @@ body.rm svg.cx .ln,body.rm svg.cx .cg path,body.rm .donut .seg{animation:none!im
 /* v10.2 · Pro layer — Insights executive summary & report header, Settings workspace.  © 2026 Muhammad Umer Faheem. All rights reserved. */
 (()=>{
 "use strict";
-const VER = "10.8.1";
+const VER = "10.9.0";
 const $$ = (sel,root=document)=>[...root.querySelectorAll(sel)];
 const nm = v=>String(v||"").replace(/[<>"`]/g,"").trim().slice(0,40);
 const CONF = {none:"", internal:"Internal use", confidential:"Confidential"};
@@ -4166,7 +4292,128 @@ if(window.ResizeObserver) new ResizeObserver(setH).observe(top); addEventListene
     el.addEventListener("input", e=>{ e.stopImmediatePropagation(); clearTimeout(tm); tm = setTimeout(()=>requestAnimationFrame(render), 140); }, true); });   // type freely, list updates once you pause
 }
 try{ render(); }catch(e){ console.error(e); }
+try{ setTimeout(()=>{ const v=document.querySelector(".view.on"); if(v) enterFX(v); }, 520); }catch(e){}
 })();
 </script>
+<style id="v109-css">
+/* ===== v10.9 · Defined sections, View bar, Board settings, motion layer — © 2026 Muhammad Umer Faheem ===== */
+/* --- defined sections --- */
+.tsec{margin-top:20px;padding-top:18px;border-top:1px solid var(--line2)}
+.tsec:first-of-type{margin-top:6px}
+.tsec-h{display:flex;align-items:center;gap:12px;margin:0 0 12px;min-width:0}
+.tsec-h b{display:inline-flex;align-items:center;gap:8px;font-size:11.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.tsec-h b::before{content:"";width:3px;height:12px;border-radius:2px;background:linear-gradient(180deg,var(--brand),color-mix(in srgb,var(--brand) 35%,transparent))}
+.tsec-h::after{content:"";order:2;flex:1;height:1px;background:var(--line2);min-width:12px}
+.tsec-h small{order:3;font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:52%}
+.tsec #taskSum .tsum{margin-top:0}
+.tsec .fbar{margin-top:0}
+.sec-title.sx{margin-top:6px;align-items:baseline;gap:12px;flex-wrap:wrap;justify-content:flex-start}
+.sec-title.sx h2{display:flex;align-items:center;gap:10px}
+.sec-title.sx h2::before{content:"";width:4px;height:20px;border-radius:3px;background:linear-gradient(180deg,var(--brand),color-mix(in srgb,var(--brand) 30%,transparent))}
+@media(max-width:640px){.tsec-h small{display:none}}
+
+/* --- View bar --- */
+.vbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.vseg{--n:2;position:relative;display:inline-grid;grid-template-columns:repeat(var(--n),1fr);padding:3px;border-radius:15px;background:var(--soft);isolation:isolate;box-shadow:inset 0 0 0 .5px var(--line)}
+.vseg button{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:7px;border:0!important;background:transparent!important;color:var(--muted)!important;font:600 13px inherit;font-family:inherit;padding:7px 18px;border-radius:12px;min-height:38px;min-width:92px;cursor:pointer;box-shadow:none!important;transition:color .3s,transform .3s var(--spring2)}
+.vseg button svg{transition:transform .45s var(--spring2)}
+.vseg button.on{color:var(--text)!important}.vseg button.on svg{transform:scale(1.12);color:var(--brand)}
+.vseg button:active{transform:scale(.95)}
+.vseg-thumb{position:absolute;z-index:0;top:3px;bottom:3px;left:3px;width:calc((100% - 6px)/var(--n));border-radius:12px;background:var(--card);box-shadow:0 1px 2px rgba(0,0,0,.08),0 6px 14px -6px rgba(0,0,0,.28),inset 0 0 0 .5px var(--line);transition:transform .5s var(--spring2)}
+.vseg[data-i="1"] .vseg-thumb{transform:translateX(100%)}.vseg[data-i="2"] .vseg-thumb{transform:translateX(200%)}
+.vseg.sm button{min-height:32px;min-width:0;padding:5px 14px;font-size:12.5px}
+.vdesc{flex:1;min-width:160px;font-size:12.5px;color:var(--muted)}
+.bsbtn{display:inline-flex;align-items:center;gap:7px}
+.bsbtn svg{transition:transform .5s var(--spring2)}.bsbtn.on svg{transform:rotate(90deg)}
+.bsbtn.on{background:var(--brand-soft)!important;color:var(--brand)!important}
+.bs-n{min-width:18px;height:18px;padding:0 5px;border-radius:99px;background:var(--brand);color:#fff;font:700 11px/18px inherit;text-align:center;animation:fxPopIn .45s var(--spring2)}
+
+/* --- Board settings panel (height-animated, no layout jump) --- */
+.bset{display:grid;grid-template-rows:0fr;margin-top:0;opacity:0;transition:grid-template-rows .5s var(--ease),opacity .3s,margin .4s var(--ease)}
+.bset.open{grid-template-rows:1fr;opacity:1;margin-top:14px}
+.bset-in{min-height:0;overflow:hidden;visibility:hidden;transition:visibility 0s .5s}
+.bset.open .bset-in{visibility:visible;transition:visibility 0s}
+.bset-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px;padding:2px 2px 0}
+.bset-top b{display:block;font-size:14.5px;letter-spacing:-.01em}.bset-top small{color:var(--muted);font-size:12px}
+.bset-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;padding:2px 2px 4px}
+.bsg{padding:14px 15px;border-radius:18px;background:var(--soft);box-shadow:inset 0 0 0 .5px var(--line)}
+.bsg-w{grid-column:1/-1}
+.bsg h6{margin:0 0 10px;font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+.bsg p{margin:10px 2px 0;font-size:12px;line-height:1.45;color:var(--muted)}
+.bsg .vseg{background:color-mix(in srgb,var(--card) 55%,transparent)}
+.bchips{display:flex;flex-wrap:wrap;gap:8px}
+.bchip{--cc:var(--brand);display:inline-flex;align-items:center;gap:8px;border:0;border-radius:99px;padding:7px 14px 7px 8px;min-height:36px;font:600 13px inherit;font-family:inherit;cursor:pointer;color:var(--muted);background:var(--card);box-shadow:inset 0 0 0 .5px var(--line);transition:transform .3s var(--spring2),background .25s,color .25s,box-shadow .25s}
+.bchip:active{transform:scale(.94)}
+.bck{width:20px;height:20px;border-radius:50%;display:grid;place-items:center;color:transparent;background:var(--soft);box-shadow:inset 0 0 0 1.5px var(--line);transition:background .25s,color .2s,transform .4s var(--spring2)}
+.bchip[aria-pressed=true]{color:var(--text);background:color-mix(in srgb,var(--cc) 13%,var(--card));box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--cc) 55%,transparent)}
+.bchip[aria-pressed=true] .bck{background:var(--cc);color:#fff;box-shadow:none;transform:scale(1.06)}
+.bsrow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 0;border-top:1px solid var(--line2);cursor:pointer}
+.bsrow:first-of-type{border-top:0;padding-top:0}
+.bsrow>span:first-child{display:flex;flex-direction:column;gap:2px;font-weight:600;font-size:13px;min-width:0}.bsrow small{font-weight:500;font-size:11.5px;color:var(--muted)}
+.bsrow select{width:auto!important;min-width:112px;padding:7px 10px!important;font-size:13px}
+
+/* --- Board: columns, density, hidden details, limits --- */
+.board.n1{grid-template-columns:minmax(0,1fr)}
+@media(min-width:901px){.board.n2{grid-template-columns:repeat(2,minmax(0,1fr))}.board.n1{max-width:640px}}
+.board.bh-notes .bc-notes,.board.bh-module .pill.mod,.board.bh-who .bc-meta .bc-who,.board.bh-prog .bc-prog,.board.bh-time .bc-foot .cnt,.board.bh-time .bc-foot .bc-est,.board.bh-quick .bc-foot .bq{display:none!important}
+.board.bs-compact .bcard{padding:8px 10px 8px 13px!important;gap:5px!important;border-radius:15px!important}
+.board.bs-compact .bc-notes{display:none}.board.bs-compact .bc-title{font-size:13.5px;-webkit-line-clamp:2}
+.board.bs-compact .kbb{gap:7px}.board.bs-compact .bi{width:24px!important;height:24px!important}.board.bs-compact .bq{min-height:26px;padding:4px 10px}
+.kbn small{font-size:11px;font-weight:600;color:var(--muted);margin-left:1px}.kbn.over{background:var(--bad);color:#fff}.kbn.over small{color:rgba(255,255,255,.8)}
+.kbc.wip-over{box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--bad) 55%,transparent)}
+.kbh .wipn{animation:fxGlow 2.4s ease-in-out infinite}
+.kbmore{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 12px;border-radius:14px;background:var(--card);font-size:12px;color:var(--muted);box-shadow:inset 0 0 0 .5px var(--line)}
+.kbmore button{border:0;background:var(--brand-soft);color:var(--brand);font:600 12px inherit;font-family:inherit;padding:5px 11px;border-radius:99px;cursor:pointer}
+
+/* --- Motion layer --- */
+@keyframes fxUp{from{opacity:0;transform:translateY(26px) scale(.975)}to{opacity:1;transform:none}}
+@keyframes fxPop{from{opacity:0;transform:translateY(14px) scale(.9)}to{opacity:1;transform:none}}
+@keyframes fxPopIn{from{transform:scale(.3);opacity:0}to{transform:none;opacity:1}}
+@keyframes fxGrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes fxSwap{from{opacity:0;transform:translateY(12px) scale(.99);filter:blur(5px)}to{opacity:1;transform:none;filter:none}}
+@keyframes fxLand{0%{transform:scale(.9) translateY(-10px);opacity:.2;box-shadow:0 0 0 0 color-mix(in srgb,var(--brand) 55%,transparent)}55%{transform:scale(1.035);opacity:1}100%{transform:none;box-shadow:0 0 0 14px transparent}}
+@keyframes fxNew{from{opacity:0;transform:translateY(-14px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes fxGlow{0%,100%{opacity:.65}50%{opacity:1}}
+@keyframes fxOver{0%,100%{box-shadow:0 0 0 2.5px var(--cc),0 0 0 0 color-mix(in srgb,var(--cc) 40%,transparent)}50%{box-shadow:0 0 0 2.5px var(--cc),0 0 0 9px color-mix(in srgb,var(--cc) 0%,transparent)}}
+@keyframes fxBob{0%{transform:translateY(0) scale(1)}35%{transform:translateY(-5px) scale(1.18)}70%{transform:translateY(1px) scale(.96)}100%{transform:none}}
+@keyframes fxRing{from{transform:scale(.2);opacity:.9}to{transform:scale(3.2);opacity:0}}
+@keyframes fxShine{from{transform:translateX(-120%)}to{transform:translateX(220%)}}
+@keyframes fxRv{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
+/* view entrance: staggered sections, then cards inside them */
+.view.fx-in>*:not(.rv){animation:fxUp .7s var(--spring2) both}
+.view.fx-in>*:nth-child(1){animation-delay:.02s}.view.fx-in>*:nth-child(2){animation-delay:.08s}.view.fx-in>*:nth-child(3){animation-delay:.14s}.view.fx-in>*:nth-child(4){animation-delay:.2s}.view.fx-in>*:nth-child(5){animation-delay:.26s}.view.fx-in>*:nth-child(6){animation-delay:.32s}.view.fx-in>*:nth-child(n+7){animation-delay:.38s}
+.view.fx-in .stat,.view.fx-in .kpi,.view.fx-in .tsc,.view.fx-in .mcard,.view.fx-in .lcard,.view.fx-in .mm-card,.view.fx-in .kbc,.view.fx-in .nrow{animation:fxPop .6s var(--spring2) both;animation-delay:calc(.12s + var(--i,0)*55ms)}
+.view.fx-in .task,.view.fx-in .bcard{animation:fxPop .55s var(--spring2) both;animation-delay:calc(.22s + var(--i,0)*45ms)}
+.view.fx-in .tpg i,.view.fx-in .mm-bar i{transform-origin:left;animation:fxGrow 1s var(--ease) both;animation-delay:.35s}
+.view.fx-in .tsec-h b::before{animation:fxGrow .7s var(--ease) both;transform-origin:top}
+.rv{opacity:0;transform:translateY(30px)}.rv.rv-in{animation:fxRv .7s var(--spring2) both}
+.vswap{animation:fxSwap .5s var(--ease) both}
+.task.fx-new,.bcard.fx-new{animation:fxNew .55s var(--spring2) both;animation-delay:calc(var(--i,0)*45ms)}
+.task.fx-land,.bcard.fx-land{animation:fxLand .8s var(--spring2) both}
+/* drag & drop feedback */
+.board.drag .kbc{transition:box-shadow .25s,background .25s,transform .3s var(--spring2)}
+.board.drag .kbc.over{transform:scale(1.012);animation:fxOver 1.2s ease-in-out infinite}
+.bcard.dragging{transform:scale(.96) rotate(-1.2deg)!important;filter:saturate(.7)}
+/* hover & press polish */
+@media(hover:hover){
+  .board .bcard:hover{transform:translateY(-3px);box-shadow:0 2px 4px rgba(0,0,0,.06),0 16px 28px -12px rgba(0,0,0,.34)!important}
+  .tsc:hover{transform:translateY(-3px)}.stat:hover,.kpi:hover{transform:translateY(-3px)}
+}
+.tsc:active,.bq:active,.bchip:active{transform:scale(.95)}
+.btn.pri,button.pri{position:relative;overflow:hidden}
+.btn.pri::after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.35) 50%,transparent 70%);transform:translateX(-120%);pointer-events:none}
+.btn.pri:hover::after{animation:fxShine .8s var(--ease)}
+.tb.on svg{animation:fxBob .6s var(--spring2)}
+.tpg i{transition:width .8s var(--spring)}
+/* completion burst */
+.fx-burst{position:fixed;z-index:9999;width:0;height:0;pointer-events:none}
+.fx-burst i{position:absolute;left:0;top:0;display:block}
+.fx-burst b{position:absolute;left:-18px;top:-18px;width:36px;height:36px;border-radius:50%;border:2.5px solid var(--ok);animation:fxRing .75s var(--ease) both}
+/* Reduce motion (setting or OS): everything above is off */
+body.rm .view.fx-in>*,body.rm .rv,body.rm .vswap,body.rm .fx-new,body.rm .fx-land,body.rm .fx-burst{animation:none!important;opacity:1!important;transform:none!important}
+body.rm .bset,body.rm .vseg-thumb{transition:none!important}
+@media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none}.fx-burst{display:none}.bset,.vseg-thumb{transition:none!important}}
+@media print{.tsec-h::after{display:none}.bset,.bsbtn,.vbar,.fx-burst{display:none!important}}
+</style>
 </body>
 </html>

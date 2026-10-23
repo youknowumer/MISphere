@@ -1,11 +1,23 @@
 {
-  "version": "10.8.0",
-  "date": "2026-10-22",
+  "version": "10.8.1",
+  "date": "2026-10-23",
   "notes": [
-    "Workspace ↔ landing page: Home button and logo in the header, “Go to landing page” in Ctrl+K, and a Landing page card in Settings → System & about",
-    "Landing page: templates now open the setup with that template preselected; if a workspace already exists it shows a welcome-back bar, “Open your dashboard” buttons and a confirmation before templates; active section highlight in the menu, back-to-top button, version in the footer"
+    "Fixed: restoring a backup (or opening the app) with “Reduce motion” on left the launch splash covering the whole dashboard, so the app looked stuck. The splash can no longer block the app, and Insights chart lines are drawn when animations are off",
+    "Restore from file rebuilt: specific error messages (empty, cut-off, settings file, no tasks…), a preview of what will be restored, automatic repair of damaged tasks, a 5-second Undo, all-or-nothing saving (full storage or a crash never leaves half-restored data), and your own identity is kept",
+    "Setup screen now has “Restore JSON backup”; Import settings points you to Restore when you pick a full backup",
+    "Performance: the live hours counter no longer scans every task each second and pauses in background tabs; date formatting is cached (large histories open 3–5× faster)"
   ],
   "history": [
+    {
+      "v": "10.8.1",
+      "d": "2026-10-23",
+      "n": [
+        "Fixed: restoring a backup (or opening the app) with “Reduce motion” on left the launch splash covering the whole dashboard, so the app looked stuck. The splash can no longer block the app, and Insights chart lines are drawn when animations are off",
+        "Restore from file rebuilt: specific error messages (empty, cut-off, settings file, no tasks…), a preview of what will be restored, automatic repair of damaged tasks, a 5-second Undo, all-or-nothing saving (full storage or a crash never leaves half-restored data), and your own identity is kept",
+        "Setup screen now has “Restore JSON backup”; Import settings points you to Restore when you pick a full backup",
+        "Performance: the live hours counter no longer scans every task each second and pauses in background tabs; date formatting is cached (large histories open 3–5× faster)"
+      ]
+    },
     {
       "v": "10.8.0",
       "d": "2026-10-22",

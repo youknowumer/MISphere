@@ -1140,6 +1140,8 @@
 <script>window.__v8err=0;addEventListener("error",function(){window.__v8err++});try{var u=JSON.parse(localStorage.getItem("mis_ui_v1"))||{};var h=new Date().getHours();if(u.a==="coral")u.a="teal";if(u.a==="berry")u.a="rose";var D=document.documentElement.dataset;D.oled=u.o||"off";D.fs=u.f||"md";D.rad=u.r||"soft";D.bg=u.b||"mesh";document.documentElement.dataset.accent=(u.a==="auto"?(h<6?"midnight":h<10?"citrus":h<17?"ocean":h<20?"sunset":"aurora"):u.a)||"ocean";document.documentElement.style.setProperty("--gb",({soft:14,standard:26,strong:44})[u.g||"standard"]+"px")}catch(e){}</script></head>
 <body>
 <div id="v87splash" aria-hidden="true"><div class="sp-ic"><svg viewBox="0 0 64 64"><path d="M16 15v33h33" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 39l9-9 6 6 10-13" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="49" cy="23" r="4" fill="#f5d061"/></svg></div><b>MISphere</b></div>
+<script>/* launch splash: remove it when its fade-out ends, or after 2.6 s whatever happens (animations off, slow device, boot error) */
+(function(){var s=document.getElementById("v87splash");if(!s)return;var k=function(){if(s&&s.parentNode)s.parentNode.removeChild(s);s=null};s.addEventListener("animationend",function(e){if(e.target===s)k()});setTimeout(k,2600)})();</script>
 
 <main>
   <div class="top" id="appTop">
@@ -1488,7 +1490,7 @@
       <div class="tplgrid" id="tplGrid"></div>
       <div style="margin-bottom:16px"><label>Department name</label><input id="suDept" maxlength="40" placeholder="e.g. Operations"></div>
       <div style="margin-bottom:20px"><label>Team members <span style="font-weight:500">· one per line as “Name, Role” (up to 20) — the first person becomes Admin</span></label><textarea id="suMem" rows="6" placeholder="Name, Role&#10;Name, Role"></textarea><div class="sprev" id="suPrev"></div></div>
-      <div class="sbtns"><button class="btn pri" id="suGo">Create workspace →</button><button class="btn" id="suXl">⬆ Import filled Excel template</button><button class="btn" id="suTpl">⬇ Download Excel template</button><button class="btn" id="suGh" type="button">☁ Load from GitHub</button></div>
+      <div class="sbtns"><button class="btn pri" id="suGo">Create workspace →</button><button class="btn" id="suXl">⬆ Import filled Excel template</button><button class="btn" id="suJson" type="button">⬆ Restore JSON backup</button><button class="btn" id="suTpl">⬇ Download Excel template</button><button class="btn" id="suGh" type="button">☁ Load from GitHub</button></div>
       <div class="strust"><span>🔐 Admin &amp; leader</span><span>📝 Daily notes</span><span>📊 Executive insights</span><span>🧾 Activity log</span><span>⬆ Excel import / export</span></div>
     </div>
   </div>
@@ -1538,7 +1540,8 @@ const ymd = d => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`
 const parse = s => { const [y,m,d] = s.split("-").map(Number); return new Date(y,m-1,d); };
 const addDays = (d,n) => { const x = new Date(d); x.setDate(x.getDate()+n); return x; };
 const monday = d => { const x = new Date(d.getFullYear(),d.getMonth(),d.getDate()); return addDays(x,-((x.getDay()+6)%7)); };
-const fmt = (s,opt={day:"numeric",month:"short"}) => parse(s).toLocaleDateString("en-GB",opt);
+const _fmtCache = new Map();
+const fmt = (s,opt={day:"numeric",month:"short"}) => { const k = JSON.stringify(opt); let f = _fmtCache.get(k); if (!f){ f = new Intl.DateTimeFormat("en-GB",opt); _fmtCache.set(k,f); } return f.format(parse(s)); };   // same output as toLocaleDateString, built once
 const today = () => ymd(new Date());
 
 // ---------- state ----------
@@ -1938,7 +1941,7 @@ function toastAct(msg, label, fn){   // iOS-style banner with an action (e.g. Un
   t.firstChild.textContent = msg; t.lastChild.textContent = label; t._fn = fn; t.classList.add("show","act"); clearTimeout(t._h);
   t._h = setTimeout(()=>t.classList.remove("show","act"), 5000); }
 document.addEventListener("click", e=>{ const b=e.target.closest("#toast .tact"); if(!b) return; const t=$("toast"), f=t._fn; t._fn=null; t.classList.remove("show","act"); clearTimeout(t._h); if(f) f(); });
-function toast(msg){ $("toast").classList.remove("act"); const t=$("toast"); t.setAttribute("role","status"); t.setAttribute("aria-live","polite"); t.textContent=msg; t.classList.add("show"); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove("show"),2200); }
+function toast(msg, ms=2200){ $("toast").classList.remove("act"); const t=$("toast"); t.setAttribute("role","status"); t.setAttribute("aria-live","polite"); t.textContent=msg; t.classList.add("show"); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove("show"),ms); }
 
 const wkKey = () => ymd(weekStart);
 // leader for a week = that week's choice, else the latest earlier choice, else default
@@ -2500,29 +2503,115 @@ $("exportBtn").onclick = ()=>{
   setTimeout(()=>URL.revokeObjectURL(a.href), 1000); toast("Backup downloaded");
 };
 $("importBtn").onclick = ()=> $("importFile").click();
+$("suJson").onclick = ()=> $("importFile").click();
+
+// ---------- restore from a JSON backup (v10.8.1) ----------
+// read → parse → recognise the file → validate & repair → confirm with a summary → commit atomically (with Undo).
+// Whatever goes wrong shows a specific message and leaves the current data exactly as it was.
+const RESTORE_MAX_BYTES = 20*1024*1024, STORE_MAX_CHARS = 4.8e6;        // localStorage holds ≈ 5 MB per site
+class RestoreError extends Error {}
+const own = (o,k) => Object.prototype.hasOwnProperty.call(o,k);
+const restoreFail = (msg, err)=>{ if (err) console.error("[MISphere restore]", err); toast("⚠ "+msg, 8000); };
+
+function restoreParse(text){
+  text = String(text||"").replace(/^\uFEFF/, "");
+  if (!text.trim()) throw new RestoreError("That file is empty.");
+  let d; try{ d = JSON.parse(text); }
+  catch{ throw new RestoreError("That isn’t a valid JSON file (it may be cut off or edited by hand). Use a file made by “Backup download”."); }
+  if (!d || typeof d!=="object") throw new RestoreError("That JSON file doesn’t contain MISphere data.");
+  if (!Array.isArray(d) && d._mis==="settings") throw new RestoreError("That is a settings export — use Settings → Import settings for it.");
+  let meta = {};
+  if (!Array.isArray(d) && d.data && typeof d.data==="object" && Array.isArray(d.data.tasks)){ meta = {at:d.updatedAt, by:d.updatedBy}; d = d.data; }   // the live / GitHub data file
+  else if (!Array.isArray(d) && d.exported) meta = {at:d.exported};
+  const list = Array.isArray(d) ? d : d.tasks;
+  if (!Array.isArray(list)) throw new RestoreError("No task list found — this doesn’t look like a MISphere backup.");
+  return {d, list, meta};
+}
+
+function restoreBuild({d, list}){
+  const arr = Array.isArray(d), hex = /^#[0-9a-f]{3,8}$/i;
+  const members = !arr && Array.isArray(d.members) ? d.members.filter(m=>m && m.id && m.name && hex.test(m.c1) && hex.test(m.c2)) : null;
+  if (members && d.members.length && !members.length) throw new RestoreError("The team members in this file are damaged — no valid member was found.");
+  const pool = members && members.length ? members : MEMBERS;
+  if (!pool.length) throw new RestoreError("This file has no team members. Create your workspace first, or use a full backup.");
+  const find = id => id!=null && pool.find(m=>String(m.id)===String(id));
+
+  const skip = {}, bump = k => { skip[k] = (skip[k]||0)+1; }, kept = new Map(), fixedIds = new Set();
+  list.forEach(t=>{
+    if (!t || typeof t!=="object" || Array.isArray(t)) return bump("not a task");
+    if (t.id==null || t.id==="") return bump("no id");
+    if (!find(t.member))        return bump("unknown member");
+    if (!validDay(t.date))      return bump("invalid start date");
+    if (!validDay(t.deadline))  return bump("invalid deadline");
+    const x = {...t}; let fixed = false;
+    x.id = String(x.id); x.member = String(x.member);
+    const title = x.title==null ? "" : String(x.title).trim();
+    x.title = title || "(untitled task)"; if (!title) fixed = true;
+    if (!own(prLbl, x.priority)){ x.priority = "med";  fixed = true; }
+    if (!own(STN,   x.status))  { x.status   = "todo"; fixed = true; }
+    const pn = Number(x.progress);
+    if (!Number.isFinite(pn) || pn<0 || pn>100){ x.progress = Number.isFinite(pn) ? Math.min(100, Math.max(0, pn)) : (x.status==="done" ? 100 : 0); fixed = true; } else x.progress = pn;
+    if (!Number.isFinite(+x.created) || +x.created<=0){ x.created = parse(x.date).getTime(); fixed = true; } else x.created = +x.created;   // a 0/null value would make the hours counter walk from 1970
+    if (x.estHours!=null && !(Number.isFinite(+x.estHours) && +x.estHours>=0)){ x.estHours = null; fixed = true; }
+    if (x.status==="done" && !validDay(x.completedAt) && Number.isFinite(+x.doneAt) && +x.doneAt>0){ x.completedAt = ymd(new Date(+x.doneAt)); fixed = true; }
+    if (kept.has(x.id)) bump("duplicate id (last copy kept)");
+    kept.set(x.id, x); if (fixed) fixedIds.add(x.id); else fixedIds.delete(x.id);
+  });
+  if (list.length && !kept.size) throw new RestoreError(`None of the ${list.length} tasks could be read (${Object.entries(skip).map(([k,v])=>v+" "+k).join(", ")}).`);
+
+  const leaders = {};
+  if (!arr && d.leaders && typeof d.leaders==="object" && !Array.isArray(d.leaders)) Object.keys(d.leaders).forEach(k=>{ if (validDay(k) && find(d.leaders[k])) leaders[k] = String(d.leaders[k]); });
+  const plain = o => o && typeof o==="object" && !Array.isArray(o);
+  const settings = !arr && plain(d.settings) ? {...d.settings} : {...db.settings};
+  const ids = new Set(pool.map(m=>String(m.id)));
+  settings.me = S().me && ids.has(String(S().me)) ? S().me : (settings.me && ids.has(String(settings.me)) ? settings.me : "");     // keep who is using THIS browser
+  const est = JSON.stringify([...kept.values()]).length + (list.length ? JSON.stringify(d.notes||{}).length + JSON.stringify(d.log||[]).length + JSON.stringify(d.settings||{}).length + JSON.stringify(d.members||[]).length : 0);
+  if (est > STORE_MAX_CHARS) throw new RestoreError(`That backup needs about ${(est/1048576).toFixed(1)} MB but browser storage holds about 5 MB. Nothing was changed — archive old tasks into an Excel export and restore a smaller file.`);
+  return {tasks:[...kept.values()], members:members && members.length ? members : null, leaders, notes: !arr && plain(d.notes) ? d.notes : {},
+          log: !arr && Array.isArray(d.log) ? d.log.filter(l=>l && typeof l==="object") : [], settings, skip, repaired:fixedIds.size, total:list.length, nMembers:pool.length};
+}
+
+function restoreCommit(b){
+  const prevDb = db, prevMembers = MEMBERS;
+  const revert = ()=>{ db = prevDb; MEMBERS = prevMembers; try{ localStorage.setItem(KEY, JSON.stringify(prevDb)); }catch{} try{ fillSelects(); fillModules(true); render(); }catch(e){ console.error(e); } };
+  try{
+    const next = norm({tasks:b.tasks, leaders:b.leaders, members:b.members || prevMembers, notes:b.notes, log:b.log, settings:b.settings});
+    const payload = JSON.stringify(next);
+    if (payload.length > STORE_MAX_CHARS) throw new RestoreError(`That backup needs ${(payload.length/1048576).toFixed(1)} MB but browser storage holds about 5 MB. Nothing was changed.`);
+    try{ localStorage.setItem(KEY, payload); }                 // throws if storage is full or blocked — nothing has changed yet
+    catch{ throw new RestoreError("Browser storage is full or blocked, so the backup couldn’t be saved. Nothing was changed."); }
+    db = next; selectedMember = "all";
+    const nSkip = Object.values(b.skip).reduce((n,v)=>n+v,0);
+    logAct(`restored ${next.tasks.length} task(s) from a backup file${nSkip||b.repaired ? ` (${nSkip} skipped, ${b.repaired} repaired)` : ""}`);
+    save(); fillSelects(); fillModules(true); render();
+  }catch(err){ revert(); throw err; }
+  return ()=>{ db = prevDb; MEMBERS = prevMembers; save(); fillSelects(); fillModules(true); render(); toast("Restore undone — your previous data is back"); };
+}
+
 $("importFile").onchange = e=>{
   const f = e.target.files[0]; if (!f) return;
-  e.target.value = "";   // allow picking the same file again
+  e.target.value = "";                                          // allow picking the same file again
+  if (!f.size) return restoreFail("That file is empty.");
+  if (f.size > RESTORE_MAX_BYTES) return restoreFail(`That file is ${(f.size/1048576).toFixed(0)} MB — far too large for a backup.`);
   const r = new FileReader();
+  r.onerror = ()=> restoreFail("The file couldn’t be read — please try again.", r.error);
   r.onload = ()=>{
     try{
-      let d = JSON.parse(r.result); if (d && d.data && Array.isArray(d.data.tasks)) d = d.data;   // also accepts the auto-saved / GitHub data file
-      const hex = /^#[0-9a-f]{3,8}$/i;
-      const mem = (!Array.isArray(d) && Array.isArray(d.members)) ? d.members.filter(m=>m&&m.id&&m.name&&hex.test(m.c1)&&hex.test(m.c2)) : null;
-      const find = id => (mem&&mem.length ? mem : MEMBERS).find(m=>m.id===id);
-      const list = Array.isArray(d) ? d : d && d.tasks;
-      if (!Array.isArray(list)) throw 0;
-      const isDay = v => typeof v==="string" && /^\d{4}-\d{2}-\d{2}$/.test(v);
-      const tasks = list.filter(t => t && typeof t==="object" && t.id && find(t.member) && isDay(t.date) && isDay(t.deadline))
-        .map(t => ({priority:"med", status:"todo", progress:0, title:"", created:parse(t.date).getTime(), ...t}))
-        .map(t => ({...t, priority: prLbl[t.priority] ? t.priority : "med", title: String(t.title)}));
-      const leaders = (!Array.isArray(d) && d.leaders && typeof d.leaders==="object") ? d.leaders : {};
-      Object.keys(leaders).forEach(k => { if (!find(leaders[k])) delete leaders[k]; });
-      if (!tasks.length && list.length) throw 0;
-      const skipped = list.length - tasks.length;
-      if (!confirm(`Restore ${tasks.length} task(s)?${skipped?` (${skipped} invalid entries will be skipped)`:""} Existing data will be replaced.`)) return;
-      if (mem&&mem.length) MEMBERS = mem; db = norm({tasks, leaders, members:MEMBERS, notes:(!Array.isArray(d)&&d.notes)||{}, log:(!Array.isArray(d)&&d.log)||[], settings:(!Array.isArray(d)&&d.settings)||db.settings}); save(); fillSelects(); render();  toast("Data restored ✔");
-    }catch{ toast("Invalid backup file"); }
+      const p = restoreParse(r.result), b = restoreBuild(p);
+      const when = p.meta.at ? new Date(p.meta.at) : null, skipped = Object.entries(b.skip);
+      const bullets = [
+        `• ${b.tasks.length} task(s), ${b.nMembers} member(s)${b.log.length ? `, ${b.log.length} log entries` : ""}`,
+        when && !isNaN(when) ? `• Saved ${when.toLocaleString("en-GB")}${p.meta.by ? " by "+p.meta.by : ""}` : "",
+        skipped.length ? `• Skipped ${skipped.reduce((n,[,v])=>n+v,0)}: ${skipped.map(([k,v])=>v+" "+k).join(", ")}` : "",
+        b.repaired ? `• ${b.repaired} task(s) had small problems that were repaired automatically` : ""].filter(Boolean);
+      const msg = [`Restore “${f.name}”?`, "", ...bullets, "",
+        db.tasks.length ? `This REPLACES the ${db.tasks.length} task(s) in this browser — use “Backup download” first if you need them. You can Undo for 5 seconds.` : "This browser has no tasks yet, so nothing is lost."].join("\n");
+      if (!confirm(msg)) return;
+      const undo = restoreCommit(b);
+      toastAct(`Restored ${b.tasks.length} task(s) · ${b.nMembers} member(s)${b.repaired||skipped.length ? " (see Activity log)" : ""}`, "Undo", undo);
+    }catch(err){
+      restoreFail(err instanceof RestoreError ? err.message : "Unexpected error — your data was not changed. ("+(err && err.message || err)+")", err instanceof RestoreError ? null : err);
+    }
   };
   r.readAsText(f);
 };
@@ -3493,9 +3582,12 @@ $("nCopy").onclick = ()=>{ const x = nOf(nDay), txt = `📝 ${M(NW()).name} — 
 initForm();
 render();
 // refresh overdue states once a minute (skip while user is typing/dragging)
-setInterval(()=>document.querySelectorAll("[data-run]").forEach(el=>{
-  const t = db.tasks.find(x=>x.id===el.dataset.run); if (t) el.textContent = clock(spentOf(t));
-}), 1000);
+setInterval(()=>{
+  if (document.hidden) return;                                   // nobody is looking: don't burn CPU/battery
+  const els = document.querySelectorAll("[data-run]"); if (!els.length) return;
+  const byId = new Map(db.tasks.map(x=>[x.id, x]));              // one pass instead of a scan per element (was O(n²) every second)
+  els.forEach(el=>{ const t = byId.get(el.dataset.run); if (t) el.textContent = clock(spentOf(t)); });
+}, 1000);
 let lastDay = today();
 function tick(){
   // new day while the page stayed open: follow it if the user was on the current week
@@ -3525,7 +3617,7 @@ ghRender();
 <script>
 /* v8: stable updater + version history. Data lives in localStorage and is never touched by an update; a snapshot is taken first. */
 (()=>{
-const APP_VERSION="10.8.0", SNAP_KEY="mis_snapshots_v1", LOG_KEY="mis_update_log_v1", $=id=>document.getElementById(id);
+const APP_VERSION="10.8.1", SNAP_KEY="mis_snapshots_v1", LOG_KEY="mis_update_log_v1", $=id=>document.getElementById(id);
 const HISTORY=[
  {v:"8.7.0",d:"2026-10-21",n:["System health panel: storage, data integrity checks, backups and one-tap restore points", "Daily automatic backup (last 5 restore points kept)", "iOS-style notification banners, launch splash, offline/online alerts", "Keyboard shortcuts sheet (press ?)"]},
  {v:"8.6.0",d:"2026-10-21",n:["Team cards: fixed clipped avatar/badge overflow, rebuilt the leader switch, rank shown inline, quieter empty states (– instead of 0%), dimmed zero stats, tooltips for long names, refined leader card tiles"]},
@@ -3710,6 +3802,11 @@ ol.xl li small{display:block;color:var(--muted);font-size:12px}
 @media(max-width:900px){.snav{top:max(84px,calc(env(safe-area-inset-top) + 84px));justify-content:flex-start}.snav button{flex:0 0 auto;padding:8px 12px}.abl div{grid-template-columns:1fr;gap:2px}}
 .ssec .sec-title{flex-wrap:wrap;gap:4px 14px}
 body.rm *,body.rm *::before,body.rm *::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+/* v10.8.1: with animations off, anything whose FINAL state is produced by an animation must be set directly.
+   Before this, "Reduce motion" froze the launch splash on top of the dashboard and left chart lines undrawn. */
+body.rm #v87splash{display:none!important}
+body.rm svg.cx .ln,body.rm svg.cx .cg path,body.rm .donut .seg{animation:none!important;stroke-dashoffset:0!important}
+@media(prefers-reduced-motion:reduce){#v87splash{display:none!important}}
 @media print{
   @page{margin:14mm 12mm 18mm;@bottom-right{content:"Page " counter(page) " of " counter(pages);font-size:9pt;color:#667}}
   .legal,.snav{display:none!important}
@@ -3723,7 +3820,7 @@ body.rm *,body.rm *::before,body.rm *::after{animation:none!important;transition
 /* v10.2 · Pro layer — Insights executive summary & report header, Settings workspace.  © 2026 Muhammad Umer Faheem. All rights reserved. */
 (()=>{
 "use strict";
-const VER = "10.8.0";
+const VER = "10.8.1";
 const $$ = (sel,root=document)=>[...root.querySelectorAll(sel)];
 const nm = v=>String(v||"").replace(/[<>"`]/g,"").trim().slice(0,40);
 const CONF = {none:"", internal:"Internal use", confidential:"Confidential"};
@@ -3847,7 +3944,8 @@ function initSettings(){
       if(src.modMeta && typeof src.modMeta==="object" && !Array.isArray(src.modMeta)) pick.modMeta = src.modMeta;
       if(!confirm(`Import ${Object.keys(pick).length} settings from “${f.name}”? Your tasks and members are not affected.`)) return;
       db.settings = {...S(), ...pick}; save(); fillSet(); initForm(); render(); toast("Settings imported ✔");
-    }catch{ toast("That file is not a MISphere settings export"); } };
+    }catch{ let hint = ""; try{ const j = JSON.parse(r.result); if (j && (Array.isArray(j.tasks) || (j.data && Array.isArray(j.data.tasks)))) hint = " — it is a full backup: use Backup & Restore → Restore from file"; }catch{}
+       toast("That file is not a settings export"+hint, 6500); } };
     r.readAsText(f); };
   $("lgV").textContent = "v"+VER; $("abV").textContent = "v"+VER;
 }

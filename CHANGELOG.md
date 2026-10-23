@@ -2,6 +2,13 @@
 
 All notable changes to MISphere, newest first.
 
+## 10.8.1 — 2026-10-23
+
+- Fixed: restoring a backup (or opening the app) with “Reduce motion” on left the launch splash covering the whole dashboard, so the app looked stuck. The splash can no longer block the app, and Insights chart lines are drawn when animations are off
+- Restore from file rebuilt: specific error messages (empty, cut-off, settings file, no tasks…), a preview of what will be restored, automatic repair of damaged tasks, a 5-second Undo, all-or-nothing saving (full storage or a crash never leaves half-restored data), and your own identity is kept
+- Setup screen now has “Restore JSON backup”; Import settings points you to Restore when you pick a full backup
+- Performance: the live hours counter no longer scans every task each second and pauses in background tabs; date formatting is cached (large histories open 3–5× faster)
+
 ## 10.8.0 — 2026-10-22
 
 - Workspace ↔ landing page: Home button and logo in the header, “Go to landing page” in Ctrl+K, and a Landing page card in Settings → System & about

@@ -1137,7 +1137,7 @@
   @media(max-width:900px){.fbar{grid-template-columns:1fr 1fr}#flExp,#flReset{grid-column:auto}}
   html[data-theme=dark] .tsc[data-f=todo] b{color:var(--text)}
 </style>
-<script>window.__v8err=0;addEventListener("error",function(){window.__v8err++});try{var u=JSON.parse(localStorage.getItem("mis_ui_v1"))||{};var h=new Date().getHours();if(u.a==="coral")u.a="teal";if(u.a==="berry")u.a="rose";var D=document.documentElement.dataset;D.oled=u.o||"off";D.fs=u.f||"md";D.rad=u.r||"soft";D.bg=u.b||"mesh";document.documentElement.dataset.accent=(u.a==="auto"?(h<6?"midnight":h<10?"citrus":h<17?"ocean":h<20?"sunset":"aurora"):u.a)||"ocean";document.documentElement.style.setProperty("--gb",({soft:14,standard:26,strong:44})[u.g||"standard"]+"px")}catch(e){}</script></head>
+<script>window.__v8err=0;addEventListener("error",function(){window.__v8err++});try{var u=JSON.parse(localStorage.getItem("mis_ui_v1"))||{};var h=new Date().getHours();if(u.a==="coral")u.a="teal";if(u.a==="berry")u.a="rose";var D=document.documentElement.dataset;D.oled=u.o||"off";D.fs=u.f||"md";D.rad=u.r||"soft";D.bg=u.b||"mesh";D.grade=u.c||"rich";document.documentElement.dataset.accent=(u.a==="auto"?(h<6?"midnight":h<10?"citrus":h<17?"ocean":h<20?"sunset":"aurora"):u.a)||"ocean";document.documentElement.style.setProperty("--gb",({soft:14,standard:26,strong:44})[u.g||"standard"]+"px")}catch(e){}</script></head>
 <body>
 <div id="v87splash" aria-hidden="true"><div class="sp-ic"><svg viewBox="0 0 64 64"><path d="M16 15v33h33" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 39l9-9 6 6 10-13" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="49" cy="23" r="4" fill="#f5d061"/></svg></div><b>MISphere</b></div>
 <script>/* launch splash: remove it when its fade-out ends, or after 2.6 s whatever happens (animations off, slow device, boot error) */
@@ -3743,7 +3743,7 @@ ghRender();
 <script>
 /* v8: stable updater + version history. Data lives in localStorage and is never touched by an update; a snapshot is taken first. */
 (()=>{
-const APP_VERSION="10.9.0", SNAP_KEY="mis_snapshots_v1", LOG_KEY="mis_update_log_v1", $=id=>document.getElementById(id);
+const APP_VERSION="10.10.0", SNAP_KEY="mis_snapshots_v1", LOG_KEY="mis_update_log_v1", $=id=>document.getElementById(id);
 const HISTORY=[
  {v:"8.7.0",d:"2026-10-21",n:["System health panel: storage, data integrity checks, backups and one-tap restore points", "Daily automatic backup (last 5 restore points kept)", "iOS-style notification banners, launch splash, offline/online alerts", "Keyboard shortcuts sheet (press ?)"]},
  {v:"8.6.0",d:"2026-10-21",n:["Team cards: fixed clipped avatar/badge overflow, rebuilt the leader switch, rank shown inline, quieter empty states (– instead of 0%), dimmed zero stats, tooltips for long names, refined leader card tiles"]},
@@ -3833,10 +3833,10 @@ const A=[["ocean","Ocean",["#007AFF","#32ADE6","#5856D6"]],["aurora","Aurora",["
 let u={};try{u=JSON.parse(localStorage.getItem(K))||{}}catch{}
 if(u.a==="coral")u.a="teal";if(u.a==="berry")u.a="rose";
 const auto=()=>{const h=new Date().getHours();return h<6?"midnight":h<10?"citrus":h<17?"ocean":h<20?"sunset":"aurora"};
-const ap=()=>{const r=document.documentElement;r.dataset.oled=u.o||"off";r.dataset.fs=u.f||"md";r.dataset.rad=u.r||"soft";r.dataset.bg=u.b||"mesh";r.dataset.accent=(u.a==="auto"?auto():u.a)||"ocean";r.style.setProperty("--gb",G[u.g||"standard"]+"px");try{localStorage.setItem(K,JSON.stringify(u))}catch{}};
+const ap=()=>{const r=document.documentElement;r.dataset.oled=u.o||"off";r.dataset.fs=u.f||"md";r.dataset.rad=u.r||"soft";r.dataset.bg=u.b||"mesh";r.dataset.grade=u.c||"rich";r.dataset.accent=(u.a==="auto"?auto():u.a)||"ocean";r.style.setProperty("--gb",G[u.g||"standard"]+"px");try{localStorage.setItem(K,JSON.stringify(u))}catch{}};
 function draw(){const a=u.a||"ocean",g=u.g||"standard";
  $("apAcc").innerHTML=A.map(x=>`<button type="button" data-a="${x[0]}" class="${a===x[0]?"on":""}"><i style="background:linear-gradient(135deg,${x[2][0]},${x[2][1]} 55%,${x[2][2]})"></i><span>${x[1]}</span></button>`).join("");
- const R=[["o","Surface (dark mode)",[["off","Standard"],["on","True black"]]],["f","Text size",[["sm","Small"],["md","Default"],["lg","Large"]]],["r","Corners",[["soft","Soft"],["sharp","Sharp"]]],["b","Background",[["mesh","Animated colour"],["plain","Plain"]]]],dv={o:"off",f:"md",r:"soft",b:"mesh"};
+ const R=[["c","Colour grade",[["soft","Soft"],["rich","Rich"],["vivid","Vivid"]]],["o","Surface (dark mode)",[["off","Standard"],["on","True black"]]],["f","Text size",[["sm","Small"],["md","Default"],["lg","Large"]]],["r","Corners",[["soft","Soft"],["sharp","Sharp"]]],["b","Background",[["mesh","Animated colour"],["plain","Plain"]]]],dv={c:"rich",o:"off",f:"md",r:"soft",b:"mesh"};
  $("apMore").innerHTML=R.map(x=>`<div class="ap-lbl">${x[1]}</div><div class="ap-seg">${x[2].map(o=>`<button type="button" data-k="${x[0]}" data-v="${o[0]}" class="${(u[x[0]]||dv[x[0]])===o[0]?"on":""}">${o[1]}</button>`).join("")}</div>`).join("")+`<div class="ap-lbl">Reset</div><div class="ap-seg"><button type="button" data-reset="1">Back to defaults</button></div>`;
  $("apGl").innerHTML=Object.keys(G).map(k=>`<button type="button" data-g="${k}" class="${g===k?"on":""}">${k[0].toUpperCase()+k.slice(1)}</button>`).join("")}
 if($("apAcc")){draw();$("uiPanel").onclick=e=>{const a=e.target.closest("[data-a]"),g=e.target.closest("[data-g]"),k=e.target.closest("[data-k]"),z=e.target.closest("[data-reset]");if(a)u.a=a.dataset.a;else if(g)u.g=g.dataset.g;else if(k)u[k.dataset.k]=k.dataset.v;else if(z)u={};else return;ap();draw()}}
@@ -3946,7 +3946,7 @@ body.rm svg.cx .ln,body.rm svg.cx .cg path,body.rm .donut .seg{animation:none!im
 /* v10.2 · Pro layer — Insights executive summary & report header, Settings workspace.  © 2026 Muhammad Umer Faheem. All rights reserved. */
 (()=>{
 "use strict";
-const VER = "10.9.0";
+const VER = "10.10.0";
 const $$ = (sel,root=document)=>[...root.querySelectorAll(sel)];
 const nm = v=>String(v||"").replace(/[<>"`]/g,"").trim().slice(0,40);
 const CONF = {none:"", internal:"Internal use", confidential:"Confidential"};
@@ -4415,5 +4415,173 @@ body.rm .bset,body.rm .vseg-thumb{transition:none!important}
 @media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none}.fx-burst{display:none}.bset,.vseg-thumb{transition:none!important}}
 @media print{.tsec-h::after{display:none}.bset,.bsbtn,.vbar,.fx-burst{display:none!important}}
 </style>
+<style id="v110-css">
+/* ===== v10.10 · Colour grading, iOS-style transfer sheet, animated tab bar — © 2026 Muhammad Umer Faheem ===== */
+html{--gk:1}html[data-grade=soft]{--gk:.35}html[data-grade=vivid]{--gk:1.6}
+/* --- colour grade: ambient light, depth, tinted shadows --- */
+body::before{background:
+ radial-gradient(42% 42% at 12% 16%,color-mix(in srgb,var(--m1) calc(42%*var(--gk)),transparent),transparent 70%),
+ radial-gradient(38% 38% at 88% 10%,color-mix(in srgb,var(--m2) calc(36%*var(--gk)),transparent),transparent 70%),
+ radial-gradient(48% 48% at 60% 94%,color-mix(in srgb,var(--m3) calc(34%*var(--gk)),transparent),transparent 70%),
+ radial-gradient(30% 30% at 4% 84%,color-mix(in srgb,var(--m3) calc(22%*var(--gk)),transparent),transparent 70%)!important}
+body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:
+ radial-gradient(120% 80% at 50% -10%,transparent 60%,rgba(0,0,0,calc(.05*var(--gk)))),
+ linear-gradient(180deg,transparent 50%,color-mix(in srgb,var(--m3) calc(9%*var(--gk)),transparent))}
+html[data-theme=dark] body::after{background:radial-gradient(120% 80% at 50% 0%,transparent 55%,rgba(0,0,0,calc(.25*var(--gk)))),linear-gradient(180deg,transparent 45%,color-mix(in srgb,var(--m3) calc(14%*var(--gk)),transparent))}
+.panel{box-shadow:var(--gl-sh),inset 0 70px 80px -72px color-mix(in srgb,var(--m1) calc(18%*var(--gk)),transparent),0 26px 50px -32px color-mix(in srgb,var(--m1) calc(52%*var(--gk)),transparent)!important}
+.stat,.kpi,.mm-card{box-shadow:var(--gl-sh),0 20px 36px -24px color-mix(in srgb,var(--m1) calc(48%*var(--gk)),transparent)!important}
+.top{box-shadow:var(--gl-sh),0 24px 48px -30px color-mix(in srgb,var(--m1) calc(55%*var(--gk)),transparent)!important}
+.stat .n{background:linear-gradient(135deg,var(--text) 28%,color-mix(in srgb,var(--m1) 88%,var(--text)));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+.tsc{background:linear-gradient(160deg,color-mix(in srgb,var(--tc) calc(24%*var(--gk)),transparent),transparent 78%),color-mix(in srgb,var(--tc) 10%,var(--card));box-shadow:inset 0 0 0 .5px color-mix(in srgb,var(--tc) 30%,transparent),0 16px 26px -20px var(--tc)}
+.kbc{background:linear-gradient(180deg,color-mix(in srgb,var(--cc) calc(17%*var(--gk)),transparent),transparent 240px),var(--soft);box-shadow:inset 0 0 0 .5px color-mix(in srgb,var(--cc) calc(32%*var(--gk)),transparent)}
+.kbh i{box-shadow:0 0 0 4px color-mix(in srgb,var(--cc) 24%,transparent),0 0 14px color-mix(in srgb,var(--cc) 70%,transparent)}
+.board .bcard{background-image:linear-gradient(135deg,color-mix(in srgb,var(--sc,#8e8e93) calc(10%*var(--gk)),transparent),transparent 46%)!important}
+.bcard::before{box-shadow:0 0 12px color-mix(in srgb,var(--sc,#8e8e93) 75%,transparent)}
+.btn.pri{box-shadow:inset 0 1px 0 rgba(255,255,255,.55),inset 0 -1px 0 rgba(0,0,0,.1),0 12px 26px -8px color-mix(in srgb,var(--m1) calc(68%*var(--gk)),transparent)}
+.tsec-h b::before,.sec-title.sx h2::before{background:linear-gradient(180deg,var(--m1),var(--m3));box-shadow:0 0 10px color-mix(in srgb,var(--m1) 60%,transparent)}
+.tpg i{background:linear-gradient(90deg,var(--m1),var(--m2) 55%,var(--ok))}
+.vseg-thumb{box-shadow:0 1px 2px rgba(0,0,0,.08),0 8px 18px -6px color-mix(in srgb,var(--m1) calc(55%*var(--gk)),transparent),inset 0 0 0 .5px var(--line)}
+.bchip[aria-pressed=true] .bck{box-shadow:0 4px 10px -3px color-mix(in srgb,var(--cc) 70%,transparent)}
+.tabbar{box-shadow:0 18px 50px -12px color-mix(in srgb,var(--m1) calc(45%*var(--gk)),rgba(0,0,0,.28)),0 2px 6px rgba(0,0,0,.06),inset 0 1px 0 rgba(255,255,255,.7),inset 0 -1px 0 rgba(255,255,255,.12)!important}
+
+/* --- animated tab bar: one liquid indicator that glides, stretches and settles --- */
+.tabbar.has-ind .tb{z-index:1}
+.tabbar.has-ind .tb.on{background:transparent!important;background-image:none!important;box-shadow:none!important;overflow:visible}
+.tabbar.has-ind .tb.on svg .cut{stroke:color-mix(in srgb,var(--m1) 82%,var(--m2))}
+.tb-ind{position:absolute;left:0;top:0;z-index:0;border-radius:999px;pointer-events:none;will-change:transform,width;overflow:hidden;transform-origin:50% 50%;
+  background-image:linear-gradient(180deg,rgba(255,255,255,.36),transparent 55%),linear-gradient(135deg,var(--m1),var(--m2));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.6),inset 0 -1px 0 rgba(0,0,0,.12),0 10px 24px -4px color-mix(in srgb,var(--m1) 65%,transparent),0 0 0 .5px color-mix(in srgb,var(--m1) 70%,transparent)}
+.tb-ind::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.55) 50%,transparent 70%);transform:translateX(-130%)}
+.tb-ind.mv::after{animation:fxShine .75s var(--ease)}
+.tabbar{animation:fxTabIn .9s .25s var(--spring2) both}
+@keyframes fxTabIn{from{translate:0 110px;opacity:0;scale:.9}to{translate:0 0;opacity:1;scale:1}}
+.tb:not(.on):hover svg{transform:translateY(-2px) scale(1.12)}
+.tb svg{transition:transform .35s var(--spring2)}
+.tb:active{transform:scale(.88)!important}
+.tb.on .lb{animation:fxLb .55s .08s var(--spring2) both}
+@keyframes fxLb{from{opacity:0;transform:translateX(-10px);letter-spacing:.6px}to{opacity:1;transform:none}}
+@keyframes fxDraw{from{stroke-dashoffset:40}to{stroke-dashoffset:0}}
+@keyframes fxSpin{from{transform:rotate(-160deg) scale(.7)}to{transform:none}}
+@keyframes fxBar{from{transform:scaleY(.15)}60%{transform:scaleY(1.12)}to{transform:none}}
+@keyframes fxPulse{0%{transform:scale(.6)}50%{transform:scale(1.22)}100%{transform:none}}
+.tb.on .cut{stroke-dasharray:40;animation:fxDraw .6s .12s var(--ease) both}
+.tb.on[data-v=settings] svg{animation:fxSpin .85s var(--spring2) both}
+.tb.on[data-v=insights] svg rect{transform-box:fill-box;transform-origin:50% 100%;animation:fxBar .65s var(--spring2) both}
+.tb.on[data-v=insights] svg rect:nth-of-type(2){animation-delay:.07s}.tb.on[data-v=insights] svg rect:nth-of-type(3){animation-delay:.14s}
+.tb.on[data-v=team] svg,.tb.on[data-v=dash] svg{animation:fxPulse .6s var(--spring2) both}
+.tb .bd:not([hidden]){animation:fxPopIn .55s var(--spring2) both}
+
+/* --- iOS-style transfer sheet (import / export / backup) --- */
+.xf{position:fixed;inset:0;z-index:10050;display:grid;place-items:center;pointer-events:none;visibility:hidden;opacity:0;transition:opacity .3s,visibility 0s .35s;background:radial-gradient(60% 50% at 50% 50%,color-mix(in srgb,var(--m1) 14%,rgba(0,0,0,.18)),rgba(0,0,0,.1))}
+.xf.show{visibility:visible;opacity:1;transition:opacity .25s}
+.xf-card{width:min(290px,calc(100vw - 48px));padding:26px 22px 20px;border-radius:30px;text-align:center;background:var(--gl-bg,rgba(255,255,255,.7));border:.5px solid var(--gl-bd,rgba(255,255,255,.7));-webkit-backdrop-filter:blur(40px) saturate(200%);backdrop-filter:blur(40px) saturate(200%);box-shadow:0 30px 80px -20px color-mix(in srgb,var(--m1) 55%,rgba(0,0,0,.5)),inset 0 1px 0 rgba(255,255,255,.6);transform:scale(.8) translateY(24px);transition:transform .55s var(--spring2)}
+.xf.show .xf-card{transform:none}
+.xf-ic{position:relative;width:84px;height:84px;margin:0 auto 14px}
+.xf-ic svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.xf-ring circle{fill:none;stroke-width:5;stroke-linecap:round}
+.xf-ring .bg{stroke:color-mix(in srgb,var(--m1) 18%,transparent)}
+.xf-ring .fg{stroke:url(#xfg);stroke-dasharray:195;stroke-dashoffset:195;transform:rotate(-90deg);transform-origin:50% 50%;transition:stroke-dashoffset var(--xd,1.1s) cubic-bezier(.4,.1,.2,1)}
+.xf.go .xf-ring .fg{stroke-dashoffset:0}
+.xf-arrow{fill:none;stroke:var(--m1);stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round;transition:opacity .25s,transform .4s var(--spring2)}
+.xf.in .xf-arrow{transform:scaleY(-1)}
+.xf-arrow .sh{animation:xfArrow 1.05s ease-in-out infinite}
+.xf-arrow .tr{opacity:.55}
+@keyframes xfArrow{0%{transform:translateY(-5px);opacity:0}35%{opacity:1}100%{transform:translateY(5px);opacity:0}}
+.xf-chk,.xf-x{fill:none;stroke-width:3.4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:40;stroke-dashoffset:40;opacity:0}
+.xf-chk{stroke:var(--ok)}.xf-x{stroke:var(--bad)}
+.xf.done .xf-arrow,.xf.err .xf-arrow{opacity:0;transform:scale(.4)}
+.xf.done .xf-ring .fg{stroke:var(--ok);stroke-dashoffset:0}
+.xf.done .xf-chk{opacity:1;animation:fxDraw .55s .1s var(--ease) both}
+.xf.err .xf-ring .fg{stroke:var(--bad);stroke-dashoffset:0}
+.xf.err .xf-x{opacity:1;animation:fxDraw .5s .1s var(--ease) both}
+.xf.err .xf-ic{animation:xfShake .5s .1s}
+.xf.done .xf-ic{animation:fxPulse .6s var(--spring2)}
+@keyframes xfShake{0%,100%{transform:none}20%{transform:translateX(-7px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(3px)}}
+.xf-t{display:block;font-size:16.5px;font-weight:700;letter-spacing:-.02em}
+.xf-s{display:block;margin-top:4px;font-size:12.5px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-height:1.3em}
+.xf-bar{height:4px;margin-top:16px;border-radius:9px;background:color-mix(in srgb,var(--m1) 16%,transparent);overflow:hidden}
+.xf-bar i{display:block;height:100%;width:100%;border-radius:9px;background:linear-gradient(90deg,var(--m1),var(--m2),var(--m3));transform:scaleX(0);transform-origin:left;transition:transform var(--xd,1.1s) cubic-bezier(.4,.1,.2,1)}
+.xf.go .xf-bar i{transform:none}.xf.done .xf-bar i{background:var(--ok)}.xf.err .xf-bar i{background:var(--bad)}
+@keyframes fxBusy{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--m1) 55%,transparent);transform:scale(1)}30%{transform:scale(.95)}100%{box-shadow:0 0 0 16px transparent;transform:none}}
+.fx-busy{animation:fxBusy .9s var(--ease)}
+body.rm .xf,body.rm .tb-ind::after,body.rm .tabbar{animation:none!important;transition:none!important}
+@media(prefers-reduced-motion:reduce){.tabbar{animation:none}.xf{display:none}}
+@media print{.xf,.tb-ind{display:none!important}}
+</style>
+<script id="v110-js">
+/* v10.10 · tab-bar liquid indicator, transfer sheet (import / export / backup), busy buttons — © 2026 Muhammad Umer Faheem */
+(()=>{
+"use strict";
+const d=document, RM=()=>d.body.classList.contains("rm")||matchMedia("(prefers-reduced-motion:reduce)").matches;
+/* ---------- tab bar ---------- */
+try{
+const tb=d.querySelector(".tabbar"); if(tb){
+  const ind=d.createElement("i"); ind.className="tb-ind"; ind.setAttribute("aria-hidden","true"); tb.insertBefore(ind,tb.firstChild);
+  let x=0,y=0,w=0,h=0,raf=0,until=0,first=true,mvT=0;
+  const tgt=()=>{ const a=tb.querySelector(".tb.on"); return a&&a.offsetWidth?{x:a.offsetLeft,y:a.offsetTop,w:a.offsetWidth,h:a.offsetHeight}:null; };
+  const paint=(dx)=>{ const s=Math.min(.22,Math.abs(dx)/900); ind.style.width=w+"px"; ind.style.height=h+"px"; ind.style.transform=`translate(${x}px,${y}px) scale(${1+s},${1-s*.6})`; };
+  const loop=()=>{ raf=0; const t=tgt(); if(!t) return;
+    if(first||RM()){ x=t.x;y=t.y;w=t.w;h=t.h;first=false; paint(0); tb.classList.add("has-ind"); if(performance.now()<until) raf=requestAnimationFrame(loop); return; }
+    const k=.2, dx=t.x-x; x+=dx*k; y+=(t.y-y)*k; w+=(t.w-w)*k; h+=(t.h-h)*k; paint(dx);
+    const settled=Math.abs(t.x-x)<.3&&Math.abs(t.w-w)<.3&&Math.abs(t.y-y)<.3;
+    if(settled&&performance.now()>until){ x=t.x;y=t.y;w=t.w;h=t.h; paint(0); return; }
+    raf=requestAnimationFrame(loop); };
+  const kick=(ms)=>{ until=performance.now()+(ms||800); if(!raf) raf=requestAnimationFrame(loop); };
+  new MutationObserver(recs=>{ if(!recs.some(r=>r.target!==ind)) return; ind.classList.remove("mv"); void ind.offsetWidth; ind.classList.add("mv"); clearTimeout(mvT); mvT=setTimeout(()=>ind.classList.remove("mv"),900); kick(900); }).observe(tb,{attributes:true,attributeFilter:["class"],subtree:true});
+  addEventListener("resize",()=>{ first=false; kick(500); },{passive:true});
+  if(d.fonts&&d.fonts.ready) d.fonts.ready.then(()=>{ first=true; kick(300); });
+  first=true; kick(600); setTimeout(()=>{ first=true; kick(300); },1200);
+}}catch(e){ console.error("tabbar",e); }
+
+/* ---------- transfer sheet ---------- */
+let xf=null, xT=[], xErr="", xOpen=false;
+function build(){
+  if(xf) return xf; xf=d.createElement("div"); xf.className="xf"; xf.setAttribute("role","status"); xf.setAttribute("aria-live","polite");
+  xf.innerHTML=`<div class="xf-card"><div class="xf-ic"><svg class="xf-ring" viewBox="0 0 72 72"><defs><linearGradient id="xfg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--m1)"/><stop offset="1" style="stop-color:var(--m2)"/></linearGradient></defs><circle class="bg" cx="36" cy="36" r="31"/><circle class="fg" cx="36" cy="36" r="31"/></svg>
+  <svg class="xf-arrow" viewBox="0 0 72 72"><path class="sh" d="M36 20v22M27 34l9 9 9-9"/><path class="tr" d="M25 52h22"/></svg>
+  <svg class="xf-chk" viewBox="0 0 72 72"><path d="M23 37l9 9 18-20"/></svg><svg class="xf-x" viewBox="0 0 72 72"><path d="M26 26l20 20M46 26L26 46"/></svg></div>
+  <b class="xf-t"></b><small class="xf-s"></small><div class="xf-bar"><i></i></div></div>`;
+  d.body.appendChild(xf); return xf;
+}
+function clr(){ xT.forEach(clearTimeout); xT=[]; }
+function sheet(o){            // o: {dir:"in"|"out", title, sub, ms, okTitle, okSub}
+  if(RM()) return; const el=build(); clr(); xErr=""; xOpen=true;
+  const ms=o.ms||1100; el.style.setProperty("--xd",ms+"ms");
+  el.className="xf "+(o.dir==="in"?"in":"out"); el.querySelector(".xf-t").textContent=o.title; el.querySelector(".xf-s").textContent=o.sub||"";
+  void el.offsetWidth; el.classList.add("show"); requestAnimationFrame(()=>requestAnimationFrame(()=>el.classList.add("go")));
+  xT.push(setTimeout(()=>{
+    if(xErr){ el.classList.add("err"); el.querySelector(".xf-t").textContent="Couldn’t complete"; el.querySelector(".xf-s").textContent=xErr; xT.push(setTimeout(hide,2300)); }
+    else { el.classList.add("done"); el.querySelector(".xf-t").textContent=o.okTitle||"Done"; el.querySelector(".xf-s").textContent=o.okSub||o.sub||""; xT.push(setTimeout(hide,1500)); }
+  },ms+140));
+}
+function hide(){ if(xf) xf.classList.remove("show"); xOpen=false; xT.push(setTimeout(()=>{ if(xf&&!xf.classList.contains("show")) xf.className="xf"; },500)); }
+const kb=n=>n>1048576?(n/1048576).toFixed(1)+" MB":Math.max(1,Math.round(n/1024))+" KB";
+/* exports: every file download goes through an anchor click */
+const _ac=HTMLAnchorElement.prototype.click;
+HTMLAnchorElement.prototype.click=function(){
+  try{ if(this.hasAttribute("download")){ const n=this.download||"file", e=(n.split(".").pop()||"").toLowerCase();
+    const t = /template/i.test(n)?"Preparing template":/backup/i.test(n)?"Exporting backup":/settings/i.test(n)?"Exporting settings":e==="xlsx"?"Exporting Excel":e==="csv"?"Exporting CSV":"Exporting file";
+    const ok = /template/i.test(n)?"Template ready":/backup/i.test(n)?"Backup saved":e==="xlsx"?"Excel exported":e==="csv"?"CSV exported":"Export complete";
+    sheet({dir:"out",title:t,sub:n,ok:1,okTitle:ok,okSub:n+" · check Downloads",ms:900}); } }catch(e){}
+  return _ac.apply(this,arguments);
+};
+/* imports: any file picker */
+d.addEventListener("change",e=>{
+  const i=e.target; if(!i||i.type!=="file"||!i.files||!i.files[0]) return; const f=i.files[0];
+  const t = i.id==="importFile"?"Reading backup":i.id==="xlFile"?"Importing spreadsheet":i.id==="sImpFile"?"Importing settings":"Importing file";
+  sheet({dir:"in",title:t,sub:f.name+" · "+kb(f.size),okTitle:i.id==="importFile"?"Backup read":"File loaded",okSub:f.name,ms:Math.min(1800,900+f.size/4000)});
+},true);
+/* failures and restores are reported by the app through its toast */
+const toastEl=d.getElementById("toast");
+if(toastEl) new MutationObserver(()=>{
+  const m=(toastEl.textContent||"").trim(); if(!m) return;
+  if(xOpen && /^⚠/.test(m)) xErr=m.replace(/^⚠\s*/,"").slice(0,90);
+  else if(!xOpen && /restored|imported|loaded \d+|tasks? (added|imported)/i.test(m) && !/^⚠/.test(m) && toastEl.classList.contains("show")) sheet({dir:"in",title:/restor/i.test(m)?"Backup restored":"Import complete",sub:m.slice(0,60),okTitle:/restor/i.test(m)?"Backup restored":"Import complete",okSub:m.slice(0,60),ms:600});
+}).observe(toastEl,{childList:true,characterData:true,subtree:true,attributes:true,attributeFilter:["class"]});
+/* buttons feel pressed */
+d.addEventListener("click",e=>{ const b=e.target.closest&&e.target.closest("button"); if(!b||RM()) return;
+  if(/^(exportBtn|importBtn|xlExport\d?|xlImport\d?|xlTpl\d?|csvBtn|sExp|sImp|suJson)$/.test(b.id)||/export|import|backup/i.test(b.id)){ b.classList.remove("fx-busy"); void b.offsetWidth; b.classList.add("fx-busy"); setTimeout(()=>b.classList.remove("fx-busy"),1000); } },true);
+})();
+</script>
 </body>
 </html>

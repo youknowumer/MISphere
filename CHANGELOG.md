@@ -2,6 +2,21 @@
 
 All notable changes to MISphere, newest first.
 
+## 11.0.0 — 2026-10-24
+
+- Colour system rebuilt: every combo is a tonal family with readable text; buttons, tab bar, switches and update pill now follow the chosen combo
+- Team Hub: new neutral glass member cards (health status, workload meter, 6-week trend, next deadline, ＋ Task), leader spotlight, search / filters / sort, Cards or List layout, Share summary
+- New 12-colour member palette; existing members are converted automatically
+- Tasks: bulk select with Undo, Quick views, Quick add (e.g. “Report @ali fri !high 2h”), overload warning while assigning
+
+## 10.10.0 — 2026-10-23
+
+- Colour grading, iOS-style transfer sheet, animated tab-bar indicator
+
+## 10.9.0 — 2026-10-23
+
+- Defined sections, View bar, Board settings, motion layer
+
 ## 10.8.1 — 2026-10-23
 
 - Fixed: restoring a backup (or opening the app) with “Reduce motion” on left the launch splash covering the whole dashboard, so the app looked stuck. The splash can no longer block the app, and Insights chart lines are drawn when animations are off

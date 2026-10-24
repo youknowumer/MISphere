@@ -1,13 +1,37 @@
 {
-  "version": "10.8.1",
-  "date": "2026-10-23",
+  "version": "11.0.0",
+  "date": "2026-10-24",
   "notes": [
-    "Fixed: restoring a backup (or opening the app) with “Reduce motion” on left the launch splash covering the whole dashboard, so the app looked stuck. The splash can no longer block the app, and Insights chart lines are drawn when animations are off",
-    "Restore from file rebuilt: specific error messages (empty, cut-off, settings file, no tasks…), a preview of what will be restored, automatic repair of damaged tasks, a 5-second Undo, all-or-nothing saving (full storage or a crash never leaves half-restored data), and your own identity is kept",
-    "Setup screen now has “Restore JSON backup”; Import settings points you to Restore when you pick a full backup",
-    "Performance: the live hours counter no longer scans every task each second and pauses in background tabs; date formatting is cached (large histories open 3–5× faster)"
+    "Colour system rebuilt: every combo is a tonal family with readable text; buttons, tab bar, switches and update pill now follow the chosen combo",
+    "Team Hub: new neutral glass member cards (health status, workload meter, 6-week trend, next deadline, ＋ Task), leader spotlight, search / filters / sort, Cards or List layout, Share summary",
+    "New 12-colour member palette; existing members are converted automatically",
+    "Tasks: bulk select with Undo, Quick views, Quick add (e.g. “Report @ali fri !high 2h”), overload warning while assigning"
   ],
   "history": [
+    {
+      "v": "11.0.0",
+      "d": "2026-10-24",
+      "n": [
+        "Colour system rebuilt: every combo is a tonal family with readable text; buttons, tab bar, switches and update pill now follow the chosen combo",
+        "Team Hub: new neutral glass member cards (health status, workload meter, 6-week trend, next deadline, ＋ Task), leader spotlight, search / filters / sort, Cards or List layout, Share summary",
+        "New 12-colour member palette; existing members are converted automatically",
+        "Tasks: bulk select with Undo, Quick views, Quick add (e.g. “Report @ali fri !high 2h”), overload warning while assigning"
+      ]
+    },
+    {
+      "v": "10.10.0",
+      "d": "2026-10-23",
+      "n": [
+        "Colour grading, iOS-style transfer sheet for import/export, animated tab-bar indicator"
+      ]
+    },
+    {
+      "v": "10.9.0",
+      "d": "2026-10-23",
+      "n": [
+        "Defined sections, View bar, Board settings and a stronger motion layer"
+      ]
+    },
     {
       "v": "10.8.1",
       "d": "2026-10-23",

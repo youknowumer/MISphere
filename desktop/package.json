@@ -1,0 +1,32 @@
+{
+  "name": "misphere-desktop",
+  "productName": "MISphere",
+  "version": "11.1.0",
+  "description": "MISphere — team performance, tasks and daily notes. Desktop app.",
+  "author": "Muhammad Umer Faheem",
+  "license": "UNLICENSED",
+  "main": "main.js",
+  "scripts": {
+    "prep": "node prep.js",
+    "start": "npm run prep && electron .",
+    "dist:win": "npm run prep && electron-builder --win nsis portable",
+    "dist:mac": "npm run prep && electron-builder --mac dmg",
+    "dist:linux": "npm run prep && electron-builder --linux AppImage deb",
+    "dist": "npm run prep && electron-builder"
+  },
+  "devDependencies": {
+    "electron": "^33.2.0",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "com.umerfaheem.misphere",
+    "productName": "MISphere",
+    "copyright": "Copyright © 2026 Muhammad Umer Faheem",
+    "directories": { "output": "dist", "buildResources": "build" },
+    "files": ["main.js", "preload.js", "app/**/*", "package.json"],
+    "win": { "icon": "build/icon.png", "target": ["nsis", "portable"] },
+    "nsis": { "oneClick": false, "allowToChangeInstallationDirectory": true, "createDesktopShortcut": true, "createStartMenuShortcut": true },
+    "mac": { "icon": "build/icon.png", "category": "public.app-category.productivity", "target": ["dmg"] },
+    "linux": { "icon": "build/icon.png", "category": "Office", "target": ["AppImage", "deb"], "maintainer": "Muhammad Umer Faheem" }
+  }
+}

@@ -2,6 +2,12 @@
 
 All notable changes to MISphere, newest first.
 
+## 11.1.0 — 2026-10-25
+- Command Deck header redesign: brand tile that changes icon per page, search, module switcher, GitHub sync status, install button and New task on top; week navigator with day pips, office-day gauge, Open / Due today / Overdue tiles and a Leader-of-the-week card below. Follows every colour combo, light and dark, and phone layouts
+- Installable app: web manifest, offline service worker, app icons (including maskable), and an Install app button in the header
+- Fully offline: Excel library and fonts are now bundled in /vendor (no CDN needed)
+- Desktop app (Windows / macOS / Linux) via the new /desktop Electron project, plus one-click launchers that open MISphere in its own window
+
 ## 11.0.0 — 2026-10-24
 
 - Colour system rebuilt: every combo is a tonal family with readable text; buttons, tab bar, switches and update pill now follow the chosen combo

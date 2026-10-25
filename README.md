@@ -31,11 +31,19 @@ MISphere helps a team lead run a department week by week: assign and track tasks
 2. Open `landing.html` (or `index.html` directly) in Chrome, Edge, Safari or Firefox.
 3. Choose **Create workspace**, pick a template and add your team.
 
-Excel features load SheetJS from a CDN and need an internet connection. Everything else works offline.
+Everything works offline: the Excel library and fonts are bundled in `vendor/`.
 
 ### Publish with GitHub Pages
 
 Settings → Pages → deploy from the `main` branch (root). Keep `landing.html`, `index.html`, `version.json` and `favicon.svg` in the same folder. To ship an update, upload the new `index.html`, raise `APP_VERSION` inside it and edit `version.json`; open dashboards will offer **Update now**.
+
+## Install as an app
+
+| Option | How |
+|---|---|
+| **Windows / macOS / Linux desktop app** | Open `desktop/`, run `npm install`, then `npm run dist:win` (or `dist:mac`, `dist:linux`). The installer appears in `desktop/dist/`. `npm start` runs it without building. |
+| **Installable web app (PWA)** | Host the folder over HTTPS (GitHub Pages, Cloudflare Pages…), open it in Chrome / Edge / Safari and press **Install app** in the header (or the browser's install icon). Works offline afterwards. |
+| **No install** | Double-click `Launch-MISphere-Windows.bat` (or `Launch-MISphere-Mac-Linux.sh`) to open MISphere in its own app window using Edge / Chrome. |
 
 ## Your data
 
@@ -57,6 +65,10 @@ Settings → **Live sync to GitHub** commits every change to one JSON file in a 
 
 ```
 index.html                    the dashboard (all CSS and JS inline)
+sw.js  manifest.webmanifest   offline service worker and install manifest
+vendor/  icons/               bundled Excel library, fonts and app icons
+desktop/                      Electron project for the desktop app
+Launch-MISphere-*.bat/.sh     open MISphere in its own window, no install
 landing.html                  entry page
 version.json                  version and release notes for the updater
 favicon.svg                   icon

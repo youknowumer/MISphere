@@ -2,6 +2,13 @@
 
 All notable changes to MISphere, newest first.
 
+## 11.2.0 — 2026-10-26
+- Natural colour system: all 13 combos retuned to calmer, analogous tones in light and dark; quieter background glow and natural status colours
+- Glass icons everywhere: header buttons, brand tile, stat and pulse icons, module icons and an active tab-bar tile in tinted glass; new glass app icons
+- iOS-style motion: press feedback, staggered page entrance, spring dialogs, frosted backdrops, quiet scrollbars, focus rings
+- Data-safety centre: header shield chip, warning when you close the tab or app with unbacked-up changes, one-tap backup sheet, automatic restore points, protection against overwriting newer data from another tab, persistent-storage request
+- Fixes: unreadable welcome banner in light mode, misaligned setup header, squeezed stat icons, header overflow at mid widths; desktop app now asks before closing with unsaved data
+
 ## 11.1.0 — 2026-10-25
 - Command Deck header redesign: brand tile that changes icon per page, search, module switcher, GitHub sync status, install button and New task on top; week navigator with day pips, office-day gauge, Open / Due today / Overdue tiles and a Leader-of-the-week card below. Follows every colour combo, light and dark, and phone layouts
 - Installable app: web manifest, offline service worker, app icons (including maskable), and an Install app button in the header

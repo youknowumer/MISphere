@@ -1,7 +1,7 @@
 /* MISphere service worker — offline-first app shell.
    Pages and version.json: network first (so updates are always picked up), cache as fallback.
    Everything else (fonts, Excel library, icons): cache first.  © 2026 Muhammad Umer Faheem */
-const VERSION = "11.1.0";
+const VERSION = "11.2.0";
 const CACHE = "misphere-" + VERSION;
 const CORE = [
   "./", "index.html", "landing.html", "manifest.webmanifest", "favicon.svg",

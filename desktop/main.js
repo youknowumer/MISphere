@@ -1,6 +1,6 @@
 // MISphere desktop shell (Electron). © 2026 Muhammad Umer Faheem. All rights reserved.
 // The app is served from a fixed custom origin (misphere://app) so your data (localStorage) always stays in the same place.
-const { app, BrowserWindow, Menu, shell, protocol, net, nativeTheme } = require("electron");
+const { app, BrowserWindow, Menu, shell, protocol, net, nativeTheme, dialog } = require("electron");
 const path = require("path"), fs = require("fs"), { pathToFileURL } = require("url");
 
 protocol.registerSchemesAsPrivileged([{ scheme: "misphere", privileges: { standard: true, secure: true, supportFetchAPI: true, corsEnabled: true } }]);
@@ -31,6 +31,11 @@ function createWindow() {
   win.webContents.on("will-navigate", (e, url) => { if (!url.startsWith("misphere://")) { e.preventDefault(); if (/^(https?|mailto):/.test(url)) shell.openExternal(url); } });
   const save = () => { if (!win || win.isDestroyed()) return; const b = win.getNormalBounds(); try { fs.writeFileSync(stateFile(), JSON.stringify({ ...b, max: win.isMaximized() })); } catch {} };
   win.on("close", save);
+  // MISphere asks before closing when changes are not backed up; the desktop shell must answer that request itself
+  win.webContents.on("will-prevent-unload", e => {
+    const c = dialog.showMessageBoxSync(win, { type: "warning", buttons: ["Stay and back up", "Close anyway"], defaultId: 0, cancelId: 0, title: "MISphere", message: "Your data isn’t backed up", detail: "MISphere keeps your data only on this device. Save a backup first so nothing is lost." });
+    if (c === 1) e.preventDefault();
+  });
 }
 
 app.whenReady().then(() => {

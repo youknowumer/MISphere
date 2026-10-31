@@ -2,6 +2,13 @@
 
 All notable changes to MISphere, newest first.
 
+## 11.5.1 — 2026-10-31
+- Clean blur on the header and tab bar only: content scrolls softly behind them, colours stay solid and clear
+
+## 11.5.0 — 2026-10-31
+- Clear colour, no haze: removed the smoky background glow, the blurred top/bottom edge fade and frosted glass cards; surfaces are now solid with crisp borders
+- Truer, more saturated tones: stronger text contrast, vivid status colours, solid tinted KPI icons and status tiles, member cards with a clean colour bar, clear white input fields
+
 ## 11.4.0 — 2026-10-31
 - Workspace now follows the landing page: new default “MISphere” colour combo (indigo, violet, cyan), Bricolage Grotesque headings, Instrument Sans body, crisp white cards in light mode
 - Slim two-row command header: brand, search, module, New task, data-safety, theme and profile on top; week, office-day progress and task pulse below. GitHub status moved into the shield sheet, home link into the brand tile, leader card stays on the Home page

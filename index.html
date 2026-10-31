@@ -3886,8 +3886,10 @@ ghRender();
 <script>
 /* v8: stable updater + version history. Data lives in localStorage and is never touched by an update; a snapshot is taken first. */
 (()=>{
-const APP_VERSION="11.4.0", SNAP_KEY="mis_snapshots_v1", LOG_KEY="mis_update_log_v1", $=id=>document.getElementById(id);
+const APP_VERSION="11.5.1", SNAP_KEY="mis_snapshots_v1", LOG_KEY="mis_update_log_v1", $=id=>document.getElementById(id);
 const HISTORY=[
+ {v:"11.5.1",d:"2026-10-31",n:["Clean blur on the header and tab bar only: content scrolls softly behind them, colours stay solid and clear"]},
+ {v:"11.5.0",d:"2026-10-31",n:["Clear colour, no haze: removed the smoky background glow, the blurred top/bottom edge fade and frosted glass cards; surfaces are now solid with crisp borders", "Truer, more saturated tones: stronger text contrast, vivid status colours, solid tinted KPI icons and status tiles, member cards with a clean colour bar, clear white input fields"]},
  {v:"11.4.0",d:"2026-10-31",n:["Workspace now follows the landing page: new default \u201cMISphere\u201d colour combo (indigo, violet, cyan), Bricolage Grotesque headings, Instrument Sans body, crisp white cards in light mode", "Slim two-row command header: brand, search, module, New task, data-safety, theme and profile on top; week, office-day progress and task pulse below. GitHub status moved into the shield sheet, home link into the brand tile, leader card stays on the Home page", "Home: getting-started checklist for empty workspaces, cleaner section titles, balanced KPI grid (two columns on phones)"]},
  {v:"11.3.0",d:"2026-10-31",n:["Smooth theme switch: light/dark and colour-combo changes now cross-fade as one (no more background fading while cards flip instantly); dark mode no longer flashes light on startup", "Colour sync: accent picker swatches now match the applied colours (light and dark); setup screen glow and logo follow the chosen combo; cleaner light surfaces", "Smoother scrolling: removed the heavy blur layer on the animated background"]},
  {v:"11.2.0",d:"2026-10-26",n:["Natural colour system: all 13 combos retuned to calmer, analogous tones in light and dark; quieter background glow and natural status colours", "Glass icons everywhere: header buttons, brand tile, stat and pulse icons, module icons and an active tab-bar tile in tinted glass; new glass app icons", "iOS-style motion: press feedback, staggered page entrance, spring dialogs, frosted backdrops, quiet scrollbars, focus rings", "Data-safety centre: header shield chip, warning when you close the tab or app with unbacked-up changes, one-tap backup sheet, automatic restore points, protection against overwriting newer data from another tab, persistent-storage request", "Fixes: unreadable welcome banner in light mode, misaligned setup header, squeezed stat icons, header overflow at mid widths; desktop app now asks before closing with unsaved data"]},
@@ -5869,6 +5871,80 @@ html[data-theme=dark] #homeEmpty.hero{background:linear-gradient(135deg,color-mi
  .sec-title.sx{flex-wrap:wrap;gap:4px 10px}
 }
 @media(max-width:560px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px}.stat{padding:12px!important;gap:10px!important;min-height:0}.stat .ic{display:none}.stat .n{font-size:26px!important}.stat .dl{font-size:10.5px}}
+</style>
+<style id="v115-css">
+/* ===== v11.5 · Clear colour: no haze, no smoke — solid surfaces, true tones ===== */
+/* tokens: crisper, more saturated, higher contrast */
+html:not([data-theme=dark]){--bg:#eef1f8;--card:#fff;--line:#d9dff0;--line2:#e7ebf6;--text:#0b1020;--muted:#4a526b;--soft:#f2f4fb;--gl-bg:#fff;--gl-bd:#d9dff0;
+ --ok:#0f9d63;--warn:#e8890c;--bad:#e0393e;--info:#2563eb;--ok-t:#0b7a4c;--warn-t:#a85f00;--bad-t:#b4232a;--info-t:#1d4ed8}
+html[data-theme=dark]{--bg:#090d1a;--card:#121830;--line:#232c4a;--line2:#1b2340;--text:#f1f4ff;--muted:#a3abc8;--soft:#1a2240;--gl-bg:#121830;--gl-bd:#232c4a;
+ --ok:#22c984;--warn:#fbb13c;--bad:#ff6166;--info:#5aa2ff;--ok-t:#4ade9f;--warn-t:#fbbf5a;--bad-t:#ff8a8e;--info-t:#8bbcff}
+html[data-accent=mis]{--brand:#4f46e5;--m1:#4f46e5;--m2:#7c6cf5;--m3:#0ea5e9}
+html[data-theme=dark][data-accent=mis]{--brand:#7c75ff;--m1:#7c75ff;--m2:#a69dff;--m3:#38bdf8}
+html[data-oled=on][data-theme=dark]{--bg:#000;--card:#0a0d18}
+
+/* remove every haze layer */
+html body::before,html body::after{display:none!important;content:none!important}
+html body{background:var(--bg)!important}
+#edgeT,#edgeB,.sfx .orb{display:none!important}
+.panel::after,.mcard::after,.mm-card::after{display:none!important}
+
+/* solid surfaces */
+html .panel,html .stat,html .kpi,html .task,html .card,html .weeknav,html .mm-card,html .bd>*,html .lcard .lc-in,html .tx-card,html .bcard,html .snav,html .tx-bar,html .insnav .tvs{
+ background:var(--card)!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;border:1px solid var(--line)!important;box-shadow:0 1px 2px rgba(11,16,32,.05),0 6px 18px -12px rgba(11,16,32,.18)!important}
+html[data-theme=dark] .panel,html[data-theme=dark] .stat,html[data-theme=dark] .kpi,html[data-theme=dark] .task,html[data-theme=dark] .card,html[data-theme=dark] .mm-card,html[data-theme=dark] .bcard{box-shadow:0 1px 0 rgba(255,255,255,.03) inset,0 8px 22px -14px rgba(0,0,0,.7)!important}
+html .panel{background-image:none!important}
+
+/* member cards: solid, identity shown by a clean colour bar */
+html .mcard{background:var(--card)!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;border:1px solid var(--line)!important;border-top:4px solid var(--c1)!important;box-shadow:0 1px 2px rgba(11,16,32,.05),0 8px 20px -14px rgba(11,16,32,.2)!important}
+html .mcard:hover{box-shadow:0 14px 28px -16px rgba(11,16,32,.3)!important}
+
+/* status tiles and board columns: honest, solid tints */
+html .tsc{background:color-mix(in srgb,var(--tc) 11%,var(--card))!important;box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--tc) 32%,var(--line))!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+html .kbc{background:color-mix(in srgb,var(--cc) 8%,var(--soft))!important;box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--cc) 24%,var(--line))!important}
+html .board .bcard{background-image:none!important}
+
+/* icon tiles: flat tint + full-strength glyph */
+html .stat .ic,html #appTop .pc-i,html #appTop .td-ic,html .mm-ic,html .sg-ic{background:color-mix(in srgb,currentColor 15%,var(--card))!important;border:0!important;box-shadow:none!important}
+html .stat .ic svg,html #appTop .pc-i svg{stroke-width:2.2}
+
+/* header + tab bar: solid, no frosted fog */
+html #appTop{background:var(--card)!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;border:1px solid var(--line)!important;box-shadow:0 1px 2px rgba(11,16,32,.05),0 10px 26px -16px rgba(11,16,32,.25)!important}
+html #appTop .tp-search,html #appTop .modsw,html #appTop .topr .ib,html #appTop #themeBtn,html #appTop .sg-chip{background:var(--soft)!important;box-shadow:none!important;border:1px solid var(--line)!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+html #appTop #modNew{background:color-mix(in srgb,var(--brand) 12%,var(--card))!important;border-color:color-mix(in srgb,var(--brand) 30%,var(--line))!important;color:var(--brand)}
+html .tabbar{background:var(--card)!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;border:1px solid var(--line)!important;box-shadow:0 12px 32px -10px rgba(11,16,32,.35)!important}
+html .tabbar .tb{color:var(--muted)}html .tabbar .tb.on{color:var(--on-brand)}
+html .tb-ind{background:var(--brand)!important;box-shadow:none!important}
+
+/* buttons: vivid, small neutral glow */
+html .btn.pri,html #appTop #newTaskBtn,html .v8bt .p{background:linear-gradient(135deg,var(--brand),color-mix(in srgb,var(--brand) 78%,var(--m3)))!important;color:var(--on-brand,#fff)!important;border:0!important;box-shadow:0 6px 14px -6px color-mix(in srgb,var(--brand) 60%,transparent)!important}
+html .btn.pri::after,html .tb.on::after{display:none}
+
+/* workspace banner + chips */
+html .panel.hero{background:linear-gradient(135deg,var(--brand),color-mix(in srgb,var(--brand) 62%,var(--m3)))!important;border:0!important;color:#fff!important}
+html .chip.on{background:var(--brand)!important;color:var(--on-brand)!important;border-color:var(--brand)!important}
+
+/* inputs: clear fields, not grey mist */
+html input,html select,html textarea{background:var(--card)!important;border:1px solid var(--line)!important;box-shadow:none!important}
+html input:focus,html select:focus,html textarea:focus{border-color:var(--brand)!important;box-shadow:0 0 0 3px color-mix(in srgb,var(--brand) 22%,transparent)!important}
+
+/* text weight: stronger hierarchy */
+.sec-title.sx h2,.panel h3{color:var(--text)}
+.stat .n{color:var(--text)}
+html #homeEmpty.hero{background:var(--card)!important;border:1px solid color-mix(in srgb,var(--brand) 28%,var(--line))!important;color:var(--text)!important}
+html #homeEmpty.hero:not([hidden]){border-top:4px solid var(--brand)!important}
+html[data-theme] .tabbar{background:var(--card)!important;background-image:none!important}
+html[data-theme] .tabbar::before,html[data-theme] .tabbar::after{background:none!important;box-shadow:none!important}
+html[data-theme] #appTop .pchip{background:transparent!important;border:0!important;box-shadow:none!important}
+html[data-theme] #appTop .pchip:hover{background:var(--soft)!important}
+html body :is(input,select,textarea):not([type=checkbox]):not([type=range]):not([type=radio]):not([type=file]){background-color:var(--card)!important;background-image:none}
+html body .mcard::before,html body .mcard>.mc-glow,html body .mcard>.mc-bg{display:none!important}
+html body .mcard{background-image:none!important}
+html body .tx-card::before{display:none!important}
+html body .tx-card{border-top:4px solid var(--c1)!important;border-radius:20px!important}
+/* clean functional blur: only header + tab bar, content scrolls softly behind them */
+html body #appTop,html body .tabbar,html[data-theme] .tabbar{background:color-mix(in srgb,var(--card) 80%,transparent)!important;-webkit-backdrop-filter:blur(18px) saturate(160%)!important;backdrop-filter:blur(18px) saturate(160%)!important}
+@media(prefers-reduced-transparency:reduce){html body #appTop,html body .tabbar,html[data-theme] .tabbar{background:var(--card)!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}}
 </style>
 <script>/* offline + install support */if("serviceWorker"in navigator&&/^https?:$/.test(location.protocol)){addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})})}</script></body>
 </html>

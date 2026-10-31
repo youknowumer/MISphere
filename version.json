@@ -1,12 +1,21 @@
 {
-  "version": "11.3.0",
+  "version": "11.4.0",
   "date": "2026-10-31",
   "notes": [
-    "Smooth theme switch: light/dark and colour-combo changes now cross-fade as one (no more background fading while cards flip instantly); dark mode no longer flashes light on startup",
-    "Colour sync: accent picker swatches now match the applied colours (light and dark); setup screen glow and logo follow the chosen combo; cleaner light surfaces",
-    "Smoother scrolling: removed the heavy blur layer on the animated background"
+    "Workspace now follows the landing page: new default “MISphere” colour combo (indigo, violet, cyan), Bricolage Grotesque headings, Instrument Sans body, crisp white cards in light mode",
+    "Slim two-row command header: brand, search, module, New task, data-safety, theme and profile on top; week, office-day progress and task pulse below. GitHub status moved into the shield sheet, home link into the brand tile, leader card stays on the Home page",
+    "Home: getting-started checklist for empty workspaces, cleaner section titles, balanced KPI grid (two columns on phones)"
   ],
   "history": [
+    {
+      "v": "11.4.0",
+      "d": "2026-10-31",
+      "n": [
+        "Workspace now follows the landing page: new default “MISphere” colour combo (indigo, violet, cyan), Bricolage Grotesque headings, Instrument Sans body, crisp white cards in light mode",
+        "Slim two-row command header: brand, search, module, New task, data-safety, theme and profile on top; week, office-day progress and task pulse below. GitHub status moved into the shield sheet, home link into the brand tile, leader card stays on the Home page",
+        "Home: getting-started checklist for empty workspaces, cleaner section titles, balanced KPI grid (two columns on phones)"
+      ]
+    },
     {
       "v": "11.3.0",
       "d": "2026-10-31",

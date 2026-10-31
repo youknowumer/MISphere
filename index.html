@@ -1135,7 +1135,7 @@
   @media(max-width:900px){.fbar{grid-template-columns:1fr 1fr}#flExp,#flReset{grid-column:auto}}
   html[data-theme=dark] .tsc[data-f=todo] b{color:var(--text)}
 </style>
-<script>window.__v8err=0;addEventListener("error",function(){window.__v8err++});try{var u=JSON.parse(localStorage.getItem("mis_ui_v1"))||{};var h=new Date().getHours();if(u.a==="coral")u.a="teal";if(u.a==="berry")u.a="rose";var D=document.documentElement.dataset;D.oled=u.o||"off";D.fs=u.f||"md";D.rad=u.r||"soft";D.bg=u.b||"mesh";D.grade=u.c||"rich";document.documentElement.dataset.accent=(u.a==="auto"?(h<6?"midnight":h<10?"citrus":h<17?"ocean":h<20?"sunset":"aurora"):u.a)||"ocean";document.documentElement.style.setProperty("--gb",({soft:14,standard:26,strong:44})[u.g||"standard"]+"px")}catch(e){}try{var t=localStorage.getItem("mis_theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}catch(e){}</script><link rel="manifest" href="manifest.webmanifest"><link rel="icon" type="image/png" sizes="32x32" href="icons/icon-32.png"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><meta name="mobile-web-app-capable" content="yes"><meta name="application-name" content="MISphere"></head>
+<script>window.__v8err=0;addEventListener("error",function(){window.__v8err++});try{var u=JSON.parse(localStorage.getItem("mis_ui_v1"))||{};var h=new Date().getHours();if(u.a==="coral")u.a="teal";if(u.a==="berry")u.a="rose";var D=document.documentElement.dataset;D.oled=u.o||"off";D.fs=u.f||"md";D.rad=u.r||"soft";D.bg=u.b||"mesh";D.grade=u.c||"rich";document.documentElement.dataset.accent=(u.a==="auto"?(h<6?"midnight":h<10?"citrus":h<17?"mis":h<20?"sunset":"aurora"):u.a)||"mis";document.documentElement.style.setProperty("--gb",({soft:14,standard:26,strong:44})[u.g||"standard"]+"px")}catch(e){}try{var t=localStorage.getItem("mis_theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}catch(e){}</script><link rel="manifest" href="manifest.webmanifest"><link rel="icon" type="image/png" sizes="32x32" href="icons/icon-32.png"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><meta name="mobile-web-app-capable" content="yes"><meta name="application-name" content="MISphere"></head>
 <body>
 <div id="v87splash" aria-hidden="true"><div class="sp-ic"><svg viewBox="0 0 64 64"><path d="M16 15v33h33" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 39l9-9 6 6 10-13" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="49" cy="23" r="4" fill="#f5d061"/></svg></div><b>MISphere</b></div>
 <script>/* launch splash: remove it when its fade-out ends, or after 2.6 s whatever happens (animations off, slow device, boot error) */
@@ -1188,8 +1188,14 @@
   <!-- DASHBOARD -->
   <section class="view on" id="v-dash">
     <div class="panel hero" id="homeEmpty" hidden>
-      <div style="flex:1;min-width:240px"><h2>Your workspace is ready</h2><p>Add the first task to start tracking progress, deadlines and office hours. Or import a filled Excel template to load many tasks at once.</p></div>
-      <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn" id="heroAdd">＋ Add first task</button><button class="btn" id="heroImp">⬆ Import Excel</button><button class="btn" id="heroTpl">⬇ Excel template</button></div>
+      <div class="gs-head"><span class="gs-eye">Getting started</span><h2>Your workspace is ready</h2><p>Four quick steps and your dashboard comes alive with real numbers.</p></div>
+      <div class="gs-steps">
+        <button type="button" class="gs-step" onclick="go('team')"><i>1</i><b>Add your team</b><small>Names and roles, one admin</small></button>
+        <button type="button" class="gs-step" id="heroAdd"><i>2</i><b>Add the first task</b><small>Owner, deadline, priority</small></button>
+        <button type="button" class="gs-step" id="heroImp"><i>3</i><b>Or import from Excel</b><small>Load many tasks at once</small></button>
+        <button type="button" class="gs-step" onclick="go('settings')"><i>4</i><b>Set office hours</b><small>Fair turnaround and efficiency</small></button>
+      </div>
+      <div class="gs-foot"><button class="btn" id="heroTpl" type="button">⬇ Download Excel template</button></div>
     </div>
     <div class="panel" id="homeFocus"></div>
     <div class="sec-title sx"><h2>This week at a glance</h2><small>Key numbers, with the change compared to last week</small></div>
@@ -3880,8 +3886,9 @@ ghRender();
 <script>
 /* v8: stable updater + version history. Data lives in localStorage and is never touched by an update; a snapshot is taken first. */
 (()=>{
-const APP_VERSION="11.3.0", SNAP_KEY="mis_snapshots_v1", LOG_KEY="mis_update_log_v1", $=id=>document.getElementById(id);
+const APP_VERSION="11.4.0", SNAP_KEY="mis_snapshots_v1", LOG_KEY="mis_update_log_v1", $=id=>document.getElementById(id);
 const HISTORY=[
+ {v:"11.4.0",d:"2026-10-31",n:["Workspace now follows the landing page: new default \u201cMISphere\u201d colour combo (indigo, violet, cyan), Bricolage Grotesque headings, Instrument Sans body, crisp white cards in light mode", "Slim two-row command header: brand, search, module, New task, data-safety, theme and profile on top; week, office-day progress and task pulse below. GitHub status moved into the shield sheet, home link into the brand tile, leader card stays on the Home page", "Home: getting-started checklist for empty workspaces, cleaner section titles, balanced KPI grid (two columns on phones)"]},
  {v:"11.3.0",d:"2026-10-31",n:["Smooth theme switch: light/dark and colour-combo changes now cross-fade as one (no more background fading while cards flip instantly); dark mode no longer flashes light on startup", "Colour sync: accent picker swatches now match the applied colours (light and dark); setup screen glow and logo follow the chosen combo; cleaner light surfaces", "Smoother scrolling: removed the heavy blur layer on the animated background"]},
  {v:"11.2.0",d:"2026-10-26",n:["Natural colour system: all 13 combos retuned to calmer, analogous tones in light and dark; quieter background glow and natural status colours", "Glass icons everywhere: header buttons, brand tile, stat and pulse icons, module icons and an active tab-bar tile in tinted glass; new glass app icons", "iOS-style motion: press feedback, staggered page entrance, spring dialogs, frosted backdrops, quiet scrollbars, focus rings", "Data-safety centre: header shield chip, warning when you close the tab or app with unbacked-up changes, one-tap backup sheet, automatic restore points, protection against overwriting newer data from another tab, persistent-storage request", "Fixes: unreadable welcome banner in light mode, misaligned setup header, squeezed stat icons, header overflow at mid widths; desktop app now asks before closing with unsaved data"]},
  {v:"11.1.0",d:"2026-10-25",n:["Command Deck header redesign: brand tile that changes icon per page, search, module switcher, GitHub sync status, install button and New task on top; week navigator with day pips, office-day gauge, Open / Due today / Overdue tiles and a Leader-of-the-week card below. Follows every colour combo, light and dark, and phone layouts", "Installable app: web manifest, offline service worker, app icons (including maskable), and an Install app button in the header", "Fully offline: Excel library and fonts are now bundled in /vendor (no CDN needed)", "Desktop app (Windows / macOS / Linux) via the new /desktop Electron project, plus one-click launchers that open MISphere in its own window"]},
@@ -3972,12 +3979,12 @@ document.addEventListener("DOMContentLoaded",()=>{
 </script>
 <script>
 (()=>{const K="mis_ui_v1",G={soft:14,standard:26,strong:44},$=id=>document.getElementById(id);
-const A=[["ocean","Ocean",["#2f6fdb", "#5b97ec", "#7b95e6"]],["aurora","Aurora",["#5a55c6", "#7d76d9", "#5f8ade"]],["sunset","Sunset",["#cf4a33", "#e17a47", "#d3607b"]],["forest","Forest",["#2a8250", "#47a577", "#2e968a"]],["graphite","Graphite",["#4f5666", "#7b8396", "#606c8a"]],["lavender","Lavender",["#8659cc", "#a481de", "#7b80d7"]],["rose","Rose",["#c9416a", "#df7391", "#b659a9"]],["mint","Mint",["#12857c", "#3aaa9d", "#2c93b3"]],["citrus","Citrus",["#bf650a", "#dd9625", "#cf693d"]],["teal","Teal",["#0e7a90", "#33a1b6", "#3d7cbd"]],["sky","Sky",["#1a82cb", "#4ea6e2", "#4b7cd2"]],["cocoa","Cocoa",["#845d3a", "#ab845e", "#a5544a"]],["midnight","Midnight",["#3f45b3", "#626cd5", "#7a54c6"]],["auto","Auto",["#d98a1c","#2f6fdb","#5a55c6"]]],AD={"ocean": ["#4a8ef0", "#7bb0f6", "#93a8f3"], "aurora": ["#857bf0", "#a999f7", "#76a3f2"], "sunset": ["#f27a5a", "#f69e63", "#f27d9c"], "forest": ["#46c382", "#69d6a0", "#46c4b0"], "graphite": ["#a6aec0", "#c4cada", "#919cc0"], "lavender": ["#b583f5", "#d0b0fb", "#9b9ef5"], "rose": ["#f26f8f", "#f79bb2", "#dd88d6"], "mint": ["#4cd3c6", "#7ae3d6", "#66bfe8"], "citrus": ["#f5a43a", "#f9c168", "#f58b6a"], "teal": ["#4bc3da", "#7ad8e8", "#6fa3e6"], "sky": ["#5bb8f5", "#8dd0fa", "#7f9ff5"], "cocoa": ["#c79e72", "#dfbd96", "#df8a7e"], "midnight": ["#7d82f7", "#a0a6fb", "#b08af0"]};
+const A=[["mis","MISphere",["#4f46e5","#8b7cf6","#22b8e0"]],["ocean","Ocean",["#2f6fdb", "#5b97ec", "#7b95e6"]],["aurora","Aurora",["#5a55c6", "#7d76d9", "#5f8ade"]],["sunset","Sunset",["#cf4a33", "#e17a47", "#d3607b"]],["forest","Forest",["#2a8250", "#47a577", "#2e968a"]],["graphite","Graphite",["#4f5666", "#7b8396", "#606c8a"]],["lavender","Lavender",["#8659cc", "#a481de", "#7b80d7"]],["rose","Rose",["#c9416a", "#df7391", "#b659a9"]],["mint","Mint",["#12857c", "#3aaa9d", "#2c93b3"]],["citrus","Citrus",["#bf650a", "#dd9625", "#cf693d"]],["teal","Teal",["#0e7a90", "#33a1b6", "#3d7cbd"]],["sky","Sky",["#1a82cb", "#4ea6e2", "#4b7cd2"]],["cocoa","Cocoa",["#845d3a", "#ab845e", "#a5544a"]],["midnight","Midnight",["#3f45b3", "#626cd5", "#7a54c6"]],["auto","Auto",["#d98a1c","#2f6fdb","#5a55c6"]]],AD={"mis":["#7b74ff","#a99fff","#4cc9ee"],"ocean": ["#4a8ef0", "#7bb0f6", "#93a8f3"], "aurora": ["#857bf0", "#a999f7", "#76a3f2"], "sunset": ["#f27a5a", "#f69e63", "#f27d9c"], "forest": ["#46c382", "#69d6a0", "#46c4b0"], "graphite": ["#a6aec0", "#c4cada", "#919cc0"], "lavender": ["#b583f5", "#d0b0fb", "#9b9ef5"], "rose": ["#f26f8f", "#f79bb2", "#dd88d6"], "mint": ["#4cd3c6", "#7ae3d6", "#66bfe8"], "citrus": ["#f5a43a", "#f9c168", "#f58b6a"], "teal": ["#4bc3da", "#7ad8e8", "#6fa3e6"], "sky": ["#5bb8f5", "#8dd0fa", "#7f9ff5"], "cocoa": ["#c79e72", "#dfbd96", "#df8a7e"], "midnight": ["#7d82f7", "#a0a6fb", "#b08af0"]};
 let u={};try{u=JSON.parse(localStorage.getItem(K))||{}}catch{}
 if(u.a==="coral")u.a="teal";if(u.a==="berry")u.a="rose";
-const auto=()=>{const h=new Date().getHours();return h<6?"midnight":h<10?"citrus":h<17?"ocean":h<20?"sunset":"aurora"};
-const ap=()=>{const r=document.documentElement;r.dataset.oled=u.o||"off";r.dataset.fs=u.f||"md";r.dataset.rad=u.r||"soft";r.dataset.bg=u.b||"mesh";r.dataset.grade=u.c||"rich";r.dataset.accent=(u.a==="auto"?auto():u.a)||"ocean";r.style.setProperty("--gb",G[u.g||"standard"]+"px");try{localStorage.setItem(K,JSON.stringify(u))}catch{}};
-function draw(){const a=u.a||"ocean",g=u.g||"standard";
+const auto=()=>{const h=new Date().getHours();return h<6?"midnight":h<10?"citrus":h<17?"mis":h<20?"sunset":"aurora"};
+const ap=()=>{const r=document.documentElement;r.dataset.oled=u.o||"off";r.dataset.fs=u.f||"md";r.dataset.rad=u.r||"soft";r.dataset.bg=u.b||"mesh";r.dataset.grade=u.c||"rich";r.dataset.accent=(u.a==="auto"?auto():u.a)||"mis";r.style.setProperty("--gb",G[u.g||"standard"]+"px");try{localStorage.setItem(K,JSON.stringify(u))}catch{}};
+function draw(){const a=u.a||"mis",g=u.g||"standard";
  $("apAcc").innerHTML=A.map(x=>{const c=(document.documentElement.dataset.theme==="dark"&&AD[x[0]])||x[2];return `<button type="button" data-a="${x[0]}" class="${a===x[0]?"on":""}"><i style="background:linear-gradient(135deg,${c[0]},${c[1]} 55%,${c[2]})"></i><span>${x[1]}</span></button>`}).join("");
  const R=[["c","Colour grade",[["soft","Soft"],["rich","Rich"],["vivid","Vivid"]]],["o","Surface (dark mode)",[["off","Standard"],["on","True black"]]],["f","Text size",[["sm","Small"],["md","Default"],["lg","Large"]]],["r","Corners",[["soft","Soft"],["sharp","Sharp"]]],["b","Background",[["mesh","Animated colour"],["plain","Plain"]]]],dv={c:"rich",o:"off",f:"md",r:"soft",b:"mesh"};
  $("apMore").innerHTML=R.map(x=>`<div class="ap-lbl">${x[1]}</div><div class="ap-seg">${x[2].map(o=>`<button type="button" data-k="${x[0]}" data-v="${o[0]}" class="${(u[x[0]]||dv[x[0]])===o[0]?"on":""}">${o[1]}</button>`).join("")}</div>`).join("")+`<div class="ap-lbl">Reset</div><div class="ap-seg"><button type="button" data-reset="1">Back to defaults</button></div>`;
@@ -5738,5 +5745,130 @@ window.misSetTheme=function(nt){
 addEventListener("load",function(){setTimeout(function(){document.body.classList.add("mis-ready")},600)});
 })();
 </script>
+<style id="v114-css">
+/* ===== v11.4 · Landing-page identity, slim command header, professional workspace ===== */
+/* 1 · brand: "MISphere" combo = the landing page palette (indigo, violet, cyan) */
+html[data-accent=mis]{--brand:#4f46e5;--m1:#4f46e5;--m2:#8b7cf6;--m3:#22b8e0;--on-brand:#fff}
+html[data-theme=dark][data-accent=mis]{--brand:#7b74ff;--m1:#7b74ff;--m2:#a99fff;--m3:#4cc9ee;--on-brand:#fff}
+:root{--ff-b:"Instrument Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;--ff-h:"Bricolage Grotesque","Instrument Sans",system-ui,sans-serif}
+html:not([data-theme=dark]){--bg:#f4f6fb;--text:#0e1220;--muted:#5b6379;--line:#e1e5f2;--line2:#eceff8;--gl-bg:rgba(255,255,255,.82);--gl-bd:#e1e5f2}
+html[data-theme=dark]{--bg:#0a0d18;--text:#eceffa;--muted:#99a1bd}
+body,button,input,select,textarea{font-family:var(--ff-b)}
+h1,h2,h3,.sec-title h2,.lc-name,.stat .n,.mc-pct,.tx-big,.gs-head h2{font-family:var(--ff-h);letter-spacing:-.02em}
+body{font-variant-numeric:tabular-nums}
+/* calmer light surfaces: crisp white cards with a hairline, not frosted grey */
+html:not([data-theme=dark]) .panel,html:not([data-theme=dark]) .stat,html:not([data-theme=dark]) .kpi,html:not([data-theme=dark]) .task{background:rgba(255,255,255,.88)!important;border:1px solid var(--line)!important;box-shadow:0 1px 2px rgba(14,18,32,.04),0 8px 24px -14px rgba(14,18,32,.14)!important}
+.panel{border-radius:18px!important}
+
+/* 2 · page frame */
+#v-dash,.view{max-width:1240px;margin-inline:auto}
+.sec-title.sx{display:flex;align-items:baseline;gap:12px;margin:26px 2px 12px}
+.sec-title.sx h2{font-size:20px;font-weight:700;margin:0}
+.sec-title.sx h2::before{display:none!important}
+.sec-title.sx small{font-size:13px;color:var(--muted)}
+
+/* 3 · command header: two slim rows instead of a wall of tiles */
+#appTop{padding:10px 14px 0!important;border-radius:20px!important;display:block!important}
+#appTop .tp-main{display:flex;align-items:center;gap:12px;flex-wrap:nowrap;padding:0 0 10px}
+#appTop .brand{flex:0 1 auto;min-width:0;display:flex;align-items:center;gap:12px}
+#appTop .brand .mk{width:42px;height:42px;border-radius:13px;flex:none}
+#appTop .tp-eye{display:none!important}
+#appTop .tp-ti h1{font-size:21px!important;line-height:1.1;margin:0;letter-spacing:-.025em;white-space:nowrap}
+#appTop #todayLbl{font-size:12px;color:var(--muted);margin:2px 0 0;white-space:nowrap}
+#appTop .tp-search{flex:1 1 260px;max-width:460px;min-width:0;height:42px;border-radius:13px;margin-left:8px}
+#appTop .topr{margin-left:auto;display:flex;align-items:center;gap:8px;flex-wrap:nowrap}
+/* retired from the header: they live in the shield sheet, brand tile, Settings and the Home page */
+#appTop #ghChip,#appTop #homeLink,#appTop #meSel,#appTop #sideLeader,#appTop .tp-sep{display:none!important}
+#appTop .modsw{order:1;height:42px;border-radius:13px}
+#appTop #modNew{order:2;width:42px;height:42px;border-radius:13px}
+#appTop #newTaskBtn{order:3;height:42px;border-radius:13px;padding:0 18px;margin-left:4px}
+#appTop .sg-chip{order:5}#appTop #themeBtn{order:6}#appTop #tpAv{order:7}
+#appTop .topr .ib,#appTop #themeBtn,#appTop .sg-chip{width:42px;height:42px;border-radius:13px}
+#appTop .tp-av{width:42px;height:42px}
+#appTop .upd-pill,#appTop .tp-install{order:4}
+
+/* second row: week · office day · pulse */
+#appTop .tp-ctx{display:flex!important;align-items:center!important;gap:16px!important;flex-wrap:nowrap!important;padding:9px 0 10px!important;border:0!important;border-top:1px solid var(--line2)!important;min-height:0!important}
+#appTop .tp-ctx>*{min-height:0!important}
+#appTop .weeknav{flex:none;display:flex;align-items:center;gap:6px;background:none!important;border:0!important;box-shadow:none!important;padding:0!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+#appTop .weeknav .ib{width:32px;height:32px;border-radius:10px}
+#appTop .wk-c{display:flex;flex-direction:row;align-items:baseline;gap:8px;min-width:0;text-align:left}
+#appTop .wk-c b{font-size:14px;font-weight:700;white-space:nowrap}
+#appTop .wk-c small,#appTop #tpWk{font-size:11px;letter-spacing:.04em;white-space:nowrap}
+#appTop .wk-d{display:none!important}
+#appTop #thisW{height:32px;border-radius:10px;padding:0 12px;font-size:12.5px}
+#appTop .tp-day{flex:1 1 auto;min-width:160px;display:flex;align-items:center;gap:10px;background:none!important;border:0!important;box-shadow:none!important;padding:0!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+#appTop .tp-day .td-ic{display:none!important}
+#appTop .tp-day .td-b{flex:1;min-width:0;display:flex;align-items:center;gap:12px}
+#appTop #offChip{font-size:12.5px;font-weight:600;white-space:nowrap;margin:0!important}
+#appTop .td-r{flex:1;display:flex;align-items:center;gap:10px;min-width:0}
+#appTop .dbar{flex:1;height:6px;border-radius:99px;min-width:60px}
+#appTop .td-r small{font-size:11.5px;color:var(--muted);white-space:nowrap}
+#appTop .tp-pulse{flex:none;display:flex;gap:8px;margin-left:auto}
+#appTop .pchip{display:inline-flex;align-items:center;gap:8px;height:34px;min-height:0!important;padding:0 12px 0 6px;border-radius:11px;box-shadow:none!important}
+#appTop .pchip .pc-i{width:24px;height:24px;border-radius:8px}
+#appTop .pchip .pc-i svg{width:14px;height:14px}
+#appTop .pchip .pc-t{display:flex;align-items:baseline;gap:6px}
+#appTop .pchip .pc-t b{font:700 15px var(--ff-h)}
+#appTop .pchip .pc-t small{font-size:11.5px;font-weight:600;color:var(--muted);text-transform:none;letter-spacing:0}
+#appTop.cp .tp-ctx{display:none!important}
+#appTop.cp .tp-main{padding-bottom:10px}
+
+#appTop .tp-day .td-b{flex-direction:row!important;text-align:left!important}
+#appTop .tp-day .td-r{flex:1 1 auto!important}
+#appTop #offChip{text-align:left!important;flex:none}
+html:not([data-theme=dark]) body::after{background:linear-gradient(180deg,transparent 62%,color-mix(in srgb,var(--m3) 5%,transparent))!important}
+/* 4 · KPI cards */
+.stats{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(176px,1fr));gap:14px}
+.stat{min-height:96px;align-items:center}
+.stat .n{font-size:30px!important;font-weight:700;line-height:1}
+.stat .l{font-size:12.5px;color:var(--muted);margin-top:4px}
+.stat:hover{transform:translateY(-2px)}
+
+/* 5 · getting started */
+#homeEmpty.hero:not([hidden]){display:block!important}
+#homeEmpty.hero[hidden]{display:none!important}
+#homeEmpty.hero{padding:26px 26px 20px!important;color:var(--text)!important;background:linear-gradient(135deg,color-mix(in srgb,var(--m1) 12%,var(--card)),color-mix(in srgb,var(--m3) 9%,var(--card)))!important;border:1px solid color-mix(in srgb,var(--m1) 22%,var(--line))!important}
+#homeEmpty .gs-eye{font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--brand)}
+#homeEmpty .gs-head h2{font-size:26px;margin:6px 0 4px;color:var(--text)!important}
+#homeEmpty .gs-head p{margin:0;color:var(--muted)!important;font-size:14.5px}
+.gs-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:18px}
+.gs-step{position:relative;display:grid;grid-template-columns:auto 1fr;column-gap:12px;row-gap:2px;align-items:center;text-align:left;padding:14px;border-radius:14px;cursor:pointer;font:inherit;color:var(--text);background:var(--card);border:1px solid var(--line);transition:transform .25s var(--ios),box-shadow .25s,border-color .2s}
+.gs-step i{grid-row:span 2;width:30px;height:30px;border-radius:10px;display:grid;place-items:center;font:700 13px var(--ff-h);font-style:normal;color:var(--on-brand);background:var(--brand)}
+.gs-step b{font-size:14px}.gs-step small{font-size:12px;color:var(--muted)}
+.gs-step:hover{transform:translateY(-2px);border-color:color-mix(in srgb,var(--brand) 45%,var(--line));box-shadow:0 12px 24px -16px color-mix(in srgb,var(--brand) 60%,transparent)}
+.gs-foot{margin-top:14px}
+#homeEmpty .gs-foot .btn{color:var(--brand)!important;background:var(--card)!important;border:1px solid var(--line)!important;box-shadow:none!important}
+html[data-theme=dark] #homeEmpty.hero{background:linear-gradient(135deg,color-mix(in srgb,var(--m1) 22%,var(--card)),color-mix(in srgb,var(--m3) 10%,var(--card)))!important}
+
+/* 6 · responsive header */
+@media(max-width:1100px){
+ #appTop .tp-search{flex:0 0 42px;width:42px;padding:0;justify-content:center;margin-left:0}
+ #appTop .tp-search span,#appTop .tp-search kbd{display:none}
+ #appTop #newTaskBtn span{display:none}#appTop #newTaskBtn{padding:0;width:42px}
+ #appTop .tp-day .td-r small{display:none}
+}
+@media(max-width:820px){
+ #appTop .tp-main{flex-wrap:wrap;row-gap:10px}
+ #appTop .brand{flex:1 1 0}
+ #appTop #todayLbl{display:none}
+ #appTop .topr{flex:1 1 100%;margin-left:0;gap:8px}
+ #appTop .modsw{flex:1 1 auto;min-width:0;order:1}
+ #appTop .modsw select{min-width:0!important;width:100%!important;max-width:none!important}
+ #appTop #modNew{display:none}
+ #appTop #newTaskBtn{order:2;margin-left:0}
+ #appTop .tp-pulse{gap:6px}#appTop .pchip{white-space:nowrap;justify-content:center;padding:0 8px 0 5px}
+ #appTop #tpWk,#appTop .wk-c small{display:none}
+ #appTop .wk-c{flex:1;justify-content:center}
+ #appTop #thisW{display:none}
+ #appTop .tp-ctx{flex-wrap:wrap!important;gap:10px!important}
+ #appTop .weeknav{flex:1 1 100%;justify-content:space-between}
+ #appTop .tp-day{flex:1 1 100%}
+ #appTop .tp-pulse{flex:1 1 100%;margin-left:0}
+ #appTop .pchip{flex:1}
+ .sec-title.sx{flex-wrap:wrap;gap:4px 10px}
+}
+@media(max-width:560px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px}.stat{padding:12px!important;gap:10px!important;min-height:0}.stat .ic{display:none}.stat .n{font-size:26px!important}.stat .dl{font-size:10.5px}}
+</style>
 <script>/* offline + install support */if("serviceWorker"in navigator&&/^https?:$/.test(location.protocol)){addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})})}</script></body>
 </html>

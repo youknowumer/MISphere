@@ -2,6 +2,11 @@
 
 All notable changes to MISphere, newest first.
 
+## 11.4.0 — 2026-10-31
+- Workspace now follows the landing page: new default “MISphere” colour combo (indigo, violet, cyan), Bricolage Grotesque headings, Instrument Sans body, crisp white cards in light mode
+- Slim two-row command header: brand, search, module, New task, data-safety, theme and profile on top; week, office-day progress and task pulse below. GitHub status moved into the shield sheet, home link into the brand tile, leader card stays on the Home page
+- Home: getting-started checklist for empty workspaces, cleaner section titles, balanced KPI grid (two columns on phones)
+
 ## 11.3.0 — 2026-10-31
 - Smooth theme switch: light/dark and colour-combo changes now cross-fade as one (no more background fading while cards flip instantly); dark mode no longer flashes light on startup
 - Colour sync: accent picker swatches now match the applied colours (light and dark); setup screen glow and logo follow the chosen combo; cleaner light surfaces

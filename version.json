@@ -1,14 +1,21 @@
 {
-  "version": "11.2.0",
-  "date": "2026-10-26",
+  "version": "11.3.0",
+  "date": "2026-10-31",
   "notes": [
-    "Natural colour system: all 13 combos retuned to calmer, analogous tones in light and dark; quieter background glow and natural status colours",
-    "Glass icons everywhere: header buttons, brand tile, stat and pulse icons, module icons and an active tab-bar tile in tinted glass; new glass app icons",
-    "iOS-style motion: press feedback, staggered page entrance, spring dialogs, frosted backdrops, quiet scrollbars, focus rings",
-    "Data-safety centre: header shield chip, warning when you close the tab or app with unbacked-up changes, one-tap backup sheet, automatic restore points, protection against overwriting newer data from another tab, persistent-storage request",
-    "Fixes: unreadable welcome banner in light mode, misaligned setup header, squeezed stat icons, header overflow at mid widths; desktop app now asks before closing with unsaved data"
+    "Smooth theme switch: light/dark and colour-combo changes now cross-fade as one (no more background fading while cards flip instantly); dark mode no longer flashes light on startup",
+    "Colour sync: accent picker swatches now match the applied colours (light and dark); setup screen glow and logo follow the chosen combo; cleaner light surfaces",
+    "Smoother scrolling: removed the heavy blur layer on the animated background"
   ],
   "history": [
+    {
+      "v": "11.3.0",
+      "d": "2026-10-31",
+      "n": [
+        "Smooth theme switch: light/dark and colour-combo changes now cross-fade as one (no more background fading while cards flip instantly); dark mode no longer flashes light on startup",
+        "Colour sync: accent picker swatches now match the applied colours (light and dark); setup screen glow and logo follow the chosen combo; cleaner light surfaces",
+        "Smoother scrolling: removed the heavy blur layer on the animated background"
+      ]
+    },
     {
       "v": "11.2.0",
       "d": "2026-10-26",

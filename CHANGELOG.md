@@ -2,6 +2,11 @@
 
 All notable changes to MISphere, newest first.
 
+## 11.3.0 — 2026-10-31
+- Smooth theme switch: light/dark and colour-combo changes now cross-fade as one (no more background fading while cards flip instantly); dark mode no longer flashes light on startup
+- Colour sync: accent picker swatches now match the applied colours (light and dark); setup screen glow and logo follow the chosen combo; cleaner light surfaces
+- Smoother scrolling: removed the heavy blur layer on the animated background
+
 ## 11.2.0 — 2026-10-26
 - Natural colour system: all 13 combos retuned to calmer, analogous tones in light and dark; quieter background glow and natural status colours
 - Glass icons everywhere: header buttons, brand tile, stat and pulse icons, module icons and an active tab-bar tile in tinted glass; new glass app icons

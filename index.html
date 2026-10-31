@@ -417,8 +417,6 @@
   .btn.pri:hover::after,.tb.on:hover::after{transform:translateX(120%)}
   .ap-acc button{transition:transform .3s cubic-bezier(.34,1.56,.64,1),box-shadow .25s ease}
   .ap-acc i{box-shadow:inset 0 1px 0 rgba(255,255,255,.6),inset 0 -8px 14px rgba(255,255,255,.12),0 4px 12px rgba(0,0,0,.12)}
-  body{transition:background-color .6s ease}
-  html[data-accent]{transition:--brand .5s}
   .mchip.on{backdrop-filter:blur(10px) saturate(160%);-webkit-backdrop-filter:blur(10px) saturate(160%)}
 
   /* v10.7 action banner */
@@ -1137,7 +1135,7 @@
   @media(max-width:900px){.fbar{grid-template-columns:1fr 1fr}#flExp,#flReset{grid-column:auto}}
   html[data-theme=dark] .tsc[data-f=todo] b{color:var(--text)}
 </style>
-<script>window.__v8err=0;addEventListener("error",function(){window.__v8err++});try{var u=JSON.parse(localStorage.getItem("mis_ui_v1"))||{};var h=new Date().getHours();if(u.a==="coral")u.a="teal";if(u.a==="berry")u.a="rose";var D=document.documentElement.dataset;D.oled=u.o||"off";D.fs=u.f||"md";D.rad=u.r||"soft";D.bg=u.b||"mesh";D.grade=u.c||"rich";document.documentElement.dataset.accent=(u.a==="auto"?(h<6?"midnight":h<10?"citrus":h<17?"ocean":h<20?"sunset":"aurora"):u.a)||"ocean";document.documentElement.style.setProperty("--gb",({soft:14,standard:26,strong:44})[u.g||"standard"]+"px")}catch(e){}</script><link rel="manifest" href="manifest.webmanifest"><link rel="icon" type="image/png" sizes="32x32" href="icons/icon-32.png"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><meta name="mobile-web-app-capable" content="yes"><meta name="application-name" content="MISphere"></head>
+<script>window.__v8err=0;addEventListener("error",function(){window.__v8err++});try{var u=JSON.parse(localStorage.getItem("mis_ui_v1"))||{};var h=new Date().getHours();if(u.a==="coral")u.a="teal";if(u.a==="berry")u.a="rose";var D=document.documentElement.dataset;D.oled=u.o||"off";D.fs=u.f||"md";D.rad=u.r||"soft";D.bg=u.b||"mesh";D.grade=u.c||"rich";document.documentElement.dataset.accent=(u.a==="auto"?(h<6?"midnight":h<10?"citrus":h<17?"ocean":h<20?"sunset":"aurora"):u.a)||"ocean";document.documentElement.style.setProperty("--gb",({soft:14,standard:26,strong:44})[u.g||"standard"]+"px")}catch(e){}try{var t=localStorage.getItem("mis_theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}catch(e){}</script><link rel="manifest" href="manifest.webmanifest"><link rel="icon" type="image/png" sizes="32x32" href="icons/icon-32.png"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><meta name="mobile-web-app-capable" content="yes"><meta name="application-name" content="MISphere"></head>
 <body>
 <div id="v87splash" aria-hidden="true"><div class="sp-ic"><svg viewBox="0 0 64 64"><path d="M16 15v33h33" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 39l9-9 6 6 10-13" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="49" cy="23" r="4" fill="#f5d061"/></svg></div><b>MISphere</b></div>
 <script>/* launch splash: remove it when its fade-out ends, or after 2.6 s whatever happens (animations off, slow device, boot error) */
@@ -1521,7 +1519,7 @@
 <div id="cmd" hidden><div class="cbox"><input id="cmdIn" placeholder="Search tasks and members, or run a command…" autocomplete="off" aria-label="Quick actions"><div id="cmdList"></div>
   <div class="cfoot"><span><kbd>↑</kbd> <kbd>↓</kbd> navigate</span><span><kbd>Enter</kbd> run</span><span><kbd>Esc</kbd> close</span></div></div></div>
 <div id="setup" hidden>
-  <div class="sfx" aria-hidden="true"><span class="orb" style="width:540px;height:540px;left:-140px;top:-100px;background:#4F46E5"></span><span class="orb o2" style="width:480px;height:480px;right:-120px;top:8%;background:#8b5cf6"></span><span class="orb o3" style="width:460px;height:460px;left:32%;bottom:-180px;background:#f5d061"></span></div>
+  <div class="sfx" aria-hidden="true"><span class="orb" style="width:540px;height:540px;left:-140px;top:-100px;background:var(--m1)"></span><span class="orb o2" style="width:480px;height:480px;right:-120px;top:8%;background:var(--m2)"></span><span class="orb o3" style="width:460px;height:460px;left:32%;bottom:-180px;background:var(--m3)"></span></div>
   <div class="swrap">
     <div class="shead"><div class="slogo"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/></svg></div><div><b>MISphere</b><small>Team performance · Roles · Daily notes</small></div></div>
     <div class="sbox">
@@ -3264,8 +3262,9 @@ document.addEventListener("keydown", e=>{
 // ---------- v2: settings ----------
 const NUMS = ["start","end","tc","td","te","cap","pon","plate","pov","phi","due","perDef","riskD","riskP","soonD","bkDays"];
 function applySet(){ const s = S(); OFFICE.start = s.start; OFFICE.end = s.end; OFFICE.days = s.days; document.body.classList.toggle("compact", !!s.compact);
-  document.documentElement.dataset.theme = s.theme==="auto" ? (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") : s.theme;
-  const tcm = document.querySelector('meta[name=theme-color]'); if (tcm) tcm.content = document.documentElement.dataset.theme==="dark" ? "#000000" : "#f2f2f7"; }
+  const nt = s.theme==="auto" ? (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") : s.theme;
+  (window.misSetTheme ? window.misSetTheme(nt) : (document.documentElement.dataset.theme = nt));
+  try{ localStorage.setItem("mis_theme", nt); }catch{} }
 try{ matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ()=>{ if (db && S().theme==="auto") applySet(); }); }catch{}
 function fillSet(){
   const s = S(); $("sModules").value = (s.modules||[]).join("\n");
@@ -3881,8 +3880,9 @@ ghRender();
 <script>
 /* v8: stable updater + version history. Data lives in localStorage and is never touched by an update; a snapshot is taken first. */
 (()=>{
-const APP_VERSION="11.2.0", SNAP_KEY="mis_snapshots_v1", LOG_KEY="mis_update_log_v1", $=id=>document.getElementById(id);
+const APP_VERSION="11.3.0", SNAP_KEY="mis_snapshots_v1", LOG_KEY="mis_update_log_v1", $=id=>document.getElementById(id);
 const HISTORY=[
+ {v:"11.3.0",d:"2026-10-31",n:["Smooth theme switch: light/dark and colour-combo changes now cross-fade as one (no more background fading while cards flip instantly); dark mode no longer flashes light on startup", "Colour sync: accent picker swatches now match the applied colours (light and dark); setup screen glow and logo follow the chosen combo; cleaner light surfaces", "Smoother scrolling: removed the heavy blur layer on the animated background"]},
  {v:"11.2.0",d:"2026-10-26",n:["Natural colour system: all 13 combos retuned to calmer, analogous tones in light and dark; quieter background glow and natural status colours", "Glass icons everywhere: header buttons, brand tile, stat and pulse icons, module icons and an active tab-bar tile in tinted glass; new glass app icons", "iOS-style motion: press feedback, staggered page entrance, spring dialogs, frosted backdrops, quiet scrollbars, focus rings", "Data-safety centre: header shield chip, warning when you close the tab or app with unbacked-up changes, one-tap backup sheet, automatic restore points, protection against overwriting newer data from another tab, persistent-storage request", "Fixes: unreadable welcome banner in light mode, misaligned setup header, squeezed stat icons, header overflow at mid widths; desktop app now asks before closing with unsaved data"]},
  {v:"11.1.0",d:"2026-10-25",n:["Command Deck header redesign: brand tile that changes icon per page, search, module switcher, GitHub sync status, install button and New task on top; week navigator with day pips, office-day gauge, Open / Due today / Overdue tiles and a Leader-of-the-week card below. Follows every colour combo, light and dark, and phone layouts", "Installable app: web manifest, offline service worker, app icons (including maskable), and an Install app button in the header", "Fully offline: Excel library and fonts are now bundled in /vendor (no CDN needed)", "Desktop app (Windows / macOS / Linux) via the new /desktop Electron project, plus one-click launchers that open MISphere in its own window"]},
  {v:"11.0.0",d:"2026-10-24",n:["One colour system: every combo is now a tonal family with a readable text colour; buttons, tab bar, switches and update pill follow the chosen combo (some stayed blue before)", "Team Hub: neutral glass member cards with health status, workload meter, 6-week trend, next deadline, quick Tasks / ＋ Task actions; new leader spotlight; search, filters, sort, cards/list layout and Share summary", "New member colour palette (12 balanced colours); existing members are converted automatically", "Tasks: bulk select (done, in progress, priority, reassign, deadline, delete) with Undo; Quick views; Quick add (type “Report @ali fri !high 2h”); overload warning while assigning"]},
@@ -3972,18 +3972,19 @@ document.addEventListener("DOMContentLoaded",()=>{
 </script>
 <script>
 (()=>{const K="mis_ui_v1",G={soft:14,standard:26,strong:44},$=id=>document.getElementById(id);
-const A=[["ocean","Ocean",["#0A66F2","#38A1FF","#6C8CFA"]],["aurora","Aurora",["#5B4DF0","#8E6BF7","#4F8EF7"]],["sunset","Sunset",["#F2542D","#FF8A3D","#F0507E"]],["forest","Forest",["#1E9E54","#34BE74","#15A08A"]],["graphite","Graphite",["#566074","#8791A5","#6A78A0"]],["lavender","Lavender",["#9552E6","#B98BF3","#7B7CF0"]],["rose","Rose",["#E23E69","#F57A9B","#C85AC4"]],["mint","Mint",["#0C9F96","#32C6AE","#2BA5CF"]],["citrus","Citrus",["#D9730A","#F2A21B","#E0553A"]],["teal","Teal",["#0B8CA6","#2FB3CC","#3A7FC8"]],["sky","Sky",["#1C97E6","#5AB9F6","#3C78E2"]],["cocoa","Cocoa",["#8F6A44","#BF9363","#B2564B"]],["midnight","Midnight",["#4547CF","#6C75EE","#8A57DD"]],["auto","Auto",["#F2A21B","#1C97E6","#5B4DF0"]]];
+const A=[["ocean","Ocean",["#2f6fdb", "#5b97ec", "#7b95e6"]],["aurora","Aurora",["#5a55c6", "#7d76d9", "#5f8ade"]],["sunset","Sunset",["#cf4a33", "#e17a47", "#d3607b"]],["forest","Forest",["#2a8250", "#47a577", "#2e968a"]],["graphite","Graphite",["#4f5666", "#7b8396", "#606c8a"]],["lavender","Lavender",["#8659cc", "#a481de", "#7b80d7"]],["rose","Rose",["#c9416a", "#df7391", "#b659a9"]],["mint","Mint",["#12857c", "#3aaa9d", "#2c93b3"]],["citrus","Citrus",["#bf650a", "#dd9625", "#cf693d"]],["teal","Teal",["#0e7a90", "#33a1b6", "#3d7cbd"]],["sky","Sky",["#1a82cb", "#4ea6e2", "#4b7cd2"]],["cocoa","Cocoa",["#845d3a", "#ab845e", "#a5544a"]],["midnight","Midnight",["#3f45b3", "#626cd5", "#7a54c6"]],["auto","Auto",["#d98a1c","#2f6fdb","#5a55c6"]]],AD={"ocean": ["#4a8ef0", "#7bb0f6", "#93a8f3"], "aurora": ["#857bf0", "#a999f7", "#76a3f2"], "sunset": ["#f27a5a", "#f69e63", "#f27d9c"], "forest": ["#46c382", "#69d6a0", "#46c4b0"], "graphite": ["#a6aec0", "#c4cada", "#919cc0"], "lavender": ["#b583f5", "#d0b0fb", "#9b9ef5"], "rose": ["#f26f8f", "#f79bb2", "#dd88d6"], "mint": ["#4cd3c6", "#7ae3d6", "#66bfe8"], "citrus": ["#f5a43a", "#f9c168", "#f58b6a"], "teal": ["#4bc3da", "#7ad8e8", "#6fa3e6"], "sky": ["#5bb8f5", "#8dd0fa", "#7f9ff5"], "cocoa": ["#c79e72", "#dfbd96", "#df8a7e"], "midnight": ["#7d82f7", "#a0a6fb", "#b08af0"]};
 let u={};try{u=JSON.parse(localStorage.getItem(K))||{}}catch{}
 if(u.a==="coral")u.a="teal";if(u.a==="berry")u.a="rose";
 const auto=()=>{const h=new Date().getHours();return h<6?"midnight":h<10?"citrus":h<17?"ocean":h<20?"sunset":"aurora"};
 const ap=()=>{const r=document.documentElement;r.dataset.oled=u.o||"off";r.dataset.fs=u.f||"md";r.dataset.rad=u.r||"soft";r.dataset.bg=u.b||"mesh";r.dataset.grade=u.c||"rich";r.dataset.accent=(u.a==="auto"?auto():u.a)||"ocean";r.style.setProperty("--gb",G[u.g||"standard"]+"px");try{localStorage.setItem(K,JSON.stringify(u))}catch{}};
 function draw(){const a=u.a||"ocean",g=u.g||"standard";
- $("apAcc").innerHTML=A.map(x=>`<button type="button" data-a="${x[0]}" class="${a===x[0]?"on":""}"><i style="background:linear-gradient(135deg,${x[2][0]},${x[2][1]} 55%,${x[2][2]})"></i><span>${x[1]}</span></button>`).join("");
+ $("apAcc").innerHTML=A.map(x=>{const c=(document.documentElement.dataset.theme==="dark"&&AD[x[0]])||x[2];return `<button type="button" data-a="${x[0]}" class="${a===x[0]?"on":""}"><i style="background:linear-gradient(135deg,${c[0]},${c[1]} 55%,${c[2]})"></i><span>${x[1]}</span></button>`}).join("");
  const R=[["c","Colour grade",[["soft","Soft"],["rich","Rich"],["vivid","Vivid"]]],["o","Surface (dark mode)",[["off","Standard"],["on","True black"]]],["f","Text size",[["sm","Small"],["md","Default"],["lg","Large"]]],["r","Corners",[["soft","Soft"],["sharp","Sharp"]]],["b","Background",[["mesh","Animated colour"],["plain","Plain"]]]],dv={c:"rich",o:"off",f:"md",r:"soft",b:"mesh"};
  $("apMore").innerHTML=R.map(x=>`<div class="ap-lbl">${x[1]}</div><div class="ap-seg">${x[2].map(o=>`<button type="button" data-k="${x[0]}" data-v="${o[0]}" class="${(u[x[0]]||dv[x[0]])===o[0]?"on":""}">${o[1]}</button>`).join("")}</div>`).join("")+`<div class="ap-lbl">Reset</div><div class="ap-seg"><button type="button" data-reset="1">Back to defaults</button></div>`;
  $("apGl").innerHTML=Object.keys(G).map(k=>`<button type="button" data-g="${k}" class="${g===k?"on":""}">${k[0].toUpperCase()+k.slice(1)}</button>`).join("")}
-if($("apAcc")){draw();$("uiPanel").onclick=e=>{const a=e.target.closest("[data-a]"),g=e.target.closest("[data-g]"),k=e.target.closest("[data-k]"),z=e.target.closest("[data-reset]");if(a)u.a=a.dataset.a;else if(g)u.g=g.dataset.g;else if(k)u[k.dataset.k]=k.dataset.v;else if(z)u={};else return;ap();draw()}}
+if($("apAcc")){draw();$("uiPanel").onclick=e=>{const a=e.target.closest("[data-a]"),g=e.target.closest("[data-g]"),k=e.target.closest("[data-k]"),z=e.target.closest("[data-reset]");if(a)u.a=a.dataset.a;else if(g)u.g=g.dataset.g;else if(k)u[k.dataset.k]=k.dataset.v;else if(z)u={};else return;(window.misVT||function(f){f()})(function(){ap();draw()})}}
 setInterval(()=>{if(u.a==="auto")ap()},6e5);
+try{new MutationObserver(()=>{if($("apAcc"))draw()}).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]})}catch(e){}
 let raf=0;document.addEventListener("pointermove",e=>{if(raf)return;raf=requestAnimationFrame(()=>{raf=0;const c=e.target.closest&&e.target.closest(".mcard,.mm-card,.panel");if(!c)return;const r=c.getBoundingClientRect();c.style.setProperty("--mx",(e.clientX-r.left)+"px");c.style.setProperty("--my",(e.clientY-r.top)+"px")})},{passive:true});
 })();
 </script>
@@ -5699,6 +5700,42 @@ d.addEventListener("pointerdown",()=>{
 d.addEventListener("click",e=>{ if(RM()) return; if(e.target.closest&&e.target.closest(".tb,.chip,.sw,.btn.pri,.sgb")) get(()=>navigator.vibrate&&navigator.vibrate(6)); },true);
 
 mkChip(); refresh();
+})();
+</script>
+<style id="v113-css">
+/* ===== v11.3 · Smooth theme + colour sync ===== */
+/* 1 · one cross-fade for theme / accent switches (no per-element flicker, no slide) */
+html.vt-theme::view-transition-old(root){animation:none;mix-blend-mode:normal}
+html.vt-theme::view-transition-new(root){animation:v13fade .38s cubic-bezier(.4,0,.2,1) both;mix-blend-mode:normal}
+@keyframes v13fade{from{opacity:0}to{opacity:1}}
+/* fallback for browsers without View Transitions */
+html.theme-sw *,html.theme-sw *::before,html.theme-sw *::after{transition-property:background-color,border-color,color,fill,stroke,box-shadow,opacity!important;transition-duration:.38s!important;transition-timing-function:cubic-bezier(.4,0,.2,1)!important;transition-delay:0s!important}
+/* 2 · light surfaces: cleaner paper, less grey wash over the tinted background */
+html:not([data-theme=dark]){--bg:#f3f4f8;--gl-bg:rgba(255,255,255,.74);--gl-bd:rgba(255,255,255,.85)}
+/* 3 · lighter GPU load: the background glow is already soft, the extra 24px blur on an oversized animated layer made scrolling heavy */
+body::before{filter:none!important}
+/* 4 · setup screen follows the chosen accent instead of fixed purple */
+.slogo{background:linear-gradient(135deg,var(--m1),var(--m3))!important;box-shadow:0 10px 24px color-mix(in srgb,var(--m1) 40%,transparent)!important}
+@media(prefers-reduced-motion:reduce){html.vt-theme::view-transition-new(root){animation:none}html.theme-sw *{transition:none!important}}
+</style>
+<script>
+/* v11.3 · theme / accent switch as a single smooth cross-fade */
+(function(){var r=document.documentElement,busy=false,
+reduce=function(){try{return matchMedia("(prefers-reduced-motion:reduce)").matches||document.body.classList.contains("rm")}catch(e){return false}};
+window.misVT=function(fn){
+ if(busy||document.hidden||reduce()){fn();return}
+ if(document.startViewTransition){
+  busy=true;r.classList.add("vt-theme");
+  var done=function(){busy=false;r.classList.remove("vt-theme")};
+  try{var t=document.startViewTransition(fn);t.finished.then(done,done);setTimeout(done,900)}catch(e){done();fn()}
+ }else{
+  r.classList.add("theme-sw");fn();setTimeout(function(){r.classList.remove("theme-sw")},460)
+ }};
+window.misSetTheme=function(nt){
+ if(r.dataset.theme===nt)return;
+ if(!r.dataset.theme||!document.body.classList.contains("mis-ready")){r.dataset.theme=nt;return}
+ window.misVT(function(){r.dataset.theme=nt})};
+addEventListener("load",function(){setTimeout(function(){document.body.classList.add("mis-ready")},600)});
 })();
 </script>
 <script>/* offline + install support */if("serviceWorker"in navigator&&/^https?:$/.test(location.protocol)){addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})})}</script></body>

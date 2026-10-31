@@ -2,6 +2,10 @@
 
 All notable changes to MISphere, newest first.
 
+## 11.6.0 — 2026-10-31
+- iOS typography: SF Pro on Apple devices, bundled Inter (the closest match) everywhere else, tighter headings and smoother text rendering
+- Proper iOS-style blur: progressive edge blur under the top and bottom bars plus frosted header and tab bar
+
 ## 11.5.1 — 2026-10-31
 - Clean blur on the header and tab bar only: content scrolls softly behind them, colours stay solid and clear
 

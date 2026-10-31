@@ -3886,8 +3886,9 @@ ghRender();
 <script>
 /* v8: stable updater + version history. Data lives in localStorage and is never touched by an update; a snapshot is taken first. */
 (()=>{
-const APP_VERSION="11.5.1", SNAP_KEY="mis_snapshots_v1", LOG_KEY="mis_update_log_v1", $=id=>document.getElementById(id);
+const APP_VERSION="11.6.0", SNAP_KEY="mis_snapshots_v1", LOG_KEY="mis_update_log_v1", $=id=>document.getElementById(id);
 const HISTORY=[
+ {v:"11.6.0",d:"2026-10-31",n:["iOS typography: SF Pro on Apple devices, bundled Inter (the closest match) everywhere else, tighter headings and smoother text rendering", "Proper iOS-style blur: progressive edge blur under the top and bottom bars plus frosted header and tab bar"]},
  {v:"11.5.1",d:"2026-10-31",n:["Clean blur on the header and tab bar only: content scrolls softly behind them, colours stay solid and clear"]},
  {v:"11.5.0",d:"2026-10-31",n:["Clear colour, no haze: removed the smoky background glow, the blurred top/bottom edge fade and frosted glass cards; surfaces are now solid with crisp borders", "Truer, more saturated tones: stronger text contrast, vivid status colours, solid tinted KPI icons and status tiles, member cards with a clean colour bar, clear white input fields"]},
  {v:"11.4.0",d:"2026-10-31",n:["Workspace now follows the landing page: new default \u201cMISphere\u201d colour combo (indigo, violet, cyan), Bricolage Grotesque headings, Instrument Sans body, crisp white cards in light mode", "Slim two-row command header: brand, search, module, New task, data-safety, theme and profile on top; week, office-day progress and task pulse below. GitHub status moved into the shield sheet, home link into the brand tile, leader card stays on the Home page", "Home: getting-started checklist for empty workspaces, cleaner section titles, balanced KPI grid (two columns on phones)"]},
@@ -5886,7 +5887,7 @@ html[data-oled=on][data-theme=dark]{--bg:#000;--card:#0a0d18}
 /* remove every haze layer */
 html body::before,html body::after{display:none!important;content:none!important}
 html body{background:var(--bg)!important}
-#edgeT,#edgeB,.sfx .orb{display:none!important}
+.sfx .orb{display:none!important}
 .panel::after,.mcard::after,.mm-card::after{display:none!important}
 
 /* solid surfaces */
@@ -5945,6 +5946,22 @@ html body .tx-card{border-top:4px solid var(--c1)!important;border-radius:20px!i
 /* clean functional blur: only header + tab bar, content scrolls softly behind them */
 html body #appTop,html body .tabbar,html[data-theme] .tabbar{background:color-mix(in srgb,var(--card) 80%,transparent)!important;-webkit-backdrop-filter:blur(18px) saturate(160%)!important;backdrop-filter:blur(18px) saturate(160%)!important}
 @media(prefers-reduced-transparency:reduce){html body #appTop,html body .tabbar,html[data-theme] .tabbar{background:var(--card)!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}}
+</style>
+<style id="v116-css">
+/* ===== v11.6 · iOS type + proper top / bottom bar blur ===== */
+:root{--ff-b:-apple-system,BlinkMacSystemFont,"SF Pro Text","Inter",system-ui,"Segoe UI",Roboto,sans-serif;--ff-h:-apple-system,BlinkMacSystemFont,"SF Pro Display","Inter",system-ui,"Segoe UI",Roboto,sans-serif}
+html,body,button,input,select,textarea{font-family:var(--ff-b)!important;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility;font-optical-sizing:auto}
+h1,h2,h3,.sec-title h2,.lc-name,.stat .n,.mc-pct,.tx-big,.gs-head h2,#appTop .tp-ti h1,#appTop .pchip .pc-t b,.gs-step i{font-family:var(--ff-h)!important;letter-spacing:-.022em}
+h1,.sec-title.sx h2,.gs-head h2{font-weight:700}
+.stat .n{font-weight:700;letter-spacing:-.03em}
+.stat .l,.hint,small{letter-spacing:-.005em}
+/* progressive edge blur: content melts away under the bars, like iOS */
+#edgeT{height:calc(env(safe-area-inset-top,0px) + 96px)!important}
+#edgeB{height:calc(env(safe-area-inset-bottom,0px) + 120px)!important}
+#edgeT::after,#edgeB::after{background:linear-gradient(var(--d),color-mix(in srgb,var(--bg) 30%,transparent),transparent)!important}
+/* bars themselves: frosted, thin hairline, no colour wash */
+html body #appTop,html body .tabbar,html[data-theme] .tabbar{background:color-mix(in srgb,var(--card) 72%,transparent)!important;-webkit-backdrop-filter:blur(24px) saturate(180%)!important;backdrop-filter:blur(24px) saturate(180%)!important;border:.5px solid color-mix(in srgb,var(--line) 80%,transparent)!important}
+@media(prefers-reduced-transparency:reduce){#edgeT.on i,#edgeB.on i{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}}
 </style>
 <script>/* offline + install support */if("serviceWorker"in navigator&&/^https?:$/.test(location.protocol)){addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})})}</script></body>
 </html>

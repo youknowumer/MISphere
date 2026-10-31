@@ -1,10 +1,19 @@
 {
-  "version": "11.5.1",
+  "version": "11.6.0",
   "date": "2026-10-31",
   "notes": [
-    "Clean blur on the header and tab bar only: content scrolls softly behind them, colours stay solid and clear"
+    "iOS typography: SF Pro on Apple devices, bundled Inter (the closest match) everywhere else, tighter headings and smoother text rendering",
+    "Proper iOS-style blur: progressive edge blur under the top and bottom bars plus frosted header and tab bar"
   ],
   "history": [
+    {
+      "v": "11.6.0",
+      "d": "2026-10-31",
+      "n": [
+        "iOS typography: SF Pro on Apple devices, bundled Inter (the closest match) everywhere else, tighter headings and smoother text rendering",
+        "Proper iOS-style blur: progressive edge blur under the top and bottom bars plus frosted header and tab bar"
+      ]
+    },
     {
       "v": "11.5.1",
       "d": "2026-10-31",

@@ -1,17 +1,14 @@
 {
-  "name": "dashview",
-  "version": "2.30.1",
+  "name": "misphere",
+  "version": "11.7.0",
   "private": true,
-  "license": "MIT",
-  "description": "DashView — static, installable, offline-capable web app for laptop and mobile.",
+  "license": "UNLICENSED",
+  "description": "MISphere - team performance, tasks and daily notes. Static, installable, offline-capable web app.",
   "scripts": {
     "start": "npx serve .",
-    "test": "cd test && npm test",
-    "build:www": "node -e \"const fs=require('fs');fs.rmSync('www',{recursive:true,force:true});fs.mkdirSync('www');['manifest.json','sw.js','assets','css','js'].concat(fs.readdirSync('.').filter(f=>f.endsWith('.html'))).forEach(f=>fs.cpSync(f,'www/'+f,{recursive:true}))\"",
     "cf:login": "npx wrangler login",
     "cf:dev": "npx wrangler dev",
-    "cf:deploy": "npx wrangler deploy",
-    "cf:test": "node test/worker.e2e.mjs"
+    "cf:deploy": "npx wrangler deploy"
   },
   "devDependencies": {
     "wrangler": "^4.151.0"

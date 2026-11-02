@@ -1,616 +1,189 @@
 {
-  "version": "2.30.1",
+  "version": "11.7.0",
   "build": "2026.11.02",
   "released": "2026-11-02",
   "notes": [
-    "Improved: Reports release notes and details - Library now has 13 reports (6 existing + 7 analytics), every card shows Source, Includes, Scope, Freshness, Access and the exact file name, and analytics cards offer PDF / Excel / CSV",
-    "Improved: Report builder preview and file always agree (filter, sort, group, top N), saved reports appear under Library > Saved with Generate / Edit / Delete",
-    "Improved: Activity tab - report analytics, success rate and a two-click Clear",
-    "Fixed: Reports files (js/reports-hub.js, js/report-engine.js, css/reports-hub.css) re-released as one finalized version so the Software Update prompt appears"
+    "New: iOS type system everywhere - SF Pro Display and SF Pro Text on iPhone, iPad and Mac, bundled Inter variable (the closest match) on Windows, Android and Linux; dashboard, landing page, charts, dialogs and form fields now share one font stack",
+    "New: bolder, clearer weight scale across the whole theme - body 500, labels and buttons 600, headings 700-800, KPI figures 800 with tabular numbers; tight iOS tracking on large titles, calmer tracking on small text",
+    "Improved: landing page headings, cards and stats follow the same iOS type and weights as the dashboard (Bricolage Grotesque and Instrument Sans are no longer drawn)",
+    "Fixed: the Software Update prompt never appeared - version.json had been replaced by another app's file (2.30.1, lower than 11.6.0); the update feed is restored with MISphere's full history and 11.7.0",
+    "Fixed: offline install - sw.js was another app's worker listing 60+ files that do not exist, so it could never install; rebuilt for MISphere (each file cached on its own, version.json always read fresh, old caches cleaned)",
+    "Housekeeping: README badge, package.json, desktop app version and CHANGELOG aligned to 11.7.0"
   ],
   "history": [
     {
-      "version": "2.30.1",
-      "date": "2026-11-02",
-      "notes": [
-        "Improved: Reports release notes and details - Library now has 13 reports (6 existing + 7 analytics), every card shows Source, Includes, Scope, Freshness, Access and the exact file name, and analytics cards offer PDF / Excel / CSV",
-        "Improved: Report builder preview and file always agree (filter, sort, group, top N), saved reports appear under Library > Saved with Generate / Edit / Delete",
-        "Improved: Activity tab - report analytics, success rate and a two-click Clear",
-        "Fixed: Reports files (js/reports-hub.js, js/report-engine.js, css/reports-hub.css) re-released as one finalized version so the Software Update prompt appears"
-      ],
-      "critical": false
-    },
-    {
-      "version": "2.30.0",
-      "date": "2026-11-02",
-      "notes": [
-        "New: Reports - 7 analytics reports (Revenue Trend, Revenue by Category, Top Customers, Workforce by Department, Hiring Funnel, Task Performance, Overdue Tasks) with KPIs, charts and tables, each as PDF, Excel or CSV (js/reports-hub.js)",
-        "New: Report builder can filter rows (up to 4 conditions), sort, limit to top N and group with Count / Sum / Average / Lowest / Highest; the preview shows exactly what the file will contain, and the setup can be saved to the Library as a reusable report",
-        "New: Activity tab analytics - runs, success rate, rows delivered, most-used format, last 14 days and most generated reports",
-        "Improved: PDF tables line numbers up on the right (headings included), tables up to 9 columns fit one page, and a Grand total row matches the Excel export; ratios, averages and percentages are never added up (js/report-engine.js)",
-        "Improved: report cards are equal height with actions aligned at the bottom, preview tables right-align numbers, imported date columns stay real dates in Excel (css/reports-hub.css)",
-        "Fixed: switching worksheets of an imported workbook could hang or show the wrong sheet on error; saved or failed jobs no longer double-log; drag overlay could stay on screen; Excel chart images were stretched; Clear activity now asks for a second click",
-        "Improved: keyboard and screen readers - tab arrow keys, focus kept inside the builder and import drawer and restored on close"
-      ],
-      "critical": false
-    },
-    {
-      "version": "2.29.1",
-      "date": "2026-10-29",
-      "notes": [
-        "Fixed: Reconcile failed with \"limit must be between 1 and 500\" - it asked Odoo for up to 4000 records at a time; it now reads in pages of 200 (works with the account server and the Worker)"
-      ],
-      "critical": false
-    },
-    {
-      "version": "2.29.0",
-      "date": "2026-10-29",
-      "notes": [
-        "New: Data Studio drill-down - click a bar/slice in any chart to drill into it, a drill path (All data > Region > Category) with one-click Up / Reset / View rows / Break down by, row counts and share of total, Alt+Up to go up",
-        "New: Hierarchy - find a group, sort, Top N with an Other roll-up that still adds up, expand/collapse all, value / share / rows columns, View rows (drill-through to the Data tab), keyboard navigation; toggling no longer recalculates the tree",
-        "New: workspace zoom (60-175%, Fit, Alt + / - / 0) on the Data Studio tab row - remembered on this device",
-        "Fixed: browser zoom-out made the page bigger again (ultra-HD text boost fought the zoom) - it now only applies on a real big screen (css/8k-quality.css, js/8k-quality.js)",
-        "Fixed: Overview layout at any zoom - KPI cards no longer wrap 3+1, widget rows end flush, charts keep a sensible height, Add widget is a slim bar, Fields panel becomes a drawer below 1100px",
-        "Fixed: Overview went blank when the Date range suggestion was added (text KPI had no aggregation); one broken widget can no longer blank the dashboard",
-        "Fixed: lag - removed per-card backdrop blur and hover lift inside the workspace, chart canvases capped at 3x",
-        "Fixed: Hierarchy kept the previous file's columns after importing a new file",
-        "Improved: Reconcile - setup folds into a one-line bar after a run and the result scrolls into view, mapping fields flow into columns, zoom is available on this tab too"
-      ],
-      "critical": false
-    },
-    {
-      "version": "2.28.1",
-      "date": "2026-10-29",
-      "notes": [
-        "Fixed: PDF reports showed garbled symbols for Urdu / Arabic text, emoji and the rupee sign (the built-in PDF fonts cannot draw them) - every PDF now converts them to readable text (Rs, >=, to) or ?, and a footer note says the Excel export keeps the full text (js/report-engine.js)",
-        "Fixed: the People page was missing 7 stylesheets that the dashboard loads (Executive CEO, charts, Odoo explorer, Odoo Live, widgets, settings top bar, profile), so shared parts could look unstyled there - People now loads the same stylesheet stack as the dashboard (people.html)",
-        "Improved: reports - numbers in the trillions print as T instead of 1000B; new regression test for PDF text safety (test/pdf-safe-text.test.js)"
-      ],
-      "critical": false
-    },
-    {
-      "version": "2.28.0",
-      "date": "2026-10-26",
-      "notes": [
-        "New: Software Update now looks and moves like iOS - the notice drops in from the top with a spring, the sheet rises with a grabber, swipe up to dismiss the notice, swipe down to dismiss the sheet on phones, and closing plays a soft exit",
-        "Improved: every toast and dialog uses the same iOS glass look with a springy entrance - on phones toasts become top banners and dialogs become bottom sheets",
-        "Improved: smooth scrolling on every page - the mouse wheel glides, scrolls the panel or table under the pointer first, then the page, and keeps trackpads, dialogs and reduced motion untouched",
-        "Improved: slim iOS-style scrollbars, momentum and scroll containment in panels",
-        "Fixed: the dashboard could override its own smoothness styles because they loaded too early"
-      ],
-      "critical": false
-    },
-    {
-      "version": "2.27.0",
-      "date": "2026-10-26",
-      "notes": [
-        "Changed: the workspace lock is now optional and OFF by default - every feature, including saving the Odoo API key, works without it; turn it on in Settings > Security only if you want a passcode screen, auto-lock and an encrypted API key (js/dv-security.js, js/security-ui.js, dashboard.html)",
-        "Changed: turning the lock off now needs the current passcode and moves the Odoo API key back to normal storage, so the Odoo connection is never lost; the key is no longer stripped on load while the lock is off",
-        "Changed: Security checkup ignores lock-only checks (lock, key encryption, auto-lock, failed attempts) while the lock is off, so the score and Needs attention list no longer penalise it (js/settings-overview.js)",
-        "Fixed: Security checklist matched rows to the wrong checkup items (the CSP result was shown on the Odoo user row) and lost each row's Required / Recommended weight on re-render (js/settings-pro.js)",
-        "New: tests for the optional lock (test/workspace-lock.smoke.test.js, test/workspace-lock-ui.smoke.test.js); manual, settings and setup docs updated"
-      ],
-      "critical": false
-    },
-    {
-      "version": "2.26.2",
-      "date": "2026-10-19",
-      "notes": [
-        "Reverted: tab bar animations (landing page and dashboard / People dock) are back to the previous version - css/index-tabbar.css, js/index-tabbar.js, css/sidebar-itb.css, js/sidebar-dock.js restored"
-      ],
-      "critical": false
-    },
-    {
-      "version": "2.26.1",
-      "date": "2026-10-19",
-      "notes": [
-        "Improved: tab bar animations now move the iOS way on the landing page and in the dashboard / People dock - the glass bead and the tabs share one spring-smooth curve so they travel together, the bead stretches slightly while it slides and presses in under your finger, the icon of the new tab pops, the label slides in, hover shows a soft glass highlight and the dock springs up on load (css/index-tabbar.css, js/index-tabbar.js, css/sidebar-itb.css, js/sidebar-dock.js)",
-        "Improved: tab bar performance - tab geometry is measured once instead of every frame, so there is no layout reading while the bead moves; Reduce motion is respected"
-      ],
-      "critical": false
-    },
-    {
-      "version": "2.26.0",
-      "date": "2026-10-17",
-      "notes": [
-        "Improved: whole theme now scrolls, loads and transitions the iOS way - shared smoothness layer on every page (css/ios-smooth.css, js/ios-smooth.js): soft page fade-in, cross-fade between pages, tab fade in dashboard and People",
-        "Improved: landing page scrolling - eased mouse-wheel scrolling on desktop, rubber-band overscroll back, no more blurred hero words / headings, lighter background (no spinning 60px-blur layer), backdrop blur removed from cards on phones and low-power devices",
-        "Fixed: landing page section glows had a hard vertical edge and a hard step between sections - now full width and fade in and out; footer skipped until near"
-      ],
-      "critical": false
-    },
-    {
-      "version": "2.25.3",
-      "date": "2026-10-17",
-      "notes": [
-        "Improved: dock navigation icons redrawn as one consistent set - every tab has its own icon, shapes fill when active and inner details cut out in the bead colour (dashboard.html, people.html, css/sidebar-itb.css)"
-      ],
-      "critical": false
-    },
-    {
-      "version": "2.25.2",
-      "date": "2026-10-17",
-      "notes": [
-        "Improved: navigation moved from the left sidebar to the landing page glass dock at the bottom centre (icons, active tab opens its label in a sliding glass bead); the dashboard and People pages now use the full width, logo sits in the top bar (css/sidebar-itb.css, js/sidebar-dock.js)"
-      ],
-      "critical": false
-    },
-    {
-      "version": "2.25.1",
-      "date": "2026-10-17",
-      "notes": [
-        "Improved: dashboard and People sidebar now use the landing page glass tab-bar look - rounded pills, filled active icon and a sliding glass bead instead of the amber pill (css/sidebar-itb.css)"
-      ],
-      "critical": false
-    },
-    {
-      "version": "2.25.0",
-      "date": "2026-10-17",
-      "notes": [
-        "Improved: landing page navigation bar - centred links, one control height, frosted bar on scroll, section underline; Dashboard, People and Data Studio removed from the top bar (css/nav-pro.css)",
-        "Fixed: Sign in on the landing page opened the waitlist form - it now goes to login.html; the request form is named Request access everywhere, reopens on a fresh form and shows Sending while it works",
-        "Fixed: the mobile menu opened empty because the bar trapped the fixed panel - it now opens full screen",
-        "Improved: custom cursor responds faster - the ring settles in about 85 ms instead of 150 ms and the dot follows the pointer event directly (js/cursor.js)"
-      ],
-      "critical": false
-    },
-    {
-      "version": "2.23.0",
-      "date": "2026-10-16",
-      "notes": [
-        "Improved: Executive dashboards charts - taller canvases and a high-detail layer: CEO trend gets an average line with Peak / Low / Latest badges and a Net line in the tooltip; company trend shows end-of-line value badges; growth and money in/out charts show values plus green/red change and Net badges; the revenue ring prints the share on each slice; shop and drill bars show value and share; the yearly stack shows totals with year-on-year change; larger type, thicker lines and rounder bars (css/exec-charts-pro.css, js/exec-charts-pro.js)",
-        "Fixed: the CEO command center files (css/exec-ceo.css, js/exec-ceo.js) were cached by the service worker but never loaded by dashboard.html - they are now linked"
-      ],
-      "critical": false
-    },
-    {
-      "version": "2.22.1",
-      "date": "2026-10-16",
-      "notes": [
-        "Fixed: the custom cursor disappeared inside pop-up sheets such as What's new (the native cursor is hidden and the page-level pointer was drawn underneath the sheet) - the pointer now sits in the browser top layer and is raised whenever a dialog opens, and browsers without that support get their normal cursor back inside the sheet",
-        "Improved: Settings > Cursor and effects - cursor style (dot + ring, dot, ring), size, smoothness (Snappy / Balanced / Smooth / Silky), accent or neutral colour, magnetic pull, context labels and click ripple, a Try it row and a Reset cursor button; all apply instantly"
-      ],
-      "critical": false
-    },
-    {
-      "version": "2.22.0",
-      "date": "2026-10-16",
-      "notes": [
-        "Improved: landing page smoothness - the theme switch now reveals as a circle from the toggle, the nav tucks away while reading down and returns on scroll up, section jumps re-aim at their target every frame so they always land exactly, sibling blocks reveal one after another, buttons ripple on press, images fade in after decoding, the modal and toasts spring in (css/index-smooth.css, js/index-smooth.js)",
-        "Improved: Settings page detailing - search with highlighted matches and the / shortcut, a sliding section indicator, a Saved chip beside the control you changed, accent swatches with a check mark and name, a storage meter, press-feedback on every keycap (and Mac symbols), a ring on the section you jump to, calmer card entrance, clearer section chips on phones (css/settings-page.css, js/settings-page.js)"
-      ],
-      "critical": false
-    },
-    {
-      "version": "2.21.1",
-      "date": "2026-10-16",
-      "notes": [
-        "Fixed: the What's new / release history sheet opened stuck in the top-left corner of the screen (a global CSS reset removed the dialog's auto-centring) - it is now centred on laptop and tablet and slides up as a bottom sheet on phones",
-        "Fixed: release notes showed no bullets and raw Fixed: / Improved: / Changed: prefixes inside plain text - every note is now a row with a coloured New / Improved / Fixed / Security chip, file names and constants in monospace, and dates like Today / Yesterday / Oct 16, 2026",
-        "Fixed: the close button showed a focus ring as soon as the sheet opened, the page behind kept scrolling (and scrolled when you reached the end of the list), and clicking the version did nothing until the server answered - the sheet now opens instantly with the saved history and refreshes in place",
-        "Fixed: a press that started inside the sheet and ended on the dim background (for example dragging the scroll bar) closed it by mistake",
-        "Fixed: the Software Update sheet and the Settings update card left Redesigned: / Added: / Changed: written in front of the note and filed it under New - these notes now sit in the right group without the prefix",
-        "Improved: release history in iOS style - glass backdrop, grabber and swipe-down to close on phones, title bar that gets a hairline as you scroll, inset-grouped rows with hairline separators, All / New / Improved / Fixed segmented filter, open and close motion that respects Reduce motion, safe-area spacing, light and dark"
-      ],
-      "critical": false
-    },
-    {
-      "version": "2.21.0",
-      "date": "2026-10-16",
-      "notes": [
-        "Redesigned: Odoo Live header, connection card and connection health - one refresh control, setup progress (credentials, Worker URL, verified login), health meter with status tiles, clearer error state, light/dark and phone layouts"
-      ],
-      "critical": false
-    },
-    {
-      "version": "2.20.2",
-      "date": "2026-10-16",
-      "notes": [
-        "Changed: Worker ALLOWED_ORIGINS and project links now point to the new GitHub home (youknowumer.github.io/DashView)"
-      ],
-      "critical": false
-    },
-    {
-      "version": "2.20.1",
-      "date": "2026-10-16",
-      "notes": [
-        "Fixed: opening the Worker URL in a browser now shows a status page (what is and is not configured) instead of Not found / POST only, which made a working Worker look dead",
-        "Fixed: account / task routes without a D1 database now answer a clear 503 explaining what is missing, not a bare 500",
-        "Improved: Failed to fetch now says whether the Worker is unreachable (wrong or undeployed URL) or online but blocking this site (ALLOWED_ORIGINS), in Odoo Live and the connect form",
-        "Improved: scripts/odoo-check.mjs checks the Worker status and the CORS preflight; Worker logs are enabled in wrangler.jsonc"
-      ],
-      "critical": false
-    },
-    {
-      "version": "2.20.0",
-      "date": "2026-10-16",
-      "notes": [
-        "Improved: Executive CEO command center - masthead with live sync status, refresh and optional 5-minute auto-refresh, five health pillars, KPI icons with previous values, run-rate daily pace, 7/14/30-day cash horizon, 12-month trend stats, collections watchlist (largest overdue customers), share bars on leaders, definitions panel, KPI CSV export and a clean board-pack print layout",
-        "Added: Odoo Live module explorer - pick a module first (apps, all modules or with insights), then its models, then open any model in the Data browser or Insights; search finds modules, models of the open module and any other readable Odoo model"
-      ],
-      "critical": false
-    },
-    {
-      "version": "2.19.1",
-      "date": "2026-10-15",
-      "notes": [
-        "Fixed: Version history in Settings now lists every release (it was stuck on old versions and capped at 30; the update pop-up showed only 4 previous versions)",
-        "Improved: Settings > Version history loads the newest release list from the server, marks Installed and Update available, and the history is rebuilt from the changelog"
-      ],
-      "critical": false
-    },
-    {
-      "version": "2.19.0",
-      "date": "2026-10-15",
-      "notes": [
-        "Widget Builder: filter, search and sort, summary strip, starter templates, live preview, full-size view, CSV export per widget, duplicate",
-        "Widget Builder: KPI trend lines with month-on-month change, number formats, average / count / highest / lowest for imported data, sortable tables, loading and retry states",
-        "Theme: the active All chip and other accent-filled controls now follow the accent and stay readable on light Amber"
-      ],
-      "critical": false
-    },
-    {
-      "version": "2.18.5",
-      "date": "2026-10-13",
-      "notes": [
-        "Improved: lock screen detailing - live lock-out countdown after 5 wrong passwords, attempts-left hint, Caps Lock warning, Tab key kept inside the lock screen, browser tab shows Locked while locked, smooth fade-out on unlock, Tap to unlock on touch screens, 16 px password field on phones (no iOS zoom), safe-area spacing and clearer focus rings"
-      ],
-      "critical": false
-    },
-    {
-      "version": "2.18.4",
-      "date": "2026-10-13",
-      "notes": [
-        "Fixed: lock screen user block sat off-centre on the dashboard (the page's entrance animation overrode its centring) - avatar, name and password field are now centred on laptop, tablet, phone and landscape phone",
-        "Added: Home page button on the lock screen - you can leave the lock screen for the home page without a password, while the dashboard, People and AI pages still ask for the password",
-        "Improved: lock screen layout checked at 320 px to 1902 px wide, no sideways scroll, clock and user block aligned to the same centre"
-      ],
-      "critical": false
-    },
-    {
-      "version": "2.18.3",
-      "date": "2026-10-13",
-      "notes": [
-        "Redesigned: workspace lock screen in a macOS-style layout with DashView colours - animated amber and green wave wallpaper, translucent date and clock, avatar with an Enter-to-unlock password field",
-        "Improved: lock screen shows who is locked, why it locked, online status and the Ctrl/Cmd + Shift + L shortcut; the clock keeps time while locked and the password field returns to the clock view after 45 s idle",
-        "Fixed: the sign-in page did not load the lock screen stylesheet, so a passcode lock there appeared unstyled"
-      ],
-      "critical": false
-    },
-    {
-      "version": "2.18.2",
-      "date": "2026-10-13",
-      "notes": [
-        "Improved: loading / sync popup restyled as an iOS notification banner - frosted Liquid Glass material, app-icon logo, SF-style type, iOS activity indicator and spring motion (light / dark, reduced-motion and reduced-transparency aware)"
-      ],
-      "critical": false
-    },
-    {
-      "version": "2.18.1",
-      "date": "2026-10-13",
-      "notes": [
-        "Improved: logo and favicon redesigned in higher detail - full-detail 1024 master (logo.svg), a small-size favicon drawn on a pixel grid so it stays sharp at 16 / 32 / 48 px, a multi-size favicon.ico, opaque apple-touch icon, and maskable icons that fit Android's safe zone",
-        "Added: a small popup with the DashView logo - Page is loading / Syncing data - shown only when a page or an Odoo sync takes longer than a moment (never blocks taps, follows light / dark theme)"
-      ],
-      "critical": false
-    },
-    {
-      "version": "2.18.0",
-      "date": "2026-10-13",
-      "notes": [
-        "Improved: every PDF and Excel report now carries computed key takeaways and a data profile (completeness, range, outliers); PDFs get a contents page with real page numbers, KPI tiles with status, change and notes, labelled charts with share-of-total, data-quality findings and recommended next steps",
-        "Added: AI file analysis now reads growth, momentum, seasonality, top movers and correlations, adds a clearly-labelled straight-line projection and concrete next steps; AI reports export to a structured Excel workbook (one typed sheet per chart, finding and table, with live share and change formulas)",
-        "Added: Odoo AI dashboards get an Export Excel workbook button; the AI service gains odoo_compare (like-for-like period-over-period) and odoo_trend (growth, momentum, projection) computed server-side, plus a stricter report structure with confidence and caveats",
-        "Added: the offline assistant analyses pasted numbers or tables (totals, median, spread, outliers, group shares, trend, projection and a draft summary sentence)"
-      ],
-      "critical": false
-    },
-    {
-      "version": "2.17.0",
-      "date": "2026-10-11",
-      "notes": [
-        "Security: shared-dashboard links could run script through a crafted widget id (share.html#d=...) - every shared or imported widget is now validated and rebuilt before it is drawn, and ids/sizes can never reach the page as markup",
-        "Security: the Cloudflare Worker Odoo relay (worker-src and cloudflare-worker.js) is no longer an open relay - ALLOWED_ODOO_HOSTS is now required, only public HTTPS hostnames are accepted (no IPs, localhost, http or credentials in the URL) and redirects cannot leave the host",
-        "Security: the relay now blocks sensitive models (res.users, ir.*, mail.*, payment.*), secret-looking fields and filter probing on every endpoint, counts real request bytes, validates AI chat input and sends strict security headers",
-        "Security: Worker sign-in tokens need a 32+ character JWT_SECRET and valid iat/exp; malformed URLs no longer crash the Worker; new optional ALLOW_REGISTRATION=false closes public sign-up",
-        "Security: passcode and admin sign-in check one guess at a time (parallel guesses no longer beat the attempt counter), compare in constant time, and the workspace re-locks the moment you return to a stale tab",
-        "Security: clickjacking guard on every page (plus a _headers file for Cloudflare Pages/Netlify); AI service requires token expiry, stops logging part of the service key and sends security headers",
-        "Security: server dependencies patched (proxy-addr, qs, body-parser, express) - npm audit now reports 0 vulnerabilities",
-        "Added: 12 iOS system accent colours (Blue, Indigo, Purple, Pink, Red, Orange, Yellow, Green, Mint, Teal, Cyan, Graphite) with AA-safe light-theme variants, an iOS System chart palette, and iOS green/red/orange/blue for good/bad/warning/info"
-      ],
-      "critical": false
-    },
-    {
-      "version": "2.16.1",
-      "date": "2026-10-10",
-      "notes": [
-        "Fixed: sign-in page layout - content is now a centred composition (no more stretching to the screen edges on wide monitors) and fits laptop heights without scrolling or a cut-off preview; first-run setup form is compacted too",
-        "Improved: sign-in detailing - time-of-day greeting, module chips (Sales, Stock, People, Finance), live email-format and password-match ticks, attempts-left indicator on wrong password, progress line while signing in, parallax scene light, app version in the footer"
-      ],
-      "critical": false
-    },
-    {
-      "version": "2.16.0",
-      "date": "2026-10-10",
-      "notes": [
-        "Redesigned: sign-in page in Liquid Glass - graded amber / copper / teal scene, frosted glass card with pointer-following specular light, glass brand panel with animated revenue preview",
-        "Improved: sign-in detailing - field icons, on-theme autofill, password strength label, caps-lock chip, error shake, glossy Sign in button, sun / moon theme toggle that also updates the browser theme colour, reduced-motion / reduced-transparency / forced-colors fallbacks"
-      ],
-      "critical": false
-    },
-    {
-      "version": "2.15.5",
-      "date": "2026-10-10",
-      "notes": [
-        "Fixed: a slow or hung Odoo/Worker request could freeze Overview, People, Team and Task targets forever - every Odoo call now has a 45 s timeout and releases its slot",
-        "Fixed: resetting the Odoo connection left queued requests waiting forever and could break the 3-request cap - queued and in-flight calls are now cancelled cleanly",
-        "Fixed: task targets stopped auto-completing after one stuck check (a watchdog now recovers it); one failing task no longer stops the others, and a reset can no longer write stale results",
-        "Fixed: People data could be fetched twice after a reset (race on the loading slot); data now also refreshes the moment you return to the tab",
-        "Improved: Odoo reads retry automatically on rate limits (429), gateway errors and network drops with backoff and Retry-After; application errors are never retried",
-        "Improved: clear, typed errors (timeout, network, bad Worker URL, cancelled) and a diagnostics counter for support; read cache is size-capped",
-        "Added: transport test suite (timeout, retry, reset, concurrency cap, bad URL)"
-      ],
-      "critical": false
-    },
-    {
-      "version": "2.15.4",
-      "date": "2026-10-10",
-      "notes": [
-        "Software Update redesigned as an iOS-style sheet (app icon + status badge, grouped Version/Size/Released rows, grouped release notes, full-width capsule action, glass notice); new Liquid Glass app icon set (favicon, touch, PWA, maskable, 1024) and og-image; glass logo marks in the app"
-      ],
-      "critical": false
-    },
-    {
-      "version": "2.15.3",
-      "date": "2026-10-10",
-      "notes": [
-        "iOS 26 pass: refined Liquid Glass (specular rim, concentric radii, capsule controls, press feedback, 44px touch targets), tabular numerals and balanced text alignment, Software Update sheet/banner restyled as iOS glass (content and behaviour unchanged)"
-      ],
-      "critical": false
-    },
-    {
-      "version": "2.15.2",
-      "date": "2026-10-10",
-      "notes": [
-        "AI chat: fixed cut-off input and page scroll on mobile (100vh -> 100dvh with fallback) and the iOS auto-zoom when tapping the chat box (16px field on phones), on both the AI page and the dashboard AI panel"
-      ],
-      "critical": false
-    },
-    {
-      "version": "2.15.1",
-      "date": "2026-10-10",
-      "notes": [
-        "8K quality + grade: wide-gamut (P3/HDR) OKLCH palette with unchanged contrast, one-hue graphite tonal ladder, tinted layered shadows, 2.5K-8K UI scaling, crisper text/SVG, Chart.js at 2x+ device pixels"
-      ],
-      "critical": false
-    },
-    {
-      "version": "2.15.0",
-      "date": "2026-10-09",
-      "notes": [
-        "New: People now uses the same workspace shell as the dashboard - search, notifications, the ⌘K command palette, accent colour, Liquid Glass, density and chart-label preferences all apply there, and the theme toggle goes through the same store as Settings (so 'System' and OS changes are followed)",
-        "New: Audit log detail - severity on every event, 14-day activity chart, breakdown by action / person, quick filters, person / severity / custom date-range filters, day grouping, and an event drawer with exact time, UTC, session, device, page, source and a before → after table (J / K to step, Esc to close). Export CSV and JSON of exactly what the filters show",
-        "New: Every audit event now records its session, device, page and source; security events get ids, session and device too",
-        "New: Data Studio - column profiler (completeness, quartiles, outliers, histogram, top values, quality checks), Filters builder (Revenue > 500, Region contains East ...), multi-column sort (Shift+click), totals footer with selectable aggregates, selection statistics, undo / redo, freeze first column, row density, resizable columns, Copy and Export view",
-        "New: Pointer v3 - a precise dot with a spring ring that docks onto the control under it, context labels (Drill, Drag, Copy, Open), busy / disabled / text states; follows theme and accent, available on every page, and respects Settings, reduced motion and touch",
-        "Fixed: the Data tab badge and row count stayed empty until the Data tab was opened",
-        "Fixed: pressing Escape while editing a Data Studio cell saved the edit anyway",
-        "Fixed: Data Studio CSV export wrote dates as epoch milliseconds and did not neutralise spreadsheet formulas",
-        "Fixed: JSON exports (workspace backup, audit log) started with a byte-order mark that other tools reject",
-        "Fixed: exporting an AI dashboard to PDF crashed on the cover page",
-        "Fixed: a stray dot appeared inside every sliding tab pill (People, Data Studio, Settings)",
-        "Fixed: js/cursor.js was missing from the offline cache, so the offline update check failed",
-        "Fixed: on phones the top bar squashed the menu button to 14px and the search box to 78px (now a proper tap target, search uses the free space)"
-      ],
-      "critical": false
-    },
-    {
-      "version": "2.14.0",
-      "date": "2026-10-07",
-      "notes": [
-        "New: Overview drill-in - every KPI card, trend month, bar, donut slice and legend row, top customer and product, pipeline stage, invoice status, shop / warehouse and recent order opens the Drill Explorer (break down by customer, product, month and more, then the Odoo records with Open in Odoo links). Period figures follow the 30D / 90D / 1Y switch; pipeline, receivables and customers are snapshots",
-        "New: Revenue trend summary chips (total, peak month, latest month vs previous, average per month) that open their records; top customers show each share of revenue",
-        "Fixed: Overview charts drew solid black bars and slices - colour arrays now reach Chart.js correctly, so every chart follows your chart colour scheme and accent (also fixes the same bug on other pages)",
-        "Fixed: single-series bar charts printed every value label twice",
-        "Improved: CRM pipeline bars are colour-coded (lost, won, open); Drill Explorer can open with Average as the default measure"
-      ],
-      "critical": false
-    },
-    {
-      "version": "2.12.0",
-      "date": "2026-10-05",
-      "notes": [
-        "New: Error investigator - from any product error in Drill explorer > Data checks, open Investigate (or Compare side by side for duplicate groups). Root cause chain (error > product > stock > sales order > qty to deliver > blocked delivery), where-used counts across sales, quotations, deliveries, transfers, receipts, purchase, invoices, bills, manufacturing, BoMs, inventory adjustments, stock moves and reordering rules, stock by location / lot, sales, internal transfer and purchase impact, record lists with filters and Open in Odoo links, and CSV export (Error Type, Product, Reference, Module, Required, Available, Pending, Status, Root Cause)",
-        "Improved: Data checks can be filtered by product name / reference and category, and each check can be exported with stock impact"
+      "v": "11.7.0",
+      "d": "2026-11-02",
+      "n": [
+        "New: iOS type system everywhere - SF Pro Display and SF Pro Text on iPhone, iPad and Mac, bundled Inter variable (the closest match) on Windows, Android and Linux; dashboard, landing page, charts, dialogs and form fields now share one font stack",
+        "New: bolder, clearer weight scale across the whole theme - body 500, labels and buttons 600, headings 700-800, KPI figures 800 with tabular numbers; tight iOS tracking on large titles, calmer tracking on small text",
+        "Improved: landing page headings, cards and stats follow the same iOS type and weights as the dashboard (Bricolage Grotesque and Instrument Sans are no longer drawn)",
+        "Fixed: the Software Update prompt never appeared - version.json had been replaced by another app's file (2.30.1, lower than 11.6.0); the update feed is restored with MISphere's full history and 11.7.0",
+        "Fixed: offline install - sw.js was another app's worker listing 60+ files that do not exist, so it could never install; rebuilt for MISphere (each file cached on its own, version.json always read fresh, old caches cleaned)",
+        "Housekeeping: README badge, package.json, desktop app version and CHANGELOG aligned to 11.7.0"
       ]
     },
     {
-      "version": "2.11.0",
-      "date": "2026-10-05",
-      "notes": [
-        "New: Drill explorer 'Data checks' tab for products and contacts - duplicate names, exact duplicate records, missing / duplicate / badly formatted internal references and reference-base conflicts. Read by check or by company (company x check matrix, health score per company), each error explained (what it means, why it matters, how to fix, example), drill into affected records and CSV export",
-        "Improved: Drill explorer - Total / Average / Count switch, week, quarter and year levels, sortable columns, insights strip, row filter, keyboard arrows, retry on errors, richer CSV export",
-        "Fixed: Drill explorer record search no longer loses typed text when a result arrives",
-        "Improved: Light theme contrast now meets WCAG AA (brand amber, good / bad / flat chips); dark theme chart colours match KPI colours again; one amber accent for focus, selection and scrollbars",
-        "Security: integrity (SRI) hashes on every CDN script; stricter Content-Security-Policy on all pages; project CSV export neutralises spreadsheet formulas; drill exports are written to the security log; API rate limiting on all routes, sign-in and AI"
-      ],
-      "critical": false
-    },
-    {
-      "version": "2.10.0",
-      "date": "2026-10-04",
-      "notes": [
-        "New: People tab reads live from Odoo - CVs received, interviews held and upcoming, hiring funnel, positions, sources, employee directory with time off and open work, departments",
-        "New: Task assignment lists your Odoo employees and can set an automatic target (a count, an Odoo task or a custom query) - the task is marked Done by itself when Odoo reaches it",
-        "New: Team tab reads employees, departments, time off and workload live from Odoo with search, filters and CSV export",
-        "Security: removed the built-in admin123 login - the local admin is set up by you, stored as a salted PBKDF2 hash, locked out after repeated failures and signed out after 30 idle minutes; the sign-in API now throttles per account, hides whether an email exists and enforces the password policy"
-      ],
-      "critical": false
-    },
-    {
-      "version": "2.9.0",
-      "date": "2026-10-04",
-      "notes": [
-        "Rebuilt: People, Task assignments and Audit log from scratch - one shared workspace store, validated forms, kanban board, hiring pipeline and field-level audit history",
-        "Improved: every People, Task and Hiring change is recorded automatically in the Audit log, with search, filters, paging and CSV export",
-        "Fixed: overdue dates use the local calendar day, tasks of a deleted person are unassigned, duplicate emails are rejected and drag-and-drop works on the task board"
-      ],
-      "critical": false
-    },
-    {
-      "version": "2.8.0",
-      "date": "2026-10-03",
-      "notes": [
-        "New: Manufacturing, procurement, invoice, GRN and delivery metrics in the company-aware executive Overview",
-        "Improved: Drill Explorer with server-side search, 25-record paging, contextual Odoo links and full filtered CSV exports up to 10,000 records",
-        "Improved: Main Settings now includes the user manual, keyboard shortcuts, resettable preferences and clickable release history",
-        "Fixed: Settings disclosures remain open during refresh and all dashboard panels stay within the viewport"
-      ],
-      "critical": false
-    },
-    {
-      "version": "2.7.0",
-      "date": "2026-10-03",
-      "notes": [
-        "New: Overview company selector with safe multi-currency handling",
-        "Improved: Odoo People, Tasks and Audit data mapping and error visibility",
-        "Improved: Data Studio imports Excel worksheets and parses CSV/TSV offline",
-        "Improved: Liquid Glass text contrast and colorful chart palettes",
-        "Fixed: incomplete app updates are rejected and reported for retry",
-        "Improved: Settings install guidance and PWA install state"
-      ],
-      "critical": false
-    },
-    {
-      "version": "2.6.0",
-      "date": "2026-10-02",
-      "notes": [
-        "New: Software update popup redesigned - live progress ring, 4-step tracker, release notes grouped as Security / New / Improved / Fixed, and a Previous versions list",
-        "New: Settings > Software update - status pill, brand-colour progress bar, tagged release notes and a Release notes button",
-        "Improved: Update banner - clear icon per state (available, downloading, ready, failed), version and size, percentage while downloading, full-width buttons on phones",
-        "Improved: Popup is a bottom sheet on phones; Esc, click-outside and keyboard focus are handled; page scroll is locked while it is open",
-        "Fixed: Update popup always opened dark and purple, even in light theme - it now follows the app theme and amber brand colour",
-        "Fixed: A failed-download banner could not be dismissed, the banner stayed on screen while installing, and repeated Check clicks could stack"
+      "v": "11.6.0",
+      "d": "2026-10-31",
+      "n": [
+        "iOS typography: SF Pro on Apple devices, bundled Inter (the closest match) everywhere else, tighter headings and smoother text rendering",
+        "Proper iOS-style blur: progressive edge blur under the top and bottom bars plus frosted header and tab bar"
       ]
     },
     {
-      "version": "2.5.2",
-      "date": "2026-10-02",
-      "notes": [
-        "Fixed: Liquid Glass - slicer and column dropdown menus were being clipped by the glass cards; they now open fully",
-        "Fixed: Liquid Glass - gradient headings no longer refuse to wrap on narrow screens",
-        "Fixed: Liquid Glass - lag and janky scrolling on phones/iOS (lighter blur, scrolling background, no hover-lift on touch); glass stylesheet now loads before first paint (no flat-to-glass flash)",
-        "Improved: Liquid Glass - thin scrollbars in Firefox too",
-        "Improved: Charts - no black anywhere: tooltips, line-chart badges, markers, bar/gauge tracks and doughnut borders now use slate-blue / white tones"
+      "v": "11.5.1",
+      "d": "2026-10-31",
+      "n": [
+        "Clean blur on the header and tab bar only: content scrolls softly behind them, colours stay solid and clear"
       ]
     },
     {
-      "version": "2.5.1",
-      "date": "2026-10-01",
-      "notes": [
-        "Improved: Overview charts - one clear, high-contrast colour palette (separate dark/light tones); blue = revenue, amber = orders, violet = CRM pipeline, teal = shops/products",
-        "Improved: Invoices by payment status now uses status colours (green paid, blue in payment, amber partial, red not paid)",
-        "Improved: Overview charts - axis titles on the revenue/orders chart, solid bars (no washed-out fade), readable x-axis labels, cleaner legends with share bars and larger chart areas"
+      "v": "11.5.0",
+      "d": "2026-10-31",
+      "n": [
+        "Clear colour, no haze: removed the smoky background glow, the blurred top/bottom edge fade and frosted glass cards; surfaces are now solid with crisp borders",
+        "Truer, more saturated tones: stronger text contrast, vivid status colours, solid tinted KPI icons and status tiles, member cards with a clean colour bar, clear white input fields"
       ]
     },
     {
-      "version": "2.5.0",
-      "date": "2026-10-01",
-      "notes": [
-        "Fixed: People - profile card name/pay pill clipping, device name and meta running together, calendar events overflowing their cells",
-        "Fixed: People - mobile header status pill wrapping, sideways page scroll, metric labels colliding",
-        "Improved: People greeting now reads 'Welcome back, DashView'; leftover template names (Nixtio, Crextio) replaced and migrated",
-        "Improved: People calendar events show a full tooltip and wrap long titles in narrow cells"
-      ],
-      "critical": false
-    },
-    {
-      "version": "2.4.1",
-      "date": "2026-10-01",
-      "notes": [
-        "Improved: Chart colours now have a light and a dark palette tuned for contrast; switching theme recolours existing charts instantly",
-        "Improved: Axis labels, grid lines, legends, value labels and doughnut totals meet WCAG AA contrast in both themes"
-      ],
-      "critical": false
-    },
-    {
-      "version": "2.4.0",
-      "date": "2026-10-01",
-      "notes": [
-        "New: User manual (manual.html) with search, section navigation and print layout, linked from Settings",
-        "New: Settings - Preferences (density, chart animations, bar labels, landing page), Updates, Privacy and data, Keyboard shortcuts",
-        "Improved: Charts - staggered entrance animation, value labels on bars, hover focus that dims other bars/slices, accessible chart descriptions, animated progress bars"
-      ],
-      "critical": false
-    },
-    {
-      "version": "2.3.1",
-      "date": "2026-10-01",
-      "notes": [
-        "Security: checkup now includes CSP, and failed-attempt checks, with an A-F grade and a to-fix count",
-        "Security: Cloudflare Worker now sends HSTS, X-Frame-Options, Referrer-Policy, Permissions-Policy and CORP headers; every page has a baseline CSP and referrer policy",
-        "Improved: Overview header, period switch, KPI/card hover and responsive grid"
-      ],
-      "critical": false
-    },
-    {
-      "version": "2.2.2",
-      "date": "2026-10-01",
-      "notes": [
-        "Executive line charts: fixed the zigzag - monotone smoothing (no overshoot between points), automatic y-axis scale with headroom, compact ticks and a capped number of x labels",
-        "Line charts: Peak / Low / Latest value badges, average reference line, hover crosshair and 'vs previous' change in the tooltip",
-        "Executive trend cards: summary strip (Latest with change, Peak, Low, Average, Total) and a 3-month trend overlay toggle",
-        "Liquid Glass v3: neutral professional glass, 3 elevation levels, hairline edges, calm motion, now also covers the Executive cards, charts and detail drawer; fallbacks for reduced transparency, high contrast, no backdrop-filter and print",
-        "Liquid Glass preference now applies before first paint (no flat-to-glass flash)"
+      "v": "11.4.0",
+      "d": "2026-10-31",
+      "n": [
+        "Workspace now follows the landing page: new default “MISphere” colour combo (indigo, violet, cyan), Bricolage Grotesque headings, Instrument Sans body, crisp white cards in light mode",
+        "Slim two-row command header: brand, search, module, New task, data-safety, theme and profile on top; week, office-day progress and task pulse below. GitHub status moved into the shield sheet, home link into the brand tile, leader card stays on the Home page",
+        "Home: getting-started checklist for empty workspaces, cleaner section titles, balanced KPI grid (two columns on phones)"
       ]
     },
     {
-      "version": "2.2.1",
-      "date": "2026-10-01",
-      "notes": [
-        "Executive dashboards: click any KPI for a detail panel (current vs previous, change, status, how it is calculated, 12-month trend with average line, last-6-months table, View records)",
-        "Executive: Refresh button, concentration-risk gauge with 40% / 60% thresholds"
+      "v": "11.3.0",
+      "d": "2026-10-31",
+      "n": [
+        "Smooth theme switch: light/dark and colour-combo changes now cross-fade as one (no more background fading while cards flip instantly); dark mode no longer flashes light on startup",
+        "Colour sync: accent picker swatches now match the applied colours (light and dark); setup screen glow and logo follow the chosen combo; cleaner light surfaces",
+        "Smoother scrolling: removed the heavy blur layer on the animated background"
       ]
     },
     {
-      "version": "2.2.0",
-      "date": "2026-10-01",
-      "notes": [
-        "Software Update: top banner when an update is available, then Download and Install & Restart, like a phone",
-        "Settings: live update status, progress, what's new, auto-check and auto-download switches (the old button did not really check)",
-        "AI: business playbooks (aging, period comparison, concentration, pipeline, low stock, cash, stuck work), 7 more Odoo models, confidence line, clickable follow-up questions",
-        "Charts and KPI cards: new gradient/glow styling"
+      "v": "11.2.0",
+      "d": "2026-10-26",
+      "n": [
+        "Natural colour system: all 13 combos retuned to calmer, analogous tones in light and dark; quieter background glow and natural status colours",
+        "Glass icons everywhere: header buttons, brand tile, stat and pulse icons, module icons and an active tab-bar tile in tinted glass; new glass app icons",
+        "iOS-style motion: press feedback, staggered page entrance, spring dialogs, frosted backdrops, quiet scrollbars, focus rings",
+        "Data-safety centre: header shield chip, warning when you close the tab or app with unbacked-up changes, one-tap backup sheet, automatic restore points, protection against overwriting newer data from another tab, persistent-storage request",
+        "Fixes: unreadable welcome banner in light mode, misaligned setup header, squeezed stat icons, header overflow at mid widths; desktop app now asks before closing with unsaved data"
       ]
     },
     {
-      "version": "2.1.2",
-      "date": "2026-10-01",
-      "notes": [
-        "Settings control center: live health cards (Odoo, AI, Security, Backup, Version), Needs attention list with Fix shortcuts, settings search (press /), remembered last section"
+      "v": "11.1.0",
+      "d": "2026-10-25",
+      "n": [
+        "Command Deck header redesign: brand tile that changes icon per page, search, module switcher, GitHub sync status, install button and New task on top; week navigator with day pips, office-day gauge, Open / Due today / Overdue tiles and a Leader-of-the-week card below. Follows every colour combo, light and dark, and phone layouts",
+        "Installable app: web manifest, offline service worker, app icons (including maskable), and an Install app button in the header",
+        "Fully offline: Excel library and fonts are now bundled in /vendor (no CDN needed)",
+        "Desktop app (Windows / macOS / Linux) via the new /desktop Electron project, plus one-click launchers that open MISphere in its own window"
       ]
     },
     {
-      "version": "2.1.1",
-      "date": "2026-10-01",
-      "notes": [
-        "Executive overview: headline health strip, previous value and absolute change on every KPI, per-section favourable badges, Basis & data notes",
-        "Scorecard export now includes absolute change and status columns",
-        "Fixed: login/register no longer send a stale session token",
-        "Fixed: CI/engineering questions mentioning 'pipeline' were treated as Odoo data questions",
-        "Fixed: query provenance now lists group-by and measures"
+      "v": "11.0.0",
+      "d": "2026-10-24",
+      "n": [
+        "One colour system: every combo is now a tonal family with a readable text colour; buttons, tab bar, switches and update pill follow the chosen combo (some stayed blue before)",
+        "Team Hub: neutral glass member cards with health status, workload meter, 6-week trend, next deadline, quick Tasks / ＋ Task actions; new leader spotlight; search, filters, sort, cards/list layout and Share summary",
+        "New member colour palette (12 balanced colours); existing members are converted automatically",
+        "Tasks: bulk select (done, in progress, priority, reassign, deadline, delete) with Undo; Quick views; Quick add (type “Report @ali fri !high 2h”); overload warning while assigning"
       ]
     },
     {
-      "version": "2.1.0",
-      "date": "2026-09-29",
-      "notes": [
-        "Visual polish layer (`css/visual-polish.css`) and detailing layer (`css/pro-detail.css`): spacing, alignment, tabular numbers, shared chart palette, skeletons, empty states, badges, tooltips, print styles.",
-        "New Settings page: wider layout, active section highlight, Software Update section with version history.",
-        "iOS-style Software Update (`js/updater.js`): updates download quietly and wait; user sees \"Update available\", taps Install Now, watches an \"Updating\" window, then a \"What's new\" window. Service worker no longer applies updates on its own.",
-        "`scripts/release.mjs` bumps version.json, package.json, sw.js and CHANGELOG in one command."
+      "v": "10.10.0",
+      "d": "2026-10-23",
+      "n": [
+        "Colour grading, iOS-style transfer sheet for import/export, animated tab-bar indicator"
+      ]
+    },
+    {
+      "v": "10.9.0",
+      "d": "2026-10-23",
+      "n": [
+        "Defined sections, View bar, Board settings and a stronger motion layer"
+      ]
+    },
+    {
+      "v": "8.7.0",
+      "d": "2026-10-21",
+      "n": [
+        "System health panel: storage, data integrity checks, backups and one-tap restore points",
+        "Daily automatic backup (last 5 restore points kept)",
+        "iOS-style notification banners, launch splash, offline/online alerts",
+        "Keyboard shortcuts sheet (press ?)"
+      ]
+    },
+    {
+      "v": "8.6.0",
+      "d": "2026-10-21",
+      "n": [
+        "Team cards: fixed clipped avatar/badge overflow, rebuilt the leader switch, rank shown inline, quieter empty states (– instead of 0%), dimmed zero stats, tooltips for long names, refined leader card tiles"
+      ]
+    },
+    {
+      "v": "8.5.0",
+      "d": "2026-10-21",
+      "n": [
+        "Colour combos: Ocean, Aurora, Sunset, Forest, Graphite with an animated colour-mesh background",
+        "Liquid-glass upgrade: edge bevel highlights, cursor-following shine, adjustable glass intensity (Soft / Standard / Strong)",
+        "Update history timeline with install dates; Update available pill in the header",
+        "Safer updates: verification step, failure screen, automatic recovery offer after a faulty session, background update checks"
+      ]
+    },
+    {
+      "v": "8.4.0",
+      "d": "2026-10-21",
+      "n": [
+        "Team cards rebuilt from scratch: progress-ring avatar, large completion figure, status bar and stat tiles",
+        "Module manager in Settings: create, edit, rename, recolour, focus and delete modules with live task counts",
+        "Quick plus button beside the module selector for instant module creation"
+      ]
+    },
+    {
+      "v": "8.3.0",
+      "d": "2026-10-21",
+      "n": [
+        "Team cards redesigned: transparent glass with member-colour tint, glow and refined stats"
+      ]
+    },
+    {
+      "v": "8.2.0",
+      "d": "2026-10-21",
+      "n": [
+        "iOS design system: SF-style typography, system colours, large titles, switches and sheets",
+        "Glitch fixes: no re-render flicker, lighter blur for smoother scrolling, no input zoom on iPhone",
+        "Smoother spring animations on page change and dialogs"
+      ]
+    },
+    {
+      "v": "8.1.0",
+      "d": "2026-10-21",
+      "n": [
+        "iOS-style Software Update sheet with progress and What's New",
+        "Smoother spring animations"
+      ]
+    },
+    {
+      "v": "8.0.0",
+      "d": "2026-10-21",
+      "n": [
+        "Stronger liquid-glass UI and smoother animations",
+        "One-click Update with automatic safety backup and rollback",
+        "Version history and restore points in Settings"
+      ]
+    },
+    {
+      "v": "7.0.0",
+      "d": "2026-10",
+      "n": [
+        "Modules, module reporting, live GitHub sync"
       ]
     }
-  ],
-  "critical": false,
-  "size": 4968097
+  ]
 }

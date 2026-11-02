@@ -3886,8 +3886,9 @@ ghRender();
 <script>
 /* v8: stable updater + version history. Data lives in localStorage and is never touched by an update; a snapshot is taken first. */
 (()=>{
-const APP_VERSION="11.6.0", SNAP_KEY="mis_snapshots_v1", LOG_KEY="mis_update_log_v1", $=id=>document.getElementById(id);
+const APP_VERSION="11.7.0", SNAP_KEY="mis_snapshots_v1", LOG_KEY="mis_update_log_v1", $=id=>document.getElementById(id);
 const HISTORY=[
+ {v:"11.7.0",d:"2026-11-02",n:["New: iOS type system everywhere - SF Pro Display and SF Pro Text on iPhone, iPad and Mac, bundled Inter variable (the closest match) on Windows, Android and Linux; dashboard, landing page, charts, dialogs and form fields now share one font stack", "New: bolder, clearer weight scale across the whole theme - body 500, labels and buttons 600, headings 700-800, KPI figures 800 with tabular numbers; tight iOS tracking on large titles, calmer tracking on small text", "Improved: landing page headings, cards and stats follow the same iOS type and weights as the dashboard (Bricolage Grotesque and Instrument Sans are no longer drawn)", "Fixed: the Software Update prompt never appeared - version.json had been replaced by another app's file (2.30.1, lower than 11.6.0); the update feed is restored with MISphere's full history and 11.7.0", "Fixed: offline install - sw.js was another app's worker listing 60+ files that do not exist, so it could never install; rebuilt for MISphere (each file cached on its own, version.json always read fresh, old caches cleaned)", "Housekeeping: README badge, package.json, desktop app version and CHANGELOG aligned to 11.7.0"]},
  {v:"11.6.0",d:"2026-10-31",n:["iOS typography: SF Pro on Apple devices, bundled Inter (the closest match) everywhere else, tighter headings and smoother text rendering", "Proper iOS-style blur: progressive edge blur under the top and bottom bars plus frosted header and tab bar"]},
  {v:"11.5.1",d:"2026-10-31",n:["Clean blur on the header and tab bar only: content scrolls softly behind them, colours stay solid and clear"]},
  {v:"11.5.0",d:"2026-10-31",n:["Clear colour, no haze: removed the smoky background glow, the blurred top/bottom edge fade and frosted glass cards; surfaces are now solid with crisp borders", "Truer, more saturated tones: stronger text contrast, vivid status colours, solid tinted KPI icons and status tiles, member cards with a clean colour bar, clear white input fields"]},
@@ -5962,6 +5963,38 @@ h1,.sec-title.sx h2,.gs-head h2{font-weight:700}
 /* bars themselves: frosted, thin hairline, no colour wash */
 html body #appTop,html body .tabbar,html[data-theme] .tabbar{background:color-mix(in srgb,var(--card) 72%,transparent)!important;-webkit-backdrop-filter:blur(24px) saturate(180%)!important;backdrop-filter:blur(24px) saturate(180%)!important;border:.5px solid color-mix(in srgb,var(--line) 80%,transparent)!important}
 @media(prefers-reduced-transparency:reduce){#edgeT.on i,#edgeB.on i{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}}
+</style>
+<style id="v117-css">
+/* ===== v11.7 - iOS type system + bolder weight scale (whole theme) ===== */
+:root{
+ --ios-text:-apple-system,BlinkMacSystemFont,"SF Pro Text","Inter",system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+ --ios-display:-apple-system,BlinkMacSystemFont,"SF Pro Display","Inter",system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+ --ios-mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
+ --ff-b:var(--ios-text);--ff-h:var(--ios-display);
+ --w-body:500;--w-label:600;--w-strong:700;--w-title:800}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+html,body,button,input,select,textarea,optgroup{font-family:var(--ios-text)!important;font-synthesis:none;font-kerning:normal;font-optical-sizing:auto;font-feature-settings:"calt","ss03";-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility}
+body{font-weight:var(--w-body);letter-spacing:-.011em}
+input,select,textarea{font-weight:var(--w-body);letter-spacing:-.011em}
+::placeholder{font-weight:var(--w-body)}
+/* titles: SF Pro Display, heavy, tight */
+h1,h2,h3,h4,.sec-title h2,.sec-title.sx h2,.gs-head h2,.lc-name,.tx-big,#appTop .tp-ti h1,#appTop .pchip .pc-t b,.gs-step i,.top h1{font-family:var(--ios-display)!important;text-wrap:balance}
+h1,.top h1,#appTop .tp-ti h1{font-weight:var(--w-title)!important;letter-spacing:-.04em!important}
+h2,.sec-title h2,.sec-title.sx h2,.gs-head h2{font-weight:var(--w-title)!important;letter-spacing:-.032em!important}
+h3,h4,.lc-name,.tx-big{font-weight:var(--w-strong)!important;letter-spacing:-.022em!important}
+/* figures: big, heavy, aligned */
+.stat .n,.mc-pct,.tx-big,.kpi b,.dn-b{font-family:var(--ios-display)!important;font-weight:var(--w-title)!important;letter-spacing:-.034em!important}
+.stat .n,.mc-pct,.tx-big,table,td,th,.tld,.hint,.chip,time,output{font-variant-numeric:tabular-nums lining-nums}
+/* labels, controls, table heads */
+button,label,summary,legend,th,.tabbar a,.tabbar button,.chip,.pill,.badge{font-weight:var(--w-label)}
+b,strong,th,.btn.p,button.p,.sec-title h2{font-weight:var(--w-strong)}
+.stat .l,.hint,small,.sub,.tld{font-weight:var(--w-body);letter-spacing:-.006em}
+.stat .l{font-weight:var(--w-label)}
+th{letter-spacing:.01em}
+/* charts and svg */
+svg text,svg.cx text,.dn-s{font-family:var(--ios-text)!important;font-weight:600;font-variant-numeric:tabular-nums}
+.dn-b{font-family:var(--ios-display)!important;font-weight:800}
+code,pre,kbd,samp,.mono{font-family:var(--ios-mono)!important;font-weight:500}
 </style>
 <script>/* offline + install support */if("serviceWorker"in navigator&&/^https?:$/.test(location.protocol)){addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})})}</script></body>
 </html>

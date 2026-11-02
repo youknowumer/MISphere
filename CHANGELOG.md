@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.30.1 - 2026-11-02
+- Improved: Reports release notes and details - Library now has 13 reports (6 existing + 7 analytics), every card shows Source, Includes, Scope, Freshness, Access and the exact file name, and analytics cards offer PDF / Excel / CSV
+- Improved: Report builder preview and file always agree (filter, sort, group, top N), saved reports appear under Library > Saved with Generate / Edit / Delete
+- Improved: Activity tab - report analytics, success rate and a two-click Clear
+- Fixed: Reports files (js/reports-hub.js, js/report-engine.js, css/reports-hub.css) re-released as one finalized version so the Software Update prompt appears
+
 ## 2.30.0 - 2026-11-02
 - New: Reports - 7 analytics reports (Revenue Trend, Revenue by Category, Top Customers, Workforce by Department, Hiring Funnel, Task Performance, Overdue Tasks) with KPIs, charts and tables, each as PDF, Excel or CSV (js/reports-hub.js)
 - New: Report builder can filter rows (up to 4 conditions), sort, limit to top N and group with Count / Sum / Average / Lowest / Highest; the preview shows exactly what the file will contain, and the setup can be saved to the Library as a reusable report

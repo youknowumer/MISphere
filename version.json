@@ -1,17 +1,25 @@
 {
-  "version": "2.30.0",
+  "version": "2.30.1",
   "build": "2026.11.02",
   "released": "2026-11-02",
   "notes": [
-    "New: Reports - 7 analytics reports (Revenue Trend, Revenue by Category, Top Customers, Workforce by Department, Hiring Funnel, Task Performance, Overdue Tasks) with KPIs, charts and tables, each as PDF, Excel or CSV (js/reports-hub.js)",
-    "New: Report builder can filter rows (up to 4 conditions), sort, limit to top N and group with Count / Sum / Average / Lowest / Highest; the preview shows exactly what the file will contain, and the setup can be saved to the Library as a reusable report",
-    "New: Activity tab analytics - runs, success rate, rows delivered, most-used format, last 14 days and most generated reports",
-    "Improved: PDF tables line numbers up on the right (headings included), tables up to 9 columns fit one page, and a Grand total row matches the Excel export; ratios, averages and percentages are never added up (js/report-engine.js)",
-    "Improved: report cards are equal height with actions aligned at the bottom, preview tables right-align numbers, imported date columns stay real dates in Excel (css/reports-hub.css)",
-    "Fixed: switching worksheets of an imported workbook could hang or show the wrong sheet on error; saved or failed jobs no longer double-log; drag overlay could stay on screen; Excel chart images were stretched; Clear activity now asks for a second click",
-    "Improved: keyboard and screen readers - tab arrow keys, focus kept inside the builder and import drawer and restored on close"
+    "Improved: Reports release notes and details - Library now has 13 reports (6 existing + 7 analytics), every card shows Source, Includes, Scope, Freshness, Access and the exact file name, and analytics cards offer PDF / Excel / CSV",
+    "Improved: Report builder preview and file always agree (filter, sort, group, top N), saved reports appear under Library > Saved with Generate / Edit / Delete",
+    "Improved: Activity tab - report analytics, success rate and a two-click Clear",
+    "Fixed: Reports files (js/reports-hub.js, js/report-engine.js, css/reports-hub.css) re-released as one finalized version so the Software Update prompt appears"
   ],
   "history": [
+    {
+      "version": "2.30.1",
+      "date": "2026-11-02",
+      "notes": [
+        "Improved: Reports release notes and details - Library now has 13 reports (6 existing + 7 analytics), every card shows Source, Includes, Scope, Freshness, Access and the exact file name, and analytics cards offer PDF / Excel / CSV",
+        "Improved: Report builder preview and file always agree (filter, sort, group, top N), saved reports appear under Library > Saved with Generate / Edit / Delete",
+        "Improved: Activity tab - report analytics, success rate and a two-click Clear",
+        "Fixed: Reports files (js/reports-hub.js, js/report-engine.js, css/reports-hub.css) re-released as one finalized version so the Software Update prompt appears"
+      ],
+      "critical": false
+    },
     {
       "version": "2.30.0",
       "date": "2026-11-02",
@@ -604,5 +612,5 @@
     }
   ],
   "critical": false,
-  "size": 4968112
+  "size": 4968097
 }

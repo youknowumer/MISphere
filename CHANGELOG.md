@@ -2,6 +2,16 @@
 
 All notable changes to MISphere. Newest first.
 
+## 11.8.0 - 2026-11-04
+- New: every task now has an editable start date and deadline - set them when adding a task and change either one later from Edit; quick buttons (same day, +1 day, +3 days, +1 week, +2 weeks) and a live duration line show the span; a task can be scheduled for a future day and appears on that day
+- New: clearer task display - each task shows its start to deadline range with a status badge (Starts tomorrow, Due today, 3d overdue) and a Moved badge when its deadline was changed; board cards show future start dates; the CSV export includes Start date
+- New: Excel import also reads a Start date / Start column (the existing Date column still works)
+- Safer updates: before an update installs, a restore point is saved automatically; the update is only applied once the new version is confirmed live on the server (no more update loops while the host is still publishing); the restore points are no longer wiped on startup
+- Safer data: saved data now carries a format version; older data is upgraded automatically and an untouched copy is kept first (it also appears under Data safety restore points); unreadable data is preserved instead of being overwritten by an empty workspace; fields added by newer versions are never dropped
+- Fixed: tasks with a missing or invalid date, status, priority or progress are repaired on load instead of breaking the page; a finished task with no completion date is no longer counted as late
+- Fixed: the recovery prompt after a faulty session did nothing - it now points you to your restore points
+- Housekeeping: removed unrelated DashView files (js/, css/reports-hub.css, test/) that were published with the site but never used by MISphere
+
 ## 11.7.0 - 2026-11-02
 - New: iOS type system everywhere - SF Pro Display and SF Pro Text on iPhone, iPad and Mac, bundled Inter variable (the closest match) on Windows, Android and Linux; dashboard, landing page, charts, dialogs and form fields now share one font stack
 - New: bolder, clearer weight scale across the whole theme - body 500, labels and buttons 600, headings 700-800, KPI figures 800 with tabular numbers; tight iOS tracking on large titles, calmer tracking on small text

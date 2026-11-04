@@ -1135,7 +1135,18 @@
   @media(max-width:900px){.fbar{grid-template-columns:1fr 1fr}#flExp,#flReset{grid-column:auto}}
   html[data-theme=dark] .tsc[data-f=todo] b{color:var(--text)}
 </style>
-<script>window.__v8err=0;addEventListener("error",function(){window.__v8err++});try{var u=JSON.parse(localStorage.getItem("mis_ui_v1"))||{};var h=new Date().getHours();if(u.a==="coral")u.a="teal";if(u.a==="berry")u.a="rose";var D=document.documentElement.dataset;D.oled=u.o||"off";D.fs=u.f||"md";D.rad=u.r||"soft";D.bg=u.b||"mesh";D.grade=u.c||"rich";document.documentElement.dataset.accent=(u.a==="auto"?(h<6?"midnight":h<10?"citrus":h<17?"mis":h<20?"sunset":"aurora"):u.a)||"mis";document.documentElement.style.setProperty("--gb",({soft:14,standard:26,strong:44})[u.g||"standard"]+"px")}catch(e){}try{var t=localStorage.getItem("mis_theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}catch(e){}</script><link rel="manifest" href="manifest.webmanifest"><link rel="icon" type="image/png" sizes="32x32" href="icons/icon-32.png"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><meta name="mobile-web-app-capable" content="yes"><meta name="application-name" content="MISphere"></head>
+<script>window.__v8err=0;addEventListener("error",function(){window.__v8err++});try{var u=JSON.parse(localStorage.getItem("mis_ui_v1"))||{};var h=new Date().getHours();if(u.a==="coral")u.a="teal";if(u.a==="berry")u.a="rose";var D=document.documentElement.dataset;D.oled=u.o||"off";D.fs=u.f||"md";D.rad=u.r||"soft";D.bg=u.b||"mesh";D.grade=u.c||"rich";document.documentElement.dataset.accent=(u.a==="auto"?(h<6?"midnight":h<10?"citrus":h<17?"mis":h<20?"sunset":"aurora"):u.a)||"mis";document.documentElement.style.setProperty("--gb",({soft:14,standard:26,strong:44})[u.g||"standard"]+"px")}catch(e){}try{var t=localStorage.getItem("mis_theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}catch(e){}</script><link rel="manifest" href="manifest.webmanifest"><link rel="icon" type="image/png" sizes="32x32" href="icons/icon-32.png"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><meta name="mobile-web-app-capable" content="yes"><meta name="application-name" content="MISphere"><style id="v118-css">
+.tdates{display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap}
+.tdates .rng{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;padding:2px 9px;border-radius:8px;background:rgba(120,120,128,.13);color:var(--text);white-space:nowrap}
+.tdates .rng i{font-style:normal;opacity:.5}
+.dline{display:flex;align-items:center;gap:10px 14px;flex-wrap:wrap;margin-top:-2px}
+.qdates{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.qdates>span{font-size:11.5px;font-weight:600;color:var(--muted)}
+.qdates button{font:inherit;font-size:11.5px;font-weight:600;line-height:1;padding:6px 11px;border-radius:14px;border:.5px solid var(--line);background:var(--card);color:var(--text);cursor:pointer;transition:transform .15s,background .15s}
+.qdates button:hover{background:var(--brand-soft)}.qdates button:active{transform:scale(.95)}
+.dspan{font-size:12px;font-weight:600;color:var(--muted)}.dspan.bad{color:var(--bad-t)}
+@media(max-width:600px){.qdates button{padding:8px 12px}}
+</style></head>
 <body>
 <div id="v87splash" aria-hidden="true"><div class="sp-ic"><svg viewBox="0 0 64 64"><path d="M16 15v33h33" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 39l9-9 6 6 10-13" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="49" cy="23" r="4" fill="#f5d061"/></svg></div><b>MISphere</b></div>
 <script>/* launch splash: remove it when its fade-out ends, or after 2.6 s whatever happens (animations off, slow device, boot error) */
@@ -1221,11 +1232,12 @@
         <div class="fgrid six">
           <div class="span-all"><label>Assign to <span class="mp-hint">— tap one or more people</span></label><div id="fMember" class="mpick" role="group" aria-label="Assign to"></div></div>
           <div><label>Module</label><select id="fModule"></select></div>
-          <div><label>Date</label><input id="fToday" disabled></div>
+          <div><label>Start date</label><input type="date" id="fStart" required></div>
           <div><label>Deadline</label><input type="date" id="fDeadline" required></div>
           <div><label>Repeat</label><select id="fRepeat"><option value="">Does not repeat</option><option value="daily">Every day</option><option value="weekdays">Every weekday</option><option value="weekly">Every week</option><option value="monthly">Every month</option></select></div>
           <div><label>Priority</label><select id="fPriority"><option value="high">High</option><option value="med" selected>Medium</option><option value="low">Low</option></select></div>
           <div><label>Estimate (hours)</label><input type="number" id="fEst" min="0" step="0.25" placeholder="e.g. 2"></div>
+          <div class="span-all dline"><div class="qdates" data-s="fStart" role="group" aria-label="Quick deadline"><span>Deadline:</span><button type="button" data-n="0">Same day</button><button type="button" data-n="1">+1 day</button><button type="button" data-n="3">+3 days</button><button type="button" data-n="7">+1 week</button><button type="button" data-n="14">+2 weeks</button></div><small class="dspan" id="fSpan" aria-live="polite"></small></div>
         </div>
         <div class="fgrid two">
           <div><label>Task</label><input id="fTitle" placeholder="e.g. Prepare the monthly sales report" required></div>
@@ -1507,7 +1519,7 @@
 </nav>
 <dialog id="tDlg"><form id="tForm"><h3 style="margin-bottom:14px">Edit task</h3>
 <div style="margin-bottom:10px"><label>Task</label><input id="eTitle" required maxlength="200"></div>
-<div class="fgrid" style="grid-template-columns:1fr 1fr"><div class="span-all"><label>Assigned to <span class="mp-hint">— tap to add or remove</span></label><div id="eMember" class="mpick" role="group" aria-label="Assigned to"></div></div><div><label>Deadline</label><input type="date" id="eDeadline" required></div><div><label>Priority</label><select id="ePri"><option value="high">High</option><option value="med">Medium</option><option value="low">Low</option></select></div><div><label>Estimate (hours)</label><input type="number" id="eEst" min="0" step="0.25"></div><div><label>Repeat</label><select id="eRepeat"><option value="">Does not repeat</option><option value="daily">Every day</option><option value="weekdays">Every weekday</option><option value="weekly">Every week</option><option value="monthly">Every month</option></select></div></div>
+<div class="fgrid" style="grid-template-columns:1fr 1fr"><div class="span-all"><label>Assigned to <span class="mp-hint">— tap to add or remove</span></label><div id="eMember" class="mpick" role="group" aria-label="Assigned to"></div></div><div><label>Start date</label><input type="date" id="eStart" required></div><div><label>Deadline</label><input type="date" id="eDeadline" required></div><div><label>Priority</label><select id="ePri"><option value="high">High</option><option value="med">Medium</option><option value="low">Low</option></select></div><div><label>Estimate (hours)</label><input type="number" id="eEst" min="0" step="0.25"></div><div><label>Repeat</label><select id="eRepeat"><option value="">Does not repeat</option><option value="daily">Every day</option><option value="weekdays">Every weekday</option><option value="weekly">Every week</option><option value="monthly">Every month</option></select></div><div class="span-all dline"><div class="qdates" data-s="eStart" role="group" aria-label="Quick deadline"><span>Deadline:</span><button type="button" data-n="0">Same day</button><button type="button" data-n="1">+1 day</button><button type="button" data-n="3">+3 days</button><button type="button" data-n="7">+1 week</button><button type="button" data-n="14">+2 weeks</button></div><small class="dspan" id="eSpan" aria-live="polite"></small></div></div>
 <div class="fgrid" style="grid-template-columns:1fr 2fr;margin-bottom:14px"><div><label>Module</label><select id="eModule"></select></div><div><label>Notes</label><input id="eNotes"></div></div>
 <div style="display:flex;gap:8px;justify-content:flex-end"><button class="btn" type="button" id="eCancel">Cancel</button><button class="btn pri" type="submit">Save</button></div></form></dialog>
 <dialog id="ghDlg"><form id="ghForm"><h3 style="margin-bottom:6px">☁ Live sync to GitHub</h3>
@@ -1593,6 +1605,40 @@ const today = () => ymd(new Date());
 // ---------- state ----------
 const clean = v => String(v||"").replace(/[<>&"`]/g,"").trim().slice(0,40);
 const IOSMAP = {"#f59e0b":{"c1":"#e8a317","c2":"#f4c65a"},"#ff9500":{"c1":"#e8a317","c2":"#f4c65a"},"#4f46e5":{"c1":"#2f7bf6","c2":"#6ba4fa"},"#007aff":{"c1":"#2f7bf6","c2":"#6ba4fa"},"#059669":{"c1":"#2fb36b","c2":"#6cd39b"},"#34c759":{"c1":"#2fb36b","c2":"#6cd39b"},"#7c3aed":{"c1":"#9b5de5","c2":"#c092f2"},"#af52de":{"c1":"#9b5de5","c2":"#c092f2"},"#e11d48":{"c1":"#e5496a","c2":"#f27f98"},"#ff2d55":{"c1":"#e5496a","c2":"#f27f98"},"#ff3b30":{"c1":"#f2683c","c2":"#f9966f"},"#0891b2":{"c1":"#14a9a0","c2":"#55cdc4"},"#30b0c7":{"c1":"#14a9a0","c2":"#55cdc4"},"#db2777":{"c1":"#d14fb0","c2":"#e88acf"},"#475569":{"c1":"#6b7689","c2":"#9aa4b5"},"#8e8e93":{"c1":"#6b7689","c2":"#9aa4b5"}};
+// ---------- v11.8: data format version, safe upgrade, task repair ----------
+const DATA_SCHEMA = 2;   // 2 = start date + deadline on every task, repaired fields
+const isDay = s => typeof s==="string" && /^\d{4}-\d{2}-\d{2}$/.test(s) && !isNaN(parse(s)) && ymd(parse(s))===s;
+function preMigrateBackup(rawStr, from, n){   // an untouched copy of the data, taken before any upgrade
+  try{ localStorage.setItem("mis_premigrate_v"+from, rawStr); }catch{}
+  try{
+    if (rawStr.length > 1e6) return;
+    let a = JSON.parse(localStorage.getItem("mis_restore_v2")||"[]"); if (!Array.isArray(a)) a = [];
+    if (a.some(x=>x && x.data===rawStr)) return;
+    a.unshift({t:Date.now(), why:"before data upgrade", n, sg:"", data:rawStr});
+    a = a.slice(0,6); while (a.length>1 && JSON.stringify(a).length>1e6) a.pop();
+    while (a.length){ try{ localStorage.setItem("mis_restore_v2", JSON.stringify(a)); break; }catch{ a.pop(); } }
+  }catch{}
+}
+function normTasks(d){
+  const seen = new Set(), PRI = ["high","med","low"], STA = ["todo","progress","done"];
+  d.tasks = d.tasks.filter(t=>t && typeof t==="object" && !Array.isArray(t));
+  d.tasks.forEach(t=>{
+    t.id = String(t.id==null?"":t.id); if (!t.id || seen.has(t.id)) t.id = Date.now().toString(36)+Math.random().toString(36).slice(2,8); seen.add(t.id);
+    t.title = String(t.title==null?"":t.title).trim() || "Untitled task";
+    if (!STA.includes(t.status)) t.status = "todo";
+    if (!PRI.includes(t.priority)) t.priority = "med";
+    const cr = +t.created>0 ? ymd(new Date(+t.created)) : "";
+    if (!isDay(t.date)) t.date = isDay(cr) ? cr : (isDay(t.deadline) ? t.deadline : today());
+    if (!isDay(t.deadline)) t.deadline = t.date;
+    if (t.deadline < t.date) t.date = t.deadline;
+    if (!(+t.created>0)) t.created = new Date(parse(t.date).setHours(9,0,0,0)).getTime();
+    t.progress = Math.max(0, Math.min(100, Math.round(+t.progress||0)));
+    if (t.status==="done"){ t.progress = 100; if (!isDay(t.completedAt)) t.completedAt = +t.doneAt>0 ? ymd(new Date(+t.doneAt)) : t.date; }
+    t.estHours = +t.estHours>0 ? +t.estHours : null;
+    t.notes = t.notes==null ? "" : String(t.notes);
+    if (t.moves) t.moves = Math.max(0, t.moves|0);
+  });
+}
 function norm(d){
   const ok = m => m && m.id && m.name && /^#[0-9a-f]{3,8}$/i.test(m.c1) && /^#[0-9a-f]{3,8}$/i.test(m.c2);
   let list = Array.isArray(d.members) ? d.members.filter(ok) : [];
@@ -1602,7 +1648,8 @@ function norm(d){
   d.notes = d.notes && typeof d.notes==="object" && !Array.isArray(d.notes) ? d.notes : {};
   d.settings = {...DEF_SET, ...(d.settings||{})};
   { const mods = []; (Array.isArray(d.settings.modules) ? d.settings.modules : DEFAULT_MODULES).forEach(x=>{ const c = clean(x); if (c && !mods.some(y=>y.toLowerCase()===c.toLowerCase())) mods.push(c); }); d.settings.modules = mods.slice(0,60); }
-  d.tasks = Array.isArray(d.tasks) ? d.tasks : []; d.tasks.forEach(t=>{ t.module = clean(t.module); t.team = Array.isArray(t.team) ? [...new Set(t.team.map(String))].filter(i=>i!==t.member && MEMBERS.some(m=>m.id===i)) : []; }); if (!Array.isArray(d.settings.days)) d.settings.days = DEF_SET.days.slice();
+  d.tasks = Array.isArray(d.tasks) ? d.tasks.filter(t=>t && typeof t==="object" && !Array.isArray(t)) : []; d.tasks.forEach(t=>{ t.module = clean(t.module); t.team = Array.isArray(t.team) ? [...new Set(t.team.map(String))].filter(i=>i!==t.member && MEMBERS.some(m=>m.id===i)) : []; }); if (!Array.isArray(d.settings.days)) d.settings.days = DEF_SET.days.slice();
+  normTasks(d); d.schema = Math.max(DATA_SCHEMA, d.schema|0);   // never lower a version written by a newer app
   return d;
 }
 let db = norm(load());
@@ -1970,11 +2017,20 @@ $("modMgr").onclick=e=>{ const b=e.target.closest("[data-a]"); if(!b) return; co
 $("modNew").onclick=()=>modSheet();
 
 function load(){
+  let rawStr = null;
+  try{ rawStr = localStorage.getItem(KEY); }catch{}
+  if (!rawStr) return {tasks:[], leaders:{}};
   try{
-    const raw = JSON.parse(localStorage.getItem(KEY));
-    if (Array.isArray(raw)) return {tasks:raw, leaders:{}};   // old format
-    if (raw && raw.tasks) return {tasks:raw.tasks, leaders:raw.leaders||{}, members:raw.members, settings:raw.settings, notes:raw.notes, log:raw.log};
+    const raw = JSON.parse(rawStr), list = Array.isArray(raw);
+    if (list || (raw && raw.tasks)){
+      const o = list ? {tasks:raw, leaders:{}} : {...raw, leaders:raw.leaders||{}};   // keep every field, including ones a newer version added
+      const from = list ? 0 : (raw.schema|0), n = Array.isArray(o.tasks) ? o.tasks.length : 0;
+      if (from < DATA_SCHEMA && (n || (o.notes && Object.keys(o.notes).length))) preMigrateBackup(rawStr, from, n);
+      return o;
+    }
   }catch{}
+  try{ if (!localStorage.getItem("mis_corrupt_copy")) localStorage.setItem("mis_corrupt_copy", rawStr); }catch{}   // unreadable data is kept, never silently replaced
+  window.__misLoadErr = true;
   return {tasks:[], leaders:{}};
 }
 function save(){
@@ -2398,6 +2454,7 @@ function renderTaskSum(base, fs){
   viewBarSync();
 }
 function dueInfo(t){
+  if (t.status!=="done" && t.date > today()){ const n = dayDiff(t.date, today()); return [n===1 ? "Starts tomorrow" : "Starts "+fmt(t.date,{day:"numeric",month:"short"}), "info"]; }
   if (t.status==="done"){ const late = stateOf(t)==="late"; return [`${late?"Done late":"Done on time"} · ${fmt(t.completedAt,{day:"numeric",month:"short"})}`, late?"warn":"ok"]; }
   const diff = Math.round((new Date(t.deadline+"T00:00:00")-new Date(today()+"T00:00:00"))/864e5);
   if (diff<0) return [`${-diff}d overdue`,"bad"]; if (diff===0) return ["Due today","warn"]; if (diff===1) return ["Due tomorrow","info"];
@@ -2480,7 +2537,7 @@ function taskHTML(t){
     ${avStack(t)}
     <div>
       <div class="t-title ${t.status==="done"?"done":""}">${esc(t.title)}</div>
-      <div class="meta">${crew(t).length>1 ? `<b class="crew-n" title="${esc(crewNames(t))}">${esc(crewNames(t))}</b><span class="pill crew">👥 ${crew(t).length} people</span>` : `<b style="color:${tc(m.c1)}">${m.name}</b>`}<span>· Deadline ${fmt(t.deadline)}</span>${t.assignedBy&&!has(t,t.assignedBy)&&M(t.assignedBy)?`<span>· by ${M(t.assignedBy).name}</span>`:""}
+      <div class="meta">${crew(t).length>1 ? `<b class="crew-n" title="${esc(crewNames(t))}">${esc(crewNames(t))}</b><span class="pill crew">👥 ${crew(t).length} people</span>` : `<b style="color:${tc(m.c1)}">${m.name}</b>`}${dateChip(t)}${t.assignedBy&&!has(t,t.assignedBy)&&M(t.assignedBy)?`<span>· by ${M(t.assignedBy).name}</span>`:""}
         <span class="pill ${pc}">${pl}</span><span class="pill ${sc}">${sl}</span>${t.module?`<span class="pill mod" title="Module">▣ ${esc(t.module)}</span>`:""}
         ${t.completedAt?`<span>· Done ${fmt(t.completedAt)}</span>`:""}
         ${t.estHours?`<span>· Est ${fmtH(t.estHours)}</span>`:""}
@@ -2663,10 +2720,40 @@ function fillSelects(){
 }
 function initForm(resetDeadline=true){
   if (!$("fMember").children.length) fillSelects();
-  $("fToday").value = fmt(today(),{weekday:"short",day:"numeric",month:"short",year:"numeric"}) + " (Today)";
-  $("fDeadline").min = today();
+  if (resetDeadline || !isDay($("fStart").value)){ $("fStart").value = today(); }
   if (resetDeadline){ $("fDeadline").value = ymd(addDays(new Date(), S().due|0)); $("fPriority").value = S().pri; }
+  syncAddDates.reset();
 }
+// ---------- v11.8: start date, deadline, duration ----------
+const dayDiff = (a,b) => Math.round((parse(a)-parse(b))/864e5);
+const fdate = d => fmt(d, parse(d).getFullYear()===new Date().getFullYear() ? {weekday:"short",day:"numeric",month:"short"} : {day:"numeric",month:"short",year:"numeric"});
+function spanText(s,d){
+  if (!isDay(s) || !isDay(d)) return "";
+  if (d < s) return "⚠ The deadline is before the start date";
+  const n = dayDiff(d,s)+1, td = today(), k = dayDiff(s,td);
+  return `${fdate(s)} → ${fdate(d)} · ${n} day${n===1?"":"s"}${k>0?` · starts in ${k} day${k===1?"":"s"}`:""}`;
+}
+function wireDates(sId, dId, spId, keep){   // keep = moving the start also moves the deadline (same length)
+  const s = $(sId), d = $(dId), sp = $(spId), q = document.querySelector(`.qdates[data-s="${sId}"]`); let prev = s.value;
+  const sync = ()=>{
+    if (isDay(s.value)){
+      if (keep && isDay(prev) && isDay(d.value) && prev!==s.value) d.value = ymd(addDays(parse(s.value), Math.max(0, dayDiff(d.value, prev))));
+      d.min = s.value; if (isDay(d.value) && d.value < s.value) d.value = s.value; prev = s.value;
+    }
+    const m = spanText(s.value, d.value); sp.textContent = m; sp.classList.toggle("bad", m.startsWith("⚠"));
+  };
+  s.addEventListener("input", sync); s.addEventListener("change", sync); d.addEventListener("input", sync);
+  if (q) q.addEventListener("click", e=>{ const b = e.target.closest("button[data-n]"); if (!b || !isDay(s.value)) return; d.value = ymd(addDays(parse(s.value), +b.dataset.n)); sync(); });
+  sync.reset = ()=>{ prev = s.value; sync(); };
+  return sync;
+}
+const syncAddDates = wireDates("fStart","fDeadline","fSpan",true), syncEditDates = wireDates("eStart","eDeadline","eSpan",false);
+function dateChip(t){
+  const same = t.date===t.deadline, [lb,k] = dueInfo(t), cls = {bad:"s-over",warn:"s-late",info:"s-run",ok:"s-ok"}[k];
+  const mv = t.moves ? `<span class="pill s-todo" title="Original deadline ${esc(fdate(t.origDeadline||t.deadline))}">↻ Moved ${t.moves}×</span>` : "";
+  return `<span class="tdates"><span class="rng" title="${same?"Single-day task":"Start date → Deadline"}">📅 ${same?"Due "+esc(fdate(t.deadline)):esc(fdate(t.date))+" <i>→</i> "+esc(fdate(t.deadline))}</span>${cls&&t.status!=="done"?`<span class="pill ${cls}">${esc(lb)}</span>`:""}${mv}</span>`;
+}
+if (window.__misLoadErr) setTimeout(()=>toast("⚠ Your saved data couldn’t be read, so MISphere started empty. The original was kept on this device — don’t clear browser data, and contact the app owner to recover it.", 9000), 900);
 
 // ---------- v10.4: assignee picker (multi-select chips) + avatar stack ----------
 function avStack(t, cls=""){
@@ -2701,11 +2788,14 @@ $("taskForm").onsubmit = e=>{
   const who = crewIds[0], away = crewIds.map(M).filter(m=>m.status==="leave");
   if (away.length && !confirm(`${away.map(m=>m.name).join(", ")} ${away.length>1?"are":"is"} on leave. Assign anyway?`)) return;
   if (S().reqMod && !$("fModule").value){ toast("Please choose the module this task is for"); return; }
-  const date = today(), deadline = $("fDeadline").value;
-  if (deadline < date){ toast("Deadline cannot be earlier than today"); return; }
+  const date = $("fStart").value, deadline = $("fDeadline").value;
+  if (!isDay(date) || !isDay(deadline)){ toast("Enter a valid start date and deadline"); return; }
+  if (deadline < date){ toast("The deadline can’t be before the start date"); return; }
+  if (deadline < today() && !confirm("This deadline has already passed, so the task will show as overdue. Add it anyway?")) return;
+  const created = date > today() ? new Date(parse(date).setHours(+S().start||9,0,0,0)).getTime() : Date.now();
   db.tasks.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),
     member:who, team:crewIds.slice(1), repeat:$("fRepeat").value||"", module:clean($("fModule").value), assignedBy:ME().id, title:$("fTitle").value.trim(), notes:$("fNotes").value.trim(),
-    date, deadline, priority:$("fPriority").value, status:"todo", progress:0, completedAt:null, created:Date.now(),
+    date, deadline, priority:$("fPriority").value, status:"todo", progress:0, completedAt:null, created,
     estHours: +$("fEst").value || null, doneAt:null});
   logAct(`added task “${$("fTitle").value.trim()}” for ${crewIds.map(i=>M(i).name).join(", ")}`); save(); $("fTitle").value=""; $("fNotes").value=""; $("fEst").value=""; $("fRepeat").value=""; initForm(); $("fTitle").focus();
   weekStart = monday(parse(date)); render(); toast("Task added ✔");
@@ -2758,7 +2848,7 @@ $("flMember").onchange = e=>{ selectedMember = e.target.value; render(); };
 $("flReset").onclick = ()=>{ $("flStatus").value="all"; $("flPriority").value="all"; $("flDue").value="all"; $("flSearch").value=""; selectedMember="all"; $("flMember").value="all"; render(); };
 $("flDue").onchange = render; $("flPriority").onchange = render;
 $("flExp").onclick = ()=>{ const L = window.__tl||[]; if(!L.length) return toast("Nothing to export in this view");
-  const q = v=>`"${String(v??"").replace(/"/g,'""')}"`, rows = [["Task","Member","Module","Priority","Status","Deadline","Progress %","Notes"], ...L.map(t=>[t.title,crewNames(t),t.module||"",t.priority,t.status,t.deadline,t.status==="done"?100:(t.progress||0),t.notes||""])];
+  const q = v=>`"${String(v??"").replace(/"/g,'""')}"`, rows = [["Task","Member","Module","Priority","Status","Start date","Deadline","Progress %","Notes"], ...L.map(t=>[t.title,crewNames(t),t.module||"",t.priority,t.status,t.date,t.deadline,t.status==="done"?100:(t.progress||0),t.notes||""])];
   const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob(["\ufeff"+rows.map(r=>r.map(q).join(",")).join("\n")],{type:"text/csv"})); a.download = `tasks-${today()}.csv`; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href),4000); toast(`⬇ ${L.length} task(s) exported`); }; $("flStatus").onchange = render; $("flSort").onchange = render; $("flSearch").oninput = render;
 $("prevW").onclick = ()=>{ weekStart = addDays(weekStart,-7); render(); };
 $("nextW").onclick = ()=>{ weekStart = addDays(weekStart,7); render(); };
@@ -3215,7 +3305,7 @@ function importXlsx(file){
     const tasks = replace ? [] : db.tasks.map(t=>({...t})), byId = new Map(tasks.map(t=>[t.id,t]));
     let n = 0, bad = 0; const newMods = [];
     tr.forEach(x=>{
-      const names = String(x.Member||"").split(/[,;&|]/).map(z=>z.trim()).filter(Boolean), people = names.map(z=>ensure(z)).filter(Boolean), m = people[0], date = xd(x.Date) || today(), deadline = xd(x.Deadline);
+      const names = String(x.Member||"").split(/[,;&|]/).map(z=>z.trim()).filter(Boolean), people = names.map(z=>ensure(z)).filter(Boolean), m = people[0], date = xd(x["Start date"] || x.Start || x.Date) || today(), deadline = xd(x.Deadline);
       if (!m || !validDay(date) || !validDay(deadline)){ bad++; return; }
       const sv = String(x.Status).toLowerCase(), status = sv.includes("done") ? "done" : sv.includes("prog") ? "progress" : "todo";
       const pv = String(x.Priority).toLowerCase(), priority = pv[0]==="h" ? "high" : pv[0]==="l" ? "low" : "med";
@@ -3811,13 +3901,23 @@ function renderNotes(){
 function logAct(t){ (db.log ??= []).push({t:Date.now(), w:(ME()||{}).name||"", a:t}); db.log = db.log.slice(-200); }
 let eId = null;
 function openEdit(t){ eId = t.id; mpInit($("eMember"), can("assign")?MEMBERS:crewM(t), crew(t)); $("eRepeat").value = t.repeat||"";
-   $("eTitle").value = t.title; $("eDeadline").value = t.deadline; $("ePri").value = t.priority; $("eEst").value = t.estHours||""; $("eNotes").value = t.notes||""; $("eModule").value = t.module||""; $("tDlg").showModal(); }
+   $("eTitle").value = t.title; $("eStart").value = t.date; $("eDeadline").value = t.deadline; syncEditDates.reset(); $("ePri").value = t.priority; $("eEst").value = t.estHours||""; $("eNotes").value = t.notes||""; $("eModule").value = t.module||""; $("tDlg").showModal(); }
 $("eCancel").onclick = ()=>$("tDlg").close();
 $("tForm").onsubmit = e=>{ e.preventDefault(); const t = db.tasks.find(x=>x.id===eId); if (!t || !canTask(t)) return deny();
-  const dl = $("eDeadline").value; if (dl < t.date){ toast("Deadline can’t be before the task date"); return; }
+  const st = $("eStart").value, dl = $("eDeadline").value;
+  if (!isDay(st) || !isDay(dl)){ toast("Enter a valid start date and deadline"); return; }
+  if (dl < st){ toast("The deadline can’t be before the start date"); return; }
   { const ids = can("assign") ? mpGet($("eMember")).filter(M) : crew(t); if (!ids.length){ toast("Choose at least one person"); return; } setCrew(t, ids); }
-  Object.assign(t, {repeat:$("eRepeat").value||"", title:$("eTitle").value.trim(), module:clean($("eModule").value), deadline:dl, priority:$("ePri").value, estHours:+$("eEst").value||null, notes:$("eNotes").value.trim()});
-  logAct(`edited task “${t.title}”`); save(); $("tDlg").close(); render(); toast("Task updated ✔"); };
+  const was = {date:t.date, deadline:t.deadline};
+  Object.assign(t, {repeat:$("eRepeat").value||"", title:$("eTitle").value.trim(), module:clean($("eModule").value), date:st, deadline:dl, priority:$("ePri").value, estHours:+$("eEst").value||null, notes:$("eNotes").value.trim()});
+  if (dl !== was.deadline){ t.origDeadline = t.origDeadline || was.deadline; t.moves = (t.moves|0)+1; }
+  if (st !== was.date && t.status!=="done") t.created = st > today() ? new Date(parse(st).setHours(+S().start||9,0,0,0)).getTime() : (was.date > today() ? Date.now() : t.created);   // the office-hours timer follows the start date
+  const moved = st!==was.date || dl!==was.deadline;
+  logAct(moved ? `rescheduled “${t.title}” · start ${was.date} → ${st} · due ${was.deadline} → ${dl}` : `edited task “${t.title}”`);
+  save(); $("tDlg").close(); render();
+  const [ws, we] = weekRange();
+  if (moved && (st < ws || st > we) && t.status!=="done") toastAct("Task moved to "+fdate(st), "Show", ()=>{ weekStart = monday(parse(st)); render(); });
+  else toast(moved ? "Task rescheduled ✔" : "Task updated ✔"); };
 $("homeFocus").onchange = e=>{ const r = e.target.closest("[data-hf]"); if (!r || role()==="viewer") return; const i = nOf(today(),ME().id).items.find(z=>z.id===r.dataset.hf); if (i){ i.d = true; i.at = Date.now(); save(); render(); } };
 $("nSearch").oninput = render;
 $("nRes").onclick = e=>{ const b = e.target.closest("[data-go]"); if (b){ $("nSearch").value = ""; nGo(b.dataset.go); } };
@@ -3886,8 +3986,9 @@ ghRender();
 <script>
 /* v8: stable updater + version history. Data lives in localStorage and is never touched by an update; a snapshot is taken first. */
 (()=>{
-const APP_VERSION="11.7.0", SNAP_KEY="mis_snapshots_v1", LOG_KEY="mis_update_log_v1", $=id=>document.getElementById(id);
+const APP_VERSION="11.8.0", SNAP_KEY="mis_snapshots_v1", LOG_KEY="mis_update_log_v1", $=id=>document.getElementById(id);
 const HISTORY=[
+ {v:"11.8.0",d:"2026-11-04",n:["New: every task now has an editable start date and deadline - set them when adding a task and change either one later from Edit; quick buttons (same day, +1 day, +3 days, +1 week, +2 weeks) and a live duration line show the span; a task can be scheduled for a future day and appears on that day", "New: clearer task display - each task shows its start to deadline range with a status badge (Starts tomorrow, Due today, 3d overdue) and a Moved badge when its deadline was changed; board cards show future start dates; the CSV export includes Start date", "New: Excel import also reads a Start date / Start column (the existing Date column still works)", "Safer updates: before an update installs, a restore point is saved automatically; the update is only applied once the new version is confirmed live on the server (no more update loops while the host is still publishing); the restore points are no longer wiped on startup", "Safer data: saved data now carries a format version; older data is upgraded automatically and an untouched copy is kept first (it also appears under Data safety restore points); unreadable data is preserved instead of being overwritten by an empty workspace; fields added by newer versions are never dropped", "Fixed: tasks with a missing or invalid date, status, priority or progress are repaired on load instead of breaking the page; a finished task with no completion date is no longer counted as late", "Fixed: the recovery prompt after a faulty session did nothing - it now points you to your restore points", "Housekeeping: removed unrelated DashView files (js/, css/reports-hub.css, test/) that were published with the site but never used by MISphere"]},
  {v:"11.7.0",d:"2026-11-02",n:["New: iOS type system everywhere - SF Pro Display and SF Pro Text on iPhone, iPad and Mac, bundled Inter variable (the closest match) on Windows, Android and Linux; dashboard, landing page, charts, dialogs and form fields now share one font stack", "New: bolder, clearer weight scale across the whole theme - body 500, labels and buttons 600, headings 700-800, KPI figures 800 with tabular numbers; tight iOS tracking on large titles, calmer tracking on small text", "Improved: landing page headings, cards and stats follow the same iOS type and weights as the dashboard (Bricolage Grotesque and Instrument Sans are no longer drawn)", "Fixed: the Software Update prompt never appeared - version.json had been replaced by another app's file (2.30.1, lower than 11.6.0); the update feed is restored with MISphere's full history and 11.7.0", "Fixed: offline install - sw.js was another app's worker listing 60+ files that do not exist, so it could never install; rebuilt for MISphere (each file cached on its own, version.json always read fresh, old caches cleaned)", "Housekeeping: README badge, package.json, desktop app version and CHANGELOG aligned to 11.7.0"]},
  {v:"11.6.0",d:"2026-10-31",n:["iOS typography: SF Pro on Apple devices, bundled Inter (the closest match) everywhere else, tighter headings and smoother text rendering", "Proper iOS-style blur: progressive edge blur under the top and bottom bars plus frosted header and tab bar"]},
  {v:"11.5.1",d:"2026-10-31",n:["Clean blur on the header and tab bar only: content scrolls softly behind them, colours stay solid and clear"]},
@@ -3912,7 +4013,7 @@ const rd=(k,f)=>{try{return JSON.parse(localStorage.getItem(k))||f}catch{return 
 const cmp=(a,b)=>{a=a.split(".").map(Number);b=b.split(".").map(Number);for(let i=0;i<3;i++){if((a[i]||0)!==(b[i]||0))return (a[i]||0)>(b[i]||0)?1:-1}return 0};
 const esc=t=>String(t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 let latest=null, remoteHist=[];
-function snapshot(why){const data=localStorage.getItem(KEY)||"";let a=rd(SNAP_KEY,[]);a.unshift({t:Date.now(),v:APP_VERSION,why,data});a=a.slice(0,5);if(!wr(SNAP_KEY,a)){a=a.slice(0,1);wr(SNAP_KEY,a)}return a}
+function snapshot(why){try{return !!(window.misDataSafety&&misDataSafety.snap&&misDataSafety.snap(why,true))}catch{return false}}
 function draw(){
  $("v8Cur").textContent=APP_VERSION;
  const all=[...remoteHist,...HISTORY].filter((x,i,r)=>r.findIndex(y=>y.v===x.v)===i).sort((a,b)=>cmp(b.v,a.v));
@@ -3931,7 +4032,7 @@ async function update(){
  if(!latest)return;const bar=$("v8Bar"),fill=bar.firstElementChild;bar.style.display="block";
  const step=(p,t)=>{fill.style.width=p+"%";$("v8Msg").textContent=t;prog(p,t)};
  step(25,"Preparing update");
- await new Promise(r=>setTimeout(r,500));step(55,"Verifying update…");try{save()}catch{}let ok=false;try{const r=await fetch(location.pathname+"?probe="+Date.now(),{cache:"no-store"});ok=r.ok&&(await r.text()).includes("MISphere")}catch{}if(!ok){fail();return}step(72,"Preparing update…");
+ await new Promise(r=>setTimeout(r,500));step(55,"Saving a restore point…");try{save()}catch{}snapshot("before update to "+latest.version);step(65,"Confirming the new version is live…");let ok=false;try{const r=await fetch(new URL("index.html",location.href).href+"?probe="+Date.now(),{cache:"no-store"});ok=r.ok&&(await r.text()).includes('APP_VERSION="'+latest.version+'"')}catch{}if(!ok){fail();return}step(78,"Preparing update…");
  try{if(window.caches)for(const k of await caches.keys())await caches.delete(k);if(navigator.serviceWorker)for(const g of await navigator.serviceWorker.getRegistrations())await g.unregister()}catch{}
  const l=rd(LOG_KEY,[]);l.unshift({t:Date.now(),from:APP_VERSION,to:latest.version});wr(LOG_KEY,l.slice(0,20));
  await new Promise(r=>setTimeout(r,500));step(100,"Restarting…");
@@ -3954,8 +4055,8 @@ function prog(p,t){
  if(!ov||!ov.querySelector(".v8pr")){show('<div class="v8ic spin">'+LOGO+'</div><h2>Updating MISphere…</h2><div class="sub" id="v8t">Preparing…</div><div class="v8pr"><i></i></div><div class="sub">Please keep this page open</div>')}
  ov.querySelector(".v8pr i").style.width=p+"%";ov.querySelector("#v8t").textContent=t;
 }
-function fail(){const o=show('<div class="v8ic" style="background:linear-gradient(135deg,#ff9f0a,#ff453a)"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><path d="M12 6v7M12 17.5v.5"/></svg></div><h2>Update Not Installed</h2><div class="sub">MISphere couldn\'t reach the update. Your data is safe and the current version keeps running.</div><div class="v8bt"><button class="p" id="v8r">Try Again</button><button class="g" id="v8x">Close</button></div>');o.querySelector("#v8r").onclick=()=>update();o.querySelector("#v8x").onclick=close}
-function recover(){}
+function fail(){const o=show('<div class="v8ic" style="background:linear-gradient(135deg,#ff9f0a,#ff453a)"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><path d="M12 6v7M12 17.5v.5"/></svg></div><h2>Update Not Installed</h2><div class="sub">The new version isn\'t live on the server yet (it may still be publishing). Your data is safe and the current version keeps running — try again in a minute.</div><div class="v8bt"><button class="p" id="v8r">Try Again</button><button class="g" id="v8x">Close</button></div>');o.querySelector("#v8r").onclick=()=>update();o.querySelector("#v8x").onclick=close}
+function recover(){try{toastAct("Last session had errors. Your data is safe.","Restore points",()=>{window.misDataSafety&&misDataSafety.open&&misDataSafety.open()})}catch{}}
 function done(){
  const h=(HISTORY.find(x=>x.v===APP_VERSION)||{}).n||[];
  const o=show('<div class="v8ok"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div><h2>Update Complete</h2><div class="sub">MISphere '+APP_VERSION+' · all your data is intact</div><div class="sub" style="margin-top:14px;text-align:left;font-weight:600">What\'s New</div>'+notes(h)+'<div class="v8bt"><button class="p" id="v8c">Continue</button></div>');
@@ -3971,7 +4072,7 @@ document.addEventListener("keydown",e=>{if(e.key==="?"&&!/INPUT|TEXTAREA|SELECT/
 window.addEventListener("offline",()=>toast("📡 You’re offline — changes are saved on this device"));window.addEventListener("online",()=>toast("✅ Back online"));
 document.addEventListener("click",e=>{if(navigator.vibrate&&e.target.closest&&e.target.closest(".btn,.sw,.tabbar button,.ib"))navigator.vibrate(6)},{passive:true});
 document.addEventListener("DOMContentLoaded",()=>{
- if(!$("v8Upd"))return;draw();health();$("v87Re").onclick=()=>{health();toast("Health check complete")};setInterval(()=>{if(document.querySelector("#v-settings.on"))health()},4000);try{localStorage.removeItem(SNAP_KEY)}catch{}
+ if(!$("v8Upd"))return;draw();health();$("v87Re").onclick=()=>{health();toast("Health check complete")};setInterval(()=>{if(document.querySelector("#v-settings.on"))health()},4000);
  $("v8Check").onclick=()=>check(false);$("v8Go").onclick=()=>latest&&offer(latest,false);$("updPill").onclick=()=>latest&&offer(latest,false);
  const l=rd(LOG_KEY,[]);if(l[0]&&l[0].to===APP_VERSION&&Date.now()-l[0].t<120000)setTimeout(done,700);
  {const bt=rd("mis_boot",null);if(bt&&bt.ok===false&&bt.err>0&&Date.now()-bt.t<18e5){setTimeout(recover,900);wr("mis_boot",{v:bt.v,t:bt.t,ok:true,err:0,seen:1})}
@@ -5685,7 +5786,7 @@ function openSheet(m){
   setTimeout(()=>{ const p=ov&&ov.querySelector(".sgb.p"); if(p) p.focus({preventScroll:true}); },480);
 }
 function closeSheet(){ if(!ov) return; const o=ov; ov=null; o.classList.remove("on"); d.removeEventListener("keydown",onKey); setTimeout(()=>o.remove(),480); }
-window.misDataSafety={open:openSheet,level};
+window.misDataSafety={open:openSheet,level,snap};
 
 /* ---------- leave guard: browser's own prompt, then our sheet if you stay ---------- */
 let stayT=0;

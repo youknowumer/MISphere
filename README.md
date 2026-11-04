@@ -4,7 +4,7 @@
 
 **Team performance, tasks and daily notes — in one fast, private dashboard.**
 
-![Version](https://img.shields.io/badge/version-11.7.0-4f46e5)
+![Version](https://img.shields.io/badge/version-11.8.0-4f46e5)
 ![Licence](https://img.shields.io/badge/licence-All%20Rights%20Reserved-red)
 ![No backend](https://img.shields.io/badge/backend-none-0a84ff)
 ![Data](https://img.shields.io/badge/data-stays%20in%20your%20browser-30d158)
@@ -16,7 +16,7 @@ MISphere helps a team lead run a department week by week: assign and track tasks
 ## Highlights
 
 - **Home** — weekly KPIs with week-over-week change, a "needs attention" panel, team cards and the leader of the week.
-- **Tasks** — create, edit and track tasks with module, priority, estimate, progress and an office-hours timer. *By day* and drag-and-drop *Board* views, status tiles, and a filter toolbar (search, member, status, priority, due, sort) with one-click reset and **Export view** to CSV.
+- **Tasks** — create, edit and track tasks with module, priority, estimate, progress, an office-hours timer and an editable **start date and deadline** (schedule ahead, reschedule later, see the full range and a due badge on every task). *By day* and drag-and-drop *Board* views, status tiles, and a filter toolbar (search, member, status, priority, due, sort) with one-click reset and **Export view** to CSV.
 - **Insights** — Overview, Team, Modules and Executive sections built from line and bar charts, with health score, key findings, backlog burn, member scorecard, delivery forecast and 1 / 4 / 12 / 26 week periods.
 - **Daily notes** — day-wise key points with must-do stars, streak, tasks due and unfinished-point carry-over.
 - **Members** — one **Admin**, everyone else a **Member**. The weekly **leader** is chosen from the members, and leader history is kept.
@@ -48,6 +48,8 @@ Settings → Pages → deploy from the `main` branch (root). Keep `landing.html`
 ## Your data
 
 Data lives in the browser's `localStorage` on the device where it was entered. Download a backup (Reports → Backup download) or an Excel export every week. Clearing browser data erases it.
+
+**Updates never touch your data.** Saved data carries a format version. When a release changes the format, MISphere first keeps an untouched copy (Data safety → restore points), then upgrades the data in place, adds only what is missing and never drops fields it does not know. If saved data ever cannot be read, it is preserved instead of being overwritten. Before an update installs, a restore point is saved and the update only proceeds once the new version is confirmed live.
 
 ### Optional: sync to GitHub
 

@@ -1,17 +1,40 @@
 {
-  "version": "11.9.0",
-  "build": "2026.11.04.2",
+  "version": "11.10.0",
+  "build": "2026.11.04.3",
   "released": "2026-11-04",
   "notes": [
-    "New: every task now says how long it has been open - list view shows “Open 4 days · Day 4 of 5” (or “over plan”), finished tasks show “Took 3 days”, tasks that have not started yet show “Starts in 2 days”; hover for the start date, working days and plan",
-    "New: ageing alerts - open tasks older than a limit you set (Settings → Targets, default 5 days) are flagged amber, overdue ones red; a one-tap “aging” chip and a new “Aging tasks” filter list them",
-    "Improved: board cards show the open age, the start-to-deadline range on hover and a ↻ mark when the deadline moved; each board column shows its average open age (or average days to close) and how many tasks are aging",
-    "Improved: list view day headings summarise the day (tasks · open · overdue); the overview line shows the average open age; new sorts “Longest open” and “Start date”",
-    "New: deleting a task can be undone for 8 seconds; the status and progress controls on every row now have screen-reader labels",
-    "New: “Days open” column in the view CSV, the week CSV report and the Excel export (import ignores it, so exports can still be imported)",
-    "Your data is not changed by this update: no new stored fields; the ageing limit is a new setting with a safe default"
+    "New: closing a task is now judged against its deadline - when a task is overdue (or not started yet) a “Close task” sheet asks which day the work was really finished, with quick buttons (Today, Yesterday, On the deadline day) and a live verdict such as “On time - 2 days before the deadline” or “Late - 3 days after the deadline (1 working day)”, plus the points it will earn and an optional closing note; work finished on time is no longer booked as late just because it was closed later",
+    "New: the same close flow runs everywhere a task can be finished - the status menu, the progress slider at 100%, board buttons and drag-and-drop, bulk “Done” (one date for all selected tasks, with a per-task verdict) and the Done button in Daily notes; every close can be undone for a few seconds, and on-time closes on a normal day stay one tap",
+    "New: Settings → General → Closing tasks - choose when MISphere asks for the completion date: only when overdue or not started (default), every time, or never (always today)",
+    "New: every finished task shows how far it was from its deadline - “Done 2 Nov · 2d early”, “on deadline day” or “1d late” on the list and the board (hover for the working days), with the closing note shown under the task",
+    "New: Edit task has “Completed on” and “Closing note” for finished tasks with a live on-time / late line, and tells you when a change flips the task between on time and late",
+    "Improved: Insights splits on-time work into early and deadline-day finishes and reports the average days before or after the deadline; the view CSV, week CSV, Excel export and JSON report get a “Days vs deadline” column, and the Excel export / import carries the closing note (import still ignores the extra columns)",
+    "Fixed: a task closed before its planned start now moves its start to the completion day instead of finishing before it began",
+    "Fixed: bulk “Postpone / Set to today” could place the deadline before the start date, changed finished tasks and never counted as a move; it now keeps the deadline on or after the start, skips finished tasks and records the move",
+    "Fixed: repeating and duplicated tasks no longer inherit the “Moved” badge and original deadline of the task they came from",
+    "Fixed: reopening a task clears its completion date and closing note; finished tasks saved with a completion before their start or in the future are repaired on load",
+    "Housekeeping: the unrelated DashView files (js/, css/reports-hub.css, test/) are removed again so they are not published with the site",
+    "Your data is kept: one optional field (closing note) and one setting are new; existing tasks, members and backups load exactly as before"
   ],
   "history": [
+    {
+      "v": "11.10.0",
+      "d": "2026-11-04",
+      "n": [
+        "New: closing a task is now judged against its deadline - when a task is overdue (or not started yet) a “Close task” sheet asks which day the work was really finished, with quick buttons (Today, Yesterday, On the deadline day) and a live verdict such as “On time - 2 days before the deadline” or “Late - 3 days after the deadline (1 working day)”, plus the points it will earn and an optional closing note; work finished on time is no longer booked as late just because it was closed later",
+        "New: the same close flow runs everywhere a task can be finished - the status menu, the progress slider at 100%, board buttons and drag-and-drop, bulk “Done” (one date for all selected tasks, with a per-task verdict) and the Done button in Daily notes; every close can be undone for a few seconds, and on-time closes on a normal day stay one tap",
+        "New: Settings → General → Closing tasks - choose when MISphere asks for the completion date: only when overdue or not started (default), every time, or never (always today)",
+        "New: every finished task shows how far it was from its deadline - “Done 2 Nov · 2d early”, “on deadline day” or “1d late” on the list and the board (hover for the working days), with the closing note shown under the task",
+        "New: Edit task has “Completed on” and “Closing note” for finished tasks with a live on-time / late line, and tells you when a change flips the task between on time and late",
+        "Improved: Insights splits on-time work into early and deadline-day finishes and reports the average days before or after the deadline; the view CSV, week CSV, Excel export and JSON report get a “Days vs deadline” column, and the Excel export / import carries the closing note (import still ignores the extra columns)",
+        "Fixed: a task closed before its planned start now moves its start to the completion day instead of finishing before it began",
+        "Fixed: bulk “Postpone / Set to today” could place the deadline before the start date, changed finished tasks and never counted as a move; it now keeps the deadline on or after the start, skips finished tasks and records the move",
+        "Fixed: repeating and duplicated tasks no longer inherit the “Moved” badge and original deadline of the task they came from",
+        "Fixed: reopening a task clears its completion date and closing note; finished tasks saved with a completion before their start or in the future are repaired on load",
+        "Housekeeping: the unrelated DashView files (js/, css/reports-hub.css, test/) are removed again so they are not published with the site",
+        "Your data is kept: one optional field (closing note) and one setting are new; existing tasks, members and backups load exactly as before"
+      ]
+    },
     {
       "v": "11.9.0",
       "d": "2026-11-04",

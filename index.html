@@ -1421,6 +1421,8 @@
             <div class="srow"><div><b>Opens on</b><span>The page shown when you launch the dashboard</span></div><select data-s="landing" style="width:auto"><option value="dash">Home</option><option value="tasks">Tasks</option><option value="notes">Daily notes</option><option value="insights">Insights</option><option value="perf">Performance</option></select></div></div>
           <div class="panel"><h3>✏️ New task defaults</h3>
             <div class="fgrid two" style="grid-template-columns:1fr 1fr"><div><label>Default priority</label><select data-s="pri"><option value="high">High</option><option value="med">Medium</option><option value="low">Low</option></select></div><div><label>Deadline (days ahead)</label><input type="number" data-s="due" min="0" max="30"><p class="fh">0 = same day as the task date.</p></div></div></div>
+          <div class="panel"><h3>✔ Closing tasks <small>how a task is judged against its deadline</small></h3>
+            <div class="srow"><div><b>Ask for the completion date</b><span>A task is on time when it is completed on or before its deadline day. Choose when MISphere asks which day the work was really finished.</span></div><select data-s="closeAsk" style="width:auto"><option value="smart">Only when overdue or not started yet</option><option value="always">Every time</option><option value="never">Never — always use today</option></select></div></div>
         </div>
 
         <div class="ssec" data-ss="time">
@@ -1529,7 +1531,16 @@
 <div style="margin-bottom:10px"><label>Task</label><input id="eTitle" required maxlength="200"></div>
 <div class="fgrid" style="grid-template-columns:1fr 1fr"><div class="span-all"><label>Assigned to <span class="mp-hint">— tap to add or remove</span></label><div id="eMember" class="mpick" role="group" aria-label="Assigned to"></div></div><div><label>Start date</label><input type="date" id="eStart" required></div><div><label>Deadline</label><input type="date" id="eDeadline" required></div><div><label>Priority</label><select id="ePri"><option value="high">High</option><option value="med">Medium</option><option value="low">Low</option></select></div><div><label>Estimate (hours)</label><input type="number" id="eEst" min="0" step="0.25"></div><div><label>Repeat</label><select id="eRepeat"><option value="">Does not repeat</option><option value="daily">Every day</option><option value="weekdays">Every weekday</option><option value="weekly">Every week</option><option value="monthly">Every month</option></select></div><div class="span-all dline"><div class="qdates" data-s="eStart" role="group" aria-label="Quick deadline"><span>Deadline:</span><button type="button" data-n="0">Same day</button><button type="button" data-n="1">+1 day</button><button type="button" data-n="3">+3 days</button><button type="button" data-n="7">+1 week</button><button type="button" data-n="14">+2 weeks</button></div><small class="dspan" id="eSpan" aria-live="polite"></small></div></div>
 <div class="fgrid" style="grid-template-columns:1fr 2fr;margin-bottom:14px"><div><label>Module</label><select id="eModule"></select></div><div><label>Notes</label><input id="eNotes"></div></div>
+<div id="eDoneBox" class="edone" hidden><div class="fgrid" style="grid-template-columns:1fr 2fr;margin-bottom:8px"><div><label>Completed on</label><input type="date" id="eDone"></div><div><label>Closing note</label><input id="eCloseNote" maxlength="300" placeholder="Optional"></div></div><div class="cs-verdict" id="eVerdict" role="status" aria-live="polite"></div></div>
 <div style="display:flex;gap:8px;justify-content:flex-end"><button class="btn" type="button" id="eCancel">Cancel</button><button class="btn pri" type="submit">Save</button></div></form></dialog>
+<dialog id="cDlg" aria-labelledby="cTitle"><form id="cForm" method="dialog">
+<div class="cs-head"><i class="cs-ic" id="cIc" aria-hidden="true">✔</i><div><h3 id="cTitle">Close task</h3><p id="cSub"></p></div></div>
+<div class="cs-facts" id="cFacts"></div>
+<div class="cs-date"><label for="cDay">Completed on</label><input type="date" id="cDay" required><div class="cs-q" id="cQuick" role="group" aria-label="Quick dates"></div></div>
+<div class="cs-verdict" id="cVerdict" role="status" aria-live="polite"></div>
+<div class="cs-list" id="cList"></div>
+<div style="margin-bottom:16px"><label for="cNote" id="cNoteL">Closing note<span class="mp-hint"> — optional</span></label><input id="cNote" maxlength="300" autocomplete="off"></div>
+<div class="cs-act"><button class="btn" type="button" id="cCancel">Cancel</button><button class="btn pri" type="submit" id="cGo">Close task</button></div></form></dialog>
 <dialog id="ghDlg"><form id="ghForm"><h3 style="margin-bottom:6px">☁ Live sync to GitHub</h3>
 <p class="hint" style="margin-bottom:12px">Saves your data into one file in a GitHub repository after every change. Choose ONE way to connect.</p>
 <div style="border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:12px"><b style="font-size:13px">A · Cloudflare Worker (recommended — no token in the browser)</b>
@@ -1583,7 +1594,7 @@ const GH_DEF = {worker:"",key:"",owner:"",repo:"",branch:"main",path:"data/mis-d
 let GH = (()=>{ try{ return {...GH_DEF, ...JSON.parse(localStorage.getItem(GH_KEY)||"{}")}; }catch{ return {...GH_DEF}; } })();
 let activeModule = (()=>{ try{ return localStorage.getItem(MOD_KEY)||"all"; }catch{ return "all"; } })();
 let ghSt = {s:"off", msg:""}, ghTimer = null, ghBusy = false, ghAgain = false, ghMute = false;
-const DEF_SET = {ageD:5, modules:DEFAULT_MODULES.slice(), reqMod:false, start:9, end:18, days:[1,2,3,4,5], tc:85, td:80, te:100, cap:8, pon:10, plate:5, pov:5, phi:1.5, dept:"Team", pri:"med", due:0, compact:false, attn:true, lastBackup:0, theme:"auto", me:"", perms:null, org:"", prep:"", conf:"internal", landing:"dash", hoursFmt:"hm", perDef:1, riskD:2, riskP:50, soonD:1, bkDays:7, rmotion:false};
+const DEF_SET = {ageD:5, closeAsk:"smart", modules:DEFAULT_MODULES.slice(), reqMod:false, start:9, end:18, days:[1,2,3,4,5], tc:85, td:80, te:100, cap:8, pon:10, plate:5, pov:5, phi:1.5, dept:"Team", pri:"med", due:0, compact:false, attn:true, lastBackup:0, theme:"auto", me:"", perms:null, org:"", prep:"", conf:"internal", landing:"dash", hoursFmt:"hm", perDef:1, riskD:2, riskP:50, soonD:1, bkDays:7, rmotion:false};
 const S = () => db.settings;
 const $ = id => document.getElementById(id);
 const M = id => MEMBERS.find(m=>m.id===id);
@@ -1641,7 +1652,12 @@ function normTasks(d){
     if (t.deadline < t.date) t.date = t.deadline;
     if (!(+t.created>0)) t.created = new Date(parse(t.date).setHours(9,0,0,0)).getTime();
     t.progress = Math.max(0, Math.min(100, Math.round(+t.progress||0)));
-    if (t.status==="done"){ t.progress = 100; if (!isDay(t.completedAt)) t.completedAt = +t.doneAt>0 ? ymd(new Date(+t.doneAt)) : t.date; }
+    if (t.status==="done"){
+      t.progress = 100; if (!isDay(t.completedAt)) t.completedAt = +t.doneAt>0 ? ymd(new Date(+t.doneAt)) : t.date;
+      if (t.completedAt < t.date) t.completedAt = t.date;      // cannot finish before it starts
+      if (t.completedAt > today()) t.completedAt = today();    // cannot finish in the future
+    }
+    if (t.status!=="done" || t.closeNote==null || t.closeNote==="") delete t.closeNote; else t.closeNote = String(t.closeNote).slice(0,300);
     t.estHours = +t.estHours>0 ? +t.estHours : null;
     t.notes = t.notes==null ? "" : String(t.notes);
     if (t.moves) t.moves = Math.max(0, t.moves|0);
@@ -1833,10 +1849,10 @@ function ghPayload(){
   return {
     _about: "MIS Team Dashboard — live data file. Written automatically by the dashboard on every change. Open it on GitHub to read the report; do not edit by hand (use Settings → Live sync → Load from GitHub to restore).",
     updatedAt: new Date().toISOString(), updatedBy: (ME()||{}).name || "", department: K.dept,
-    summary: {tasks:all.length, members:MEMBERS.length, done:st.done, open:all.length-st.done, overdue:st.overdue, deadlineMetPct:st.rate, avgProgressPct:st.avg, estimatedHours:r2(st.est), actualHours:r2(st.spent)},
+    summary: {tasks:all.length, members:MEMBERS.length, done:st.done, open:all.length-st.done, overdue:st.overdue, deadlineMetPct:st.rate, avgDaysVsDeadline:st.avgVar, avgProgressPct:st.avg, estimatedHours:r2(st.est), actualHours:r2(st.spent)},
     moduleReport: moduleRows(all).map(r=>({module:r.name, tasks:r.s.total, done:r.s.done, onTime:r.s.ontime, late:r.s.late, overdue:r.s.overdue, open:r.open, highPriorityOpen:r.hi, deadlineMetPct:r.s.rate, avgProgressPct:r.s.avg, estimatedHours:r2(r.s.est), actualHours:r2(r.s.spent), efficiencyPct:r.eff, score:r.s.score, leadContributor:r.top?r.top.m.name:null})),
     memberReport: MEMBERS.map(m=>{ const x = statsOf(all.filter(t=>has(t,m.id))); return {member:m.name, role:m.role, tasks:x.total, done:x.done, overdue:x.overdue, deadlineMetPct:x.rate, score:x.score}; }),
-    taskRegister: all.slice().sort((a,b)=>b.date.localeCompare(a.date)||b.created-a.created).map(t=>({module:t.module||"Unassigned", member:crew(t).map(mn).join(", "), task:t.title, priority:PRN[t.priority], status:STN[t.status], state:stLbl[stateOf(t)][0], progressPct:t.status==="done"?100:(t.progress||0), date:t.date, deadline:t.deadline, completedOn:t.completedAt||null, estimatedHours:t.estHours||null, hoursSpent:r2(spentOf(t)), notes:t.notes||"", id:t.id})),
+    taskRegister: all.slice().sort((a,b)=>b.date.localeCompare(a.date)||b.created-a.created).map(t=>({module:t.module||"Unassigned", member:crew(t).map(mn).join(", "), task:t.title, priority:PRN[t.priority], status:STN[t.status], state:stLbl[stateOf(t)][0], progressPct:t.status==="done"?100:(t.progress||0), date:t.date, deadline:t.deadline, completedOn:t.completedAt||null, daysVsDeadline:vsDeadline(t), closeNote:t.closeNote||"", estimatedHours:t.estHours||null, hoursSpent:r2(spentOf(t)), notes:t.notes||"", id:t.id})),
     data: {version:2, ...db}
   };
 }
@@ -2132,11 +2148,102 @@ function spawnNext(t){   // repeating task: when finished, schedule the next one
   if (!t.repeat || !REPL[t.repeat] || t.nextMade) return;
   let n = nextDue(t.deadline, t.repeat), guard = 0; while (n <= today() && guard++ < 400) n = nextDue(n, t.repeat);
   const o = {...t, id:Date.now().toString(36)+Math.random().toString(36).slice(2,6), team:[...(t.team||[])], date:n, deadline:n, status:"todo", progress:0, completedAt:null, doneAt:null, nextMade:false, created:new Date(parse(n).setHours(9,0,0,0)).getTime(), assignedBy:t.assignedBy};
-  delete o.spentHours; t.nextMade = true; db.tasks.push(o);
+  delete o.spentHours; delete o.origDeadline; delete o.moves; delete o.closeNote; t.nextMade = true; db.tasks.push(o);   // a new occurrence starts with a clean deadline history
   logAct(`scheduled next “${t.title}” for ${n}`); toast(`🔁 Next “${t.title}” scheduled for ${fmt(n,{weekday:"short",day:"numeric",month:"short"})}`);
 }
-function finish(t){
-  t.status = "done"; t.completedAt = today(); t.progress = 100; t.doneAt = Date.now(); spawnNext(t);
+// ---------- v11.10: closing a task against its deadline ----------
+// A task is "on time" when its completion DAY is on or before its deadline DAY. The completion day is chosen when the task is
+// closed (today by default, or any earlier day), so work that really finished on time is never booked as late.
+const dayWord = n => `${n} day${n===1?"":"s"}`;
+function workDaysLate(t, end){     // working days after the deadline, up to and including `end`
+  let n = 0; for (let d = addDays(parse(t.deadline),1); ymd(d) <= end; d = addDays(d,1)) if (isWorkDay(d)) n++; return n;
+}
+function verdict(t, day){          // how a completion on `day` compares with the deadline: v<0 early · 0 on the day · >0 late
+  const v = dayDiff(day, t.deadline), late = v > 0, K = S(), hi = t.priority==="high";
+  return {v, late, hi, wd: late ? workDaysLate(t, day) : 0,
+    pts: Math.round((late ? K.plate : K.pon) * (hi ? K.phi : 1) * 10) / 10,
+    text: v<0 ? `${dayWord(-v)} before the deadline` : v===0 ? "on the deadline day" : `${dayWord(v)} after the deadline`,
+    short: v<0 ? `${-v}d early` : v===0 ? "on deadline day" : `${v}d late`};
+}
+const vsDeadline = t => dayDiff(t.status==="done" ? (isDay(t.completedAt) ? t.completedAt : t.deadline) : today(), t.deadline);   // done: <0 early · open: >0 overdue
+function doneStamp(t, day){        // clock time stored with a completion day (keeps the office-hours counter right for back-dated closes)
+  if (day === today()) return Math.max(Date.now(), +t.created||0);
+  return Math.max(new Date(parse(day).setHours(Math.min(24, +S().end||18), 0, 0, 0)).getTime(), +t.created||0);
+}
+function commitFinish(t, day, note){
+  day = isDay(day) && day <= today() ? day : today();
+  let startMoved = false;
+  if (day < t.date){   // closed before its planned start: the start follows the work
+    t.date = day; startMoved = true;
+    t.created = Math.min(+t.created||Date.now(), new Date(parse(day).setHours(+S().start||9,0,0,0)).getTime());
+  }
+  t.status = "done"; t.completedAt = day; t.progress = 100; t.doneAt = doneStamp(t, day);
+  note = String(note||"").trim().slice(0,300); if (note) t.closeNote = note; else delete t.closeNote;
+  spawnNext(t);
+  return {t, v: verdict(t, day), startMoved};
+}
+function finish(t){ return commitFinish(t, today()); }
+const closeAsk = () => ["always","never"].includes(S().closeAsk) ? S().closeAsk : "smart";
+const needsSheet = t => closeAsk()==="always" || (closeAsk()==="smart" && (t.deadline < today() || t.date > today()));
+// closeFlow(tasks, {before, onDone, onCancel, quiet}): asks for the completion date when it matters, then closes.
+function closeFlow(list, o={}){
+  list = list.filter(t=>t.status!=="done");
+  if (!list.length){ (o.onCancel||render)(); return; }
+  if (list.some(needsSheet)) return closeTaskSheet(list, o);
+  finishClose(list, today(), "", o);
+}
+function finishClose(list, day, note, o){
+  const snap = JSON.stringify(db.tasks), res = list.map(t=>commitFinish(t, day, note)), late = res.filter(r=>r.v.late).length;
+  if (o.before) o.before(res);
+  logAct(res.length===1 ? `closed “${list[0].title}” · ${late?"late":"on time"} (${res[0].v.short})` : `closed ${res.length} tasks · ${res.length-late} on time, ${late} late`);
+  save(); render();
+  if (!o.quiet) closeToast(res, snap);
+  if (o.onDone) o.onDone(res, snap);
+}
+function closeToast(res, snap){
+  const n = res.length, late = res.filter(r=>r.v.late).length, r0 = res[0];
+  const msg = n===1 ? `${r0.v.late?"⚠ Closed late":"✔ Closed on time"} · ${r0.v.text}${r0.startMoved?" · start moved to "+fmt(r0.t.date):""}`
+                    : `✔ ${n} tasks closed · ${n-late} on time${late?` · ${late} late`:""}`;
+  toastAct(msg, "Undo", ()=>{ db.tasks = JSON.parse(snap); logAct(n===1 ? "undid close" : "undid bulk close"); save(); render(); toast("Close undone"); }, 6500);
+}
+function closeTaskSheet(list, o){
+  const dlg = $("cDlg"), td = today(), one = list.length===1, t0 = list[0], K = S();
+  let committed = false, day = td;
+  $("cTitle").textContent = one ? "Close task" : `Close ${list.length} tasks`;
+  $("cSub").textContent = one ? `${t0.title} · ${crewNames(t0)}` : "One completion date is applied to every selected task";
+  $("cDay").max = td; $("cDay").value = td; $("cNote").value = "";
+  $("cGo").textContent = one ? "Close task" : `Close ${list.length} tasks`;
+  const fact = (l,v,c="")=>`<div class="${c}"><small>${l}</small><b>${v}</b></div>`;
+  $("cFacts").innerHTML = one ? fact("Start", esc(fdate(t0.date))) + fact("Deadline", esc(fdate(t0.deadline))) + fact("Today", esc(fdate(td)), t0.deadline<td?"bad":"") : "";
+  $("cQuick").innerHTML = `<button type="button" data-d="${td}">Today</button><button type="button" data-d="${ymd(addDays(parse(td),-1))}">Yesterday</button>`
+    + (one && t0.deadline < td ? `<button type="button" data-d="${t0.deadline}">On the deadline day</button>` : "");
+  const paint = ()=>{
+    const v = $("cDay").value; day = isDay(v) && v <= td ? v : null;
+    $("cQuick").querySelectorAll("button").forEach(b=>b.classList.toggle("on", b.dataset.d===day));
+    const box = $("cVerdict"), go = $("cGo");
+    if (!day){ box.className = "cs-verdict bad"; box.innerHTML = `<b>Choose a valid date</b> — today or an earlier day.`; go.disabled = true; $("cIc").className = "cs-ic bad"; $("cIc").textContent = "!"; $("cList").innerHTML = ""; return; }
+    go.disabled = false;
+    const vs = list.map(t=>({t, v:verdict(t, day)})), late = vs.filter(x=>x.v.late).length;
+    $("cIc").className = "cs-ic" + (late ? " warn" : ""); $("cIc").textContent = late ? "⏱" : "✔";
+    if (one){
+      const x = vs[0].v, moved = day < t0.date;
+      box.className = "cs-verdict " + (x.late ? "warn" : "ok");
+      box.innerHTML = `<b>${x.late?"Late":"On time"}</b> — closing on ${esc(fdate(day))} is ${x.text}${x.wd&&x.wd!==x.v?` (${x.wd} working day${x.wd===1?"":"s"})`:""}.`
+        + `<small>Counts as ${x.late?"late":"on time"} · ${x.pts>0?"+":""}${x.pts} pts${x.hi?` (high priority ×${K.phi})`:""}${moved?` · start date moves to ${esc(fdate(day))}`:""}${t0.repeat&&REPL[t0.repeat]?" · next repeat is scheduled automatically":""}</small>`;
+      $("cList").innerHTML = "";
+    } else {
+      box.className = "cs-verdict " + (late ? "warn" : "ok");
+      box.innerHTML = `<b>${list.length-late} on time${late?` · ${late} late`:""}</b> if closed on ${esc(fdate(day))}.<small>Late tasks earn ${K.plate} pts instead of ${K.pon}.</small>`;
+      $("cList").innerHTML = vs.slice(0,6).map(x=>`<div><span title="${esc(x.t.title)}">${esc(x.t.title)}</span><i class="pill ${x.v.late?"s-late":"s-ok"}">${x.v.short}</i></div>`).join("") + (vs.length>6 ? `<div class="more">+${vs.length-6} more</div>` : "");
+    }
+  };
+  $("cNoteL").firstChild.textContent = "Closing note ";
+  $("cNote").placeholder = "Reason for a delay, hand-over… ";
+  $("cDay").oninput = paint; $("cQuick").onclick = e=>{ const b = e.target.closest("button[data-d]"); if (b){ $("cDay").value = b.dataset.d; paint(); } };
+  $("cCancel").onclick = ()=>dlg.close();
+  $("cForm").onsubmit = e=>{ e.preventDefault(); if (!day) return; committed = true; const nt = $("cNote").value; dlg.close(); finishClose(list, day, nt, o); };
+  dlg.onclose = ()=>{ if (!committed) (o.onCancel||render)(); };
+  paint(); dlg.showModal(); setTimeout(()=>{ try{ $("cGo").focus(); }catch{} }, 60);
 }
 $("taskList").addEventListener("click", e=>{
   const b = e.target.closest("[data-act=dup]"); if (!b) return;
@@ -2144,17 +2251,18 @@ $("taskList").addEventListener("click", e=>{
   if (role()==="viewer" || !(can("assign") || has(t,ME().id))) return deny();
   const c = {...t, id:Date.now().toString(36)+Math.random().toString(36).slice(2,6), team:[...(t.team||[])], title:t.title+" (copy)", date:today(), deadline:t.deadline<today()?today():t.deadline,
     status:"todo", progress:0, completedAt:null, doneAt:null, nextMade:false, created:Date.now(), assignedBy:ME().id};
-  delete c.spentHours; db.tasks.push(c); logAct(`duplicated task “${t.title}”`); save(); render();
+  delete c.spentHours; delete c.origDeadline; delete c.moves; delete c.closeNote; db.tasks.push(c); logAct(`duplicated task “${t.title}”`); save(); render();
   toastAct(`⧉ Duplicated “${t.title.length>34?t.title.slice(0,33)+"…":t.title}”`, "Undo", ()=>{ db.tasks = db.tasks.filter(x=>x.id!==c.id); logAct(`undid duplicate of “${t.title}”`); save(); render(); toast("Duplicate removed"); });
 });
 function statsOf(list){
-  const s = {total:list.length, done:0, ontime:0, late:0, overdue:0, sum:0, score:0, est:0, spent:0, doneEst:0, doneSpent:0};
+  const s = {total:list.length, done:0, ontime:0, late:0, overdue:0, sum:0, score:0, est:0, spent:0, doneEst:0, doneSpent:0, early:0, onday:0, varSum:0, varN:0};
   list.forEach(t=>{
     const sp = spentOf(t);
     s.est += t.estHours||0; s.spent += sp;
     if (t.status==="done" && t.estHours && sp){ s.doneEst += t.estHours; s.doneSpent += sp; }
     const st = stateOf(t), K = S(), w = t.priority==="high" ? K.phi : 1;
     s.sum += t.status==="done" ? 100 : (t.progress||0);
+    if (t.status==="done"){ const dv = vsDeadline(t); s.varSum += dv; s.varN++; if (dv<0) s.early++; else if (dv===0) s.onday++; }
     if (st==="ontime"){ s.done++; s.ontime++; s.score += K.pon*w; }
     else if (st==="late"){ s.done++; s.late++; s.score += K.plate*w; }
     else if (st==="overdue"){ s.overdue++; s.score -= K.pov*w; }
@@ -2163,6 +2271,7 @@ function statsOf(list){
   s.avg = s.total ? Math.round(s.sum/s.total) : 0;
   const due = s.done + s.overdue;
   s.rate = due ? Math.round(s.ontime/due*100) : null;
+  s.avgVar = s.varN ? Math.round(s.varSum/s.varN*10)/10 : null;   // average days vs deadline on finished tasks (<0 = early)
   s.score = Math.round(s.score*10)/10;
   return s;
 }
@@ -2465,7 +2574,7 @@ function renderTaskSum(base, fs){
 }
 function dueInfo(t){
   if (t.status!=="done" && t.date > today()){ const n = dayDiff(t.date, today()); return [n===1 ? "Starts tomorrow" : "Starts "+fmt(t.date,{day:"numeric",month:"short"}), "info"]; }
-  if (t.status==="done"){ const late = stateOf(t)==="late"; return [`${late?"Done late":"Done on time"} · ${fmt(t.completedAt,{day:"numeric",month:"short"})}`, late?"warn":"ok"]; }
+  if (t.status==="done"){ const v = verdict(t, t.completedAt); return [`${v.late?"Done late":"Done on time"} · ${v.short} · ${fmt(t.completedAt,{day:"numeric",month:"short"})}`, v.late?"warn":"ok"]; }
   const diff = Math.round((new Date(t.deadline+"T00:00:00")-new Date(today()+"T00:00:00"))/864e5);
   if (diff<0) return [`${-diff}d overdue`,"bad"]; if (diff===0) return ["Due today","warn"]; if (diff===1) return ["Due tomorrow","info"];
   return ["Due "+fmt(t.deadline,{day:"numeric",month:"short"}),"mut"];
@@ -2480,7 +2589,7 @@ function boardCard(t){
     <div class="bc-top"><span class="pill ${pc}">${pl}</span>${t.module?`<span class="pill mod" title="Module">▣ ${esc(t.module)}</span>`:""}${agePill(t,true)}${repPill(t)}<span class="bc-sp"></span>
       <button type="button" class="ib bi" data-act="dup" title="Duplicate task" aria-label="Duplicate task">⧉</button><button type="button" class="ib bi" data-act="edit" title="Edit task" aria-label="Edit task">✏</button><button type="button" class="ib bi" data-act="del" title="Delete task" aria-label="Delete task">🗑</button></div>
     <h5 class="bc-title${done?" done":""}">${esc(t.title)}</h5>
-    ${t.notes?`<p class="bc-notes">${esc(t.notes)}</p>`:""}
+    ${t.notes?`<p class="bc-notes">${esc(t.notes)}</p>`:""}${done&&t.closeNote?`<p class="bc-notes cnote">📝 ${esc(t.closeNote)}</p>`:""}
     <div class="bc-meta"><span class="bc-who"${by.length?by:` title="${esc(crewNames(t))}"`}>${crew(t).length>1 ? avStack(t,"mini") : `<i style="background:linear-gradient(135deg,${m.c1},${m.c2})">${initials(m.name)}</i>`}<span>${esc(crew(t).length>1 ? crewNames(t) : m.name)}</span></span><span class="bc-due ${dk}" title="${esc(fdate(t.date)+" → "+fdate(t.deadline))}">${dl}${t.moves?` <b class="mv" title="Deadline moved ${t.moves}×">↻${t.moves}</b>`:""}</span></div>
     <div class="bc-prog">${done?`<div class="tpg"><i style="width:100%"></i></div><b>100%</b>`:`<input type="range" class="bc-range" min="0" max="100" step="10" value="${prog}" style="--p:${prog}%" data-act="prog" aria-label="Progress"><b>${prog}%</b>`}</div>
     <div class="bc-foot">${counterHTML(t)}${t.estHours?`<span class="bc-est">Est ${fmtH(t.estHours)}</span>`:""}<span class="bc-sp"></span>${acts}</div>
@@ -2541,6 +2650,11 @@ function renderTasks(){
     ${byDay[d].map(taskHTML).join("")}</div>`).join("");
 }
 
+function doneChip(t){   // finished task: completion day and how far it was from the deadline
+  if (t.status!=="done" || !isDay(t.completedAt)) return "";
+  const v = verdict(t, t.completedAt);
+  return `<span class="pill ${v.late?"s-late":"s-ok"} dchip" title="Completed ${esc(fdate(t.completedAt))} · deadline ${esc(fdate(t.deadline))}${v.wd?` · ${v.wd} working day${v.wd===1?"":"s"} late`:""}">✔ Done ${esc(fmt(t.completedAt))} · ${v.short}</span>`;
+}
 function taskHTML(t){
   const m = M(t.member) || {name:"?",c1:"#999",c2:"#bbb"};
   const [sl,sc] = stLbl[stateOf(t)], [pl,pc] = prLbl[t.priority];
@@ -2551,11 +2665,12 @@ function taskHTML(t){
       <div class="t-title ${t.status==="done"?"done":""}">${esc(t.title)}</div>
       <div class="meta">${crew(t).length>1 ? `<b class="crew-n" title="${esc(crewNames(t))}">${esc(crewNames(t))}</b><span class="pill crew">👥 ${crew(t).length} people</span>` : `<b style="color:${tc(m.c1)}">${m.name}</b>`}${dateChip(t)}${t.assignedBy&&!has(t,t.assignedBy)&&M(t.assignedBy)?`<span>· by ${M(t.assignedBy).name}</span>`:""}
         <span class="pill ${pc}">${pl}</span><span class="pill ${sc}">${sl}</span>${t.module?`<span class="pill mod" title="Module">▣ ${esc(t.module)}</span>`:""}
-        ${t.completedAt?`<span>· Done ${fmt(t.completedAt)}</span>`:""}
+        ${doneChip(t)}
         ${t.estHours?`<span>· Est ${fmtH(t.estHours)}</span>`:""}
         ${agePill(t)}${repPill(t)}
         ${timePill(t)}</div>
       ${t.notes?`<div class="notes">${esc(t.notes)}</div>`:""}
+      ${t.status==="done"&&t.closeNote?`<div class="notes cnote">📝 ${esc(t.closeNote)}</div>`:""}
     </div>
     <div class="act">
       <div class="r">
@@ -2836,13 +2951,13 @@ $("taskList").addEventListener("change", e=>{
   const t = db.tasks.find(x=>x.id===row.dataset.id); if (!t) return;
   if (!canTask(t)){ deny(); render(); return; }
   if (el.dataset.act==="status"){
-    if (el.value==="done") finish(t);
-    else { t.status=el.value; t.completedAt=null; t.doneAt=null; if (t.status==="todo") t.progress=0; else if (t.progress>=100) t.progress=90; }
+    if (el.value==="done"){ if (t.status!=="done") closeFlow([t]); return; }
+    else { t.status=el.value; t.completedAt=null; t.doneAt=null; delete t.closeNote; if (t.status==="todo") t.progress=0; else if (t.progress>=100) t.progress=90; }
   }
   if (el.dataset.act==="prog"){
+    if (+el.value===100){ closeFlow([t]); return; }
     t.progress = +el.value;
-    if (t.progress===100) finish(t);
-    else { t.status = t.progress>0 ? "progress" : "todo"; t.completedAt=null; t.doneAt=null; }
+    { t.status = t.progress>0 ? "progress" : "todo"; t.completedAt=null; t.doneAt=null; delete t.closeNote; }
   }
   if (el.dataset.act==="status") logAct(`set “${t.title}” to ${STN[t.status]}`);
   save(); render();
@@ -2880,7 +2995,7 @@ $("flMember").onchange = e=>{ selectedMember = e.target.value; render(); };
 $("flReset").onclick = ()=>{ $("flStatus").value="all"; $("flPriority").value="all"; $("flDue").value="all"; $("flSearch").value=""; selectedMember="all"; $("flMember").value="all"; render(); };
 $("flDue").onchange = render; $("flPriority").onchange = render;
 $("flExp").onclick = ()=>{ const L = window.__tl||[]; if(!L.length) return toast("Nothing to export in this view");
-  const q = v=>`"${String(v??"").replace(/"/g,'""')}"`, rows = [["Task","Member","Module","Priority","Status","Start date","Deadline","Days open","Progress %","Notes"], ...L.map(t=>[t.title,crewNames(t),t.module||"",t.priority,t.status,t.date,t.deadline,ageInfo(t).n,t.status==="done"?100:(t.progress||0),t.notes||""])];
+  const q = v=>`"${String(v??"").replace(/"/g,'""')}"`, rows = [["Task","Member","Module","Priority","Status","Start date","Deadline","Days open","Days vs deadline","Progress %","Notes"], ...L.map(t=>[t.title,crewNames(t),t.module||"",t.priority,t.status,t.date,t.deadline,ageInfo(t).n,vsDeadline(t),t.status==="done"?100:(t.progress||0),t.notes||""])];
   const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob(["\ufeff"+rows.map(r=>r.map(q).join(",")).join("\n")],{type:"text/csv"})); a.download = `tasks-${today()}.csv`; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href),4000); toast(`⬇ ${L.length} task(s) exported`); }; $("flStatus").onchange = render; $("flSort").onchange = render; $("flSearch").oninput = render;
 $("prevW").onclick = ()=>{ weekStart = addDays(weekStart,-7); render(); };
 $("nextW").onclick = ()=>{ weekStart = addDays(weekStart,7); render(); };
@@ -3278,7 +3393,7 @@ function exportXlsx(){
   const tasks = db.tasks.slice().sort((a,b)=>a.date.localeCompare(b.date)||a.created-b.created).map(t=>({
     "ID":t.id, "Member":crew(t).map(mn).join(", "), "Module":t.module||"", "Task":t.title, "Notes":t.notes||"", "Date":t.date, "Deadline":t.deadline, "Days open":ageInfo(t).n,
     "Priority":PRN[t.priority]||"Medium", "Status":STN[t.status]||"To Do", "Progress %":t.status==="done"?100:(t.progress||0),
-    "Completed On":t.completedAt||"", "Est Hours":t.estHours||"", "Office Hours Spent":+spentOf(t).toFixed(2), "State":stLbl[stateOf(t)][0],
+    "Completed On":t.completedAt||"", "Days vs Deadline":vsDeadline(t), "Close Note":t.closeNote||"", "Est Hours":t.estHours||"", "Office Hours Spent":+spentOf(t).toFixed(2), "State":stLbl[stateOf(t)][0],
     "Created At":new Date(t.created).toISOString(), "Done At":t.doneAt?new Date(t.doneAt).toISOString():""}));
   const wt = weekTasks(), [ws0,we0] = weekRange();
   const summary = MEMBERS.map(m=>{ const x = statsOf(wt.filter(t=>has(t,m.id)));
@@ -3348,6 +3463,7 @@ function importXlsx(file){
       const doneAt = status==="done" ? (Date.parse(x["Done At"]) || new Date(parse(completedAt).setHours(17)).getTime()) : null;
       const id = String(x.ID||"").trim() || Date.now().toString(36)+Math.random().toString(36).slice(2,6)+n;
       const t = {id, member:m.id, team:[...new Set(people.slice(1).map(z=>z.id))].filter(i=>i!==m.id), title:String(x.Task).trim(), notes:String(x.Notes||"").trim(), date, deadline, priority, status, progress, completedAt, created, doneAt, estHours:+x["Est Hours"]||null};
+      if (status==="done" && String(x["Close Note"]||"").trim()) t.closeNote = String(x["Close Note"]).trim().slice(0,300);
       if ("Module" in x){ t.module = clean(x.Module); if (t.module) newMods.push(t.module); }
       if (byId.has(id)) Object.assign(byId.get(id), t); else { tasks.push(t); byId.set(id,t); }
       n++;
@@ -3371,8 +3487,8 @@ $("xlImport").onclick = ()=> $("xlFile").click();
 $("xlFile").onchange = e=>{ const f = e.target.files[0]; e.target.value = ""; if (f) importXlsx(f); };
 $("csvBtn").onclick = ()=>{
   const q = v => `"${String(v==null?"":v).replace(/"/g,'""')}"`;
-  const rows = [["Date","Module","Member","Task","Priority","Status","State","Progress %","Deadline","Days open","Completed","Est hours","Office hours spent","Notes"]]
-    .concat(weekTasks().map(t=>[t.date,t.module||"",crewNames(t),t.title,prLbl[t.priority][0],t.status,stLbl[stateOf(t)][0],t.status==="done"?100:(t.progress||0),t.deadline,ageInfo(t).n,t.completedAt||"",t.estHours||"",spentOf(t).toFixed(2),t.notes||""]));
+  const rows = [["Date","Module","Member","Task","Priority","Status","State","Progress %","Deadline","Days open","Completed","Days vs deadline","Est hours","Office hours spent","Notes"]]
+    .concat(weekTasks().map(t=>[t.date,t.module||"",crewNames(t),t.title,prLbl[t.priority][0],t.status,stLbl[stateOf(t)][0],t.status==="done"?100:(t.progress||0),t.deadline,ageInfo(t).n,t.completedAt||"",vsDeadline(t),t.estHours||"",spentOf(t).toFixed(2),t.notes||""]));
   const blob = new Blob(["\ufeff"+rows.map(r=>r.map(q).join(",")).join("\r\n")],{type:"text/csv;charset=utf-8"});
   const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = `mis-week-report-${wkKey()}.csv`; a.click();
   setTimeout(()=>URL.revokeObjectURL(a.href),1000); toast("CSV report downloaded");
@@ -3459,7 +3575,7 @@ function renderAdvanced(){
 
   const F = [], ok = "var(--ok)", wn = "var(--warn)", bd = "var(--bad)";
   F.push([rag(comp,K.tc), `Completion is <b>${comp}%</b> against a ${K.tc}% target (${s.done} of ${s.total} tasks).`]);
-  F.push([rag(s.rate,K.td), s.rate==null ? "No task has reached its deadline yet, so the deadline-met rate is not available." : `Deadline discipline is <b>${s.rate}%</b> (target ${K.td}%): ${s.ontime} on time, ${s.late} late, ${s.overdue} overdue.`]);
+  F.push([rag(s.rate,K.td), s.rate==null ? "No task has reached its deadline yet, so the deadline-met rate is not available." : `Deadline discipline is <b>${s.rate}%</b> (target ${K.td}%): ${s.ontime} on time (${s.early} early, ${s.onday} on the deadline day), ${s.late} late, ${s.overdue} overdue.${s.avgVar==null?"":` Finished tasks closed on average <b>${s.avgVar<0?Math.abs(s.avgVar)+" d before":s.avgVar===0?"exactly on":s.avgVar+" d after"}</b> ${s.avgVar===0?"the deadline":"their deadline"}.`}`]);
   const rk = mem.filter(r=>r.x.total).sort((a,b)=>b.x.score-a.x.score);
   if (rk.length>1) F.push([ok, `<b>${rk[0].m.name}</b> leads with ${rk[0].x.score} pts. <b>${rk[rk.length-1].m.name}</b> has the lowest score (${rk[rk.length-1].x.score} pts) and may need support.`]);
   mem.filter(r=>r.o>K.cap).forEach(r=>F.push([bd, `<b>${r.m.name}</b> holds ${r.o} open tasks, above the cap of ${K.cap}. Consider redistributing work.`]));
@@ -3933,22 +4049,48 @@ function renderNotes(){
 function logAct(t){ (db.log ??= []).push({t:Date.now(), w:(ME()||{}).name||"", a:t}); db.log = db.log.slice(-200); }
 let eId = null;
 function openEdit(t){ eId = t.id; mpInit($("eMember"), can("assign")?MEMBERS:crewM(t), crew(t)); $("eRepeat").value = t.repeat||"";
-   $("eTitle").value = t.title; $("eStart").value = t.date; $("eDeadline").value = t.deadline; syncEditDates.reset(); $("ePri").value = t.priority; $("eEst").value = t.estHours||""; $("eNotes").value = t.notes||""; $("eModule").value = t.module||""; $("tDlg").showModal(); }
+   $("eTitle").value = t.title; $("eStart").value = t.date; $("eDeadline").value = t.deadline; syncEditDates.reset(); $("ePri").value = t.priority; $("eEst").value = t.estHours||""; $("eNotes").value = t.notes||""; $("eModule").value = t.module||"";
+   { const dn = t.status==="done"; $("eDoneBox").hidden = !dn; $("eDone").max = today(); $("eDone").value = dn ? (t.completedAt||t.deadline) : ""; $("eCloseNote").value = dn ? (t.closeNote||"") : ""; eVerdict(); }
+   $("tDlg").showModal(); }
+function eVerdict(){   // live on-time / late line for a finished task while its dates are edited
+  const box = $("eVerdict"); if ($("eDoneBox").hidden) return;
+  const t = db.tasks.find(x=>x.id===eId), dl = $("eDeadline").value, dn = $("eDone").value;
+  if (!t || !isDay(dl) || !isDay(dn)){ box.className = "cs-verdict bad"; box.innerHTML = "<b>Check the dates</b>"; return; }
+  if (dn > today()){ box.className = "cs-verdict bad"; box.innerHTML = "<b>Completion can’t be in the future</b>"; return; }
+  const v = verdict({...t, deadline:dl, priority:$("ePri").value}, dn);
+  box.className = "cs-verdict " + (v.late ? "warn" : "ok");
+  box.innerHTML = `<b>${v.late?"Late":"On time"}</b> — completed ${v.text}${v.wd&&v.wd!==v.v?` (${v.wd} working day${v.wd===1?"":"s"})`:""}.`;
+}
+$("tDlg").addEventListener("input", eVerdict); $("tDlg").addEventListener("click", ()=>setTimeout(eVerdict,0));
 $("eCancel").onclick = ()=>$("tDlg").close();
 $("tForm").onsubmit = e=>{ e.preventDefault(); const t = db.tasks.find(x=>x.id===eId); if (!t || !canTask(t)) return deny();
   const st = $("eStart").value, dl = $("eDeadline").value;
   if (!isDay(st) || !isDay(dl)){ toast("Enter a valid start date and deadline"); return; }
   if (dl < st){ toast("The deadline can’t be before the start date"); return; }
+  let cd = t.completedAt;
+  if (t.status==="done"){
+    cd = $("eDone").value;
+    if (!isDay(cd)){ toast("Enter the date this task was completed"); return; }
+    if (cd > today()){ toast("The completion date can’t be in the future"); return; }
+    if (cd < st){ toast("The task can’t be completed before its start date"); return; }
+  }
+  const before = t.status==="done" ? stateOf(t) : "";
   { const ids = can("assign") ? mpGet($("eMember")).filter(M) : crew(t); if (!ids.length){ toast("Choose at least one person"); return; } setCrew(t, ids); }
   const was = {date:t.date, deadline:t.deadline};
   Object.assign(t, {repeat:$("eRepeat").value||"", title:$("eTitle").value.trim(), module:clean($("eModule").value), date:st, deadline:dl, priority:$("ePri").value, estHours:+$("eEst").value||null, notes:$("eNotes").value.trim()});
   if (dl !== was.deadline){ t.origDeadline = t.origDeadline || was.deadline; t.moves = (t.moves|0)+1; }
+  if (t.status==="done"){
+    if (cd !== t.completedAt){ t.completedAt = cd; t.doneAt = doneStamp(t, cd); }
+    const cn = $("eCloseNote").value.trim().slice(0,300); if (cn) t.closeNote = cn; else delete t.closeNote;
+  }
+  const flip = before && stateOf(t)!==before ? stateOf(t) : "";
   if (st !== was.date && t.status!=="done") t.created = st > today() ? new Date(parse(st).setHours(+S().start||9,0,0,0)).getTime() : (was.date > today() ? Date.now() : t.created);   // the office-hours timer follows the start date
   const moved = st!==was.date || dl!==was.deadline;
   logAct(moved ? `rescheduled “${t.title}” · start ${was.date} → ${st} · due ${was.deadline} → ${dl}` : `edited task “${t.title}”`);
   save(); $("tDlg").close(); render();
   const [ws, we] = weekRange();
   if (moved && (st < ws || st > we) && t.status!=="done") toastAct("Task moved to "+fdate(st), "Show", ()=>{ weekStart = monday(parse(st)); render(); });
+  else if (flip) toast(`Task updated · now counted ${flip==="late"?"late":"on time"} (${verdict(t,t.completedAt).short})`, 3600);
   else toast(moved ? "Task rescheduled ✔" : "Task updated ✔"); };
 $("homeFocus").onchange = e=>{ const r = e.target.closest("[data-hf]"); if (!r || role()==="viewer") return; const i = nOf(today(),ME().id).items.find(z=>z.id===r.dataset.hf); if (i){ i.d = true; i.at = Date.now(); save(); render(); } };
 $("nSearch").oninput = render;
@@ -3969,7 +4111,7 @@ $("nText").oninput = ()=>{ if (!nEdit()) return; nMk(nDay).text = $("nText").val
 $("nCarry").onclick = e=>{ const b = e.target.closest("[data-mv]"); if (!b || !nEdit()) return;
   const mv = (d,id)=>{ const src = nOf(d), i = src.items.find(z=>z.id===id); if (!i) return; src.items = src.items.filter(z=>z!==i); nMk(nDay).items.push({...i, from:d}); };
   if (b.dataset.mv==="all") carryList().forEach(c=>mv(c.d,c.i.id)); else mv(...b.dataset.mv.split("|")); save(); render(); };
-$("nDue").onclick = e=>{ const b = e.target.closest("[data-fin]"); if (!b) return; const t = db.tasks.find(x=>x.id===b.dataset.fin); if (!t || !canTask(t)) return deny(); finish(t); save(); render(); toast("Task completed ✔"); };
+$("nDue").onclick = e=>{ const b = e.target.closest("[data-fin]"); if (!b) return; const t = db.tasks.find(x=>x.id===b.dataset.fin); if (!t || !canTask(t)) return deny(); closeFlow([t]); };
 $("nCopy").onclick = ()=>{ const x = nOf(nDay), txt = `📝 ${M(NW()).name} — ${fmt(nDay,{weekday:"long",day:"numeric",month:"long"})}\n\nKey points:\n` + (x.items.map(i=>`${i.d?"✅":"⬜"} ${i.s?"★ ":""}${i.t}`).join("\n")||"–") + (x.text?`\n\nNotes:\n${x.text}`:"");
   (navigator.clipboard ? navigator.clipboard.writeText(txt) : Promise.reject()).then(()=>toast("Day summary copied ✔"), ()=>toast("Copy failed")); };
 
@@ -4018,8 +4160,9 @@ ghRender();
 <script>
 /* v8: stable updater + version history. Data lives in localStorage and is never touched by an update; a snapshot is taken first. */
 (()=>{
-const APP_VERSION="11.9.0", SNAP_KEY="mis_snapshots_v1", LOG_KEY="mis_update_log_v1", $=id=>document.getElementById(id);
+const APP_VERSION="11.10.0", SNAP_KEY="mis_snapshots_v1", LOG_KEY="mis_update_log_v1", $=id=>document.getElementById(id);
 const HISTORY=[
+ {v:"11.10.0",d:"2026-11-04",n:["New: closing a task is now judged against its deadline - when a task is overdue (or not started yet) a “Close task” sheet asks which day the work was really finished, with quick buttons (Today, Yesterday, On the deadline day) and a live verdict such as “On time - 2 days before the deadline” or “Late - 3 days after the deadline (1 working day)”, plus the points it will earn and an optional closing note; work finished on time is no longer booked as late just because it was closed later", "New: the same close flow runs everywhere a task can be finished - the status menu, the progress slider at 100%, board buttons and drag-and-drop, bulk “Done” (one date for all selected tasks, with a per-task verdict) and the Done button in Daily notes; every close can be undone for a few seconds, and on-time closes on a normal day stay one tap", "New: Settings → General → Closing tasks - choose when MISphere asks for the completion date: only when overdue or not started (default), every time, or never (always today)", "New: every finished task shows how far it was from its deadline - “Done 2 Nov · 2d early”, “on deadline day” or “1d late” on the list and the board (hover for the working days), with the closing note shown under the task", "New: Edit task has “Completed on” and “Closing note” for finished tasks with a live on-time / late line, and tells you when a change flips the task between on time and late", "Improved: Insights splits on-time work into early and deadline-day finishes and reports the average days before or after the deadline; the view CSV, week CSV, Excel export and JSON report get a “Days vs deadline” column, and the Excel export / import carries the closing note (import still ignores the extra columns)", "Fixed: a task closed before its planned start now moves its start to the completion day instead of finishing before it began", "Fixed: bulk “Postpone / Set to today” could place the deadline before the start date, changed finished tasks and never counted as a move; it now keeps the deadline on or after the start, skips finished tasks and records the move", "Fixed: repeating and duplicated tasks no longer inherit the “Moved” badge and original deadline of the task they came from", "Fixed: reopening a task clears its completion date and closing note; finished tasks saved with a completion before their start or in the future are repaired on load", "Housekeeping: the unrelated DashView files (js/, css/reports-hub.css, test/) are removed again so they are not published with the site", "Your data is kept: one optional field (closing note) and one setting are new; existing tasks, members and backups load exactly as before"]},
  {v:"11.9.0",d:"2026-11-04",n:["New: every task now says how long it has been open - list view shows “Open 4 days · Day 4 of 5” (or “over plan”), finished tasks show “Took 3 days”, tasks that have not started yet show “Starts in 2 days”; hover for the start date, working days and plan", "New: ageing alerts - open tasks older than a limit you set (Settings → Targets, default 5 days) are flagged amber, overdue ones red; a one-tap “aging” chip and a new “Aging tasks” filter list them", "Improved: board cards show the open age, the start-to-deadline range on hover and a ↻ mark when the deadline moved; each board column shows its average open age (or average days to close) and how many tasks are aging", "Improved: list view day headings summarise the day (tasks · open · overdue); the overview line shows the average open age; new sorts “Longest open” and “Start date”", "New: deleting a task can be undone for 8 seconds; the status and progress controls on every row now have screen-reader labels", "New: “Days open” column in the view CSV, the week CSV report and the Excel export (import ignores it, so exports can still be imported)", "Your data is not changed by this update: no new stored fields; the ageing limit is a new setting with a safe default"]},
  {v:"11.8.0",d:"2026-11-04",n:["New: every task now has an editable start date and deadline - set them when adding a task and change either one later from Edit; quick buttons (same day, +1 day, +3 days, +1 week, +2 weeks) and a live duration line show the span; a task can be scheduled for a future day and appears on that day", "New: clearer task display - each task shows its start to deadline range with a status badge (Starts tomorrow, Due today, 3d overdue) and a Moved badge when its deadline was changed; board cards show future start dates; the CSV export includes Start date", "New: Excel import also reads a Start date / Start column (the existing Date column still works)", "Safer updates: before an update installs, a restore point is saved automatically; the update is only applied once the new version is confirmed live on the server (no more update loops while the host is still publishing); the restore points are no longer wiped on startup", "Safer data: saved data now carries a format version; older data is upgraded automatically and an untouched copy is kept first (it also appears under Data safety restore points); unreadable data is preserved instead of being overwritten by an empty workspace; fields added by newer versions are never dropped", "Fixed: tasks with a missing or invalid date, status, priority or progress are repaired on load instead of breaking the page; a finished task with no completion date is no longer counted as late", "Fixed: the recovery prompt after a faulty session did nothing - it now points you to your restore points", "Housekeeping: removed unrelated DashView files (js/, css/reports-hub.css, test/) that were published with the site but never used by MISphere"]},
  {v:"11.7.0",d:"2026-11-02",n:["New: iOS type system everywhere - SF Pro Display and SF Pro Text on iPhone, iPad and Mac, bundled Inter variable (the closest match) on Windows, Android and Linux; dashboard, landing page, charts, dialogs and form fields now share one font stack", "New: bolder, clearer weight scale across the whole theme - body 500, labels and buttons 600, headings 700-800, KPI figures 800 with tabular numbers; tight iOS tracking on large titles, calmer tracking on small text", "Improved: landing page headings, cards and stats follow the same iOS type and weights as the dashboard (Bricolage Grotesque and Instrument Sans are no longer drawn)", "Fixed: the Software Update prompt never appeared - version.json had been replaced by another app's file (2.30.1, lower than 11.6.0); the update feed is restored with MISphere's full history and 11.7.0", "Fixed: offline install - sw.js was another app's worker listing 60+ files that do not exist, so it could never install; rebuilt for MISphere (each file cached on its own, version.json always read fresh, old caches cleaned)", "Housekeeping: README badge, package.json, desktop app version and CHANGELOG aligned to 11.7.0"]},
@@ -4256,7 +4399,7 @@ const SECS = [
   ["data","Data & sync","GitHub, files, health",I('<ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6"/>')],
   ["about","System & about","Updates, legal",I('<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/>')]
 ];
-const SEC_KEYS = {general:["dept","org","landing","pri","due"], time:["start","end","days","hoursFmt"],
+const SEC_KEYS = {general:["dept","org","landing","pri","due","closeAsk"], time:["start","end","days","hoursFmt"],
   targets:["tc","td","te","cap","riskD","riskP","soonD","bkDays","ageD","attn","pon","plate","pov","phi"], modules:["modules","reqMod"],
   reports:["perDef","prep","conf"], appearance:["theme","compact","rmotion"]};
 let curSec = (()=>{ try{ return localStorage.getItem("mis_ssec")||"general"; }catch{ return "general"; } })();
@@ -5182,16 +5325,25 @@ function act(kind, val){
   const picked = [...sel].map(id=>db.tasks.find(t=>t.id===id)).filter(Boolean);
   if (!picked.length){ toast("Select at least one task first"); return; }
   if (kind==="del" && !confirm(`Delete ${picked.length} task${picked.length>1?"s":""}? You can undo this for a few seconds.`)) return;
+  if (kind==="done"){
+    const todo = picked.filter(t=>canTask(t) && t.status!=="done"), no = picked.filter(t=>!canTask(t)).length;
+    if (!todo.length){ toast(no ? "⚠ You don’t have permission to change the selected tasks" : "The selected tasks are already done"); return; }
+    return closeFlow(todo, {before:()=>sel.clear(), onCancel:()=>{}});
+  }
   const snap = JSON.stringify(db.tasks); let ok = 0, skip = 0, label = "";
   picked.forEach(t=>{
     const mine = canTask(t);
     if (kind==="del"){ if (!(can("delTask") || (mine && has(t,ME().id)))){ skip++; return; } db.tasks = db.tasks.filter(x=>x!==t); ok++; return; }
     if (kind==="who"){ if (!can("assign")){ skip++; return; } setCrew(t,[val]); ok++; return; }
     if (!mine){ skip++; return; }
-    if (kind==="done"){ if (t.status!=="done") finish(t); }
-    else if (kind==="progress"){ t.status = "progress"; t.completedAt = null; t.doneAt = null; if (t.progress>=100) t.progress = 90; }
+    if (kind==="progress"){ t.status = "progress"; t.completedAt = null; t.doneAt = null; delete t.closeNote; if (t.progress>=100) t.progress = 90; }
     else if (kind==="pri") t.priority = val;
-    else if (kind==="due"){ const base = t.deadline < today() ? today() : t.deadline; t.deadline = val==="today" ? today() : ymd(addDays(parse(base), +val.slice(1))); }
+    else if (kind==="due"){
+      if (t.status==="done"){ skip++; return; }                  // a finished task keeps the deadline it was judged against
+      const base = t.deadline < today() ? today() : t.deadline, was = t.deadline;
+      let nd = val==="today" ? today() : ymd(addDays(parse(base), +val.slice(1))); if (nd < t.date) nd = t.date;   // never before the start
+      if (nd !== was){ t.origDeadline = t.origDeadline || was; t.moves = (t.moves|0) + 1; t.deadline = nd; }
+    }
     ok++;
   });
   label = {done:"marked done", progress:"moved to In progress", pri:"priority changed", who:"reassigned", due:"deadline changed", del:"deleted"}[kind];
@@ -6129,6 +6281,49 @@ th{letter-spacing:.01em}
 svg text,svg.cx text,.dn-s{font-family:var(--ios-text)!important;font-weight:600;font-variant-numeric:tabular-nums}
 .dn-b{font-family:var(--ios-display)!important;font-weight:800}
 code,pre,kbd,samp,.mono{font-family:var(--ios-mono)!important;font-weight:500}
+
+/* ===== v11.10 · closing a task against its deadline ===== */
+#cDlg{margin:auto;border:1px solid var(--line);border-radius:20px;padding:22px;width:min(500px,94vw);background:var(--card);color:var(--text);box-shadow:var(--shadow-lg)}
+.cs-head{display:flex;gap:12px;align-items:center;margin-bottom:16px}
+.cs-head h3{margin:0;font-size:19px;font-weight:800;letter-spacing:-.02em}
+.cs-head p{margin:2px 0 0;font-size:12.5px;color:var(--muted);font-weight:500;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.cs-ic{flex:none;width:42px;height:42px;border-radius:13px;display:grid;place-items:center;font-style:normal;font-size:20px;font-weight:800;background:color-mix(in srgb,var(--ok) 16%,transparent);color:var(--ok);transition:background .25s,color .25s}
+.cs-ic.warn{background:color-mix(in srgb,var(--warn) 18%,transparent);color:var(--warn)}
+.cs-ic.bad{background:color-mix(in srgb,var(--bad) 16%,transparent);color:var(--bad)}
+.cs-facts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.cs-facts:empty{display:none}
+.cs-facts>div{border:1px solid var(--line);border-radius:12px;padding:8px 11px;min-width:0}
+.cs-facts small{display:block;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.cs-facts b{display:block;font-size:13px;font-weight:700;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cs-facts .bad b{color:var(--bad-t,var(--bad))}
+.cs-date{margin-bottom:12px}
+.cs-date input[type=date]{width:100%}
+.cs-q{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.cs-q button{border:1px solid var(--line);background:transparent;color:var(--text);border-radius:999px;padding:5px 12px;font:inherit;font-size:12px;font-weight:600;cursor:pointer;transition:background .2s,border-color .2s,color .2s,transform .2s var(--spring,ease)}
+.cs-q button:hover{border-color:var(--brand)}
+.cs-q button:active{transform:scale(.96)}
+.cs-q button.on{background:color-mix(in srgb,var(--brand) 14%,transparent);border-color:var(--brand);color:var(--brand)}
+.cs-verdict{border-radius:13px;padding:11px 13px;margin-bottom:12px;font-size:13px;font-weight:500;line-height:1.45;border:1px solid transparent}
+.cs-verdict:empty{display:none}
+.cs-verdict b{font-weight:800}
+.cs-verdict small{display:block;margin-top:3px;font-size:11.5px;font-weight:600;opacity:.85}
+.cs-verdict.ok{background:color-mix(in srgb,var(--ok) 12%,transparent);border-color:color-mix(in srgb,var(--ok) 30%,transparent);color:var(--ok-t,var(--ok))}
+.cs-verdict.warn{background:color-mix(in srgb,var(--warn) 13%,transparent);border-color:color-mix(in srgb,var(--warn) 34%,transparent);color:var(--warn-t,var(--warn))}
+.cs-verdict.bad{background:color-mix(in srgb,var(--bad) 12%,transparent);border-color:color-mix(in srgb,var(--bad) 30%,transparent);color:var(--bad-t,var(--bad))}
+.cs-list{margin-bottom:12px;display:grid;gap:4px}
+.cs-list:empty{display:none}
+.cs-list>div{display:flex;justify-content:space-between;gap:10px;align-items:center;font-size:12.5px;font-weight:600;padding:5px 2px;border-bottom:1px solid var(--line)}
+.cs-list>div:last-child{border-bottom:0}
+.cs-list span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.cs-list .more{color:var(--muted);justify-content:flex-start}
+.cs-act{display:flex;gap:8px;justify-content:flex-end}
+.cs-act .btn:disabled{opacity:.5;cursor:not-allowed}
+.edone{border-top:1px dashed var(--line);padding-top:12px;margin-bottom:14px}
+.edone .cs-verdict{margin-bottom:0}
+.dchip{font-variant-numeric:tabular-nums}
+.task .notes.cnote,.bc-notes.cnote{font-style:italic}
+@media (max-width:480px){.cs-facts{grid-template-columns:1fr 1fr}.cs-facts>div:last-child{grid-column:1/-1}}
+@media (prefers-reduced-motion:reduce){.cs-ic,.cs-q button{transition:none}}
 </style>
 <script>/* offline + install support */if("serviceWorker"in navigator&&/^https?:$/.test(location.protocol)){addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})})}</script></body>
 </html>

@@ -1410,6 +1410,7 @@
       <div><h2>Settings</h2><p class="hint">Configure how MISphere measures work, flags risk and prepares reports. Changes apply to the whole workspace on this device.</p></div>
       <div class="ssearch"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="sFind" type="search" placeholder="Search settings…" aria-label="Search settings" autocomplete="off"></div>
     </div>
+    <div class="sov" id="sOv" aria-label="Workspace overview"></div>
     <div class="slay">
       <nav class="snav" id="sNav" aria-label="Settings sections"></nav>
       <div class="sbody">
@@ -1495,17 +1496,26 @@
         <div class="ssec" data-ss="about">
           <div class="sec-title"><h2>System &amp; about</h2><small>Updates, storage and legal</small></div>
           <div class="panel"><h3>🏠 Landing page <small>overview, templates and how it works</small></h3><div class="row"><a class="btn pri" href="landing.html?from=app">Open landing page →</a></div></div>
-          <div class="panel" id="v8Upd"><h3>🚀 Updates &amp; version history <small>one-click update · your data stays on this device</small></h3>
-            <div class="row"><span class="chip">Installed v<span id="v8Cur"></span></span><span class="chip" id="v8Lat" style="display:none"></span><span id="v8Msg" class="hint"></span></div>
+          <div class="panel" id="v8Upd"><h3>🚀 Updates &amp; release notes <small>one-click update · your data stays on this device</small></h3>
+            <div class="ud-hero"><div class="ud-ic"><svg viewBox="0 0 64 64"><path d="M16 15v33h33" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 39l9-9 6 6 10-13" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="49" cy="23" r="4" fill="#f5d061"/></svg></div>
+              <div class="ud-main"><div class="ud-t">MISphere <span id="v8Cur"></span><span class="chip" id="v8Lat" style="display:none"></span></div><div class="ud-s" id="udMeta"></div><div id="v8Msg" class="ud-m"></div></div>
+              <div class="ud-act"><button class="btn pri" id="v8Check">⟳ Check for updates</button><button class="btn pri" id="v8Go" style="display:none">⬆ Update now</button></div></div>
             <div class="bar" id="v8Bar"><i></i></div>
-            <div class="row"><button class="btn pri" id="v8Check">⟳ Check for updates</button><button class="btn pri" id="v8Go" style="display:none">⬆ Update now</button></div>
-            <h4 style="margin:18px 0 4px;font-size:13px">Version history</h4><div id="v8Hist"></div></div>
+            <div class="ud-prefs">
+              <div class="srow"><div><b>Automatic update checks</b><span>Look for new versions in the background while MISphere is open</span></div><label class="sw"><input type="checkbox" id="udAuto"><i></i></label></div>
+              <div class="srow"><div><b>Check frequency</b><span>How often the background check runs</span></div><select id="udEvery" style="width:auto"><option value="15">Every 15 minutes</option><option value="60">Every hour</option><option value="360">Every 6 hours</option><option value="1440">Once a day</option></select></div>
+              <div class="srow"><div><b>“Remind me later” waits</b><span>How long the update prompt stays quiet after you postpone it</span></div><select id="udSnooze" style="width:auto"><option value="1">1 hour</option><option value="12">12 hours</option><option value="24">1 day</option><option value="72">3 days</option></select></div>
+              <div class="srow"><div><b>Show What’s New after updating</b><span>Open the release notes right after a new version starts</span></div><label class="sw"><input type="checkbox" id="udWhats"><i></i></label></div>
+              <p class="fh">Update preferences apply instantly and are stored on this device only.</p></div>
+            <div class="ud-hh"><h4>Release history</h4><span id="udCount"></span></div>
+            <div class="ud-tools"><input id="udFind" type="search" placeholder="Search release notes…" aria-label="Search release notes" autocomplete="off"><div class="ud-f" id="udF" style="margin:0"></div></div>
+            <div id="v8Hist"></div></div>
           <div class="panel"><h3>ℹ System <small>storage and backup status</small></h3><div id="sInfo"></div>
-            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px"><button class="btn" onclick="go('data')">Open Data &amp; Backup</button><button class="btn" id="sReset">Reset all settings</button><button class="btn" id="sWipe" style="color:var(--bad-t);margin-left:auto">🗑 Erase all data</button></div></div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px"><button class="btn" onclick="go('data')">Open Data &amp; Backup</button><button class="btn" id="udDiag">Copy diagnostics</button><button class="btn" id="sReset">Reset all settings</button><button class="btn" id="sWipe" style="color:var(--bad-t);margin-left:auto">🗑 Erase all data</button></div></div>
           <div class="panel about"><h3>© About &amp; legal</h3>
             <div class="abt"><div class="abt-mk"><svg viewBox="0 0 64 64" width="30" height="30"><path d="M16 15v33h33" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 39l9-9 6 6 10-13" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="49" cy="23" r="4" fill="#f5d061"/></svg></div>
               <div><b>MISphere <span id="abV"></span></b><span>Team performance, tasks and daily notes</span></div></div>
-            <dl class="abl"><div><dt>Author &amp; owner</dt><dd>Muhammad Umer Faheem</dd></div><div><dt>Copyright</dt><dd>© 2026 Muhammad Umer Faheem. All rights reserved.</dd></div><div><dt>Licence</dt><dd>Proprietary — no copying, modification, hosting or redistribution without written permission.</dd></div><div><dt>Privacy</dt><dd>No server, no login, no tracking. Data stays in this browser unless you turn on GitHub sync or file auto-save.</dd></div><div><dt>Third-party</dt><dd>SheetJS (Apache-2.0) for Excel, Inter and other fonts (SIL OFL 1.1).</dd></div></dl></div>
+            <dl class="abl"><div><dt>Version</dt><dd id="abBuild"></dd></div><div><dt>Author &amp; owner</dt><dd>Muhammad Umer Faheem</dd></div><div><dt>Copyright</dt><dd>© 2026 Muhammad Umer Faheem. All rights reserved.</dd></div><div><dt>Licence</dt><dd>Proprietary — no copying, modification, hosting or redistribution without written permission.</dd></div><div><dt>Privacy</dt><dd>No server, no login, no tracking. Data stays in this browser unless you turn on GitHub sync or file auto-save.</dd></div><div><dt>Third-party</dt><dd>SheetJS (Apache-2.0) for Excel, Inter and other fonts (SIL OFL 1.1).</dd></div></dl></div>
         </div>
 
       </div>
@@ -4160,49 +4170,106 @@ ghRender();
 <script>
 /* v8: stable updater + version history. Data lives in localStorage and is never touched by an update; a snapshot is taken first. */
 (()=>{
-const APP_VERSION="11.10.0", SNAP_KEY="mis_snapshots_v1", LOG_KEY="mis_update_log_v1", $=id=>document.getElementById(id);
+const APP_VERSION="11.11.0", APP_BUILD="2026.11.04.4", SNAP_KEY="mis_snapshots_v1", LOG_KEY="mis_update_log_v1", $=id=>document.getElementById(id);window.MIS_APP_VERSION=APP_VERSION;
 const HISTORY=[
- {v:"11.10.0",d:"2026-11-04",n:["New: closing a task is now judged against its deadline - when a task is overdue (or not started yet) a “Close task” sheet asks which day the work was really finished, with quick buttons (Today, Yesterday, On the deadline day) and a live verdict such as “On time - 2 days before the deadline” or “Late - 3 days after the deadline (1 working day)”, plus the points it will earn and an optional closing note; work finished on time is no longer booked as late just because it was closed later", "New: the same close flow runs everywhere a task can be finished - the status menu, the progress slider at 100%, board buttons and drag-and-drop, bulk “Done” (one date for all selected tasks, with a per-task verdict) and the Done button in Daily notes; every close can be undone for a few seconds, and on-time closes on a normal day stay one tap", "New: Settings → General → Closing tasks - choose when MISphere asks for the completion date: only when overdue or not started (default), every time, or never (always today)", "New: every finished task shows how far it was from its deadline - “Done 2 Nov · 2d early”, “on deadline day” or “1d late” on the list and the board (hover for the working days), with the closing note shown under the task", "New: Edit task has “Completed on” and “Closing note” for finished tasks with a live on-time / late line, and tells you when a change flips the task between on time and late", "Improved: Insights splits on-time work into early and deadline-day finishes and reports the average days before or after the deadline; the view CSV, week CSV, Excel export and JSON report get a “Days vs deadline” column, and the Excel export / import carries the closing note (import still ignores the extra columns)", "Fixed: a task closed before its planned start now moves its start to the completion day instead of finishing before it began", "Fixed: bulk “Postpone / Set to today” could place the deadline before the start date, changed finished tasks and never counted as a move; it now keeps the deadline on or after the start, skips finished tasks and records the move", "Fixed: repeating and duplicated tasks no longer inherit the “Moved” badge and original deadline of the task they came from", "Fixed: reopening a task clears its completion date and closing note; finished tasks saved with a completion before their start or in the future are repaired on load", "Housekeeping: the unrelated DashView files (js/, css/reports-hub.css, test/) are removed again so they are not published with the site", "Your data is kept: one optional field (closing note) and one setting are new; existing tasks, members and backups load exactly as before"]},
- {v:"11.9.0",d:"2026-11-04",n:["New: every task now says how long it has been open - list view shows “Open 4 days · Day 4 of 5” (or “over plan”), finished tasks show “Took 3 days”, tasks that have not started yet show “Starts in 2 days”; hover for the start date, working days and plan", "New: ageing alerts - open tasks older than a limit you set (Settings → Targets, default 5 days) are flagged amber, overdue ones red; a one-tap “aging” chip and a new “Aging tasks” filter list them", "Improved: board cards show the open age, the start-to-deadline range on hover and a ↻ mark when the deadline moved; each board column shows its average open age (or average days to close) and how many tasks are aging", "Improved: list view day headings summarise the day (tasks · open · overdue); the overview line shows the average open age; new sorts “Longest open” and “Start date”", "New: deleting a task can be undone for 8 seconds; the status and progress controls on every row now have screen-reader labels", "New: “Days open” column in the view CSV, the week CSV report and the Excel export (import ignores it, so exports can still be imported)", "Your data is not changed by this update: no new stored fields; the ageing limit is a new setting with a safe default"]},
- {v:"11.8.0",d:"2026-11-04",n:["New: every task now has an editable start date and deadline - set them when adding a task and change either one later from Edit; quick buttons (same day, +1 day, +3 days, +1 week, +2 weeks) and a live duration line show the span; a task can be scheduled for a future day and appears on that day", "New: clearer task display - each task shows its start to deadline range with a status badge (Starts tomorrow, Due today, 3d overdue) and a Moved badge when its deadline was changed; board cards show future start dates; the CSV export includes Start date", "New: Excel import also reads a Start date / Start column (the existing Date column still works)", "Safer updates: before an update installs, a restore point is saved automatically; the update is only applied once the new version is confirmed live on the server (no more update loops while the host is still publishing); the restore points are no longer wiped on startup", "Safer data: saved data now carries a format version; older data is upgraded automatically and an untouched copy is kept first (it also appears under Data safety restore points); unreadable data is preserved instead of being overwritten by an empty workspace; fields added by newer versions are never dropped", "Fixed: tasks with a missing or invalid date, status, priority or progress are repaired on load instead of breaking the page; a finished task with no completion date is no longer counted as late", "Fixed: the recovery prompt after a faulty session did nothing - it now points you to your restore points", "Housekeeping: removed unrelated DashView files (js/, css/reports-hub.css, test/) that were published with the site but never used by MISphere"]},
- {v:"11.7.0",d:"2026-11-02",n:["New: iOS type system everywhere - SF Pro Display and SF Pro Text on iPhone, iPad and Mac, bundled Inter variable (the closest match) on Windows, Android and Linux; dashboard, landing page, charts, dialogs and form fields now share one font stack", "New: bolder, clearer weight scale across the whole theme - body 500, labels and buttons 600, headings 700-800, KPI figures 800 with tabular numbers; tight iOS tracking on large titles, calmer tracking on small text", "Improved: landing page headings, cards and stats follow the same iOS type and weights as the dashboard (Bricolage Grotesque and Instrument Sans are no longer drawn)", "Fixed: the Software Update prompt never appeared - version.json had been replaced by another app's file (2.30.1, lower than 11.6.0); the update feed is restored with MISphere's full history and 11.7.0", "Fixed: offline install - sw.js was another app's worker listing 60+ files that do not exist, so it could never install; rebuilt for MISphere (each file cached on its own, version.json always read fresh, old caches cleaned)", "Housekeeping: README badge, package.json, desktop app version and CHANGELOG aligned to 11.7.0"]},
- {v:"11.6.0",d:"2026-10-31",n:["iOS typography: SF Pro on Apple devices, bundled Inter (the closest match) everywhere else, tighter headings and smoother text rendering", "Proper iOS-style blur: progressive edge blur under the top and bottom bars plus frosted header and tab bar"]},
- {v:"11.5.1",d:"2026-10-31",n:["Clean blur on the header and tab bar only: content scrolls softly behind them, colours stay solid and clear"]},
- {v:"11.5.0",d:"2026-10-31",n:["Clear colour, no haze: removed the smoky background glow, the blurred top/bottom edge fade and frosted glass cards; surfaces are now solid with crisp borders", "Truer, more saturated tones: stronger text contrast, vivid status colours, solid tinted KPI icons and status tiles, member cards with a clean colour bar, clear white input fields"]},
- {v:"11.4.0",d:"2026-10-31",n:["Workspace now follows the landing page: new default \u201cMISphere\u201d colour combo (indigo, violet, cyan), Bricolage Grotesque headings, Instrument Sans body, crisp white cards in light mode", "Slim two-row command header: brand, search, module, New task, data-safety, theme and profile on top; week, office-day progress and task pulse below. GitHub status moved into the shield sheet, home link into the brand tile, leader card stays on the Home page", "Home: getting-started checklist for empty workspaces, cleaner section titles, balanced KPI grid (two columns on phones)"]},
- {v:"11.3.0",d:"2026-10-31",n:["Smooth theme switch: light/dark and colour-combo changes now cross-fade as one (no more background fading while cards flip instantly); dark mode no longer flashes light on startup", "Colour sync: accent picker swatches now match the applied colours (light and dark); setup screen glow and logo follow the chosen combo; cleaner light surfaces", "Smoother scrolling: removed the heavy blur layer on the animated background"]},
- {v:"11.2.0",d:"2026-10-26",n:["Natural colour system: all 13 combos retuned to calmer, analogous tones in light and dark; quieter background glow and natural status colours", "Glass icons everywhere: header buttons, brand tile, stat and pulse icons, module icons and an active tab-bar tile in tinted glass; new glass app icons", "iOS-style motion: press feedback, staggered page entrance, spring dialogs, frosted backdrops, quiet scrollbars, focus rings", "Data-safety centre: header shield chip, warning when you close the tab or app with unbacked-up changes, one-tap backup sheet, automatic restore points, protection against overwriting newer data from another tab, persistent-storage request", "Fixes: unreadable welcome banner in light mode, misaligned setup header, squeezed stat icons, header overflow at mid widths; desktop app now asks before closing with unsaved data"]},
- {v:"11.1.0",d:"2026-10-25",n:["Command Deck header redesign: brand tile that changes icon per page, search, module switcher, GitHub sync status, install button and New task on top; week navigator with day pips, office-day gauge, Open / Due today / Overdue tiles and a Leader-of-the-week card below. Follows every colour combo, light and dark, and phone layouts", "Installable app: web manifest, offline service worker, app icons (including maskable), and an Install app button in the header", "Fully offline: Excel library and fonts are now bundled in /vendor (no CDN needed)", "Desktop app (Windows / macOS / Linux) via the new /desktop Electron project, plus one-click launchers that open MISphere in its own window"]},
- {v:"11.0.0",d:"2026-10-24",n:["One colour system: every combo is now a tonal family with a readable text colour; buttons, tab bar, switches and update pill follow the chosen combo (some stayed blue before)", "Team Hub: neutral glass member cards with health status, workload meter, 6-week trend, next deadline, quick Tasks / ＋ Task actions; new leader spotlight; search, filters, sort, cards/list layout and Share summary", "New member colour palette (12 balanced colours); existing members are converted automatically", "Tasks: bulk select (done, in progress, priority, reassign, deadline, delete) with Undo; Quick views; Quick add (type “Report @ali fri !high 2h”); overload warning while assigning"]},
- {v:"10.10.0",d:"2026-10-23",n:["Colour grading, iOS-style transfer sheet for import/export, animated tab-bar indicator"]},
- {v:"10.9.0",d:"2026-10-23",n:["Defined sections, View bar, Board settings and a stronger motion layer"]},
- {v:"8.7.0",d:"2026-10-21",n:["System health panel: storage, data integrity checks, backups and one-tap restore points", "Daily automatic backup (last 5 restore points kept)", "iOS-style notification banners, launch splash, offline/online alerts", "Keyboard shortcuts sheet (press ?)"]},
- {v:"8.6.0",d:"2026-10-21",n:["Team cards: fixed clipped avatar/badge overflow, rebuilt the leader switch, rank shown inline, quieter empty states (– instead of 0%), dimmed zero stats, tooltips for long names, refined leader card tiles"]},
- {v:"8.5.0",d:"2026-10-21",n:["Colour combos: Ocean, Aurora, Sunset, Forest, Graphite with an animated colour-mesh background", "Liquid-glass upgrade: edge bevel highlights, cursor-following shine, adjustable glass intensity (Soft / Standard / Strong)", "Update history timeline with install dates; Update available pill in the header", "Safer updates: verification step, failure screen, automatic recovery offer after a faulty session, background update checks"]},
- {v:"8.4.0",d:"2026-10-21",n:["Team cards rebuilt from scratch: progress-ring avatar, large completion figure, status bar and stat tiles", "Module manager in Settings: create, edit, rename, recolour, focus and delete modules with live task counts", "Quick plus button beside the module selector for instant module creation"]},
- {v:"8.3.0",d:"2026-10-21",n:["Team cards redesigned: transparent glass with member-colour tint, glow and refined stats"]},
- {v:"8.2.0",d:"2026-10-21",n:["iOS design system: SF-style typography, system colours, large titles, switches and sheets", "Glitch fixes: no re-render flicker, lighter blur for smoother scrolling, no input zoom on iPhone", "Smoother spring animations on page change and dialogs"]},
- {v:"8.1.0",d:"2026-10-21",n:["iOS-style Software Update sheet with progress and What's New", "Smoother spring animations"]},
- {v:"8.0.0",d:"2026-10-21",n:["Stronger liquid-glass UI and smoother animations","One-click Update with automatic safety backup and rollback","Version history and restore points in Settings"]},
- {v:"7.0.0",d:"2026-10",n:["Modules, module reporting, live GitHub sync"]}];
+ {"v": "11.11.0", "d": "2026-11-04", "title": "Release notes, update centre and settings overview", "n": ["New: release notes you can open - every version in Settings → System & about → Updates is a card (version, headline, weekday and date, type) that opens a full release sheet with What's new, Improved, Fixed and Data & safety sections, a filter, previous / next navigation, Expand all and Copy notes", "New: a proper update message - the Software Update sheet shows installed → new version, the release headline and date, counts (new / improved / fixed), the top highlights and, when you are several versions behind, a combined summary of every release you missed; the list scrolls and never runs off the screen", "New: searchable, filterable version history - filter by All, New, Improved, Fixed or Data & safety, grouped by month, with the exact day each version was released and when it was installed or first opened on this device", "New: update preferences - automatic checks on / off, check frequency, how long “Remind me later” waits and whether What's New opens after updating, plus Copy diagnostics for support", "New: settings overview - workspace, version and update status, data protection, sync and storage at a glance (tap a tile to jump to its section), a desktop side navigation with section descriptions, and marks on sections and fields that have unsaved changes", "Improved: roomier settings panels - icon headers, clearer rows, a one-column layout on phones, and a short update summary in Settings instead of a wall of text", "Fixed: update message was one unbroken block - it listed every note together and could not be scrolled on small screens", "Fixed: wrong version shown in About and in exported settings - both showed 11.1.0 instead of the installed version", "Fixed: missing install history entries - versions loaded by a normal reload (not through the updater) were never recorded; each version is now logged the first time it runs", "Your data is kept: no task, member or backup data changes; update preferences are stored separately on this device"]},
+ {"v": "11.10.0", "d": "2026-11-04", "title": "Deadline-aware task closing", "n": ["New: closing a task is now judged against its deadline - when a task is overdue (or not started yet) a “Close task” sheet asks which day the work was really finished, with quick buttons (Today, Yesterday, On the deadline day) and a live verdict such as “On time - 2 days before the deadline” or “Late - 3 days after the deadline (1 working day)”, plus the points it will earn and an optional closing note; work finished on time is no longer booked as late just because it was closed later", "New: the same close flow runs everywhere a task can be finished - the status menu, the progress slider at 100%, board buttons and drag-and-drop, bulk “Done” (one date for all selected tasks, with a per-task verdict) and the Done button in Daily notes; every close can be undone for a few seconds, and on-time closes on a normal day stay one tap", "New: Settings → General → Closing tasks - choose when MISphere asks for the completion date: only when overdue or not started (default), every time, or never (always today)", "New: every finished task shows how far it was from its deadline - “Done 2 Nov · 2d early”, “on deadline day” or “1d late” on the list and the board (hover for the working days), with the closing note shown under the task", "New: Edit task has “Completed on” and “Closing note” for finished tasks with a live on-time / late line, and tells you when a change flips the task between on time and late", "Improved: Insights splits on-time work into early and deadline-day finishes and reports the average days before or after the deadline; the view CSV, week CSV, Excel export and JSON report get a “Days vs deadline” column, and the Excel export / import carries the closing note (import still ignores the extra columns)", "Fixed: a task closed before its planned start now moves its start to the completion day instead of finishing before it began", "Fixed: bulk “Postpone / Set to today” could place the deadline before the start date, changed finished tasks and never counted as a move; it now keeps the deadline on or after the start, skips finished tasks and records the move", "Fixed: repeating and duplicated tasks no longer inherit the “Moved” badge and original deadline of the task they came from", "Fixed: reopening a task clears its completion date and closing note; finished tasks saved with a completion before their start or in the future are repaired on load", "Housekeeping: the unrelated DashView files (js/, css/reports-hub.css, test/) are removed again so they are not published with the site", "Your data is kept: one optional field (closing note) and one setting are new; existing tasks, members and backups load exactly as before"]},
+ {"v": "11.9.0", "d": "2026-11-04", "title": "Task ageing and open-time tracking", "n": ["New: every task now says how long it has been open - list view shows “Open 4 days · Day 4 of 5” (or “over plan”), finished tasks show “Took 3 days”, tasks that have not started yet show “Starts in 2 days”; hover for the start date, working days and plan", "New: ageing alerts - open tasks older than a limit you set (Settings → Targets, default 5 days) are flagged amber, overdue ones red; a one-tap “aging” chip and a new “Aging tasks” filter list them", "Improved: board cards show the open age, the start-to-deadline range on hover and a ↻ mark when the deadline moved; each board column shows its average open age (or average days to close) and how many tasks are aging", "Improved: list view day headings summarise the day (tasks · open · overdue); the overview line shows the average open age; new sorts “Longest open” and “Start date”", "New: deleting a task can be undone for 8 seconds; the status and progress controls on every row now have screen-reader labels", "New: “Days open” column in the view CSV, the week CSV report and the Excel export (import ignores it, so exports can still be imported)", "Your data is not changed by this update: no new stored fields; the ageing limit is a new setting with a safe default"]},
+ {"v": "11.8.0", "d": "2026-11-04", "title": "Start dates and safer updates", "n": ["New: every task now has an editable start date and deadline - set them when adding a task and change either one later from Edit; quick buttons (same day, +1 day, +3 days, +1 week, +2 weeks) and a live duration line show the span; a task can be scheduled for a future day and appears on that day", "New: clearer task display - each task shows its start to deadline range with a status badge (Starts tomorrow, Due today, 3d overdue) and a Moved badge when its deadline was changed; board cards show future start dates; the CSV export includes Start date", "New: Excel import also reads a Start date / Start column (the existing Date column still works)", "Safer updates: before an update installs, a restore point is saved automatically; the update is only applied once the new version is confirmed live on the server (no more update loops while the host is still publishing); the restore points are no longer wiped on startup", "Safer data: saved data now carries a format version; older data is upgraded automatically and an untouched copy is kept first (it also appears under Data safety restore points); unreadable data is preserved instead of being overwritten by an empty workspace; fields added by newer versions are never dropped", "Fixed: tasks with a missing or invalid date, status, priority or progress are repaired on load instead of breaking the page; a finished task with no completion date is no longer counted as late", "Fixed: the recovery prompt after a faulty session did nothing - it now points you to your restore points", "Housekeeping: removed unrelated DashView files (js/, css/reports-hub.css, test/) that were published with the site but never used by MISphere"]},
+ {"v": "11.7.0", "d": "2026-11-02", "title": "iOS type system and update repair", "n": ["New: iOS type system everywhere - SF Pro Display and SF Pro Text on iPhone, iPad and Mac, bundled Inter variable (the closest match) on Windows, Android and Linux; dashboard, landing page, charts, dialogs and form fields now share one font stack", "New: bolder, clearer weight scale across the whole theme - body 500, labels and buttons 600, headings 700-800, KPI figures 800 with tabular numbers; tight iOS tracking on large titles, calmer tracking on small text", "Improved: landing page headings, cards and stats follow the same iOS type and weights as the dashboard (Bricolage Grotesque and Instrument Sans are no longer drawn)", "Fixed: the Software Update prompt never appeared - version.json had been replaced by another app's file (2.30.1, lower than 11.6.0); the update feed is restored with MISphere's full history and 11.7.0", "Fixed: offline install - sw.js was another app's worker listing 60+ files that do not exist, so it could never install; rebuilt for MISphere (each file cached on its own, version.json always read fresh, old caches cleaned)", "Housekeeping: README badge, package.json, desktop app version and CHANGELOG aligned to 11.7.0"]},
+ {"v": "11.6.0", "d": "2026-10-31", "title": "iOS typography and edge blur", "n": ["iOS typography: SF Pro on Apple devices, bundled Inter (the closest match) everywhere else, tighter headings and smoother text rendering", "Proper iOS-style blur: progressive edge blur under the top and bottom bars plus frosted header and tab bar"]},
+ {"v": "11.5.1", "d": "2026-10-31", "title": "Header blur refinement", "n": ["Clean blur on the header and tab bar only: content scrolls softly behind them, colours stay solid and clear"]},
+ {"v": "11.5.0", "d": "2026-10-31", "title": "Clearer colour and contrast", "n": ["Clear colour, no haze: removed the smoky background glow, the blurred top/bottom edge fade and frosted glass cards; surfaces are now solid with crisp borders", "Truer, more saturated tones: stronger text contrast, vivid status colours, solid tinted KPI icons and status tiles, member cards with a clean colour bar, clear white input fields"]},
+ {"v": "11.4.0", "d": "2026-10-31", "title": "Landing-page look and slim command header", "n": ["Workspace now follows the landing page: new default “MISphere” colour combo (indigo, violet, cyan), Bricolage Grotesque headings, Instrument Sans body, crisp white cards in light mode", "Slim two-row command header: brand, search, module, New task, data-safety, theme and profile on top; week, office-day progress and task pulse below. GitHub status moved into the shield sheet, home link into the brand tile, leader card stays on the Home page", "Home: getting-started checklist for empty workspaces, cleaner section titles, balanced KPI grid (two columns on phones)"]},
+ {"v": "11.3.0", "d": "2026-10-31", "title": "Smoother theme switching", "n": ["Smooth theme switch: light/dark and colour-combo changes now cross-fade as one (no more background fading while cards flip instantly); dark mode no longer flashes light on startup", "Colour sync: accent picker swatches now match the applied colours (light and dark); setup screen glow and logo follow the chosen combo; cleaner light surfaces", "Smoother scrolling: removed the heavy blur layer on the animated background"]},
+ {"v": "11.2.0", "d": "2026-10-26", "title": "Natural colours and data-safety centre", "n": ["Natural colour system: all 13 combos retuned to calmer, analogous tones in light and dark; quieter background glow and natural status colours", "Glass icons everywhere: header buttons, brand tile, stat and pulse icons, module icons and an active tab-bar tile in tinted glass; new glass app icons", "iOS-style motion: press feedback, staggered page entrance, spring dialogs, frosted backdrops, quiet scrollbars, focus rings", "Data-safety centre: header shield chip, warning when you close the tab or app with unbacked-up changes, one-tap backup sheet, automatic restore points, protection against overwriting newer data from another tab, persistent-storage request", "Fixes: unreadable welcome banner in light mode, misaligned setup header, squeezed stat icons, header overflow at mid widths; desktop app now asks before closing with unsaved data"]},
+ {"v": "11.1.0", "d": "2026-10-25", "title": "Command Deck, installable app and offline mode", "n": ["Command Deck header redesign: brand tile that changes icon per page, search, module switcher, GitHub sync status, install button and New task on top; week navigator with day pips, office-day gauge, Open / Due today / Overdue tiles and a Leader-of-the-week card below. Follows every colour combo, light and dark, and phone layouts", "Installable app: web manifest, offline service worker, app icons (including maskable), and an Install app button in the header", "Fully offline: Excel library and fonts are now bundled in /vendor (no CDN needed)", "Desktop app (Windows / macOS / Linux) via the new /desktop Electron project, plus one-click launchers that open MISphere in its own window"]},
+ {"v": "11.0.0", "d": "2026-10-24", "title": "One colour system and Team Hub", "n": ["One colour system: every combo is now a tonal family with a readable text colour; buttons, tab bar, switches and update pill follow the chosen combo (some stayed blue before)", "Team Hub: neutral glass member cards with health status, workload meter, 6-week trend, next deadline, quick Tasks / ＋ Task actions; new leader spotlight; search, filters, sort, cards/list layout and Share summary", "New member colour palette (12 balanced colours); existing members are converted automatically", "Tasks: bulk select (done, in progress, priority, reassign, deadline, delete) with Undo; Quick views; Quick add (type “Report @ali fri !high 2h”); overload warning while assigning"]},
+ {"v": "10.10.0", "d": "2026-10-23", "title": "Colour grading and transfer sheet", "n": ["Colour grading, iOS-style transfer sheet for import/export, animated tab-bar indicator"]},
+ {"v": "10.9.0", "d": "2026-10-23", "title": "Sections, View bar and motion", "n": ["Defined sections, View bar, Board settings and a stronger motion layer"]},
+ {"v": "8.7.0", "d": "2026-10-21", "title": "System health and daily backups", "n": ["System health panel: storage, data integrity checks, backups and one-tap restore points", "Daily automatic backup (last 5 restore points kept)", "iOS-style notification banners, launch splash, offline/online alerts", "Keyboard shortcuts sheet (press ?)"]},
+ {"v": "8.6.0", "d": "2026-10-21", "title": "Team card polish", "n": ["Team cards: fixed clipped avatar/badge overflow, rebuilt the leader switch, rank shown inline, quieter empty states (– instead of 0%), dimmed zero stats, tooltips for long names, refined leader card tiles"]},
+ {"v": "8.5.0", "d": "2026-10-21", "title": "Colour combos and safer updates", "n": ["Colour combos: Ocean, Aurora, Sunset, Forest, Graphite with an animated colour-mesh background", "Liquid-glass upgrade: edge bevel highlights, cursor-following shine, adjustable glass intensity (Soft / Standard / Strong)", "Update history timeline with install dates; Update available pill in the header", "Safer updates: verification step, failure screen, automatic recovery offer after a faulty session, background update checks"]},
+ {"v": "8.4.0", "d": "2026-10-21", "title": "Team cards v2 and module manager", "n": ["Team cards rebuilt from scratch: progress-ring avatar, large completion figure, status bar and stat tiles", "Module manager in Settings: create, edit, rename, recolour, focus and delete modules with live task counts", "Quick plus button beside the module selector for instant module creation"]},
+ {"v": "8.3.0", "d": "2026-10-21", "title": "Glass team cards", "n": ["Team cards redesigned: transparent glass with member-colour tint, glow and refined stats"]},
+ {"v": "8.2.0", "d": "2026-10-21", "title": "iOS design system", "n": ["iOS design system: SF-style typography, system colours, large titles, switches and sheets", "Glitch fixes: no re-render flicker, lighter blur for smoother scrolling, no input zoom on iPhone", "Smoother spring animations on page change and dialogs"]},
+ {"v": "8.1.0", "d": "2026-10-21", "title": "Software Update sheet", "n": ["iOS-style Software Update sheet with progress and What's New", "Smoother spring animations"]},
+ {"v": "8.0.0", "d": "2026-10-21", "title": "Liquid glass and one-click update", "n": ["Stronger liquid-glass UI and smoother animations", "One-click Update with automatic safety backup and rollback", "Version history and restore points in Settings"]},
+ {"v": "7.0.0", "d": "2026-10", "title": "Modules and live GitHub sync", "n": ["Modules, module reporting, live GitHub sync"]}];
 const rd=(k,f)=>{try{return JSON.parse(localStorage.getItem(k))||f}catch{return f}}, wr=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v));return true}catch{return false}};
 const cmp=(a,b)=>{a=a.split(".").map(Number);b=b.split(".").map(Number);for(let i=0;i<3;i++){if((a[i]||0)!==(b[i]||0))return (a[i]||0)>(b[i]||0)?1:-1}return 0};
 const esc=t=>String(t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 let latest=null, remoteHist=[];
 function snapshot(why){try{return !!(window.misDataSafety&&misDataSafety.snap&&misDataSafety.snap(why,true))}catch{return false}}
+const PREF_KEY="mis_upd_prefs_v1",WD=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],MO=["January","February","March","April","May","June","July","August","September","October","November","December"];
+const CATS={new:{l:"What's new",s:"New",c:"#34c759",g:"✦"},improved:{l:"Improved",s:"Improved",c:"#0a84ff",g:"↗"},fixed:{l:"Fixed",s:"Fixed",c:"#ff9f0a",g:"✓"},safety:{l:"Data & safety",s:"Safety",c:"#af52de",g:"⛨"},other:{l:"Maintenance",s:"Maintenance",c:"#8e8e93",g:"⚙"}};
+const ORDER=["new","improved","fixed","safety","other"];
+const DC={"11.6.0":"improved","11.5.1":"improved","11.5.0":"improved","11.3.0":"improved","10.10.0":"improved","10.9.0":"improved","8.6.0":"fixed","8.3.0":"improved","8.2.0":"improved"};
+const prefs=()=>Object.assign({auto:true,every:15,snooze:12,whatsnew:true},rd(PREF_KEY,{}));
+const setPref=(k,v)=>{const p=prefs();p[k]=v;wr(PREF_KEY,p)};
+const cap=s=>s?s.charAt(0).toUpperCase()+s.slice(1):s;
+function fmtDay(d,long){let m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(d||"");
+ if(m){const t=new Date(+m[1],+m[2]-1,+m[3]);return long?`${WD[t.getDay()]}, ${t.getDate()} ${MO[t.getMonth()]} ${t.getFullYear()}`:`${WD[t.getDay()].slice(0,3)}, ${t.getDate()} ${MO[t.getMonth()].slice(0,3)} ${t.getFullYear()}`}
+ m=/^(\d{4})-(\d{2})$/.exec(d||"");if(m)return MO[+m[2]-1]+" "+m[1];return d||"Date not recorded"}
+function ago(d){const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(d||"");if(!m)return"";const n0=new Date(),n=Math.round((new Date(n0.getFullYear(),n0.getMonth(),n0.getDate())-new Date(+m[1],+m[2]-1,+m[3]))/864e5);return n<=0?"today":n===1?"yesterday":n<31?n+" days ago":n<365?Math.round(n/30)+" months ago":Math.round(n/365)+" years ago"}
+const fmtDT=t=>new Date(t).toLocaleString([],{day:"numeric",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"});
+const typeOf=v=>{const p=v.split(".").map(Number);return p[1]===0&&p[2]===0?["major","Major release"]:p[2]===0?["minor","Feature update"]:["patch","Patch"]};
+function parseRel(x){
+ const dc=DC[x.v]||"new",items=[],data=[],counts={};
+ (x.n||[]).forEach(raw=>{
+  let t=String(raw).trim(),cat=dc,m;
+  if(m=/^new:\s*/i.exec(t)){cat="new";t=t.slice(m[0].length)}
+  else if(m=/^improved:\s*/i.exec(t)){cat="improved";t=t.slice(m[0].length)}
+  else if(m=/^(?:glitch )?fix(?:ed|es):\s*/i.exec(t)){cat="fixed";t=t.slice(m[0].length)}
+  else if(m=/^housekeeping:\s*/i.exec(t)){cat="other";t=t.slice(m[0].length)}
+  else if(/^safer\b/i.test(t))cat="safety";
+  else if(/^your data\b/i.test(t)){data.push(cap(t.replace(/:\s+/," — ")));return}
+  const d=t.indexOf(" - "),c=t.search(/:\s/);let title=t,detail="";
+  if(c>0&&c<64&&(d<0||c<d)){title=t.slice(0,c);detail=t.slice(c+2)}
+  else if(d>0){title=t.slice(0,d);detail=t.slice(d+3)}
+  items.push({cat,title:cap(title),detail:cap(detail),long:!detail&&title.length>90});
+  counts[cat]=(counts[cat]||0)+1;
+ });
+ const ty=typeOf(x.v);
+ const hay=(x.v+" "+(x.title||"")+" "+items.map(i=>i.title+" "+i.detail).join(" ")+" "+fmtDay(x.d,true)).toLowerCase();
+ return {v:x.v,d:x.d,title:x.title||"Release "+x.v,build:x.build||(x.v===APP_VERSION?APP_BUILD:""),type:ty[0],typeLabel:ty[1],items,data,counts,total:items.length,hay};
+}
+function allRel(){const map={};HISTORY.forEach(x=>{map[x.v]=x});(remoteHist||[]).forEach(x=>{if(x&&x.v)map[x.v]=Object.assign({},map[x.v]||{},x)});
+ if(latest&&latest.version){if(!map[latest.version])map[latest.version]={v:latest.version,d:latest.released,n:latest.notes||[],title:latest.title};if(latest.build&&!map[latest.version].build)map[latest.version].build=latest.build}
+ return Object.values(map).map(parseRel).sort((a,b)=>cmp(b.v,a.v))}
+const stat=r=>{const c=cmp(r.v,APP_VERSION);return c===0?"cur":c>0?"new":"old"};
+const cnt=rs=>{const c={};rs.forEach(r=>ORDER.forEach(k=>{if(r.counts[k])c[k]=(c[k]||0)+r.counts[k]}));return c};
+const sumTxt=c=>ORDER.filter(k=>c[k]).map(k=>c[k]+" "+CATS[k].s.toLowerCase()).join(" · ");
+const chips=(c,lbl)=>ORDER.filter(k=>c[k]).map(k=>`<span class="cc" style="--cc:${CATS[k].c}"><i>${CATS[k].g}</i>${c[k]}${lbl?" "+CATS[k].s:""}</span>`).join("");
+function recordBoot(){const l=rd(LOG_KEY,[]);if(!l.some(x=>x.to===APP_VERSION)){l.unshift({t:Date.now(),from:l[0]?l[0].to:null,to:APP_VERSION,via:"boot"});wr(LOG_KEY,l.slice(0,60))}}
+let hf="all",hq="",rs={v:null,f:"all"};
+function relCard(r){
+ const st=stat(r),ins=rd(LOG_KEY,[]).find(l=>l.to===r.v);
+ return `<button type="button" class="rel ${st}" data-v="${esc(r.v)}" aria-label="Open release notes for version ${esc(r.v)}"><span class="rlv">v${esc(r.v)}</span><span class="rb"><span class="rt">${esc(r.title)}</span><span class="rlm"><span class="tp ${r.type}">${r.typeLabel}</span>${st==="cur"?'<span class="tp inst">Installed</span>':st==="new"?'<span class="tp avail">Available</span>':""}<span>${esc(fmtDay(r.d,false))}</span>${ins?`<span>· ${ins.via==="boot"?"first opened":"installed"} ${esc(fmtDT(ins.t))}</span>`:""}</span></span><span class="rc">${chips(r.counts)}</span><span class="rch" aria-hidden="true">›</span></button>`}
 function draw(){
- $("v8Cur").textContent=APP_VERSION;
- const all=[...remoteHist,...HISTORY].filter((x,i,r)=>r.findIndex(y=>y.v===x.v)===i).sort((a,b)=>cmp(b.v,a.v));
- const lg=rd(LOG_KEY,[]);$("v8Hist").innerHTML='<div class="tl">'+all.map(x=>{const ins=lg.find(l=>l.to===x.v),cur=x.v===APP_VERSION,nw=cmp(x.v,APP_VERSION)>0;return `<div class="tli${cur?" cur":""}${nw?" new":""}"><i></i><div class="tlc"><div class="tlh"><b>v${esc(x.v)}</b>${cur?'<span class="chip">Installed</span>':nw?'<span class="chip new">Available</span>':""}<span class="tld">${esc(x.d||"")}${ins?" · installed "+new Date(ins.t).toLocaleDateString():""}</span></div><ul>${(x.n||[]).map(t=>"<li>"+esc(t)+"</li>").join("")}</ul></div></div>`}).join("")+"</div>";
+ const all=allRel(),cur=all.find(r=>r.v===APP_VERSION),lc=+localStorage.getItem("mis_last_check")||0;
+ $("v8Cur").textContent="v"+APP_VERSION;
+ const um=$("udMeta");if(um)um.textContent=[cur?"Released "+fmtDay(cur.d,false):"","Build "+APP_BUILD,lc?"Last checked "+fmtDT(lc):"Not checked yet"].filter(Boolean).join(" · ");
+ const ab=$("abBuild");if(ab)ab.textContent="v"+APP_VERSION+" · build "+APP_BUILD+(cur?" · released "+fmtDay(cur.d,true):"");
+ const fc=$("udF");
+ if(fc){const n={all:all.length};ORDER.forEach(k=>{n[k]=all.filter(r=>r.counts[k]).length});
+  fc.innerHTML=[["all","All"]].concat(ORDER.filter(k=>n[k]).map(k=>[k,CATS[k].s])).map(([k,l])=>`<button type="button" data-f="${k}" class="${hf===k?"on":""}">${l} <b>${n[k]}</b></button>`).join("")}
+ const list=all.filter(r=>(hf==="all"||r.counts[hf])&&(!hq||r.hay.includes(hq)));
+ const ct=$("udCount");if(ct)ct.textContent=list.length+" of "+all.length+" releases";
+ let html="",mk="";
+ list.forEach(r=>{const k=(r.d||"").slice(0,7);if(k!==mk){mk=k;const g=list.filter(x=>(x.d||"").slice(0,7)===k).length;html+=`<div class="rmh"><span>${esc(fmtDay(k,false))}</span><span>${g} release${g>1?"s":""}</span></div>`}html+=relCard(r)});
+ $("v8Hist").innerHTML=html||'<div class="rempty">No release matches your search.</div>';
 }
 async function check(quiet){
- const m=$("v8Msg");if(!quiet)m.textContent="Checking…";
- try{const r=await fetch("version.json?_="+Date.now(),{cache:"no-store"});if(!r.ok)throw 0;const j=await r.json();latest=j;remoteHist=j.history||[];
+ const m=$("v8Msg");if(!quiet)m.textContent="Checking for updates…";
+ try{const r=await fetch("version.json?_="+Date.now(),{cache:"no-store"});if(!r.ok)throw 0;const j=await r.json();latest=j;remoteHist=Array.isArray(j.history)?j.history:[];
   const newer=cmp(j.version,APP_VERSION)>0;$("v8Lat").style.display=newer?"":"none";$("v8Lat").className="chip new";$("v8Lat").textContent="New v"+j.version;$("v8Go").style.display=newer?"":"none";{const pl=$("updPill");if(pl){pl.hidden=!newer;pl.textContent="⬆ Update "+j.version}}
-  m.textContent=newer?((j.notes||[]).join(" · ")||"A new version is ready."):"You are on the latest version ✓";
+  localStorage.setItem("mis_last_check",Date.now());
+  if(newer){const miss=allRel().filter(x=>cmp(x.v,APP_VERSION)>0&&cmp(x.v,j.version)<=0),top=miss[0];m.innerHTML="<b>Update available</b> — v"+esc(j.version)+(top?" · "+esc(top.title):"")+(miss.length?" · "+esc(sumTxt(cnt(miss))):"")}
+  else m.textContent="✓ You are on the latest version.";
+  draw();window.dispatchEvent(new Event("mis-upd"));
   if(newer)offer(j,quiet);
- }catch{m.textContent=quiet?"":"Could not reach version.json (open the site over http/https, not from a file).";}
- localStorage.setItem("mis_last_check",Date.now());draw();
+ }catch{m.textContent=quiet?"":"Could not reach version.json (open the site over http/https, not from a file).";draw()}
 }
 async function update(){
  if(!latest)return;const bar=$("v8Bar"),fill=bar.firstElementChild;bar.style.display="block";
@@ -4217,14 +4284,54 @@ async function update(){
 
 const LOGO='<svg viewBox="0 0 64 64"><path d="M16 15v33h33" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 39l9-9 6 6 10-13" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="49" cy="23" r="4" fill="#f5d061"/></svg>';
 let ov=null;
-function show(html){if(ov)ov.remove();ov=document.createElement("div");ov.className="v8ov";ov.innerHTML='<div class="v8sh" role="dialog" aria-modal="true">'+html+'</div>';document.body.appendChild(ov);requestAnimationFrame(()=>ov.classList.add("on"));return ov}
+function show(html,cls){if(ov)ov.remove();ov=document.createElement("div");ov.className="v8ov";ov.innerHTML='<div class="v8sh'+(cls?" "+cls:"")+'" role="dialog" aria-modal="true">'+html+'</div>';document.body.appendChild(ov);requestAnimationFrame(()=>ov.classList.add("on"));return ov}
 function close(){if(!ov)return;const o=ov;o.classList.remove("on");ov=null;setTimeout(()=>o.remove(),400)}
 function notes(a){return '<div class="v8nt">'+(a||[]).map(x=>"<div>"+esc(x)+"</div>").join("")+"</div>"}
+function secHtml(r,f,open){
+ return ORDER.filter(k=>r.counts[k]&&(f==="all"||f===k)).map(k=>{const its=r.items.filter(i=>i.cat===k);
+  return `<section class="rs" style="--cc:${CATS[k].c}"><div class="rs-h"><span class="rs-i">${CATS[k].g}</span>${CATS[k].l}<em>${its.length}</em></div>${its.map(i=>i.detail?`<details class="ri"${open?" open":""}><summary>${esc(i.title)}</summary><p>${esc(i.detail)}</p></details>`:`<div class="ri flat${i.long?" long":""}">${esc(i.title)}</div>`).join("")}</section>`}).join("")}
+function relText(r){return `MISphere v${r.v} — ${r.title}\nReleased ${fmtDay(r.d,true)}${r.build?" · build "+r.build:""}\n`+ORDER.filter(k=>r.counts[k]).map(k=>"\n"+CATS[k].l.toUpperCase()+"\n"+r.items.filter(i=>i.cat===k).map(i=>"• "+i.title+(i.detail?" — "+i.detail:"")).join("\n")).join("\n")+(r.data.length?"\n\nYOUR DATA\n"+r.data.join("\n"):"")}
+async function copyTxt(t){try{await navigator.clipboard.writeText(t);return true}catch{try{const a=document.createElement("textarea");a.value=t;a.style.cssText="position:fixed;opacity:0";document.body.appendChild(a);a.select();const ok=document.execCommand("copy");a.remove();return ok}catch{return false}}}
+function relInner(r,all,i){
+ const f=rs.f,st=stat(r),ins=rd(LOG_KEY,[]).find(l=>l.to===r.v),older=all[i+1],newer=all[i-1],cats=ORDER.filter(k=>r.counts[k]);
+ const tabs=`<button type="button" data-f="all" class="${f==="all"?"on":""}">All <b>${r.total}</b></button>`+cats.map(k=>`<button type="button" data-f="${k}" class="${f===k?"on":""}" style="--cc:${CATS[k].c}">${CATS[k].s} <b>${r.counts[k]}</b></button>`).join("");
+ const dataBox=r.data.length&&(f==="all"||f==="safety")?`<div class="rd-data"><i>🔒</i><div><b>Your data</b>${r.data.map(t=>`<p>${esc(t)}</p>`).join("")}</div></div>`:"";
+ const badge=st==="cur"?'<span class="tp inst">Installed</span>':st==="new"?'<span class="tp avail">Available</span>':"";
+ return `<div class="rd-h"><div class="rd-nav"><button type="button" class="rd-n" data-go="${older?older.v:""}" ${older?"":"disabled"} aria-label="Older release">‹ ${older?"v"+esc(older.v):""}</button><button type="button" class="rd-n" data-go="${newer?newer.v:""}" ${newer?"":"disabled"} aria-label="Newer release">${newer?"v"+esc(newer.v):""} ›</button><button type="button" class="rd-x" id="rdX" aria-label="Close">✕</button></div>
+ <div class="rd-v"><span class="rd-vn">v${esc(r.v)}</span><span class="tp ${r.type}">${r.typeLabel}</span>${badge}</div><h2>${esc(r.title)}</h2>
+ <div class="rd-m"><div><small>Released</small><b>${esc(fmtDay(r.d,true))}</b><em>${esc(ago(r.d))}</em></div><div><small>This device</small><b>${ins?esc(fmtDT(ins.t)):st==="new"?"Not installed":"Not recorded"}</b><em>${ins?(ins.via==="boot"?"First opened":"Installed"):""}</em></div><div><small>Build</small><b>${esc(r.build||"—")}</b></div><div><small>Changes</small><b>${r.total}</b><em>${esc(sumTxt(r.counts))}</em></div></div>
+ <div class="rd-t">${tabs}</div></div>
+ <div class="rd-b">${secHtml(r,f,false)||'<div class="rempty">No changes recorded.</div>'}${dataBox}</div>
+ <div class="rd-f"><button class="rbtn" id="rdCopy" type="button">Copy notes</button><button class="rbtn" id="rdExp" type="button">Expand all</button><span style="flex:1"></span>${st==="new"?'<button class="rbtn p" id="rdUp" type="button">Update now</button>':""}<button class="rbtn${st==="new"?"":" p"}" id="rdDone" type="button">Close</button></div>`}
+function bindRel(o,r){
+ const q=s=>o.querySelector(s);
+ q("#rdX").onclick=close;q("#rdDone").onclick=close;o.onclick=e=>{if(e.target===o)close()};
+ o.querySelectorAll("[data-f]").forEach(b=>b.onclick=()=>openRelease(rs.v,b.dataset.f));
+ o.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>{if(b.dataset.go)openRelease(b.dataset.go)});
+ q("#rdCopy").onclick=async()=>{toast(await copyTxt(relText(r))?"Release notes copied":"Could not copy")};
+ let ex=false;q("#rdExp").onclick=e=>{ex=!ex;o.querySelectorAll("details.ri").forEach(d=>{d.open=ex});e.target.textContent=ex?"Collapse all":"Expand all"};
+ const u=q("#rdUp");if(u)u.onclick=()=>update();
+}
+function openRelease(v,f){
+ const all=allRel(),i=all.findIndex(r=>r.v===v);if(i<0)return;rs={v,f:f||"all"};
+ const r=all[i],inner=relInner(r,all,i);let o;
+ if(ov&&ov.dataset.rel){o=ov;o.firstElementChild.innerHTML=inner}else{o=show(inner,"wide");o.dataset.rel="1"}
+ bindRel(o,r);
+}
+function relStep(dir){const all=allRel(),i=all.findIndex(r=>r.v===rs.v),n=all[i+dir];if(n)openRelease(n.v)}
 function offer(j,quiet){
  if(quiet&&((+localStorage.getItem("mis_snooze_"+j.version)||0)>Date.now()||ov||document.querySelector(".v8ov")))return;
- const o=show('<div class="v8ic">'+LOGO+'</div><h2>Software Update</h2><div class="sub">MISphere '+esc(j.version)+' is available · you have '+APP_VERSION+'</div>'+notes(j.notes)+'<div class="sub" style="margin-top:10px">🔒 Your data is never touched by an update.</div><div class="v8bt"><button class="p" id="v8a">Update Now</button><button class="g" id="v8b">Remind Me Later</button></div>');
+ const miss=allRel().filter(r=>cmp(r.v,APP_VERSION)>0&&cmp(r.v,j.version)<=0),top=miss[0],c=cnt(miss),pick=[];
+ ["new","improved","fixed","safety"].forEach(k=>miss.forEach(r=>r.items.forEach(i=>{if(i.cat===k)pick.push(i)})));
+ const shown=pick.slice(0,6);
+ const o=show('<div class="v8ic">'+LOGO+'</div><h2>Software Update</h2><div class="sub">MISphere '+esc(j.version)+' is ready to install</div>'
+ +'<div class="of-v"><span class="vp">v'+APP_VERSION+'</span><span class="ar">→</span><span class="vp n">v'+esc(j.version)+'</span></div>'
+ +(top?'<div class="of-t">'+esc(top.title)+'</div><div class="sub">Released '+esc(fmtDay(top.d,true))+(miss.length>1?" · includes "+miss.length+" releases":"")+'</div>':"")
+ +(pick.length?'<div class="of-c">'+chips(c,true)+'</div><div class="of-hl">'+shown.map(i=>'<div class="of-i" style="--cc:'+CATS[i.cat].c+'"><i></i><span>'+esc(i.title)+'</span></div>').join("")+(pick.length>shown.length?'<div class="of-more">+ '+(pick.length-shown.length)+' more changes in the full release notes</div>':"")+'</div>':"")
+ +'<div class="sub" style="margin-top:10px">🔒 Your data is never touched by an update. A restore point is saved first.</div><div class="v8bt"><button class="p" id="v8a">Update Now</button><button class="g" id="v8d">See full release notes</button><button class="g" id="v8b">Remind Me Later</button></div>');
  o.querySelector("#v8a").onclick=()=>update();
- const later=()=>{localStorage.setItem("mis_snooze_"+j.version,Date.now()+12*36e5);close()};
+ o.querySelector("#v8d").onclick=()=>openRelease(j.version);
+ const later=()=>{localStorage.setItem("mis_snooze_"+j.version,Date.now()+prefs().snooze*36e5);close()};
  o.querySelector("#v8b").onclick=later;o.onclick=e=>{if(e.target===o)later()};
 }
 function prog(p,t){
@@ -4234,27 +4341,46 @@ function prog(p,t){
 function fail(){const o=show('<div class="v8ic" style="background:linear-gradient(135deg,#ff9f0a,#ff453a)"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><path d="M12 6v7M12 17.5v.5"/></svg></div><h2>Update Not Installed</h2><div class="sub">The new version isn\'t live on the server yet (it may still be publishing). Your data is safe and the current version keeps running — try again in a minute.</div><div class="v8bt"><button class="p" id="v8r">Try Again</button><button class="g" id="v8x">Close</button></div>');o.querySelector("#v8r").onclick=()=>update();o.querySelector("#v8x").onclick=close}
 function recover(){try{toastAct("Last session had errors. Your data is safe.","Restore points",()=>{window.misDataSafety&&misDataSafety.open&&misDataSafety.open()})}catch{}}
 function done(){
- const h=(HISTORY.find(x=>x.v===APP_VERSION)||{}).n||[];
- const o=show('<div class="v8ok"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div><h2>Update Complete</h2><div class="sub">MISphere '+APP_VERSION+' · all your data is intact</div><div class="sub" style="margin-top:14px;text-align:left;font-weight:600">What\'s New</div>'+notes(h)+'<div class="v8bt"><button class="p" id="v8c">Continue</button></div>');
- o.querySelector("#v8c").onclick=close;
+ const r=allRel().find(x=>x.v===APP_VERSION);if(!r)return;
+ if(!prefs().whatsnew){toast("Updated to v"+APP_VERSION+" ✓");return}
+ const o=show('<div class="v8ok"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div><h2>Update Complete</h2><div class="sub">MISphere '+APP_VERSION+' · all your data is intact</div><div class="of-t">'+esc(r.title)+'</div><div class="sub">'+esc(fmtDay(r.d,true))+'</div><div class="of-c">'+chips(r.counts,true)+'</div><div class="of-body">'+secHtml(r,"all",false)+'</div><div class="v8bt"><button class="p" id="v8c">Continue</button><button class="g" id="v8n">See full release notes</button></div>');
+ o.querySelector("#v8c").onclick=close;o.querySelector("#v8n").onclick=()=>openRelease(APP_VERSION);
 }
-
+async function diag(){let kb=0;try{kb=(localStorage.getItem(KEY)||"").length/1024}catch{}
+ const t=["MISphere diagnostics","Version: "+APP_VERSION+" (build "+APP_BUILD+")","Latest known: "+(latest?latest.version:"not checked yet"),"Online: "+navigator.onLine,"Service worker: "+(navigator.serviceWorker&&navigator.serviceWorker.controller?"active":"none"),"Storage: "+kb.toFixed(1)+" KB","Tasks: "+((db.tasks||[]).length)+" · Members: "+((MEMBERS||[]).length),"Restore points: "+rd(SNAP_KEY,[]).length,"Screen: "+innerWidth+"x"+innerHeight,"Browser: "+navigator.userAgent,"Time: "+new Date().toString()].join("\n");
+ toast(await copyTxt(t)?"Diagnostics copied":"Could not copy")}
+function initUpd(){
+ const p=prefs();$("udAuto").checked=p.auto;$("udEvery").value=String(p.every);$("udSnooze").value=String(p.snooze);$("udWhats").checked=p.whatsnew;
+ $("udAuto").onchange=e=>{setPref("auto",e.target.checked);toast(e.target.checked?"Automatic update checks on":"Automatic update checks off")};
+ $("udEvery").onchange=e=>{setPref("every",+e.target.value);toast("Check frequency saved")};
+ $("udSnooze").onchange=e=>{setPref("snooze",+e.target.value);toast("Reminder time saved")};
+ $("udWhats").onchange=e=>{setPref("whatsnew",e.target.checked);toast("Preference saved")};
+ $("udFind").oninput=e=>{hq=e.target.value.trim().toLowerCase();draw()};
+ $("udF").onclick=e=>{const b=e.target.closest("[data-f]");if(b){hf=b.dataset.f;draw()}};
+ $("v8Hist").onclick=e=>{const b=e.target.closest(".rel");if(b)openRelease(b.dataset.v)};
+ const d=$("udDiag");if(d)d.onclick=diag;
+}
+window.misUpd={get latest(){return latest},get newer(){return !!latest&&cmp(latest.version,APP_VERSION)>0},version:APP_VERSION,build:APP_BUILD,open:openRelease,check:()=>check(false)};
 function health(){const el=$("v87H");if(!el)return;let kb=0;try{kb=(localStorage.getItem(KEY)||"").length/1024}catch{}
  const ids=new Set((MEMBERS||[]).map(m=>m.id)),T=db.tasks||[],orph=T.filter(t=>!ids.has(t.member)).length,bad=T.filter(t=>!/^\d{4}-\d{2}-\d{2}$/.test(t.deadline||"")).length;
  const lb=+S().lastBackup||0,age=lb?Math.floor((Date.now()-lb)/864e5):null,pct=Math.min(100,kb/5120*100),n=orph+bad+(pct>80?1:0);
  el.innerHTML=`<div class="hl-top"><span class="hl-pill ${n?"warn":"ok"}">${n?"● "+n+" item(s) need attention":"● All systems healthy"}</span><span class="hint">v${APP_VERSION} · ${navigator.onLine?"online":"offline"}</span></div><div class="hl-grid"><div><b>${kb.toFixed(1)} KB</b><span>Storage · ${pct.toFixed(1)}% of 5 MB</span><i style="--w:${pct}%"></i></div><div><b>${T.length}</b><span>Tasks · ${(MEMBERS||[]).length} members</span></div><div class="${orph?"bad":""}"><b>${orph}</b><span>Orphan tasks</span></div><div class="${bad?"bad":""}"><b>${bad}</b><span>Invalid deadlines</span></div><div><b>${age==null?"Never":age===0?"Today":age+"d ago"}</b><span>Last file backup</span></div><div><b>${rd(SNAP_KEY,[]).length}</b><span>Restore points</span></div></div>`}
 function keys(){const o=show('<div class="v8ic">'+LOGO+'</div><h2>Keyboard Shortcuts</h2><div class="sub">Work faster without leaving the keyboard</div><div class="v8nt kb">'+[["Ctrl / ⌘ + K","Command palette"],["/","Search"],["1 – 9","Switch pages"],["?","This sheet"],["Esc","Close dialogs"]].map(x=>"<div><kbd>"+x[0]+"</kbd><span>"+x[1]+"</span></div>").join("")+'</div><div class="v8bt"><button class="p" id="v8k">Done</button></div>');o.querySelector("#v8k").onclick=close;o.onclick=e=>{if(e.target===o)close()}}
-document.addEventListener("keydown",e=>{if(e.key==="?"&&!/INPUT|TEXTAREA|SELECT/.test((e.target||{}).tagName||"")&&!e.target.isContentEditable){e.preventDefault();ov?close():keys()}else if(e.key==="Escape"&&ov)close()});
+document.addEventListener("keydown",e=>{if(e.key==="?"&&!/INPUT|TEXTAREA|SELECT/.test((e.target||{}).tagName||"")&&!e.target.isContentEditable){e.preventDefault();ov?close():keys()}else if(e.key==="Escape"&&ov)close();else if(ov&&ov.dataset.rel&&(e.key==="ArrowLeft"||e.key==="ArrowRight"))relStep(e.key==="ArrowLeft"?1:-1)});
 window.addEventListener("offline",()=>toast("📡 You’re offline — changes are saved on this device"));window.addEventListener("online",()=>toast("✅ Back online"));
 document.addEventListener("click",e=>{if(navigator.vibrate&&e.target.closest&&e.target.closest(".btn,.sw,.tabbar button,.ib"))navigator.vibrate(6)},{passive:true});
 document.addEventListener("DOMContentLoaded",()=>{
- if(!$("v8Upd"))return;draw();health();$("v87Re").onclick=()=>{health();toast("Health check complete")};setInterval(()=>{if(document.querySelector("#v-settings.on"))health()},4000);
+ recordBoot();
+ if(!$("v8Upd"))return;initUpd();draw();health();$("v87Re").onclick=()=>{health();toast("Health check complete")};setInterval(()=>{if(document.querySelector("#v-settings.on")){health();window.misOv&&window.misOv()}},4000);
  $("v8Check").onclick=()=>check(false);$("v8Go").onclick=()=>latest&&offer(latest,false);$("updPill").onclick=()=>latest&&offer(latest,false);
- const l=rd(LOG_KEY,[]);if(l[0]&&l[0].to===APP_VERSION&&Date.now()-l[0].t<120000)setTimeout(done,700);
+ const l=rd(LOG_KEY,[]);if(l[0]&&l[0].to===APP_VERSION&&l[0].via!=="boot"&&Date.now()-l[0].t<120000)setTimeout(done,700);
  {const bt=rd("mis_boot",null);if(bt&&bt.ok===false&&bt.err>0&&Date.now()-bt.t<18e5){setTimeout(recover,900);wr("mis_boot",{v:bt.v,t:bt.t,ok:true,err:0,seen:1})}
   setTimeout(()=>{const e=window.__v8err||0;wr("mis_boot",{v:APP_VERSION,t:Date.now(),ok:e<3,err:e})},4000)}
- if(!/^file:/.test(location.protocol)){setInterval(()=>check(true),9e5);document.addEventListener("visibilitychange",()=>{if(!document.hidden&&Date.now()-(+localStorage.getItem("mis_last_check")||0)>6e5)check(true)})}
- if(!/^file:/.test(location.protocol)&&Date.now()-(+localStorage.getItem("mis_last_check")||0)>6*36e5)check(true);
+ if(!/^file:/.test(location.protocol)){
+  const last=()=>+localStorage.getItem("mis_last_check")||0;
+  setInterval(()=>{const p=prefs();if(p.auto&&Date.now()-last()>=p.every*6e4)check(true)},6e4);
+  document.addEventListener("visibilitychange",()=>{const p=prefs();if(!document.hidden&&p.auto&&Date.now()-last()>Math.min(p.every*6e4,6e5))check(true)});
+  if(prefs().auto&&Date.now()-last()>6*36e5)check(true)}
 });
 })();
 </script>
@@ -4373,12 +4499,98 @@ body.rm svg.cx .ln,body.rm svg.cx .cg path,body.rm .donut .seg{animation:none!im
   .prfoot{display:flex;position:fixed;left:0;right:0;bottom:0;justify-content:space-between;gap:10px;padding-top:5px;border-top:1px solid #ccd;font-size:8.5pt;color:#556}
   #v-insights{padding-bottom:12mm}
 }
+
+/* ===== v11.11: update centre, release sheet, settings overview ===== */
+.v8sh{max-height:calc(100dvh - 36px);overflow-y:auto;overscroll-behavior:contain}
+.v8sh.wide{width:min(660px,100%);padding:0;text-align:left;display:flex;flex-direction:column;overflow:hidden;max-height:min(90dvh,880px)}
+.of-v{display:flex;align-items:center;justify-content:center;gap:10px;margin:14px 0 6px}
+.of-v .vp{font:700 13px ui-monospace,SFMono-Regular,Menlo,monospace;padding:5px 11px;border-radius:99px;background:rgba(120,120,140,.16)}
+.of-v .vp.n{background:var(--brand);color:#fff}.of-v .ar{color:var(--muted);font-weight:700}
+.of-t{font-weight:700;font-size:16px;line-height:1.3;font-family:inherit;margin-top:10px;letter-spacing:-.01em}
+.of-c{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-top:10px}
+.cc{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:99px;background:color-mix(in srgb,var(--cc) 14%,transparent);color:var(--text);white-space:nowrap}
+.cc i{font-style:normal;color:var(--cc);font-weight:800}
+.of-hl,.of-body{text-align:left;max-height:34dvh;overflow:auto;margin:14px 0 4px;padding:6px 6px;border-radius:16px;background:rgba(120,120,140,.1);overscroll-behavior:contain}
+.of-body{max-height:40dvh;padding:2px 10px 8px}
+.of-i{display:flex;gap:10px;padding:6px 8px;font-size:13px;line-height:1.4}.of-i i{flex:none;width:8px;height:8px;border-radius:50%;background:var(--cc);margin-top:6px}
+.of-more{padding:6px 8px;font-size:12px;color:var(--muted)}
+.tp{font-size:10.5px;font-weight:800;padding:2px 8px;border-radius:99px;text-transform:uppercase;letter-spacing:.04em;background:rgba(120,120,140,.16);color:var(--muted)}
+.tp.major{background:var(--brand);color:#fff}.tp.minor{background:var(--brand-soft);color:var(--brand)}
+.tp.inst{background:color-mix(in srgb,var(--ok) 18%,transparent);color:var(--ok-t,var(--ok))}.tp.avail{background:#12b76a;color:#fff}
+.rd-h{padding:18px 22px 12px;border-bottom:1px solid var(--line2);flex:none}
+.rd-nav{display:flex;gap:6px;align-items:center;margin-bottom:12px}
+.rd-n,.rd-x{border:0;border-radius:10px;background:var(--soft);color:var(--text);font-weight:600;font-size:12.5px;font-family:inherit;padding:7px 11px;cursor:pointer}
+.rd-n[disabled]{opacity:.35;cursor:default}.rd-x{margin-left:auto;width:32px;padding:7px 0;text-align:center}
+.rd-v{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.rd-vn{font-weight:800;font-size:26px;line-height:1;font-family:inherit;letter-spacing:-.02em}
+.rd-h h2{font-size:18px;margin:8px 0 0;letter-spacing:-.01em}
+.rd-m{display:grid;grid-template-columns:repeat(auto-fit,minmax(138px,1fr));gap:8px;margin-top:14px}
+.rd-m div{background:var(--soft);border-radius:12px;padding:9px 12px;min-width:0}
+.rd-m small{display:block;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;color:var(--muted)}
+.rd-m b{display:block;font-size:13px;margin-top:2px}.rd-m em{display:block;font-style:normal;font-size:11.5px;color:var(--muted);margin-top:1px}
+.rd-t,.ud-f{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.rd-t button,.ud-f button{border:0;border-radius:99px;padding:6px 12px;font-weight:600;font-size:12px;font-family:inherit;background:var(--soft);color:var(--muted);cursor:pointer}
+.rd-t button b,.ud-f button b{color:var(--text);margin-left:2px}
+.rd-t button.on,.ud-f button.on{background:var(--brand);color:#fff}.rd-t button.on b,.ud-f button.on b{color:#fff}
+.rd-b{overflow:auto;padding:6px 22px 14px;flex:1;min-height:120px;overscroll-behavior:contain}
+.rd-f{display:flex;gap:8px;flex-wrap:wrap;padding:12px 22px calc(16px + env(safe-area-inset-bottom));border-top:1px solid var(--line2);flex:none}
+.rbtn{border:0;border-radius:12px;padding:10px 16px;font-weight:600;font-size:14px;font-family:inherit;cursor:pointer;background:var(--soft);color:var(--text)}.rbtn.p{background:var(--brand);color:#fff}.rbtn:active{transform:scale(.97)}
+.rs{margin:16px 0 4px}.rs-h{display:flex;align-items:center;gap:9px;font-weight:700;font-size:13px;font-family:inherit;margin-bottom:6px}
+.rs-h em{font-style:normal;font-weight:700;font-size:11px;color:var(--muted);background:var(--soft);padding:1px 8px;border-radius:99px}
+.rs-i{width:24px;height:24px;border-radius:8px;display:grid;place-items:center;color:#fff;font-size:12px;background:var(--cc)}
+.ri{border:1px solid var(--line2);border-radius:13px;margin:6px 0;background:var(--card)}
+.ri summary,.ri.flat{list-style:none;cursor:pointer;padding:10px 12px;font-size:13.5px;font-weight:600;line-height:1.4;display:flex;gap:8px}
+.ri.flat{cursor:default}.ri.flat.long{font-weight:500}
+.ri summary::-webkit-details-marker{display:none}.ri summary::after{content:"›";margin-left:auto;padding-left:8px;color:var(--muted);transition:transform .2s}
+.ri[open] summary::after{transform:rotate(90deg)}.ri p{margin:0;padding:0 12px 12px;font-size:13px;line-height:1.55;color:var(--muted)}
+.rd-data{display:flex;gap:12px;margin:18px 0 6px;padding:12px 14px;border-radius:14px;background:color-mix(in srgb,var(--ok) 10%,var(--card));border:1px solid color-mix(in srgb,var(--ok) 30%,transparent)}
+.rd-data i{font-style:normal;font-size:18px}.rd-data b{font-size:13px}.rd-data p{margin:3px 0 0;font-size:12.5px;line-height:1.5;color:var(--muted)}
+.rempty{padding:22px;text-align:center;color:var(--muted);font-size:13px}
+.ud-hero{display:flex;gap:16px;align-items:center;flex-wrap:wrap;padding:16px;margin-top:14px;border-radius:20px;border:1px solid var(--line);background:linear-gradient(135deg,color-mix(in srgb,var(--brand) 12%,var(--card)),color-mix(in srgb,var(--m3,var(--brand)) 7%,var(--card)))}
+.ud-ic{width:56px;height:56px;border-radius:15px;display:grid;place-items:center;background:linear-gradient(135deg,var(--m1,var(--brand)),var(--m3,var(--brand)));flex:none}.ud-ic svg{width:32px;height:32px}
+.ud-main{flex:1;min-width:210px}.ud-t{font-weight:700;font-size:19px;line-height:1.2;font-family:inherit;display:flex;gap:8px;align-items:center;flex-wrap:wrap;letter-spacing:-.01em}
+.ud-s{font-size:12.5px;color:var(--muted);margin-top:4px}.ud-m{font-size:13px;margin-top:6px}
+.ud-act{display:flex;gap:8px;flex-wrap:wrap}
+#v8Upd .bar{margin-top:12px}
+.ud-prefs{margin-top:10px}
+.ud-hh{display:flex;justify-content:space-between;align-items:baseline;margin:22px 2px 0;gap:10px}.ud-hh h4{margin:0;font-size:15px}.ud-hh span{font-size:12px;color:var(--muted)}
+.ud-tools{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:10px}.ud-tools input{flex:1;min-width:190px}
+.rmh{display:flex;justify-content:space-between;font-size:11px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;color:var(--muted);margin:18px 4px 4px}
+.rel{width:100%;display:flex;gap:14px;align-items:center;text-align:left;border:1px solid var(--line2);background:var(--soft);border-radius:16px;padding:12px 14px;margin:6px 0;cursor:pointer;font-family:inherit;color:var(--text);transition:transform .2s,border-color .2s,background .2s}
+.rel:hover{border-color:var(--brand);transform:translateX(2px)}.rel:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+.rel.cur{border-color:color-mix(in srgb,var(--brand) 55%,transparent);background:color-mix(in srgb,var(--brand) 8%,var(--card))}.rel.new{border-color:#34c759;background:color-mix(in srgb,#34c759 8%,var(--card))}
+.rlv{flex:none;min-width:64px;font-weight:800;font-size:15px;line-height:1;font-family:inherit;letter-spacing:-.01em}.rb{flex:1;min-width:0;display:flex;flex-direction:column;gap:5px}.rt{font-weight:650;font-size:14px}
+.rlm{display:flex;flex-wrap:wrap;gap:4px 8px;align-items:center;font-size:12px;color:var(--muted)}.rc{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end}
+.rch{color:var(--muted);font-size:20px;line-height:1}
+@media(max-width:640px){.rel{flex-wrap:wrap;gap:8px 12px}.rlv{flex:0 0 100%;min-width:0}.rb{flex:1 1 0}.rc{order:3;justify-content:flex-start;width:100%}.rch{margin-left:auto}.rd-h,.rd-b,.rd-f{padding-left:16px;padding-right:16px}}
+.sov{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:0 0 22px}
+.sov button{text-align:left;border:1px solid var(--line);background:var(--card);border-radius:18px;padding:14px 16px;cursor:pointer;display:flex;flex-direction:column;gap:3px;font-family:inherit;color:var(--text);box-shadow:var(--shadow);transition:transform .25s,border-color .2s;min-width:0}
+.sov button:hover{transform:translateY(-2px);border-color:var(--brand)}.sov small{font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;font-weight:700;color:var(--muted);display:flex;align-items:center;gap:7px}
+.sov small i{width:8px;height:8px;border-radius:50%;background:var(--muted)}.sov .ok small i{background:var(--ok)}.sov .warn small i{background:var(--warn)}.sov .bad small i{background:var(--bad)}
+.sov b{font-size:17px;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.sov span{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sov u{display:block;height:5px;border-radius:9px;background:var(--line);margin-top:6px;overflow:hidden;text-decoration:none}.sov u::after{content:"";display:block;height:100%;width:var(--w);background:var(--brand);border-radius:9px}
+#v-settings.searching .sov{display:none}
+#v-settings .panel>h3{display:flex;align-items:center;justify-content:flex-start;gap:12px}
+.pi{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;background:var(--brand-soft);font-size:17px;flex:none}
+.pt{flex:1;display:flex;flex-direction:column;min-width:0}.pt small{display:block!important;margin:2px 0 0;font-weight:500;color:var(--muted);font-size:12px;float:none!important;text-align:left}
+#v-settings .srow{padding:14px 6px;border-radius:12px;transition:background .2s}#v-settings .srow:hover{background:color-mix(in srgb,var(--soft) 70%,transparent)}
+#v-settings [data-dirty]{box-shadow:0 0 0 2px color-mix(in srgb,var(--warn) 60%,transparent)}
+#sDays[data-dirty],#sModules[data-dirty]{border-radius:12px}
+.snav button.dirty{position:relative}.snav button.dirty::after{content:"";width:8px;height:8px;border-radius:50%;background:var(--warn);flex:none}
+@media(max-width:640px){#v-settings .fgrid{grid-template-columns:1fr!important}}
+@media(min-width:1100px){
+ .slay{display:grid;grid-template-columns:250px minmax(0,1fr);gap:28px;align-items:start}
+ .snav{flex-direction:column;overflow:visible;margin:0;padding:8px;gap:2px;top:max(104px,calc(env(safe-area-inset-top) + 104px))}
+ .snav button{flex:none;justify-content:flex-start;text-align:left;padding:10px 12px;border-radius:13px;width:100%}
+ .snav button div{display:block;min-width:0;flex:1}.snav span{display:block;font-size:11.5px;font-weight:500;opacity:.72;margin-top:1px}
+ .snav button.dirty::after{margin-left:auto}
+}
+@media print{.sov,.v8ov{display:none!important}}
 </style>
 <script id="pro-layer">
 /* v10.2 · Pro layer — Insights executive summary & report header, Settings workspace.  © 2026 Muhammad Umer Faheem. All rights reserved. */
 (()=>{
 "use strict";
-const VER = "11.1.0";
+const VER = window.MIS_APP_VERSION||"11.1.0";
 const $$ = (sel,root=document)=>[...root.querySelectorAll(sel)];
 const nm = v=>String(v||"").replace(/[<>"`]/g,"").trim().slice(0,40);
 const CONF = {none:"", internal:"Internal use", confidential:"Confidential"};
@@ -4442,11 +4654,37 @@ function previews(){
   const t = $("pvTime"); if(t) t.innerHTML = `<span class="pc">Daily capacity <b>${hrs} h</b></span><span class="pc">Weekly per member <b>${wk} h</b> (${f.days.length} day${f.days.length===1?"":"s"})</span><span class="pc">Team of ${n} <b>${wk*n} h</b> / week</span>`;
   const hi = f.phi, c = $("pvScore"); if(c) c.innerHTML = `<span class="pc">On time <b>+${f.pon}</b></span><span class="pc">Late <b>+${f.plate}</b></span><span class="pc">Overdue <b>−${f.pov}</b></span><span class="pc">High-priority on time <b>+${Math.round(f.pon*hi*10)/10}</b></span><span class="pc">High-priority overdue <b>−${Math.round(f.pov*hi*10)/10}</b></span>`;
 }
+function marks(keys){
+  $$("#sNav button").forEach(b=>{ const ks=SEC_KEYS[b.dataset.sec]||[]; b.classList.toggle("dirty", keys.some(k=>ks.includes(k))); });
+  $$("#v-settings [data-s]").forEach(el=>el.toggleAttribute("data-dirty", keys.includes(el.dataset.s)));
+  $("sDays").toggleAttribute("data-dirty", keys.includes("days")); $("sModules").toggleAttribute("data-dirty", keys.includes("modules"));
+}
+function iconize(){
+  $$("#v-settings .panel>h3").forEach(h3=>{ const t=h3.firstChild; if(!t||t.nodeType!==3||h3.querySelector(".pi")) return;
+    const m=/^(\S+)\s+/.exec(t.nodeValue); if(!m||/^[\w“"(]/.test(m[1])) return; t.nodeValue=t.nodeValue.slice(m[0].length);
+    const pt=document.createElement("span"); pt.className="pt"; while(h3.firstChild) pt.appendChild(h3.firstChild);
+    const pi=document.createElement("span"); pi.className="pi"; pi.setAttribute("aria-hidden","true"); pi.textContent=m[1]; h3.append(pi,pt); });
+}
+function renderOv(){
+  const el=$("sOv"); if(!el) return; const s=S(), T=db.tasks||[], n=(typeof MEMBERS!=="undefined"?MEMBERS:[]).length;
+  let kb=0; try{ kb=(localStorage.getItem(KEY)||"").length/1024; }catch{}
+  const lb=+s.lastBackup||0, age=lb?Math.floor((Date.now()-lb)/864e5):null, stale=age==null||age>(+s.bkDays||7), pct=Math.min(100,kb/5120*100);
+  let snaps=0; try{ snaps=JSON.parse(localStorage.getItem("mis_snapshots_v1")||"[]").length; }catch{}
+  const u=window.misUpd, newer=!!(u&&u.newer), gh=typeof ghOn==="function"&&ghOn();
+  const tiles=[["general","Workspace","ok",esc(s.dept||"—"),(s.org?esc(s.org)+" · ":"")+n+" members · "+T.length+" tasks"],
+    ["about","Version",newer?"warn":"ok","v"+VER,newer?"Update "+esc(u.latest.version)+" available":"Up to date"],
+    ["data","Data protection",stale?"warn":"ok",age==null?"No backup yet":age===0?"Backed up today":age+"d since backup",snaps+" restore point"+(snaps===1?"":"s")],
+    ["data","Sync",gh?"ok":"",gh?"GitHub live":"Local only",gh?"Every change is pushed":"Saved in this browser"],
+    ["data","Storage",pct>80?"bad":"ok",kb.toFixed(1)+" KB",pct.toFixed(1)+"% of 5 MB"]];
+  el.innerHTML=tiles.map(t=>`<button type="button" class="${t[2]}" data-go="${t[0]}"><small><i></i>${t[1]}</small><b>${t[3]}</b><span>${t[4]}</span>${t[1]==="Storage"?`<u style="--w:${Math.max(2,pct)}%"></u>`:""}</button>`).join("");
+  if(!el.dataset.ok){ el.dataset.ok=1; el.addEventListener("click",e=>{ const b=e.target.closest("[data-go]"); if(b){ showSec(b.dataset.go); scrollTo({top:0,behavior:"smooth"}); } }); }
+}
+window.misOv=renderOv; window.addEventListener("mis-upd",renderOv);
 let _rf = 0;
 function refresh(){
   const v = V(); if(!v) return;
   const err = validate(), keys = diffKeys(), ne = Object.keys(err).length;
-  paintErrors(err); previews();
+  paintErrors(err); previews(); marks(keys);
   const bar = $("sBar"); bar.hidden = !keys.length && !ne; bar.classList.toggle("err", !!ne);
   $("sBarT").textContent = ne ? `${ne} setting${ne===1?"":"s"} ${ne===1?"needs":"need"} fixing` : `${keys.length} unsaved change${keys.length===1?"":"s"}`;
   $("sBarSub").textContent = ne ? "Fix the highlighted fields to save." : "Review, then save to apply everywhere.";
@@ -4479,7 +4717,7 @@ function setField(k,val){
 }
 function initSettings(){
   if(!V() || $("sNav").dataset.ok) return; $("sNav").dataset.ok = 1;
-  buildNav(); showSec(curSec);
+  buildNav(); iconize(); showSec(curSec);
   $("sNav").addEventListener("click", e=>{ const b=e.target.closest("[data-sec]"); if(!b) return; $("sFind").value=""; find(); showSec(b.dataset.sec); scrollTo({top:0,behavior:"smooth"}); });
   $("sFind").addEventListener("input", find);
   V().addEventListener("input", queue); V().addEventListener("change", queue); $("sDays").addEventListener("click", ()=>setTimeout(queue,0));
@@ -4507,7 +4745,7 @@ function initSettings(){
     r.readAsText(f); };
   $("lgV").textContent = "v"+VER; $("abV").textContent = "v"+VER;
 }
-{ const _f = fillSet; fillSet = function(){ _f(); initSettings(); const f=$("sFind"); if(f&&f.value){ f.value=""; find(); } refresh(); $("abV").textContent="v"+VER; }; }
+{ const _f = fillSet; fillSet = function(){ _f(); initSettings(); renderOv(); const f=$("sFind"); if(f&&f.value){ f.value=""; find(); } refresh(); $("abV").textContent="v"+VER; }; }
 
 /* ---------- INSIGHTS: report header, executive summary, footer ---------- */
 const gauge = (label,val,txt,tgt,scale,col,foot,delta)=>`<div class="gg"><div class="gg-h"><small>${label}</small><b style="color:${col}">${txt}</b></div>

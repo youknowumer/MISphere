@@ -2,6 +2,18 @@
 
 All notable changes to MISphere. Newest first.
 
+## 11.11.0 - 2026-11-04
+- New: release notes you can open - every version in Settings → System & about → Updates is a card (version, headline, weekday and date, type) that opens a full release sheet with What's new, Improved, Fixed and Data & safety sections, a filter, previous / next navigation, Expand all and Copy notes
+- New: a proper update message - the Software Update sheet shows installed → new version, the release headline and date, counts (new / improved / fixed), the top highlights and, when you are several versions behind, a combined summary of every release you missed; the list scrolls and never runs off the screen
+- New: searchable, filterable version history - filter by All, New, Improved, Fixed or Data & safety, grouped by month, with the exact day each version was released and when it was installed or first opened on this device
+- New: update preferences - automatic checks on / off, check frequency, how long “Remind me later” waits and whether What's New opens after updating, plus Copy diagnostics for support
+- New: settings overview - workspace, version and update status, data protection, sync and storage at a glance (tap a tile to jump to its section), a desktop side navigation with section descriptions, and marks on sections and fields that have unsaved changes
+- Improved: roomier settings panels - icon headers, clearer rows, a one-column layout on phones, and a short update summary in Settings instead of a wall of text
+- Fixed: update message was one unbroken block - it listed every note together and could not be scrolled on small screens
+- Fixed: wrong version shown in About and in exported settings - both showed 11.1.0 instead of the installed version
+- Fixed: missing install history entries - versions loaded by a normal reload (not through the updater) were never recorded; each version is now logged the first time it runs
+- Your data is kept: no task, member or backup data changes; update preferences are stored separately on this device
+
 ## 11.10.0 - 2026-11-04
 - New: closing a task is now judged against its deadline - when a task is overdue (or not started yet) a “Close task” sheet asks which day the work was really finished, with quick buttons (Today, Yesterday, On the deadline day) and a live verdict such as “On time - 2 days before the deadline” or “Late - 3 days after the deadline (1 working day)”, plus the points it will earn and an optional closing note; work finished on time is no longer booked as late just because it was closed later
 - New: the same close flow runs everywhere a task can be finished - the status menu, the progress slider at 100%, board buttons and drag-and-drop, bulk “Done” (one date for all selected tasks, with a per-task verdict) and the Done button in Daily notes; every close can be undone for a few seconds, and on-time closes on a normal day stay one tap

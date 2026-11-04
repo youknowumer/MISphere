@@ -1,18 +1,30 @@
 {
-  "version": "11.8.0",
-  "build": "2026.11.04",
+  "version": "11.9.0",
+  "build": "2026.11.04.2",
   "released": "2026-11-04",
   "notes": [
-    "New: every task now has an editable start date and deadline - set them when adding a task and change either one later from Edit; quick buttons (same day, +1 day, +3 days, +1 week, +2 weeks) and a live duration line show the span; a task can be scheduled for a future day and appears on that day",
-    "New: clearer task display - each task shows its start to deadline range with a status badge (Starts tomorrow, Due today, 3d overdue) and a Moved badge when its deadline was changed; board cards show future start dates; the CSV export includes Start date",
-    "New: Excel import also reads a Start date / Start column (the existing Date column still works)",
-    "Safer updates: before an update installs, a restore point is saved automatically; the update is only applied once the new version is confirmed live on the server (no more update loops while the host is still publishing); the restore points are no longer wiped on startup",
-    "Safer data: saved data now carries a format version; older data is upgraded automatically and an untouched copy is kept first (it also appears under Data safety restore points); unreadable data is preserved instead of being overwritten by an empty workspace; fields added by newer versions are never dropped",
-    "Fixed: tasks with a missing or invalid date, status, priority or progress are repaired on load instead of breaking the page; a finished task with no completion date is no longer counted as late",
-    "Fixed: the recovery prompt after a faulty session did nothing - it now points you to your restore points",
-    "Housekeeping: removed unrelated DashView files (js/, css/reports-hub.css, test/) that were published with the site but never used by MISphere"
+    "New: every task now says how long it has been open - list view shows “Open 4 days · Day 4 of 5” (or “over plan”), finished tasks show “Took 3 days”, tasks that have not started yet show “Starts in 2 days”; hover for the start date, working days and plan",
+    "New: ageing alerts - open tasks older than a limit you set (Settings → Targets, default 5 days) are flagged amber, overdue ones red; a one-tap “aging” chip and a new “Aging tasks” filter list them",
+    "Improved: board cards show the open age, the start-to-deadline range on hover and a ↻ mark when the deadline moved; each board column shows its average open age (or average days to close) and how many tasks are aging",
+    "Improved: list view day headings summarise the day (tasks · open · overdue); the overview line shows the average open age; new sorts “Longest open” and “Start date”",
+    "New: deleting a task can be undone for 8 seconds; the status and progress controls on every row now have screen-reader labels",
+    "New: “Days open” column in the view CSV, the week CSV report and the Excel export (import ignores it, so exports can still be imported)",
+    "Your data is not changed by this update: no new stored fields; the ageing limit is a new setting with a safe default"
   ],
   "history": [
+    {
+      "v": "11.9.0",
+      "d": "2026-11-04",
+      "n": [
+        "New: every task now says how long it has been open - list view shows “Open 4 days · Day 4 of 5” (or “over plan”), finished tasks show “Took 3 days”, tasks that have not started yet show “Starts in 2 days”; hover for the start date, working days and plan",
+        "New: ageing alerts - open tasks older than a limit you set (Settings → Targets, default 5 days) are flagged amber, overdue ones red; a one-tap “aging” chip and a new “Aging tasks” filter list them",
+        "Improved: board cards show the open age, the start-to-deadline range on hover and a ↻ mark when the deadline moved; each board column shows its average open age (or average days to close) and how many tasks are aging",
+        "Improved: list view day headings summarise the day (tasks · open · overdue); the overview line shows the average open age; new sorts “Longest open” and “Start date”",
+        "New: deleting a task can be undone for 8 seconds; the status and progress controls on every row now have screen-reader labels",
+        "New: “Days open” column in the view CSV, the week CSV report and the Excel export (import ignores it, so exports can still be imported)",
+        "Your data is not changed by this update: no new stored fields; the ageing limit is a new setting with a safe default"
+      ]
+    },
     {
       "v": "11.8.0",
       "d": "2026-11-04",

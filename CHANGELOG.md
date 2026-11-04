@@ -2,6 +2,15 @@
 
 All notable changes to MISphere. Newest first.
 
+## 11.9.0 - 2026-11-04
+- New: every task now says how long it has been open - list view shows “Open 4 days · Day 4 of 5” (or “over plan”), finished tasks show “Took 3 days”, tasks that have not started yet show “Starts in 2 days”; hover for the start date, working days and plan
+- New: ageing alerts - open tasks older than a limit you set (Settings → Targets, default 5 days) are flagged amber, overdue ones red; a one-tap “aging” chip and a new “Aging tasks” filter list them
+- Improved: board cards show the open age, the start-to-deadline range on hover and a ↻ mark when the deadline moved; each board column shows its average open age (or average days to close) and how many tasks are aging
+- Improved: list view day headings summarise the day (tasks · open · overdue); the overview line shows the average open age; new sorts “Longest open” and “Start date”
+- New: deleting a task can be undone for 8 seconds; the status and progress controls on every row now have screen-reader labels
+- New: “Days open” column in the view CSV, the week CSV report and the Excel export (import ignores it, so exports can still be imported)
+- Your data is not changed by this update: no new stored fields; the ageing limit is a new setting with a safe default
+
 ## 11.8.0 - 2026-11-04
 - New: every task now has an editable start date and deadline - set them when adding a task and change either one later from Edit; quick buttons (same day, +1 day, +3 days, +1 week, +2 weeks) and a live duration line show the span; a task can be scheduled for a future day and appears on that day
 - New: clearer task display - each task shows its start to deadline range with a status badge (Starts tomorrow, Due today, 3d overdue) and a Moved badge when its deadline was changed; board cards show future start dates; the CSV export includes Start date

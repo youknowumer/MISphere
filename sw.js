@@ -1,6 +1,6 @@
 /* MISphere service worker - offline support.
    Bump VERSION on every release (it must match version.json). */
-var VERSION = 'mis-11.8.0';
+var VERSION = 'mis-11.9.0';
 var SHELL = [
   './', 'index.html', 'landing.html', 'manifest.webmanifest', 'favicon.svg',
   'vendor/fonts.css', 'vendor/xlsx.full.min.js',

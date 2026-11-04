@@ -1146,6 +1146,13 @@
 .qdates button:hover{background:var(--brand-soft)}.qdates button:active{transform:scale(.95)}
 .dspan{font-size:12px;font-weight:600;color:var(--muted)}.dspan.bad{color:var(--bad-t)}
 @media(max-width:600px){.qdates button{padding:8px 12px}}
+</style><style id="v119-css">
+.pill.age{white-space:nowrap}
+.day h4 small{font-weight:600;text-transform:none;letter-spacing:0;opacity:.85}.day h4 small u{text-decoration:none;color:var(--bad-t)}
+.kbh .kbm{flex-basis:100%;margin:-6px 0 0 18px;font-size:11.5px;font-weight:600;color:var(--muted)}.kbh .kbm.warn{color:var(--warn-t)}
+.bc-due .mv{font-size:11px;font-weight:700;opacity:.75}
+.agebtn{font:inherit;font-size:inherit;font-weight:700;padding:1px 9px;border-radius:99px;border:0;background:color-mix(in srgb,var(--warn) 18%,transparent);color:var(--warn-t);cursor:pointer}
+.agebtn:hover{filter:brightness(.95)}
 </style></head>
 <body>
 <div id="v87splash" aria-hidden="true"><div class="sp-ic"><svg viewBox="0 0 64 64"><path d="M16 15v33h33" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 39l9-9 6 6 10-13" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="49" cy="23" r="4" fill="#f5d061"/></svg></div><b>MISphere</b></div>
@@ -1266,8 +1273,8 @@
         <label class="fi"><small>Member</small><select id="flMember"></select></label>
         <label class="fi"><small>Status</small><select id="flStatus"><option value="all">All status</option><option value="todo">To Do</option><option value="progress">In Progress</option><option value="done">Done</option><option value="overdue">Overdue</option></select></label>
         <label class="fi"><small>Priority</small><select id="flPriority"><option value="all">All priorities</option><option value="high">High</option><option value="med">Medium</option><option value="low">Low</option></select></label>
-        <label class="fi"><small>Due</small><select id="flDue"><option value="all">Any deadline</option><option value="today">Due today</option><option value="soon">Next 3 days</option><option value="past">Past due</option></select></label>
-        <label class="fi"><small>Sort</small><select id="flSort"><option value="new">Newest</option><option value="deadline">Deadline</option><option value="priority">Priority</option></select></label>
+        <label class="fi"><small>Due</small><select id="flDue"><option value="all">Any deadline</option><option value="today">Due today</option><option value="soon">Next 3 days</option><option value="past">Past due</option><option value="aging">Aging tasks</option></select></label>
+        <label class="fi"><small>Sort</small><select id="flSort"><option value="new">Newest</option><option value="deadline">Deadline</option><option value="priority">Priority</option><option value="age">Longest open</option><option value="start">Start date</option></select></label>
         <button type="button" class="btn sm" id="flExp" title="Download the tasks currently shown as CSV">⬇ Export view</button><button type="button" class="btn sm" id="flReset" hidden>Reset filters <b id="flN"></b></button>
       </div>
       <div class="fres" id="fRes" aria-live="polite"></div></div>
@@ -1432,6 +1439,7 @@
             <div class="fgrid two" style="grid-template-columns:1fr 1fr"><div><label>Completion target %</label><input type="number" data-s="tc" min="0" max="100"><p class="fh">Share of the week’s tasks that should be done.</p></div><div><label>Deadline-met target %</label><input type="number" data-s="td" min="0" max="100"><p class="fh">Completed on time ÷ (completed + overdue).</p></div><div><label>Efficiency target %</label><input type="number" data-s="te" min="0" max="300"><p class="fh">Estimated ÷ actual hours. 100% = on estimate.</p></div><div><label>Max open tasks per member</label><input type="number" data-s="cap" min="1"><p class="fh">Above this a member is flagged as overloaded.</p></div></div></div>
           <div class="panel"><h3>🚨 Risk &amp; reminders</h3>
             <div class="fgrid two" style="grid-template-columns:1fr 1fr"><div><label>At-risk window (days)</label><input type="number" data-s="riskD" min="0" max="14"><p class="fh">A task is “at risk” if it is due within this many days…</p></div><div><label>…and progress is below %</label><input type="number" data-s="riskP" min="0" max="100"><p class="fh">Used in Executive insights and the Excel export.</p></div><div><label>“Needs attention” look-ahead (days)</label><input type="number" data-s="soonD" min="0" max="7"><p class="fh">Home lists open tasks overdue or due within this window.</p></div><div><label>Backup reminder after (days)</label><input type="number" data-s="bkDays" min="1" max="90"><p class="fh">Backup is flagged as stale after this many days.</p></div></div>
+            <div class="fgrid two" style="grid-template-columns:1fr 1fr"><div><label>Ageing alert after (days)</label><input type="number" data-s="ageD" min="1" max="60"><p class="fh">Open tasks older than this are marked “aging” on the list and board, and in the Aging filter.</p></div></div>
             <div class="srow"><div><b>Show “Needs attention” panel</b><span>On the Home page</span></div><label class="sw"><input type="checkbox" data-s="attn"><i></i></label></div></div>
           <div class="panel"><h3>⚖ Scoring <small>leaderboard points per task</small></h3>
             <div class="fgrid two" style="grid-template-columns:1fr 1fr"><div><label>On-time points</label><input type="number" data-s="pon" step="0.5"></div><div><label>Late points</label><input type="number" data-s="plate" step="0.5"></div><div><label>Overdue penalty</label><input type="number" data-s="pov" step="0.5"></div><div><label>High-priority multiplier</label><input type="number" data-s="phi" step="0.1" min="1"></div></div>
@@ -1575,7 +1583,7 @@ const GH_DEF = {worker:"",key:"",owner:"",repo:"",branch:"main",path:"data/mis-d
 let GH = (()=>{ try{ return {...GH_DEF, ...JSON.parse(localStorage.getItem(GH_KEY)||"{}")}; }catch{ return {...GH_DEF}; } })();
 let activeModule = (()=>{ try{ return localStorage.getItem(MOD_KEY)||"all"; }catch{ return "all"; } })();
 let ghSt = {s:"off", msg:""}, ghTimer = null, ghBusy = false, ghAgain = false, ghMute = false;
-const DEF_SET = {modules:DEFAULT_MODULES.slice(), reqMod:false, start:9, end:18, days:[1,2,3,4,5], tc:85, td:80, te:100, cap:8, pon:10, plate:5, pov:5, phi:1.5, dept:"Team", pri:"med", due:0, compact:false, attn:true, lastBackup:0, theme:"auto", me:"", perms:null, org:"", prep:"", conf:"internal", landing:"dash", hoursFmt:"hm", perDef:1, riskD:2, riskP:50, soonD:1, bkDays:7, rmotion:false};
+const DEF_SET = {ageD:5, modules:DEFAULT_MODULES.slice(), reqMod:false, start:9, end:18, days:[1,2,3,4,5], tc:85, td:80, te:100, cap:8, pon:10, plate:5, pov:5, phi:1.5, dept:"Team", pri:"med", due:0, compact:false, attn:true, lastBackup:0, theme:"auto", me:"", perms:null, org:"", prep:"", conf:"internal", landing:"dash", hoursFmt:"hm", perDef:1, riskD:2, riskP:50, soonD:1, bkDays:7, rmotion:false};
 const S = () => db.settings;
 const $ = id => document.getElementById(id);
 const M = id => MEMBERS.find(m=>m.id===id);
@@ -2038,10 +2046,10 @@ function save(){
   catch{ toast("⚠ Unable to save data — browser storage is disabled or full. Please take a backup!"); }
   ghSchedule(); fsSchedule();
 }
-function toastAct(msg, label, fn){   // iOS-style banner with an action (e.g. Undo)
+function toastAct(msg, label, fn, ms=5000){   // iOS-style banner with an action (e.g. Undo)
   const t=$("toast"); t.setAttribute("role","status"); t.setAttribute("aria-live","polite"); t.innerHTML = `<span class="tx"></span><button type="button" class="tact"></button>`;
   t.firstChild.textContent = msg; t.lastChild.textContent = label; t._fn = fn; t.classList.add("show","act"); clearTimeout(t._h);
-  t._h = setTimeout(()=>t.classList.remove("show","act"), 5000); }
+  t._h = setTimeout(()=>t.classList.remove("show","act"), ms); }
 document.addEventListener("click", e=>{ const b=e.target.closest("#toast .tact"); if(!b) return; const t=$("toast"), f=t._fn; t._fn=null; t.classList.remove("show","act"); clearTimeout(t._h); if(f) f(); });
 function toast(msg, ms=2200){ $("toast").classList.remove("act"); const t=$("toast"); t.setAttribute("role","status"); t.setAttribute("aria-live","polite"); t.textContent=msg; t.classList.add("show"); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove("show"),ms); }
 
@@ -2390,6 +2398,8 @@ function tieSort(a,b){
   const k = $("flSort").value;
   if (k==="deadline") return a.deadline.localeCompare(b.deadline) || a.created-b.created;
   if (k==="priority") return PR[a.priority]-PR[b.priority] || a.deadline.localeCompare(b.deadline);
+  if (k==="age") return ageInfo(b).n-ageInfo(a).n || a.deadline.localeCompare(b.deadline);
+  if (k==="start") return a.date.localeCompare(b.date) || a.created-b.created;
   return a.created-b.created;
 }
 let tView = (()=>{ try{ return localStorage.getItem("mis_tview")==="board" ? "board" : "day"; }catch{ return "day"; } })();
@@ -2449,7 +2459,7 @@ function renderTaskSum(base, fs){
   const pct = base.length ? Math.round(n.done/base.length*100) : 0;
   const tiles = [["todo","To do",n.todo,"--st-todo"],["progress","In progress",n.progress,"--info"],["done","Done",n.done,"--ok"],["overdue","Overdue",n.overdue,"--bad"]];
   $("taskSum").innerHTML = `<div class="tsum">${tiles.map(x=>`<button type="button" class="tsc${fs===x[0]?" on":""}${x[0]==="overdue"&&!x[2]?" z":""}" data-f="${x[0]}" style="--tc:var(${x[3]},var(--muted))" aria-pressed="${fs===x[0]}"><b>${x[2]}</b><span>${x[1]}</span></button>`).join("")}</div>
-    <div class="tpg" title="${n.done} of ${base.length} done"><i style="width:${pct}%"></i></div><div class="tpl2">${base.length?`${n.done} of ${base.length} done · ${pct}% complete this week`:"No tasks this week yet"}</div>`;
+    <div class="tpg" title="${n.done} of ${base.length} done"><i style="width:${pct}%"></i></div><div class="tpl2">${base.length?`${n.done} of ${base.length} done · ${pct}% complete this week${(()=>{ const o = base.filter(t=>t.status!=="done").map(ageInfo).filter(a=>a.kind==="open"), g = o.filter(a=>a.aging).length; return (o.length?` · open tasks average ${(o.reduce((s,a)=>s+a.n,0)/o.length).toFixed(1)} days`:"")+(g?` · <button type="button" class="agebtn" data-aging title="Show only aging tasks">${g} aging</button>`:""); })()}`:"No tasks this week yet"}</div>`;
   document.querySelectorAll("#tView button").forEach(b=>{ const on=b.dataset.v===tView; b.classList.toggle("on", on); b.setAttribute("aria-pressed", on); });
   viewBarSync();
 }
@@ -2467,11 +2477,11 @@ function boardCard(t){
   const q = (to,l,c="")=>`<button type="button" class="bq ${c}" data-act="mv" data-to="${to}">${l}</button>`;
   const acts = t.status==="todo" ? q("progress","Start")+q("done","Done","ok") : t.status==="progress" ? q("done","Mark done","ok")+q("todo","To do") : q("progress","Reopen");
   return `<article draggable="true" class="task bcard st-${st}" data-id="${t.id}">
-    <div class="bc-top"><span class="pill ${pc}">${pl}</span>${t.module?`<span class="pill mod" title="Module">▣ ${esc(t.module)}</span>`:""}${carryPill(t)}${repPill(t)}<span class="bc-sp"></span>
+    <div class="bc-top"><span class="pill ${pc}">${pl}</span>${t.module?`<span class="pill mod" title="Module">▣ ${esc(t.module)}</span>`:""}${agePill(t,true)}${repPill(t)}<span class="bc-sp"></span>
       <button type="button" class="ib bi" data-act="dup" title="Duplicate task" aria-label="Duplicate task">⧉</button><button type="button" class="ib bi" data-act="edit" title="Edit task" aria-label="Edit task">✏</button><button type="button" class="ib bi" data-act="del" title="Delete task" aria-label="Delete task">🗑</button></div>
     <h5 class="bc-title${done?" done":""}">${esc(t.title)}</h5>
     ${t.notes?`<p class="bc-notes">${esc(t.notes)}</p>`:""}
-    <div class="bc-meta"><span class="bc-who"${by.length?by:` title="${esc(crewNames(t))}"`}>${crew(t).length>1 ? avStack(t,"mini") : `<i style="background:linear-gradient(135deg,${m.c1},${m.c2})">${initials(m.name)}</i>`}<span>${esc(crew(t).length>1 ? crewNames(t) : m.name)}</span></span><span class="bc-due ${dk}">${dl}</span></div>
+    <div class="bc-meta"><span class="bc-who"${by.length?by:` title="${esc(crewNames(t))}"`}>${crew(t).length>1 ? avStack(t,"mini") : `<i style="background:linear-gradient(135deg,${m.c1},${m.c2})">${initials(m.name)}</i>`}<span>${esc(crew(t).length>1 ? crewNames(t) : m.name)}</span></span><span class="bc-due ${dk}" title="${esc(fdate(t.date)+" → "+fdate(t.deadline))}">${dl}${t.moves?` <b class="mv" title="Deadline moved ${t.moves}×">↻${t.moves}</b>`:""}</span></div>
     <div class="bc-prog">${done?`<div class="tpg"><i style="width:100%"></i></div><b>100%</b>`:`<input type="range" class="bc-range" min="0" max="100" step="10" value="${prog}" style="--p:${prog}%" data-act="prog" aria-label="Progress"><b>${prog}%</b>`}</div>
     <div class="bc-foot">${counterHTML(t)}${t.estHours?`<span class="bc-est">Est ${fmtH(t.estHours)}</span>`:""}<span class="bc-sp"></span>${acts}</div>
     <select class="sr" data-act="status" tabindex="-1" aria-hidden="true"><option value="todo" ${t.status==="todo"?"selected":""}>To Do</option><option value="progress" ${t.status==="progress"?"selected":""}>In Progress</option><option value="done" ${done?"selected":""}>Done</option></select>
@@ -2488,7 +2498,9 @@ function renderBoard(list, fs){
     const lim = c[0]==="progress" && BS.wip>0, over = lim && all.length>BS.wip;
     let items = all, hid = 0; if (c[0]==="done" && BS.doneMax>0 && all.length>BS.doneMax){ items = all.slice(0,BS.doneMax); hid = all.length-BS.doneMax; }
     const meta = c[0]==="done" ? (all.length?`${all.length-lt} on time${lt?` · ${lt} late`:""}`:"") : (od?`${od} overdue`:"");
-    return `<section class="kbc${focus&&focus!==c[0]?" dim":""}${over?" wip-over":""}" data-col="${c[0]}" style="--cc:${c[2]}" aria-label="${c[1]}"><header class="kbh"><i></i><b>${c[1]}</b><span class="kbn${over?" over":""}" ${lim?`title="Work-in-progress limit: ${BS.wip}"`:""}>${all.length}${lim?`<small>/${BS.wip}</small>`:""}</span>${meta?`<em class="${od?"bad":""}">${meta}</em>`:""}${over?`<em class="bad wipn">Over limit by ${all.length-BS.wip}</em>`:""}</header>
+    const ag = all.map(ageInfo).filter(a=>a.kind!=="wait"), avg = ag.length ? ag.reduce((s,a)=>s+a.n,0)/ag.length : 0, aging = c[0]==="done" ? 0 : ag.filter(a=>a.aging).length;
+    const kbm = ag.length ? [c[0]==="done" ? `avg ${avg.toFixed(1)} days to close` : `avg ${avg.toFixed(1)} days open`, aging?`${aging} aging`:""].filter(Boolean).join(" · ") : "";
+    return `<section class="kbc${focus&&focus!==c[0]?" dim":""}${over?" wip-over":""}" data-col="${c[0]}" style="--cc:${c[2]}" aria-label="${c[1]}"><header class="kbh"><i></i><b>${c[1]}</b><span class="kbn${over?" over":""}" ${lim?`title="Work-in-progress limit: ${BS.wip}"`:""}>${all.length}${lim?`<small>/${BS.wip}</small>`:""}</span>${meta?`<em class="${od?"bad":""}">${meta}</em>`:""}${over?`<em class="bad wipn">Over limit by ${all.length-BS.wip}</em>`:""}${kbm?`<span class="kbm${aging?" warn":""}">${kbm}</span>`:""}</header>
       <div class="kbb">${items.length?items.map(boardCard).join(""):`<div class="kbe">${c[3]}<small>Drop a card here</small></div>`}${hid?`<div class="kbmore"><span>+${hid} older done task${hid>1?"s":""} hidden</span><button type="button" data-bsall>Show all</button></div>`:""}</div></section>`;
   }).join("")}</div><div class="kbhint">Drag a card to another column, or use the buttons on the card. On touch screens use the buttons.</div>`;
 }
@@ -2499,7 +2511,7 @@ function renderTasks(){
     const d = listDay(t); if (d < ws || d > we) return false;
     if (selectedMember!=="all" && !has(t,selectedMember)) return false;
     if (fp!=="all" && t.priority!==fp) return false;
-    if (fd!=="all"){ const dd = Math.round((new Date(t.deadline+"T00:00:00")-new Date(today()+"T00:00:00"))/864e5), op = t.status!=="done"; if (!op || (fd==="today"&&dd!==0) || (fd==="soon"&&(dd<0||dd>3)) || (fd==="past"&&dd>=0)) return false; }
+    if (fd!=="all"){ const dd = Math.round((new Date(t.deadline+"T00:00:00")-new Date(today()+"T00:00:00"))/864e5), op = t.status!=="done"; if (!op || (fd==="aging"&&!ageInfo(t).aging) || (fd==="today"&&dd!==0) || (fd==="soon"&&(dd<0||dd>3)) || (fd==="past"&&dd>=0)) return false; }
     if (q && !(t.title+" "+(t.notes||"")+" "+(t.module||"")).toLowerCase().includes(q)) return false;
     return true;
   });
@@ -2525,7 +2537,7 @@ function renderTasks(){
   list.sort((a,b)=> listDay(a).localeCompare(listDay(b)) || tieSort(a,b)).forEach(t=> (byDay[listDay(t)] ??= []).push(t));
   const td = today();
   $("taskList").innerHTML = Object.keys(byDay).map(d=>`<div class="day">
-    <h4 class="${d===td?"today":""}">${fmt(d,{weekday:"long",day:"numeric",month:"short"})}${d===td?" · Today":""}</h4>
+    <h4 class="${d===td?"today":""}">${fmt(d,{weekday:"long",day:"numeric",month:"short"})}${d===td?" · Today":""}${(()=>{ const L = byDay[d], op = L.filter(t=>t.status!=="done").length, od = L.filter(t=>stateOf(t)==="overdue").length; return `<small>${L.length} task${L.length===1?"":"s"}${op?` · ${op} open`:""}${od?` · <u>${od} overdue</u>`:""}</small>`; })()}</h4>
     ${byDay[d].map(taskHTML).join("")}</div>`).join("");
 }
 
@@ -2541,20 +2553,20 @@ function taskHTML(t){
         <span class="pill ${pc}">${pl}</span><span class="pill ${sc}">${sl}</span>${t.module?`<span class="pill mod" title="Module">▣ ${esc(t.module)}</span>`:""}
         ${t.completedAt?`<span>· Done ${fmt(t.completedAt)}</span>`:""}
         ${t.estHours?`<span>· Est ${fmtH(t.estHours)}</span>`:""}
-        ${carryPill(t)}${repPill(t)}
+        ${agePill(t)}${repPill(t)}
         ${timePill(t)}</div>
       ${t.notes?`<div class="notes">${esc(t.notes)}</div>`:""}
     </div>
     <div class="act">
       <div class="r">
-        <select data-act="status">
+        <select data-act="status" aria-label="Status">
           <option value="todo" ${t.status==="todo"?"selected":""}>To Do</option>
           <option value="progress" ${t.status==="progress"?"selected":""}>In Progress</option>
           <option value="done" ${t.status==="done"?"selected":""}>Done</option>
         </select>
         <button class="btn sm" data-act="dup" title="Duplicate task">⧉</button><button class="btn sm" data-act="edit" title="Edit task">✏</button><button class="btn sm" data-act="del" title="Delete">🗑</button>
       </div>
-      <div class="r"><input type="range" min="0" max="100" step="10" value="${prog}" data-act="prog" ${t.status==="done"?"disabled":""}>
+      <div class="r"><input type="range" min="0" max="100" step="10" value="${prog}" data-act="prog" aria-label="Progress" ${t.status==="done"?"disabled":""}>
         <b style="font-size:12px;width:36px;text-align:right">${prog}%</b></div>
       <div class="r">${counterHTML(t)}</div>
     </div>
@@ -2567,6 +2579,25 @@ function counterHTML(t){
   return `<span class="cnt ${run?"on":""}" title="${run?"Office hours · timer running":`Outside office hours: timer resumes ${nextOfficeStart()}`}">
       ${run?"":"⏸ "}<span data-run="${t.id}">${clock(sp)}</span></span>
     <span class="unit">${run?"running":`paused · resumes ${nextOfficeStart()}`}</span>`;
+}
+// ---------- v11.9: how long a task has been open ----------
+const ageLimit = () => Math.max(1, (S().ageD|0) || 5);
+const dWord = n => `${n} day${n===1?"":"s"}`;
+function ageInfo(t){   // calendar days, the start day counts as day 1; finished tasks report how long they took
+  const td = today(), done = t.status==="done";
+  if (!done && t.date > td) return {kind:"wait", n:0, days:dayDiff(t.date, td)};
+  const end = done ? (t.completedAt || td) : td, n = Math.max(1, dayDiff(end, t.date)+1), plan = Math.max(1, dayDiff(t.deadline, t.date)+1);
+  return {kind:done?"done":"open", n, plan, over:Math.max(0, n-plan), work:workDaysBetween(t.date, end), aging:!done && n > ageLimit()};
+}
+function agePill(t, compact){
+  const a = ageInfo(t);
+  if (a.kind==="wait") return `<span class="pill s-run age" title="Starts ${esc(fdate(t.date))}">${compact?"Starts in "+a.days+"d":"Not started · starts in "+dWord(a.days)}</span>`;
+  const tip = `Started ${fdate(t.date)} · ${a.kind==="done" ? "finished "+fdate(t.completedAt||t.deadline)+" · took "+dWord(a.n)+" ("+dWord(a.work)+" of office time) · plan was "+dWord(a.plan) : "open "+dWord(a.n)+" ("+dWord(a.work)+" of office time) · day "+Math.min(a.n,a.plan)+" of "+a.plan+" planned"+(a.over?" · "+dWord(a.over)+" over the plan":"")+(a.aging?" · aging (limit "+ageLimit()+" days)":"")}`;
+  if (a.kind==="done") return `<span class="pill s-todo age" title="${esc(tip)}">✔ ${a.n===1?"Done same day":(compact?"Took "+a.n+"d":"Took "+dWord(a.n))}</span>`;
+  const cls = stateOf(t)==="overdue" ? "s-over" : a.aging ? "s-late" : "s-todo";
+  if (a.n===1 && t.date===today()) return `<span class="pill ${cls} age" title="${esc(tip)}">⏳ Opened today</span>`;
+  const more = compact ? "" : (a.over ? ` · ${a.over}d over plan` : a.plan>1 ? ` · Day ${a.n} of ${a.plan}` : (a.aging ? " · aging" : ""));
+  return `<span class="pill ${cls} age" title="${esc(tip)}">⏳ ${compact?"Open "+a.n+"d":"Open "+dWord(a.n)}${more}</span>`;
 }
 function carryPill(t){
   const end = listDay(t);
@@ -2823,12 +2854,13 @@ $("taskList").addEventListener("click", e=>{
   const b = e.target.closest("[data-act=del]"); if (!b) return;
   { const tk = db.tasks.find(x=>x.id===b.closest(".task").dataset.id); if (!tk || !(can("delTask") || (canTask(tk) && has(tk,ME().id)))) return deny(); }
   if (!confirm("Delete this task?")) return;
-  { const x = db.tasks.find(t=>t.id===b.closest(".task").dataset.id); if (x) logAct(`deleted task “${x.title}”`); }
-  db.tasks = db.tasks.filter(t=>t.id!==b.closest(".task").dataset.id); save(); render(); toast("Task deleted");
+  { const id = b.closest(".task").dataset.id, i = db.tasks.findIndex(t=>t.id===id), x = db.tasks[i]; if (x) logAct(`deleted task “${x.title}”`);
+    db.tasks = db.tasks.filter(t=>t.id!==id); save(); render();
+    if (x) toastAct("Task deleted", "Undo", ()=>{ if (db.tasks.some(t=>t.id===x.id)) return; db.tasks.splice(Math.min(i, db.tasks.length), 0, x); logAct(`restored task “${x.title}”`); save(); render(); toast("Task restored ✔"); }, 8000); else toast("Task deleted"); }
 });
 // ---------- v9.1: status summary, board view, drag & drop ----------
 $("tView").addEventListener("click", e=>{ const b=e.target.closest("button[data-v]"); if(!b) return; tView=b.dataset.v; try{localStorage.setItem("mis_tview",tView)}catch{} renderTasks(); fxSwap($("taskList")); });
-$("taskSum").addEventListener("click", e=>{ const b=e.target.closest("[data-f]"); if(!b) return; const s=$("flStatus"); s.value = s.value===b.dataset.f ? "all" : b.dataset.f; render(); });
+$("taskSum").addEventListener("click", e=>{ if (e.target.closest("[data-aging]")){ $("flDue").value = $("flDue").value==="aging" ? "all" : "aging"; render(); return; } const b=e.target.closest("[data-f]"); if(!b) return; const s=$("flStatus"); s.value = s.value===b.dataset.f ? "all" : b.dataset.f; render(); });
 $("taskList").addEventListener("click", e=>{ if(e.target.id==="tClear") $("flReset").click(); });
 $("taskList").addEventListener("pointerdown", e=>{ const c=e.target.closest(".task[draggable]"); if(c) c.draggable = !e.target.closest("input,select,button,textarea"); });
 let dragId=null;
@@ -2848,7 +2880,7 @@ $("flMember").onchange = e=>{ selectedMember = e.target.value; render(); };
 $("flReset").onclick = ()=>{ $("flStatus").value="all"; $("flPriority").value="all"; $("flDue").value="all"; $("flSearch").value=""; selectedMember="all"; $("flMember").value="all"; render(); };
 $("flDue").onchange = render; $("flPriority").onchange = render;
 $("flExp").onclick = ()=>{ const L = window.__tl||[]; if(!L.length) return toast("Nothing to export in this view");
-  const q = v=>`"${String(v??"").replace(/"/g,'""')}"`, rows = [["Task","Member","Module","Priority","Status","Start date","Deadline","Progress %","Notes"], ...L.map(t=>[t.title,crewNames(t),t.module||"",t.priority,t.status,t.date,t.deadline,t.status==="done"?100:(t.progress||0),t.notes||""])];
+  const q = v=>`"${String(v??"").replace(/"/g,'""')}"`, rows = [["Task","Member","Module","Priority","Status","Start date","Deadline","Days open","Progress %","Notes"], ...L.map(t=>[t.title,crewNames(t),t.module||"",t.priority,t.status,t.date,t.deadline,ageInfo(t).n,t.status==="done"?100:(t.progress||0),t.notes||""])];
   const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob(["\ufeff"+rows.map(r=>r.map(q).join(",")).join("\n")],{type:"text/csv"})); a.download = `tasks-${today()}.csv`; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href),4000); toast(`⬇ ${L.length} task(s) exported`); }; $("flStatus").onchange = render; $("flSort").onchange = render; $("flSearch").oninput = render;
 $("prevW").onclick = ()=>{ weekStart = addDays(weekStart,-7); render(); };
 $("nextW").onclick = ()=>{ weekStart = addDays(weekStart,7); render(); };
@@ -2999,7 +3031,7 @@ function renderAttention(){
     const [pl,pc] = prLbl[t.priority];
     const [lbl,cls] = t.deadline<td ? [`Overdue ${n}d`,"s-over"] : t.deadline===td ? ["Due today","s-late"] : ["Due tomorrow","s-run"];
     return `<div class="arow">${avStack(t)}
-      <div class="ai"><b>${esc(t.title)}</b><span>${esc(crewNames(t))} · deadline ${fmt(t.deadline)} · ${t.progress||0}% complete</span></div>
+      <div class="ai"><b>${esc(t.title)}</b><span>${esc(crewNames(t))} · deadline ${fmt(t.deadline)} · open ${dWord(ageInfo(t).n)} · ${t.progress||0}% complete</span></div>
       <span class="pill ${pc}">${pl}</span><span class="pill ${cls}">${lbl}</span></div>`;
   }).join("") + (rows.length>6 ? `<p class="hint" style="margin-top:8px">+${rows.length-6} more tasks…</p>` : "");
 }
@@ -3244,7 +3276,7 @@ function exportXlsx(){
   const X = xl(); if (!X) return;
   const mn = id => (M(id)||{name:id}).name, wb = X.utils.book_new();
   const tasks = db.tasks.slice().sort((a,b)=>a.date.localeCompare(b.date)||a.created-b.created).map(t=>({
-    "ID":t.id, "Member":crew(t).map(mn).join(", "), "Module":t.module||"", "Task":t.title, "Notes":t.notes||"", "Date":t.date, "Deadline":t.deadline,
+    "ID":t.id, "Member":crew(t).map(mn).join(", "), "Module":t.module||"", "Task":t.title, "Notes":t.notes||"", "Date":t.date, "Deadline":t.deadline, "Days open":ageInfo(t).n,
     "Priority":PRN[t.priority]||"Medium", "Status":STN[t.status]||"To Do", "Progress %":t.status==="done"?100:(t.progress||0),
     "Completed On":t.completedAt||"", "Est Hours":t.estHours||"", "Office Hours Spent":+spentOf(t).toFixed(2), "State":stLbl[stateOf(t)][0],
     "Created At":new Date(t.created).toISOString(), "Done At":t.doneAt?new Date(t.doneAt).toISOString():""}));
@@ -3339,8 +3371,8 @@ $("xlImport").onclick = ()=> $("xlFile").click();
 $("xlFile").onchange = e=>{ const f = e.target.files[0]; e.target.value = ""; if (f) importXlsx(f); };
 $("csvBtn").onclick = ()=>{
   const q = v => `"${String(v==null?"":v).replace(/"/g,'""')}"`;
-  const rows = [["Date","Module","Member","Task","Priority","Status","State","Progress %","Deadline","Completed","Est hours","Office hours spent","Notes"]]
-    .concat(weekTasks().map(t=>[t.date,t.module||"",crewNames(t),t.title,prLbl[t.priority][0],t.status,stLbl[stateOf(t)][0],t.status==="done"?100:(t.progress||0),t.deadline,t.completedAt||"",t.estHours||"",spentOf(t).toFixed(2),t.notes||""]));
+  const rows = [["Date","Module","Member","Task","Priority","Status","State","Progress %","Deadline","Days open","Completed","Est hours","Office hours spent","Notes"]]
+    .concat(weekTasks().map(t=>[t.date,t.module||"",crewNames(t),t.title,prLbl[t.priority][0],t.status,stLbl[stateOf(t)][0],t.status==="done"?100:(t.progress||0),t.deadline,ageInfo(t).n,t.completedAt||"",t.estHours||"",spentOf(t).toFixed(2),t.notes||""]));
   const blob = new Blob(["\ufeff"+rows.map(r=>r.map(q).join(",")).join("\r\n")],{type:"text/csv;charset=utf-8"});
   const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = `mis-week-report-${wkKey()}.csv`; a.click();
   setTimeout(()=>URL.revokeObjectURL(a.href),1000); toast("CSV report downloaded");
@@ -3356,7 +3388,7 @@ document.addEventListener("keydown", e=>{
 
 
 // ---------- v2: settings ----------
-const NUMS = ["start","end","tc","td","te","cap","pon","plate","pov","phi","due","perDef","riskD","riskP","soonD","bkDays"];
+const NUMS = ["start","end","tc","td","te","cap","pon","plate","pov","phi","due","perDef","riskD","riskP","soonD","bkDays","ageD"];
 function applySet(){ const s = S(); OFFICE.start = s.start; OFFICE.end = s.end; OFFICE.days = s.days; document.body.classList.toggle("compact", !!s.compact);
   const nt = s.theme==="auto" ? (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") : s.theme;
   (window.misSetTheme ? window.misSetTheme(nt) : (document.documentElement.dataset.theme = nt));
@@ -3377,7 +3409,7 @@ $("sSave").onclick = ()=>{
   ["tc","td","te"].forEach(k=> s[k] = Math.max(0, Math.min(300, s[k]||0)));
   s.cap = Math.max(1, s.cap|0); s.due = Math.max(0, Math.min(30, s.due|0)); s.phi = Math.max(1, s.phi||1);
   s.dept = clean(s.dept) || "Team"; const nm = v=>String(v||"").replace(/[<>"`]/g,"").trim().slice(0,40); s.org = nm(s.org); s.prep = nm(s.prep);
-  s.riskD = Math.max(0, Math.min(14, s.riskD|0)); s.riskP = Math.max(0, Math.min(100, s.riskP|0)); s.soonD = Math.max(0, Math.min(7, s.soonD|0)); s.bkDays = Math.max(1, Math.min(90, s.bkDays|0)); if (![1,4,12,26].includes(s.perDef)) s.perDef = 1;
+  s.riskD = Math.max(0, Math.min(14, s.riskD|0)); s.riskP = Math.max(0, Math.min(100, s.riskP|0)); s.soonD = Math.max(0, Math.min(7, s.soonD|0)); s.bkDays = Math.max(1, Math.min(90, s.bkDays|0)); s.ageD = Math.max(1, Math.min(60, s.ageD|0 || 5)); if (![1,4,12,26].includes(s.perDef)) s.perDef = 1;
   db.settings = s; save(); initForm(); render(); toast("Settings saved ✔");
 };
 $("sReset").onclick = ()=>{
@@ -3986,8 +4018,9 @@ ghRender();
 <script>
 /* v8: stable updater + version history. Data lives in localStorage and is never touched by an update; a snapshot is taken first. */
 (()=>{
-const APP_VERSION="11.8.0", SNAP_KEY="mis_snapshots_v1", LOG_KEY="mis_update_log_v1", $=id=>document.getElementById(id);
+const APP_VERSION="11.9.0", SNAP_KEY="mis_snapshots_v1", LOG_KEY="mis_update_log_v1", $=id=>document.getElementById(id);
 const HISTORY=[
+ {v:"11.9.0",d:"2026-11-04",n:["New: every task now says how long it has been open - list view shows “Open 4 days · Day 4 of 5” (or “over plan”), finished tasks show “Took 3 days”, tasks that have not started yet show “Starts in 2 days”; hover for the start date, working days and plan", "New: ageing alerts - open tasks older than a limit you set (Settings → Targets, default 5 days) are flagged amber, overdue ones red; a one-tap “aging” chip and a new “Aging tasks” filter list them", "Improved: board cards show the open age, the start-to-deadline range on hover and a ↻ mark when the deadline moved; each board column shows its average open age (or average days to close) and how many tasks are aging", "Improved: list view day headings summarise the day (tasks · open · overdue); the overview line shows the average open age; new sorts “Longest open” and “Start date”", "New: deleting a task can be undone for 8 seconds; the status and progress controls on every row now have screen-reader labels", "New: “Days open” column in the view CSV, the week CSV report and the Excel export (import ignores it, so exports can still be imported)", "Your data is not changed by this update: no new stored fields; the ageing limit is a new setting with a safe default"]},
  {v:"11.8.0",d:"2026-11-04",n:["New: every task now has an editable start date and deadline - set them when adding a task and change either one later from Edit; quick buttons (same day, +1 day, +3 days, +1 week, +2 weeks) and a live duration line show the span; a task can be scheduled for a future day and appears on that day", "New: clearer task display - each task shows its start to deadline range with a status badge (Starts tomorrow, Due today, 3d overdue) and a Moved badge when its deadline was changed; board cards show future start dates; the CSV export includes Start date", "New: Excel import also reads a Start date / Start column (the existing Date column still works)", "Safer updates: before an update installs, a restore point is saved automatically; the update is only applied once the new version is confirmed live on the server (no more update loops while the host is still publishing); the restore points are no longer wiped on startup", "Safer data: saved data now carries a format version; older data is upgraded automatically and an untouched copy is kept first (it also appears under Data safety restore points); unreadable data is preserved instead of being overwritten by an empty workspace; fields added by newer versions are never dropped", "Fixed: tasks with a missing or invalid date, status, priority or progress are repaired on load instead of breaking the page; a finished task with no completion date is no longer counted as late", "Fixed: the recovery prompt after a faulty session did nothing - it now points you to your restore points", "Housekeeping: removed unrelated DashView files (js/, css/reports-hub.css, test/) that were published with the site but never used by MISphere"]},
  {v:"11.7.0",d:"2026-11-02",n:["New: iOS type system everywhere - SF Pro Display and SF Pro Text on iPhone, iPad and Mac, bundled Inter variable (the closest match) on Windows, Android and Linux; dashboard, landing page, charts, dialogs and form fields now share one font stack", "New: bolder, clearer weight scale across the whole theme - body 500, labels and buttons 600, headings 700-800, KPI figures 800 with tabular numbers; tight iOS tracking on large titles, calmer tracking on small text", "Improved: landing page headings, cards and stats follow the same iOS type and weights as the dashboard (Bricolage Grotesque and Instrument Sans are no longer drawn)", "Fixed: the Software Update prompt never appeared - version.json had been replaced by another app's file (2.30.1, lower than 11.6.0); the update feed is restored with MISphere's full history and 11.7.0", "Fixed: offline install - sw.js was another app's worker listing 60+ files that do not exist, so it could never install; rebuilt for MISphere (each file cached on its own, version.json always read fresh, old caches cleaned)", "Housekeeping: README badge, package.json, desktop app version and CHANGELOG aligned to 11.7.0"]},
  {v:"11.6.0",d:"2026-10-31",n:["iOS typography: SF Pro on Apple devices, bundled Inter (the closest match) everywhere else, tighter headings and smoother text rendering", "Proper iOS-style blur: progressive edge blur under the top and bottom bars plus frosted header and tab bar"]},
@@ -4224,7 +4257,7 @@ const SECS = [
   ["about","System & about","Updates, legal",I('<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/>')]
 ];
 const SEC_KEYS = {general:["dept","org","landing","pri","due"], time:["start","end","days","hoursFmt"],
-  targets:["tc","td","te","cap","riskD","riskP","soonD","bkDays","attn","pon","plate","pov","phi"], modules:["modules","reqMod"],
+  targets:["tc","td","te","cap","riskD","riskP","soonD","bkDays","ageD","attn","pon","plate","pov","phi"], modules:["modules","reqMod"],
   reports:["perDef","prep","conf"], appearance:["theme","compact","rmotion"]};
 let curSec = (()=>{ try{ return localStorage.getItem("mis_ssec")||"general"; }catch{ return "general"; } })();
 if (!SECS.some(x=>x[0]===curSec)) curSec = "general";
@@ -4247,7 +4280,7 @@ function validate(){
   num("start",0,23,"Start hour"); num("end",1,24,"End hour");
   if(!err.start && !err.end && f.start>=f.end) set("end","End hour must be later than the start hour.");
   num("tc",0,100,"Completion target"); num("td",0,100,"Deadline target"); num("te",0,300,"Efficiency target"); num("cap",1,999,"Open-task cap");
-  num("riskD",0,14,"At-risk window"); num("riskP",0,100,"Progress threshold"); num("soonD",0,7,"Look-ahead"); num("bkDays",1,90,"Backup reminder"); num("due",0,30,"Deadline days");
+  num("riskD",0,14,"At-risk window"); num("riskP",0,100,"Progress threshold"); num("soonD",0,7,"Look-ahead"); num("bkDays",1,90,"Backup reminder"); num("ageD",1,60,"Ageing alert"); num("due",0,30,"Deadline days");
   num("phi",1,10,"High-priority multiplier"); ["pon","plate","pov"].forEach(k=>num(k,0,100,"Points"));
   if(!f.days.length) set("days","Pick at least one working day.");
   if(!f.dept) set("dept","Department name cannot be empty.");

@@ -2,6 +2,21 @@
 
 All notable changes to MISphere. Newest first.
 
+## 11.13.0 - 2026-11-08
+- New: task form aligned to one grid - equal-height fields, labels on one baseline, date, select and number inputs the same size, a tidy quick-deadline row and a full-width Add task button on phones; 3 / 2 / 1 column layouts at tablet and phone widths
+- New: completion details redesigned - every finished task shows an aligned status chip (Done date · days early or late) with a colour dot, a note block with an accent bar for the closing note and a green edge on the card
+- Improved: task rows - avatar, title, chips and controls share one top line; every chip has the same height; status, progress and action buttons line up in one right-hand column, and on phones the controls drop to a full-width row
+- Improved: Close task sheet and Edit task completion fields - equal-height fact tiles, aligned labels and inputs, a separated action row with full-width buttons on small screens
+- Your data is kept: layout and styling only - no task, member, settings or backup data changes
+
+## 11.12.0 - 2026-11-08
+- New: Executive colour combo (royal blue, deep teal, brass) - a restrained corporate palette tuned for light and dark, available first in the colour picker
+- New: professional surface system - slate-navy neutrals, hairline borders, two-level depth shadows and calmer status colours (green, amber, red, cyan) with higher text contrast
+- Improved: detailing - tabular lining numerals on figures and tables, uppercase table headers, tighter heading tracking, row hover tint, refined primary buttons, input hover and clear keyboard focus rings, thin themed scrollbars
+- Improved: smoother, consistent transitions on cards, buttons and fields (disabled when reduced motion is on); print output stays flat
+- Housekeeping: unrelated DashView files (js/, css/reports-hub.css, test/) removed again so they are not published
+- Your data is kept: styling only - no task, member, settings or backup data changes
+
 ## 11.11.0 - 2026-11-04
 - New: release notes you can open - every version in Settings → System & about → Updates is a card (version, headline, weekday and date, type) that opens a full release sheet with What's new, Improved, Fixed and Data & safety sections, a filter, previous / next navigation, Expand all and Copy notes
 - New: a proper update message - the Software Update sheet shows installed → new version, the release headline and date, counts (new / improved / fixed), the top highlights and, when you are several versions behind, a combined summary of every release you missed; the list scrolls and never runs off the screen

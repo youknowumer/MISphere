@@ -4170,7 +4170,7 @@ ghRender();
 <script>
 /* v8: stable updater + version history. Data lives in localStorage and is never touched by an update; a snapshot is taken first. */
 (()=>{
-const APP_VERSION="11.11.0", APP_BUILD="2026.11.04.4", SNAP_KEY="mis_snapshots_v1", LOG_KEY="mis_update_log_v1", $=id=>document.getElementById(id);window.MIS_APP_VERSION=APP_VERSION;
+const APP_VERSION="11.13.0", APP_BUILD="2026.11.08.2", SNAP_KEY="mis_snapshots_v1", LOG_KEY="mis_update_log_v1", $=id=>document.getElementById(id);window.MIS_APP_VERSION=APP_VERSION;
 const HISTORY=[
  {"v": "11.11.0", "d": "2026-11-04", "title": "Release notes, update centre and settings overview", "n": ["New: release notes you can open - every version in Settings → System & about → Updates is a card (version, headline, weekday and date, type) that opens a full release sheet with What's new, Improved, Fixed and Data & safety sections, a filter, previous / next navigation, Expand all and Copy notes", "New: a proper update message - the Software Update sheet shows installed → new version, the release headline and date, counts (new / improved / fixed), the top highlights and, when you are several versions behind, a combined summary of every release you missed; the list scrolls and never runs off the screen", "New: searchable, filterable version history - filter by All, New, Improved, Fixed or Data & safety, grouped by month, with the exact day each version was released and when it was installed or first opened on this device", "New: update preferences - automatic checks on / off, check frequency, how long “Remind me later” waits and whether What's New opens after updating, plus Copy diagnostics for support", "New: settings overview - workspace, version and update status, data protection, sync and storage at a glance (tap a tile to jump to its section), a desktop side navigation with section descriptions, and marks on sections and fields that have unsaved changes", "Improved: roomier settings panels - icon headers, clearer rows, a one-column layout on phones, and a short update summary in Settings instead of a wall of text", "Fixed: update message was one unbroken block - it listed every note together and could not be scrolled on small screens", "Fixed: wrong version shown in About and in exported settings - both showed 11.1.0 instead of the installed version", "Fixed: missing install history entries - versions loaded by a normal reload (not through the updater) were never recorded; each version is now logged the first time it runs", "Your data is kept: no task, member or backup data changes; update preferences are stored separately on this device"]},
  {"v": "11.10.0", "d": "2026-11-04", "title": "Deadline-aware task closing", "n": ["New: closing a task is now judged against its deadline - when a task is overdue (or not started yet) a “Close task” sheet asks which day the work was really finished, with quick buttons (Today, Yesterday, On the deadline day) and a live verdict such as “On time - 2 days before the deadline” or “Late - 3 days after the deadline (1 working day)”, plus the points it will earn and an optional closing note; work finished on time is no longer booked as late just because it was closed later", "New: the same close flow runs everywhere a task can be finished - the status menu, the progress slider at 100%, board buttons and drag-and-drop, bulk “Done” (one date for all selected tasks, with a per-task verdict) and the Done button in Daily notes; every close can be undone for a few seconds, and on-time closes on a normal day stay one tap", "New: Settings → General → Closing tasks - choose when MISphere asks for the completion date: only when overdue or not started (default), every time, or never (always today)", "New: every finished task shows how far it was from its deadline - “Done 2 Nov · 2d early”, “on deadline day” or “1d late” on the list and the board (hover for the working days), with the closing note shown under the task", "New: Edit task has “Completed on” and “Closing note” for finished tasks with a live on-time / late line, and tells you when a change flips the task between on time and late", "Improved: Insights splits on-time work into early and deadline-day finishes and reports the average days before or after the deadline; the view CSV, week CSV, Excel export and JSON report get a “Days vs deadline” column, and the Excel export / import carries the closing note (import still ignores the extra columns)", "Fixed: a task closed before its planned start now moves its start to the completion day instead of finishing before it began", "Fixed: bulk “Postpone / Set to today” could place the deadline before the start date, changed finished tasks and never counted as a move; it now keeps the deadline on or after the start, skips finished tasks and records the move", "Fixed: repeating and duplicated tasks no longer inherit the “Moved” badge and original deadline of the task they came from", "Fixed: reopening a task clears its completion date and closing note; finished tasks saved with a completion before their start or in the future are repaired on load", "Housekeeping: the unrelated DashView files (js/, css/reports-hub.css, test/) are removed again so they are not published with the site", "Your data is kept: one optional field (closing note) and one setting are new; existing tasks, members and backups load exactly as before"]},
@@ -4386,7 +4386,7 @@ document.addEventListener("DOMContentLoaded",()=>{
 </script>
 <script>
 (()=>{const K="mis_ui_v1",G={soft:14,standard:26,strong:44},$=id=>document.getElementById(id);
-const A=[["mis","MISphere",["#4f46e5","#8b7cf6","#22b8e0"]],["ocean","Ocean",["#2f6fdb", "#5b97ec", "#7b95e6"]],["aurora","Aurora",["#5a55c6", "#7d76d9", "#5f8ade"]],["sunset","Sunset",["#cf4a33", "#e17a47", "#d3607b"]],["forest","Forest",["#2a8250", "#47a577", "#2e968a"]],["graphite","Graphite",["#4f5666", "#7b8396", "#606c8a"]],["lavender","Lavender",["#8659cc", "#a481de", "#7b80d7"]],["rose","Rose",["#c9416a", "#df7391", "#b659a9"]],["mint","Mint",["#12857c", "#3aaa9d", "#2c93b3"]],["citrus","Citrus",["#bf650a", "#dd9625", "#cf693d"]],["teal","Teal",["#0e7a90", "#33a1b6", "#3d7cbd"]],["sky","Sky",["#1a82cb", "#4ea6e2", "#4b7cd2"]],["cocoa","Cocoa",["#845d3a", "#ab845e", "#a5544a"]],["midnight","Midnight",["#3f45b3", "#626cd5", "#7a54c6"]],["auto","Auto",["#d98a1c","#2f6fdb","#5a55c6"]]],AD={"mis":["#7b74ff","#a99fff","#4cc9ee"],"ocean": ["#4a8ef0", "#7bb0f6", "#93a8f3"], "aurora": ["#857bf0", "#a999f7", "#76a3f2"], "sunset": ["#f27a5a", "#f69e63", "#f27d9c"], "forest": ["#46c382", "#69d6a0", "#46c4b0"], "graphite": ["#a6aec0", "#c4cada", "#919cc0"], "lavender": ["#b583f5", "#d0b0fb", "#9b9ef5"], "rose": ["#f26f8f", "#f79bb2", "#dd88d6"], "mint": ["#4cd3c6", "#7ae3d6", "#66bfe8"], "citrus": ["#f5a43a", "#f9c168", "#f58b6a"], "teal": ["#4bc3da", "#7ad8e8", "#6fa3e6"], "sky": ["#5bb8f5", "#8dd0fa", "#7f9ff5"], "cocoa": ["#c79e72", "#dfbd96", "#df8a7e"], "midnight": ["#7d82f7", "#a0a6fb", "#b08af0"]};
+const A=[["executive","Executive",["#1f4fd8","#0e7c86","#b8862b"]],["mis","MISphere",["#4f46e5","#8b7cf6","#22b8e0"]],["ocean","Ocean",["#2f6fdb", "#5b97ec", "#7b95e6"]],["aurora","Aurora",["#5a55c6", "#7d76d9", "#5f8ade"]],["sunset","Sunset",["#cf4a33", "#e17a47", "#d3607b"]],["forest","Forest",["#2a8250", "#47a577", "#2e968a"]],["graphite","Graphite",["#4f5666", "#7b8396", "#606c8a"]],["lavender","Lavender",["#8659cc", "#a481de", "#7b80d7"]],["rose","Rose",["#c9416a", "#df7391", "#b659a9"]],["mint","Mint",["#12857c", "#3aaa9d", "#2c93b3"]],["citrus","Citrus",["#bf650a", "#dd9625", "#cf693d"]],["teal","Teal",["#0e7a90", "#33a1b6", "#3d7cbd"]],["sky","Sky",["#1a82cb", "#4ea6e2", "#4b7cd2"]],["cocoa","Cocoa",["#845d3a", "#ab845e", "#a5544a"]],["midnight","Midnight",["#3f45b3", "#626cd5", "#7a54c6"]],["auto","Auto",["#d98a1c","#2f6fdb","#5a55c6"]]],AD={"mis":["#7b74ff","#a99fff","#4cc9ee"],"ocean": ["#4a8ef0", "#7bb0f6", "#93a8f3"], "aurora": ["#857bf0", "#a999f7", "#76a3f2"], "sunset": ["#f27a5a", "#f69e63", "#f27d9c"], "forest": ["#46c382", "#69d6a0", "#46c4b0"], "graphite": ["#a6aec0", "#c4cada", "#919cc0"], "lavender": ["#b583f5", "#d0b0fb", "#9b9ef5"], "rose": ["#f26f8f", "#f79bb2", "#dd88d6"], "mint": ["#4cd3c6", "#7ae3d6", "#66bfe8"], "citrus": ["#f5a43a", "#f9c168", "#f58b6a"], "teal": ["#4bc3da", "#7ad8e8", "#6fa3e6"], "sky": ["#5bb8f5", "#8dd0fa", "#7f9ff5"], "cocoa": ["#c79e72", "#dfbd96", "#df8a7e"], "midnight": ["#7d82f7", "#a0a6fb", "#b08af0"]};
 let u={};try{u=JSON.parse(localStorage.getItem(K))||{}}catch{}
 if(u.a==="coral")u.a="teal";if(u.a==="berry")u.a="rose";
 const auto=()=>{const h=new Date().getHours();return h<6?"midnight":h<10?"citrus":h<17?"mis":h<20?"sunset":"aurora"};
@@ -6562,6 +6562,80 @@ code,pre,kbd,samp,.mono{font-family:var(--ios-mono)!important;font-weight:500}
 .task .notes.cnote,.bc-notes.cnote{font-style:italic}
 @media (max-width:480px){.cs-facts{grid-template-columns:1fr 1fr}.cs-facts>div:last-child{grid-column:1/-1}}
 @media (prefers-reduced-motion:reduce){.cs-ic,.cs-q button{transition:none}}
+
+/* ===== v11.12.0 Executive professional layer ===== */
+html[data-accent=executive]{--brand:#1f4fd8;--brand-bg:#1f4fd8;--brand-t:#1a43b8;--brand-soft:rgba(31,79,216,.10);--m1:#1f4fd8;--m2:#0e7c86;--m3:#b8862b}
+html[data-theme=dark][data-accent=executive]{--brand:#6f9bff;--brand-bg:#3b6cf0;--brand-t:#9db9ff;--brand-soft:rgba(111,155,255,.16);--m1:#6f9bff;--m2:#3cc0c9;--m3:#e3b45a}
+html:not([data-theme=dark]){--bg:#f2f4f8;--card:#fff;--text:#0f172a;--muted:#5a6478;--line:#dde2ec;--line2:#e9edf4;--soft:#f5f7fb;--ok:#15803d;--warn:#b45309;--bad:#c2261c;--info:#0e7490;--ok-t:#166534;--warn-t:#92400e;--bad-t:#991b1b;--info-t:#155e75;--pro-sh:0 1px 2px rgba(15,23,42,.05),0 4px 14px -6px rgba(15,23,42,.10);--pro-sh2:0 2px 4px rgba(15,23,42,.06),0 14px 32px -12px rgba(15,23,42,.18)}
+html[data-theme=dark]{--bg:#0a0f1c;--card:#111827;--text:#e8edf8;--muted:#96a1bb;--line:#222c44;--line2:#1a2236;--soft:#161e30;--ok:#34d399;--warn:#fbbf24;--bad:#f87171;--info:#38bdf8;--ok-t:#4ade80;--warn-t:#fbbf24;--bad-t:#fca5a5;--info-t:#7dd3fc;--pro-sh:0 1px 2px rgba(0,0,0,.4),0 6px 18px -8px rgba(0,0,0,.6);--pro-sh2:0 2px 6px rgba(0,0,0,.45),0 18px 40px -14px rgba(0,0,0,.7)}
+html[data-oled=on][data-theme=dark]{--bg:#000;--card:#070b14}
+.panel,.card,.kpi,.stat,.mcard,.tcard,.sheet,.dialog{border:1px solid var(--line);box-shadow:var(--pro-sh)}
+.panel:hover,.card:hover,.kpi:hover,.mcard:hover,.tcard:hover{box-shadow:var(--pro-sh2)}
+.panel,.card,.kpi,.stat,.mcard,.tcard,.btn,button,input,select,textarea{transition:box-shadow .25s cubic-bezier(.32,.72,0,1),border-color .2s,background-color .2s,transform .2s cubic-bezier(.32,.72,0,1)}
+h1,h2,h3,.title,.ptitle{letter-spacing:-.022em;font-weight:750}
+.kpi .val,.kpi b,.stat b,.big,[class*=figure]{font-variant-numeric:tabular-nums lining-nums;letter-spacing:-.03em}
+table,.task,.row{font-variant-numeric:tabular-nums}
+th{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:700}
+tbody tr:hover,.task:hover{background:color-mix(in srgb,var(--brand) 5%,transparent)}
+input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--brand);outline-offset:2px;box-shadow:0 0 0 5px color-mix(in srgb,var(--brand) 18%,transparent)}
+input,select,textarea{border-color:var(--line)}input:hover,select:hover,textarea:hover{border-color:color-mix(in srgb,var(--brand) 40%,var(--line))}
+.btn.primary,button.primary,.btn-primary{background:linear-gradient(180deg,color-mix(in srgb,var(--brand-bg) 88%,#fff),var(--brand-bg));box-shadow:0 1px 0 rgba(255,255,255,.25) inset,0 6px 16px -6px color-mix(in srgb,var(--brand-bg) 70%,transparent)}
+::selection{background:color-mix(in srgb,var(--brand) 25%,transparent)}
+*{scrollbar-width:thin;scrollbar-color:color-mix(in srgb,var(--muted) 40%,transparent) transparent}
+@media print{.panel,.card{box-shadow:none}}
+@media (prefers-reduced-motion:reduce){.panel,.card,.kpi,.btn,button{transition:none}}
+/* ===== end v11.12.0 ===== */
+
+/* ===== v11.13.0 task form and completion alignment ===== */
+#taskForm label{display:block;margin:0 0 6px;font-size:11.5px;font-weight:700;line-height:1.25;letter-spacing:.01em;color:var(--muted)}
+#taskForm .mp-hint{font-weight:500;opacity:.8}
+#taskForm .fgrid{align-items:end;gap:14px 12px}
+#taskForm .fgrid>div{min-width:0}
+#taskForm .span-all{grid-column:1/-1}
+#taskForm input:not([type=checkbox]):not([type=range]),#taskForm select{width:100%;height:42px;min-height:42px;box-sizing:border-box;padding-top:0;padding-bottom:0;line-height:1.2}
+#taskForm input[type=date]{display:block;min-width:0;-webkit-appearance:none;appearance:none;text-align:left}
+#taskForm .fgrid.two{grid-template-columns:minmax(0,1.7fr) minmax(0,1fr)}
+#taskForm .dline{margin:-2px 0 2px;padding:8px 0 0;border-top:1px dashed var(--line);justify-content:space-between}
+#taskForm .qdates{gap:6px}#taskForm .qdates>span{margin-right:2px;text-transform:uppercase;letter-spacing:.06em;font-size:10.5px;font-weight:700}
+#taskForm .qdates button{height:30px;display:inline-flex;align-items:center}
+#taskForm>button[type=submit]{height:44px;min-width:150px;display:inline-flex;align-items:center;justify-content:center;gap:8px;margin-top:4px}
+@media(max-width:1100px){.fgrid.six{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:720px){.fgrid.six{grid-template-columns:repeat(2,minmax(0,1fr))}#taskForm .fgrid.two{grid-template-columns:1fr}#taskForm>button[type=submit]{width:100%}}
+@media(max-width:420px){.fgrid.six{grid-template-columns:1fr}}
+.task{align-items:start;column-gap:14px}
+.task>:first-child{margin-top:2px}
+.task .t-title{line-height:1.3;font-weight:650;margin-bottom:5px;overflow-wrap:anywhere}
+.task .t-title.done{color:var(--muted);text-decoration-thickness:1px;text-decoration-color:color-mix(in srgb,var(--muted) 60%,transparent)}
+.task .meta{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;line-height:1.2}
+.task .meta>*{min-width:0}
+.task .meta .pill,.task .meta .dchip,.task .meta .tdates .rng{display:inline-flex;align-items:center;gap:5px;min-height:24px;box-sizing:border-box;line-height:1;white-space:nowrap;vertical-align:middle}
+.task .meta .dchip{padding:0 10px;font-weight:650;border:1px solid color-mix(in srgb,currentColor 24%,transparent);letter-spacing:.005em}
+.task .meta .dchip::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;opacity:.85}
+.task .notes{margin-top:6px;font-size:12.5px;line-height:1.45}
+.task .notes.cnote{position:relative;padding:6px 10px 6px 12px;border-radius:8px;background:var(--soft);font-style:normal;color:var(--text)}
+.task .notes.cnote::before{content:"";position:absolute;left:0;top:6px;bottom:6px;width:3px;border-radius:3px;background:var(--ok)}
+.task.is-done{box-shadow:inset 3px 0 0 var(--ok),var(--pro-sh)}
+.task .act{display:grid;gap:6px;justify-items:end;align-self:center}
+.task .act .r{display:flex;align-items:center;justify-content:flex-end;gap:6px;min-height:32px}
+.task .act select{min-width:118px;height:32px}
+.task .act input[type=range]{width:120px;margin:0}
+.task .act .r>b{width:40px;text-align:right;font-variant-numeric:tabular-nums}
+.task .act .btn.sm{height:32px;min-width:32px;display:inline-flex;align-items:center;justify-content:center;padding:0 9px}
+@media(max-width:720px){.task{grid-template-columns:auto minmax(0,1fr)}.task .act{grid-column:1/-1;justify-items:stretch;padding-top:8px;border-top:1px dashed var(--line)}.task .act .r{justify-content:space-between}.task .act input[type=range]{flex:1;width:auto}}
+#cDlg .cs-head{align-items:center;gap:14px}
+#cDlg .cs-head>div:last-child{min-width:0}
+#cDlg .cs-facts{gap:10px}
+#cDlg .cs-facts>div{display:flex;flex-direction:column;justify-content:center;min-height:52px;background:var(--soft)}
+#cDlg .cs-facts b{font-variant-numeric:tabular-nums}
+#cDlg .cs-date label{display:block;margin-bottom:6px;font-size:11.5px;font-weight:700;color:var(--muted)}
+#cDlg .cs-date input,#cDlg textarea,#cDlg input[type=text]{width:100%;box-sizing:border-box}
+#cDlg .cs-q button{height:30px;display:inline-flex;align-items:center}
+#cDlg .cs-act{align-items:center;gap:10px;margin-top:4px;padding-top:14px;border-top:1px solid var(--line)}
+#cDlg .cs-act .btn{height:42px;min-width:110px;display:inline-flex;align-items:center;justify-content:center}
+@media(max-width:480px){#cDlg{padding:18px}#cDlg .cs-act{flex-direction:column-reverse}#cDlg .cs-act .btn{width:100%}}
+.edone{display:grid;gap:10px}.edone label{display:block;margin:0 0 6px;font-size:11.5px;font-weight:700;color:var(--muted)}
+.edone input,.edone textarea{width:100%;box-sizing:border-box}
+/* ===== end v11.13.0 ===== */
 </style>
 <script>/* offline + install support */if("serviceWorker"in navigator&&/^https?:$/.test(location.protocol)){addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})})}</script></body>
 </html>

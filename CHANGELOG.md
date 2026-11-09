@@ -2,6 +2,11 @@
 
 All notable changes to MISphere. Newest first.
 
+## 11.16.1 - 2026-11-09
+- Fixed: the Command center, drill-down sheet and Quick capture now follow your chosen colour combo and light / dark theme - they previously used a fixed blue instead of the theme accent, and a few status colours that were not part of the theme
+- Improved: the new panels now use the app's own iOS glass and tile surfaces, borders, shadows and spring easing, so they match the rest of MISphere
+- Your data is kept: styling only
+
 ## 11.16.0 - 2026-11-09
 - New: capacity planning - switch the workload heatmap between Tasks and Hours; set hours per day, and any day booked above capacity turns red with an Overbooked badge (tasks without an estimate count as 1 hour)
 - New: agenda - the next 10 days of deadlines grouped by day on the Home page; tap a day to drill into its tasks

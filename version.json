@@ -1,16 +1,28 @@
 {
-  "version": "11.14.1",
-  "build": "2026.11.09.2",
+  "version": "11.15.0",
+  "build": "2026.11.09.3",
   "released": "2026-11-09",
   "notes": [
-    "Fixed: the Command center showed nothing (and Quick capture looked unresponsive on the Home page) when any member was marked On leave - it now renders for every team and shows an “On leave” badge",
-    "Fixed: Quick capture read a name such as “Tom” as tomorrow and a word such as “sats” as Saturday; only today, tomorrow, tmr, full or 3-letter weekday names, +3d, 15 nov and dates are treated as deadlines",
-    "Improved: Quick capture warns when an @name or #module matches nobody, ignores a double Enter, returns focus to where you were on close and keeps Tab inside the dialog",
-    "Improved: workload heatmap cells have tooltips (member · day · number of tasks), members on leave are excluded from the capacity hint, and the panel stays hidden on an empty workspace",
-    "Improved: a problem inside the panel is now written to the browser console instead of failing silently",
-    "Your data is kept: no stored fields or formats changed"
+    "New: drill-down - tap Open, Overdue, Due in 48h, At risk or Estimated effort in the Command center, a heatmap cell (member × day) or a member name to open a side sheet with the exact tasks behind the number (a bottom sheet on phones)",
+    "New: inside the sheet - filter by task, owner or module; sort by deadline, priority, progress, owner or effort; reassign a task from a menu, move its deadline by one day (original deadline and Moved badge are kept) or jump to it in Tasks; the headline updates live with the count, hours and overdue",
+    "New: take the list with you - Copy list for chat or email and Download CSV (opens cleanly in Excel; cells that start with = + - or @ are neutralised)",
+    "Improved: keyboard and screen-reader support - heatmap cells and tiles are buttons reachable with Tab, Enter and Space, Esc closes the sheet, Tab stays inside it and focus returns to where you were",
+    "Your data is kept: reassigning and moving deadlines use the same task fields as the Tasks page; no new stored fields or format changes"
   ],
   "history": [
+    {
+      "v": "11.15.0",
+      "d": "2026-11-09",
+      "title": "Drill-down for the Command center",
+      "build": "2026.11.09.3",
+      "n": [
+        "New: drill-down - tap Open, Overdue, Due in 48h, At risk or Estimated effort in the Command center, a heatmap cell (member × day) or a member name to open a side sheet with the exact tasks behind the number (a bottom sheet on phones)",
+        "New: inside the sheet - filter by task, owner or module; sort by deadline, priority, progress, owner or effort; reassign a task from a menu, move its deadline by one day (original deadline and Moved badge are kept) or jump to it in Tasks; the headline updates live with the count, hours and overdue",
+        "New: take the list with you - Copy list for chat or email and Download CSV (opens cleanly in Excel; cells that start with = + - or @ are neutralised)",
+        "Improved: keyboard and screen-reader support - heatmap cells and tiles are buttons reachable with Tab, Enter and Space, Esc closes the sheet, Tab stays inside it and focus returns to where you were",
+        "Your data is kept: reassigning and moving deadlines use the same task fields as the Tasks page; no new stored fields or format changes"
+      ]
+    },
     {
       "v": "11.14.1",
       "d": "2026-11-09",

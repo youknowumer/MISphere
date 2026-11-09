@@ -2,6 +2,14 @@
 
 All notable changes to MISphere. Newest first.
 
+## 11.14.1 - 2026-11-09
+- Fixed: the Command center showed nothing (and Quick capture looked unresponsive on the Home page) when any member was marked On leave - it now renders for every team and shows an “On leave” badge
+- Fixed: Quick capture read a name such as “Tom” as tomorrow and a word such as “sats” as Saturday; only today, tomorrow, tmr, full or 3-letter weekday names, +3d, 15 nov and dates are treated as deadlines
+- Improved: Quick capture warns when an @name or #module matches nobody, ignores a double Enter, returns focus to where you were on close and keeps Tab inside the dialog
+- Improved: workload heatmap cells have tooltips (member · day · number of tasks), members on leave are excluded from the capacity hint, and the panel stays hidden on an empty workspace
+- Improved: a problem inside the panel is now written to the browser console instead of failing silently
+- Your data is kept: no stored fields or formats changed
+
 ## 11.14.0 - 2026-11-09
 - New: Quick capture - press N (or the + button) and type a task in one line, e.g. “Send stock report @ali tomorrow !high #inventory 2h”; owner, deadline (today, tomorrow, fri, +3d, 15 nov), priority, module and estimate are understood, with a live preview before you press Enter (Shift+Enter keeps it open for the next task)
 - New: Command center on the Home page - open, overdue, due-in-48h, at-risk and estimated-effort tiles at a glance

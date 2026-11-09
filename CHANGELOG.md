@@ -2,6 +2,14 @@
 
 All notable changes to MISphere. Newest first.
 
+## 11.16.0 - 2026-11-09
+- New: capacity planning - switch the workload heatmap between Tasks and Hours; set hours per day, and any day booked above capacity turns red with an Overbooked badge (tasks without an estimate count as 1 hour)
+- New: agenda - the next 10 days of deadlines grouped by day on the Home page; tap a day to drill into its tasks
+- New: calendar export - Add to calendar downloads an .ics file (all-day deadlines with a reminder at 9am the day before) for all open tasks, or for exactly the list open in a drill-down sheet; works with Google, Outlook and Apple Calendar
+- New: reminders - opt-in daily digest of tasks due today and overdue as a browser notification (or an in-app banner if notifications are blocked); it runs while MISphere is open and is shown once per change
+- New: task comments - every row in a drill-down sheet has a comment thread (latest three shown, 300 characters each, author and date) and a comment count
+- Your data is kept: comments are one new optional field on a task; capacity and reminder preferences are stored separately on this device; existing tasks, members and backups load exactly as before
+
 ## 11.15.0 - 2026-11-09
 - New: drill-down - tap Open, Overdue, Due in 48h, At risk or Estimated effort in the Command center, a heatmap cell (member × day) or a member name to open a side sheet with the exact tasks behind the number (a bottom sheet on phones)
 - New: inside the sheet - filter by task, owner or module; sort by deadline, priority, progress, owner or effort; reassign a task from a menu, move its deadline by one day (original deadline and Moved badge are kept) or jump to it in Tasks; the headline updates live with the count, hours and overdue

@@ -1,15 +1,30 @@
 {
-  "version": "11.15.0",
-  "build": "2026.11.09.3",
+  "version": "11.16.0",
+  "build": "2026.11.09.4",
   "released": "2026-11-09",
   "notes": [
-    "New: drill-down - tap Open, Overdue, Due in 48h, At risk or Estimated effort in the Command center, a heatmap cell (member × day) or a member name to open a side sheet with the exact tasks behind the number (a bottom sheet on phones)",
-    "New: inside the sheet - filter by task, owner or module; sort by deadline, priority, progress, owner or effort; reassign a task from a menu, move its deadline by one day (original deadline and Moved badge are kept) or jump to it in Tasks; the headline updates live with the count, hours and overdue",
-    "New: take the list with you - Copy list for chat or email and Download CSV (opens cleanly in Excel; cells that start with = + - or @ are neutralised)",
-    "Improved: keyboard and screen-reader support - heatmap cells and tiles are buttons reachable with Tab, Enter and Space, Esc closes the sheet, Tab stays inside it and focus returns to where you were",
-    "Your data is kept: reassigning and moving deadlines use the same task fields as the Tasks page; no new stored fields or format changes"
+    "New: capacity planning - switch the workload heatmap between Tasks and Hours; set hours per day, and any day booked above capacity turns red with an Overbooked badge (tasks without an estimate count as 1 hour)",
+    "New: agenda - the next 10 days of deadlines grouped by day on the Home page; tap a day to drill into its tasks",
+    "New: calendar export - Add to calendar downloads an .ics file (all-day deadlines with a reminder at 9am the day before) for all open tasks, or for exactly the list open in a drill-down sheet; works with Google, Outlook and Apple Calendar",
+    "New: reminders - opt-in daily digest of tasks due today and overdue as a browser notification (or an in-app banner if notifications are blocked); it runs while MISphere is open and is shown once per change",
+    "New: task comments - every row in a drill-down sheet has a comment thread (latest three shown, 300 characters each, author and date) and a comment count",
+    "Your data is kept: comments are one new optional field on a task; capacity and reminder preferences are stored separately on this device; existing tasks, members and backups load exactly as before"
   ],
   "history": [
+    {
+      "v": "11.16.0",
+      "d": "2026-11-09",
+      "title": "Capacity planning, agenda, calendar export, reminders and comments",
+      "build": "2026.11.09.4",
+      "n": [
+        "New: capacity planning - switch the workload heatmap between Tasks and Hours; set hours per day, and any day booked above capacity turns red with an Overbooked badge (tasks without an estimate count as 1 hour)",
+        "New: agenda - the next 10 days of deadlines grouped by day on the Home page; tap a day to drill into its tasks",
+        "New: calendar export - Add to calendar downloads an .ics file (all-day deadlines with a reminder at 9am the day before) for all open tasks, or for exactly the list open in a drill-down sheet; works with Google, Outlook and Apple Calendar",
+        "New: reminders - opt-in daily digest of tasks due today and overdue as a browser notification (or an in-app banner if notifications are blocked); it runs while MISphere is open and is shown once per change",
+        "New: task comments - every row in a drill-down sheet has a comment thread (latest three shown, 300 characters each, author and date) and a comment count",
+        "Your data is kept: comments are one new optional field on a task; capacity and reminder preferences are stored separately on this device; existing tasks, members and backups load exactly as before"
+      ]
+    },
     {
       "v": "11.15.0",
       "d": "2026-11-09",

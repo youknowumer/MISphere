@@ -4,7 +4,7 @@
 
 **Team performance, tasks and daily notes — in one fast, private dashboard.**
 
-![Version](https://img.shields.io/badge/version-11.13.0-4f46e5)
+![Version](https://img.shields.io/badge/version-11.14.0-4f46e5)
 ![Licence](https://img.shields.io/badge/licence-All%20Rights%20Reserved-red)
 ![No backend](https://img.shields.io/badge/backend-none-0a84ff)
 ![Data](https://img.shields.io/badge/data-stays%20in%20your%20browser-30d158)
@@ -17,6 +17,7 @@ MISphere helps a team lead run a department week by week: assign and track tasks
 
 - **Home** — weekly KPIs with week-over-week change, a "needs attention" panel, team cards and the leader of the week.
 - **Tasks** — create, edit and track tasks (every task shows how many days it has been open, with ageing alerts, plus undo on delete; closing a task asks which day it was really finished and shows on-time / late against the deadline) with module, priority, estimate, progress, an office-hours timer and an editable **start date and deadline** (schedule ahead, reschedule later, see the full range and a due badge on every task). *By day* and drag-and-drop *Board* views, status tiles, and a filter toolbar (search, member, status, priority, due, sort) with one-click reset and **Export view** to CSV.
+- **Command center** — quick capture (press `N`, type a task in one line), a workload heatmap per member and a delivery radar that ranks tasks at risk.
 - **Insights** — Overview, Team, Modules and Executive sections built from line and bar charts, with health score, key findings, backlog burn, member scorecard, delivery forecast and 1 / 4 / 12 / 26 week periods.
 - **Daily notes** — day-wise key points with must-do stars, streak, tasks due and unfinished-point carry-over.
 - **Members** — one **Admin**, everyone else a **Member**. The weekly **leader** is chosen from the members, and leader history is kept.

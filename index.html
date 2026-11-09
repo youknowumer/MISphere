@@ -4170,7 +4170,7 @@ ghRender();
 <script>
 /* v8: stable updater + version history. Data lives in localStorage and is never touched by an update; a snapshot is taken first. */
 (()=>{
-const APP_VERSION="11.13.0", APP_BUILD="2026.11.08.2", SNAP_KEY="mis_snapshots_v1", LOG_KEY="mis_update_log_v1", $=id=>document.getElementById(id);window.MIS_APP_VERSION=APP_VERSION;
+const APP_VERSION="11.14.0", APP_BUILD="2026.11.09.1", SNAP_KEY="mis_snapshots_v1", LOG_KEY="mis_update_log_v1", $=id=>document.getElementById(id);window.MIS_APP_VERSION=APP_VERSION;
 const HISTORY=[
  {"v": "11.11.0", "d": "2026-11-04", "title": "Release notes, update centre and settings overview", "n": ["New: release notes you can open - every version in Settings → System & about → Updates is a card (version, headline, weekday and date, type) that opens a full release sheet with What's new, Improved, Fixed and Data & safety sections, a filter, previous / next navigation, Expand all and Copy notes", "New: a proper update message - the Software Update sheet shows installed → new version, the release headline and date, counts (new / improved / fixed), the top highlights and, when you are several versions behind, a combined summary of every release you missed; the list scrolls and never runs off the screen", "New: searchable, filterable version history - filter by All, New, Improved, Fixed or Data & safety, grouped by month, with the exact day each version was released and when it was installed or first opened on this device", "New: update preferences - automatic checks on / off, check frequency, how long “Remind me later” waits and whether What's New opens after updating, plus Copy diagnostics for support", "New: settings overview - workspace, version and update status, data protection, sync and storage at a glance (tap a tile to jump to its section), a desktop side navigation with section descriptions, and marks on sections and fields that have unsaved changes", "Improved: roomier settings panels - icon headers, clearer rows, a one-column layout on phones, and a short update summary in Settings instead of a wall of text", "Fixed: update message was one unbroken block - it listed every note together and could not be scrolled on small screens", "Fixed: wrong version shown in About and in exported settings - both showed 11.1.0 instead of the installed version", "Fixed: missing install history entries - versions loaded by a normal reload (not through the updater) were never recorded; each version is now logged the first time it runs", "Your data is kept: no task, member or backup data changes; update preferences are stored separately on this device"]},
  {"v": "11.10.0", "d": "2026-11-04", "title": "Deadline-aware task closing", "n": ["New: closing a task is now judged against its deadline - when a task is overdue (or not started yet) a “Close task” sheet asks which day the work was really finished, with quick buttons (Today, Yesterday, On the deadline day) and a live verdict such as “On time - 2 days before the deadline” or “Late - 3 days after the deadline (1 working day)”, plus the points it will earn and an optional closing note; work finished on time is no longer booked as late just because it was closed later", "New: the same close flow runs everywhere a task can be finished - the status menu, the progress slider at 100%, board buttons and drag-and-drop, bulk “Done” (one date for all selected tasks, with a per-task verdict) and the Done button in Daily notes; every close can be undone for a few seconds, and on-time closes on a normal day stay one tap", "New: Settings → General → Closing tasks - choose when MISphere asks for the completion date: only when overdue or not started (default), every time, or never (always today)", "New: every finished task shows how far it was from its deadline - “Done 2 Nov · 2d early”, “on deadline day” or “1d late” on the list and the board (hover for the working days), with the closing note shown under the task", "New: Edit task has “Completed on” and “Closing note” for finished tasks with a live on-time / late line, and tells you when a change flips the task between on time and late", "Improved: Insights splits on-time work into early and deadline-day finishes and reports the average days before or after the deadline; the view CSV, week CSV, Excel export and JSON report get a “Days vs deadline” column, and the Excel export / import carries the closing note (import still ignores the extra columns)", "Fixed: a task closed before its planned start now moves its start to the completion day instead of finishing before it began", "Fixed: bulk “Postpone / Set to today” could place the deadline before the start date, changed finished tasks and never counted as a move; it now keeps the deadline on or after the start, skips finished tasks and records the move", "Fixed: repeating and duplicated tasks no longer inherit the “Moved” badge and original deadline of the task they came from", "Fixed: reopening a task clears its completion date and closing note; finished tasks saved with a completion before their start or in the future are repaired on load", "Housekeeping: the unrelated DashView files (js/, css/reports-hub.css, test/) are removed again so they are not published with the site", "Your data is kept: one optional field (closing note) and one setting are new; existing tasks, members and backups load exactly as before"]},
@@ -6637,5 +6637,136 @@ input,select,textarea{border-color:var(--line)}input:hover,select:hover,textarea
 .edone input,.edone textarea{width:100%;box-sizing:border-box}
 /* ===== end v11.13.0 ===== */
 </style>
+<script id="v114-js">
+/* v11.14 · Command Center: quick capture, workload heatmap, delivery radar. Reads and adds tasks only; no data format change. © 2026 Muhammad Umer Faheem */
+(()=>{"use strict";
+const d=document,$=id=>d.getElementById(id),DAY=864e5;
+const WD={sun:0,mon:1,tue:2,wed:3,thu:4,fri:5,sat:6},WDL=/^(sun|mon|tue|wed|thu|fri|sat)(day|s|sday|nesday|rsday|urday)?$/,MN=["jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec"];
+const ok=()=>typeof MEMBERS!=="undefined"&&MEMBERS.length>0;
+const mods=()=>{const s=new Set(typeof DEFAULT_MODULES!=="undefined"?DEFAULT_MODULES:[]);db.tasks.forEach(t=>t.module&&s.add(t.module));return[...s]};
+const nm=m=>(m&&m.name)||"—",fst=m=>nm(m).split(" ")[0];
+const diff=s=>Math.round((parse(s)-parse(today()))/DAY);
+const lab=s=>{const n=diff(s);return n===0?"Today":n===1?"Tomorrow":n===-1?"Yesterday":parse(s).toLocaleDateString("en-GB",{weekday:"short",day:"numeric",month:"short"})};
+function dateTok(l,T){
+  if(/^(today|tod)$/.test(l))return ymd(T);
+  if(/^(tomorrow|tmr|tom)$/.test(l))return ymd(addDays(T,1));
+  if(l==="eow"){let n=(5-T.getDay()+7)%7;return ymd(addDays(T,n))}
+  if(l==="eom")return ymd(new Date(T.getFullYear(),T.getMonth()+1,0));
+  let m=l.match(/^\+(\d+)([dw])$/);if(m)return ymd(addDays(T,+m[1]*(m[2]==="w"?7:1)));
+  if(/^\d{4}-\d{2}-\d{2}$/.test(l))return l;
+  if(WDL.test(l)){const n=(WD[l.slice(0,3)]-T.getDay()+7)%7||7;return ymd(addDays(T,n))}
+  return null}
+function parseQ(q){
+  const r={title:"",who:null,pri:"med",mod:"",est:null,due:null},T=parse(today()),tk=q.trim().split(/\s+/).filter(Boolean),out=[];
+  for(let i=0;i<tk.length;i++){
+    const w=tk[i],l=w.toLowerCase();let m;
+    if(l[0]==="@"&&l.length>1){const k=l.slice(1).replace(/[._-]/g," "),L=x=>x.name.toLowerCase();
+      const f=MEMBERS.find(x=>L(x)===k)||MEMBERS.find(x=>L(x).startsWith(k))||MEMBERS.find(x=>L(x).split(" ").some(p=>p.startsWith(k)));if(f){r.who=f;continue}}
+    if(l[0]==="!"){const p={h:"high",high:"high",m:"med",med:"med",l:"low",low:"low"}[l.slice(1)];if(p){r.pri=p;continue}}
+    if(l[0]==="#"&&l.length>1){const k=l.slice(1).replace(/[_-]/g," "),M=mods(),f=M.find(x=>x.toLowerCase()===k)||M.find(x=>x.toLowerCase().startsWith(k));if(f){r.mod=f;continue}}
+    if((m=l.match(/^(\d+(?:\.\d+)?)h$/))){r.est=+m[1];continue}
+    if(/^\d{1,2}$/.test(l)&&tk[i+1]){const mi=MN.indexOf(tk[i+1].toLowerCase().slice(0,3));
+      if(mi>-1&&tk[i+1].length<=9){let y=T.getFullYear(),dt=new Date(y,mi,+l);if(dt<T)dt=new Date(y+1,mi,+l);r.due=ymd(dt);i++;if(out.length&&/^(by|due|on|before)$/i.test(out[out.length-1]))out.pop();continue}}
+    const dt=dateTok(l,T);if(dt){r.due=dt;if(out.length&&/^(by|due|on|before)$/i.test(out[out.length-1]))out.pop();continue}
+    out.push(w)}
+  r.title=out.join(" ");return r}
+
+/* ---------- styles ---------- */
+const css=d.createElement("style");css.id="v114-css";css.textContent=`
+#cc114{margin:18px 0 6px}
+.cc-h{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.cc-h h2{margin:0;font-size:18px;letter-spacing:-.02em}.cc-h small{display:block;color:var(--muted);font-weight:500;margin-top:2px}
+.cc-k{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:12px}
+.cc-k div{padding:12px 14px;border-radius:16px;border:1px solid var(--line,rgba(128,128,128,.22));background:var(--glass,rgba(128,128,128,.07));backdrop-filter:blur(14px) saturate(160%);-webkit-backdrop-filter:blur(14px) saturate(160%);transition:transform .25s cubic-bezier(.2,.8,.2,1)}
+.cc-k div:hover{transform:translateY(-2px)}.cc-k b{display:block;font-size:24px;font-variant-numeric:tabular-nums;letter-spacing:-.02em}.cc-k span{font-size:12px;color:var(--muted)}
+.cc-k .bad b{color:var(--bad,#ff453a)}.cc-k .warn b{color:var(--warn,#ff9f0a)}
+.cc-g{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:14px}
+@media(max-width:900px){.cc-g{grid-template-columns:1fr}}
+.cc-g h3 small{font-weight:500;color:var(--muted);margin-left:6px}
+.cc-w{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.cc-t{border-collapse:separate;border-spacing:3px;width:100%;font-size:12px;font-variant-numeric:tabular-nums}
+.cc-t th{font-weight:600;color:var(--muted);text-align:center;padding:2px 4px;white-space:nowrap}.cc-t th:first-child,.cc-t td:first-child{text-align:left}
+.cc-t td{text-align:center;min-width:30px;height:30px;border-radius:9px;padding:0 4px}
+.cc-t td.n{white-space:nowrap;font-weight:600;padding-right:10px;max-width:130px;overflow:hidden;text-overflow:ellipsis}
+.cc-t td.c{transition:background .35s ease}
+.cc-b{display:inline-block;font-size:11px;font-weight:600;padding:3px 8px;border-radius:99px;background:rgba(128,128,128,.14)}
+.cc-b.bad{background:rgba(255,69,58,.16);color:var(--bad,#ff453a)}.cc-b.warn{background:rgba(255,159,10,.18);color:var(--warn,#c77700)}.cc-b.ok{background:rgba(48,209,88,.16);color:var(--good,#1f9d4a)}
+.cc-i{margin:10px 2px 0;font-size:12.5px;color:var(--muted)}
+.cc-r{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.cc-r li{display:grid;grid-template-columns:1fr auto;gap:4px 10px;padding:10px 12px;border-radius:14px;border:1px solid var(--line,rgba(128,128,128,.2));background:rgba(128,128,128,.05);animation:ccIn .35s cubic-bezier(.2,.8,.2,1) both}
+.cc-r li.o{box-shadow:inset 3px 0 0 var(--bad,#ff453a)}.cc-r li.w{box-shadow:inset 3px 0 0 var(--warn,#ff9f0a)}
+.cc-r b{font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.cc-r small{color:var(--muted);grid-column:1}.cc-r .a{grid-row:1/3;grid-column:2;display:flex;gap:6px;align-items:center}
+.cc-r button,.cc-h button{cursor:pointer}
+.cc-e{color:var(--muted);padding:14px 4px;font-size:13px}
+@keyframes ccIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+#qcFab{position:fixed;right:18px;bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:900;width:52px;height:52px;border-radius:50%;border:1px solid rgba(255,255,255,.35);background:var(--accent,#0a84ff);color:#fff;font-size:26px;line-height:1;cursor:pointer;box-shadow:0 10px 28px rgba(0,0,0,.28);transition:transform .25s cubic-bezier(.2,.8,.2,1)}
+#qcFab:hover{transform:scale(1.08)}#qcFab:active{transform:scale(.94)}
+#qc114{position:fixed;inset:0;z-index:9500;display:flex;align-items:flex-start;justify-content:center;padding:12vh 16px 16px;background:rgba(10,14,24,.38);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);animation:ccIn .2s ease both}
+#qc114[hidden]{display:none}
+.qc-c{width:min(640px,100%);border-radius:22px;padding:18px;border:1px solid rgba(255,255,255,.22);background:var(--card,var(--bg,#fff));color:var(--text,inherit);box-shadow:0 30px 80px rgba(0,0,0,.35);animation:ccIn .28s cubic-bezier(.2,.8,.2,1) both}
+.qc-c h3{margin:0 0 10px;font-size:16px}.qc-c input{width:100%;box-sizing:border-box;font-size:16px;padding:13px 14px;border-radius:14px}
+.qc-p{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0 4px;min-height:26px}
+.qc-p span{font-size:12px;font-weight:600;padding:5px 10px;border-radius:99px;background:rgba(128,128,128,.14)}.qc-p .w{background:rgba(255,159,10,.18)}
+.qc-x{font-size:12px;color:var(--muted);margin:8px 0}.qc-x button{border:0;background:rgba(128,128,128,.12);color:inherit;border-radius:99px;padding:4px 10px;margin:2px 4px 2px 0;cursor:pointer;font-size:12px}
+.qc-a{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:10px;flex-wrap:wrap}
+@media print{#qcFab,#qc114,#cc114 .cc-h button{display:none!important}}
+@media(prefers-reduced-motion:reduce){#cc114 *,#qc114,#qc114 *,#qcFab{animation:none!important;transition:none!important}}
+body.rm #cc114 *,body.rm #qc114,body.rm #qc114 *,body.rm #qcFab{animation:none!important;transition:none!important}`;
+d.head.appendChild(css);
+
+/* ---------- quick capture ---------- */
+const ov=d.createElement("div");ov.id="qc114";ov.hidden=true;ov.setAttribute("role","dialog");ov.setAttribute("aria-modal","true");ov.setAttribute("aria-label","Quick capture");
+ov.innerHTML=`<div class="qc-c"><h3>Quick capture</h3><input id="qcIn" autocomplete="off" aria-label="Describe the task" placeholder="Type a task, then Enter"><div class="qc-p" id="qcP" aria-live="polite"></div><div class="qc-x" id="qcX"></div><div class="qc-a"><small class="qc-x">@name owner · tomorrow / fri / +3d / 15 nov · !high · #module · 2h</small><span><button class="btn sm" type="button" id="qcC">Cancel</button> <button class="btn sm pri" type="button" id="qcA">Add task</button></span></div></div>`;
+d.body.appendChild(ov);
+const fab=d.createElement("button");fab.id="qcFab";fab.type="button";fab.title="Quick capture (N)";fab.setAttribute("aria-label","Quick capture");fab.textContent="+";d.body.appendChild(fab);
+const esc2=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function prev(){const r=parseQ($("qcIn").value),w=r.who||ME(),due=r.due||today(),p=[];
+  p.push(`<span>👤 ${esc2(nm(w))}</span>`,`<span${diff(due)<0?' class="w"':""}>📅 ${lab(due)}</span>`,`<span>${r.pri==="high"?"🔴 High":r.pri==="low"?"🟢 Low":"🟡 Medium"}</span>`);
+  if(r.mod)p.push(`<span>🏷 ${esc2(r.mod)}</span>`);if(r.est)p.push(`<span>⏱ ${r.est}h</span>`);
+  if(!r.title)p.push(`<span class="w">Add a title</span>`);$("qcP").innerHTML=p.join("")}
+function open(txt){if(!ok())return;ov.hidden=false;const i=$("qcIn");i.value=txt||"";const f=fst(MEMBERS[Math.min(1,MEMBERS.length-1)]).toLowerCase();
+  $("qcX").innerHTML="Try: "+[`Send stock report @${f} tomorrow !high 2h`,`Review invoices fri #accounting`,`Follow up supplier +3d`].map(x=>`<button type="button" data-x="${esc2(x)}">${esc2(x)}</button>`).join("");prev();setTimeout(()=>i.focus(),30)}
+function close(){ov.hidden=true}
+function add(keep){const r=parseQ($("qcIn").value);if(!r.title){$("qcIn").focus();return}
+  const who=r.who||ME(),due=r.due||today(),start=due<today()?due:today(),am=typeof activeModule!=="undefined"&&activeModule!=="all"?activeModule:"General";
+  db.tasks.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),member:who.id,team:[],repeat:"",module:r.mod||am,assignedBy:ME().id,title:r.title,notes:"",date:start,deadline:due,priority:r.pri,status:"todo",progress:0,completedAt:null,created:Date.now(),estHours:r.est||null,doneAt:null});
+  logAct(`added task “${r.title}” (quick capture)`);save();render();toast(`✓ Added for ${fst(who)} · ${lab(due)}`);
+  if(keep){$("qcIn").value="";prev();$("qcIn").focus()}else close()}
+$("qcIn").addEventListener("input",prev);
+$("qcIn").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();add(e.shiftKey)}else if(e.key==="Escape"){e.preventDefault();close()}e.stopPropagation()});
+$("qcA").onclick=()=>add(false);$("qcC").onclick=close;fab.onclick=()=>open();
+ov.addEventListener("click",e=>{if(e.target===ov)close();const b=e.target.closest("[data-x]");if(b){$("qcIn").value=b.dataset.x;prev();$("qcIn").focus()}});
+d.addEventListener("keydown",e=>{if(e.key.toLowerCase()!=="n"||e.ctrlKey||e.metaKey||e.altKey)return;const t=e.target,tg=(t&&t.tagName)||"";
+  if(/INPUT|TEXTAREA|SELECT/.test(tg)||(t&&t.isContentEditable)||!ov.hidden)return;if($("cmd")&&!$("cmd").hidden)return;e.preventDefault();open()});
+
+/* ---------- command center ---------- */
+const openT=()=>T().filter(t=>t.status!=="done");
+function load(m,L){const mine=L.filter(t=>t.member===m.id||(t.team||[]).includes(m.id));return{mine,od:mine.filter(t=>t.deadline<today()).length,h:mine.reduce((a,t)=>a+(+t.estHours||0),0)}}
+function risk(){const td=today(),R=[];openT().forEach(t=>{const left=diff(t.deadline),span=Math.max(1,diff(t.deadline)-diff(t.date)+1),el=Math.min(span,Math.max(0,span-left-1)),exp=Math.round(100*el/span),pr=+t.progress||0;
+  let s=0;if(left<0)s=100+Math.min(-left,30);else if(left<=1&&pr<80)s=70+(80-pr)/4;else if(pr+25<exp&&left<=5)s=40+(exp-pr)/4;if(t.priority==="high"&&s)s+=8;if(s)R.push({t,left,pr,s})});return R.sort((a,b)=>b.s-a.s)}
+function build(){let h=$("cc114");const dash=$("v-dash");if(!dash)return;
+  if(!h){h=d.createElement("section");h.id="cc114";h.setAttribute("aria-label","Command center");dash.appendChild(h);
+    h.addEventListener("click",e=>{const b=e.target.closest("[data-a]");if(!b)return;const t=db.tasks.find(x=>x.id===b.dataset.id);
+      if(b.dataset.a==="cap")return open();if(!t)return;
+      if(b.dataset.a==="push"){if(!t.origDeadline)t.origDeadline=t.deadline;t.moves=(t.moves||0)+1;t.deadline=ymd(addDays(parse(t.deadline<today()?today():t.deadline),1));logAct(`moved “${t.title}” to ${t.deadline} (delivery radar)`);save();render();toast("↻ Deadline moved to "+lab(t.deadline))}
+      else{try{selectedMember="all";$("flMember").value="all";$("flSearch").value=t.title;weekStart=monday(parse(t.date));go("tasks")}catch(_){go("tasks")}}})}
+  if(!ok()){h.hidden=true;fab.hidden=true;return}h.hidden=false;fab.hidden=false;
+  const L=openT(),R=risk(),od=L.filter(t=>t.deadline<today()).length,d2=L.filter(t=>{const n=diff(t.deadline);return n>=0&&n<=2}).length,hrs=L.reduce((a,t)=>a+(+t.estHours||0),0);
+  const days=[...Array(10)].map((_,i)=>ymd(addDays(parse(today()),i))),rows=MEMBERS.map(m=>({m,...load(m,L)})).sort((a,b)=>b.mine.length-a.mine.length);
+  const cell=(n,t)=>n?`<td class="c" style="background:color-mix(in srgb,${t==="o"?"var(--bad,#ff453a)":"var(--accent,#0a84ff)"} ${Math.min(18+n*16,80)}%,transparent);font-weight:700">${n}</td>`:`<td class="c" style="background:rgba(128,128,128,.07)"></td>`;
+  const badge=r=>r.od>=3||r.mine.length>=8?`<span class="cc-b bad">Overloaded</span>`:r.mine.length>=5?`<span class="cc-b warn">Busy</span>`:r.mine.length?`<span class="cc-b ok">Balanced</span>`:`<span class="cc-b">Free</span>`;
+  const tb=rows.map(r=>`<tr><td class="n" title="${esc2(nm(r.m))}">${esc2(fst(r.m))}</td>${cell(r.mine.filter(t=>t.deadline<today()).length,"o")}${days.map(s=>cell(r.mine.filter(t=>t.deadline===s).length)).join("")}${cell(r.mine.filter(t=>t.deadline>days[9]).length)}<td><b>${r.mine.length}</b>${r.h?` <small>${Math.round(r.h*10)/10}h</small>`:""}</td><td>${badge(r)}</td></tr>`).join("");
+  const top=rows[0],low=rows.filter(r=>!/leave/i.test(r.m.status||r.m.leave||""))[rows.length-1],ins=rows.length>1&&top.mine.length>=low.mine.length+3?`Most loaded: <b>${esc2(fst(top.m))}</b> (${top.mine.length} open). Most capacity: <b>${esc2(fst(low.m))}</b> (${low.mine.length} open) — consider moving a task.`:"Workload looks evenly spread.";
+  const rl=R.slice(0,6).map(x=>`<li class="${x.left<0?"o":"w"}"><b title="${esc2(x.t.title)}">${esc2(x.t.title)}</b><span class="a"><button class="btn sm" data-a="push" data-id="${x.t.id}" title="Move the deadline by one day">${x.left<0?"Tomorrow":"+1 day"}</button><button class="btn sm" data-a="open" data-id="${x.t.id}">Open</button></span><small>${esc2(fst(MEMBERS.find(m=>m.id===x.t.member)))} · ${x.left<0?-x.left+"d overdue":x.left===0?"due today":"due in "+x.left+"d"} · ${x.pr}% done</small></li>`).join("");
+  h.innerHTML=`<div class="cc-h"><div><h2>Command center</h2><small>Live workload and delivery risk · press N to add a task fast</small></div><button class="btn sm pri" type="button" data-a="cap">＋ Quick capture</button></div>
+  <div class="cc-k"><div><b>${L.length}</b><span>Open tasks</span></div><div class="${od?"bad":""}"><b>${od}</b><span>Overdue</span></div><div class="${d2?"warn":""}"><b>${d2}</b><span>Due in 48h</span></div><div class="${R.length?"warn":""}"><b>${R.length}</b><span>At risk</span></div><div><b>${hrs?Math.round(hrs*10)/10+"h":"—"}</b><span>Estimated effort</span></div></div>
+  <div class="cc-g"><div class="panel"><h3>Workload heatmap <small>open tasks by deadline</small></h3><div class="cc-w"><table class="cc-t"><thead><tr><th>Member</th><th>Late</th>${days.map(s=>`<th>${parse(s).toLocaleDateString("en-GB",{weekday:"narrow"})}<br>${parse(s).getDate()}</th>`).join("")}<th>Later</th><th>Open</th><th></th></tr></thead><tbody>${tb}</tbody></table></div><p class="cc-i">${ins}</p></div>
+  <div class="panel"><h3>Delivery radar <small>${R.length?"needs a nudge":""}</small></h3>${rl?`<ul class="cc-r">${rl}</ul>`:`<div class="cc-e">✓ Nothing at risk right now. Every open task is on pace.</div>`}</div></div>`}
+let q=0;const run=()=>{cancelAnimationFrame(q);q=requestAnimationFrame(()=>{try{if($("v-dash")&&$("v-dash").classList.contains("on")||!$("cc114"))build();else fab.hidden=!ok()}catch(e){}})};
+const r0=window.render;if(typeof r0==="function")window.render=function(){const x=r0.apply(this,arguments);run();return x};
+setTimeout(run,300);
+})();
+
+</script>
 <script>/* offline + install support */if("serviceWorker"in navigator&&/^https?:$/.test(location.protocol)){addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})})}</script></body>
 </html>

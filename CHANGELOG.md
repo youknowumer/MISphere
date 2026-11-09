@@ -2,6 +2,14 @@
 
 All notable changes to MISphere. Newest first.
 
+## 11.14.0 - 2026-11-09
+- New: Quick capture - press N (or the + button) and type a task in one line, e.g. “Send stock report @ali tomorrow !high #inventory 2h”; owner, deadline (today, tomorrow, fri, +3d, 15 nov), priority, module and estimate are understood, with a live preview before you press Enter (Shift+Enter keeps it open for the next task)
+- New: Command center on the Home page - open, overdue, due-in-48h, at-risk and estimated-effort tiles at a glance
+- New: Workload heatmap - every member against the next 10 days of deadlines plus Late and Later, with Overloaded / Busy / Balanced badges and a hint about who has capacity
+- New: Delivery radar - open tasks that are overdue, due within a day with low progress, or behind the expected pace are ranked by risk; move a deadline by one day or open the task in one tap (the original deadline and the Moved badge are kept)
+- Improved: glass tiles, staggered fade-in and press feedback on the new panels; reduced-motion and print are respected
+- Your data is kept: no new stored fields and no format change - existing tasks, members, settings and backups load exactly as before
+
 ## 11.13.0 - 2026-11-08
 - New: task form aligned to one grid - equal-height fields, labels on one baseline, date, select and number inputs the same size, a tidy quick-deadline row and a full-width Add task button on phones; 3 / 2 / 1 column layouts at tablet and phone widths
 - New: completion details redesigned - every finished task shows an aligned status chip (Done date · days early or late) with a colour dot, a note block with an accent bar for the closing note and a green edge on the card
